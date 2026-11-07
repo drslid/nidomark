@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200" role="img" aria-label="Nidomark">
+  <g transform="translate(20 20)">
+    <rect x="3" y="3" width="154" height="154" rx="32" fill="#0f766e"/>
+    <path d="M49.6 32H110.4V131.2L80 105.6L49.6 131.2Z" fill="#ffffff"/>
+    <path d="M126.4 12.8L132.2 27.8L147.2 33.6L132.2 39.4L126.4 54.4L120.6 39.4L105.6 33.6L120.6 27.8Z" fill="#f59e0b"/>
+  </g>
+  <text x="212" y="128" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Arial, sans-serif" font-size="96" font-weight="700" letter-spacing="-1"><tspan fill="#0f766e">nido</tspan><tspan fill="#17314a">mark</tspan></text>
+</svg>

@@ -1,0 +1,384 @@
+{
+ "extName": {
+  "message": "Nidomark – Rangement des favoris"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Une petite IA locale range vos favoris dans des dossiers clairs, avec emoji et barre en icônes. Privé, hors ligne, gratuit."
+ },
+ "actionTitle": {
+  "message": "Ranger mes favoris"
+ },
+ "tabSettings": {
+  "message": "Réglages"
+ },
+ "startTitle": {
+  "message": "Rangez vos favoris"
+ },
+ "startLead": {
+  "message": "Une petite IA, sur cet ordinateur, propose des dossiers clairs. Vous vérifiez, puis vous appliquez."
+ },
+ "optHistory": {
+  "message": "Utiliser l’historique pour les titres vagues"
+ },
+ "optHistoryHint": {
+  "message": "Lit les titres de pages déjà enregistrés par le navigateur"
+ },
+ "optFolderStyle": {
+  "message": "Nom des dossiers"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + nom"
+ },
+ "styleName": {
+  "message": "Nom seul"
+ },
+ "styleEmoji": {
+  "message": "Emoji seul"
+ },
+ "optIconOnly": {
+  "message": "Barre de favoris en icônes"
+ },
+ "optIconOnlyHint": {
+  "message": "Proposé par défaut ; les noms peuvent être réaffichés"
+ },
+ "analyze": {
+  "message": "Analyser mes favoris"
+ },
+ "privacyNote": {
+  "message": "Tout reste sur cet ordinateur"
+ },
+ "lastRun": {
+  "message": "Dernier tri : {1}"
+ },
+ "undoLast": {
+  "message": "Annuler"
+ },
+ "phaseReading": {
+  "message": "Lecture des favoris"
+ },
+ "phaseLoading": {
+  "message": "Chargement du modèle"
+ },
+ "phaseEmbedding": {
+  "message": "Compréhension de chaque favori"
+ },
+ "phaseGrouping": {
+  "message": "Construction des dossiers"
+ },
+ "progressCount": {
+  "message": "{1} sur {2}"
+ },
+ "newBadge": {
+  "message": "Nouveau"
+ },
+ "moveTo": {
+  "message": "Déplacer vers"
+ },
+ "dontMove": {
+  "message": "Laisser à sa place"
+ },
+ "newFolderOption": {
+  "message": "Nouveau dossier"
+ },
+ "folderName": {
+  "message": "Nom du dossier"
+ },
+ "emojiLabel": {
+  "message": "Emoji de {1}"
+ },
+ "customEmoji": {
+  "message": "Autre emoji"
+ },
+ "reviewHint": {
+  "message": "Pas assez d’indices pour ranger ces favoris. Choisissez un dossier ou laissez-les en place."
+ },
+ "barTitle": {
+  "message": "Barre de favoris"
+ },
+ "iconOnly": {
+  "message": "icône seule"
+ },
+ "rejectAll": {
+  "message": "Tout refuser"
+ },
+ "applying": {
+  "message": "Application des changements"
+ },
+ "doneTitle": {
+  "message": "Vos favoris sont rangés"
+ },
+ "doneSummary": {
+  "message": "{1} changements appliqués."
+ },
+ "doneSkipped": {
+  "message": "{1} changements ignorés : le favori a changé entre-temps."
+ },
+ "undone": {
+  "message": "Le dernier tri a été annulé."
+ },
+ "undoSkipped": {
+  "message": "{1} éléments laissés tels que vous les avez modifiés."
+ },
+ "changedBanner": {
+  "message": "Vos favoris ont changé dans le navigateur pendant la vérification."
+ },
+ "refresh": {
+  "message": "Actualiser la proposition"
+ },
+ "errorTitle": {
+  "message": "Un problème est survenu"
+ },
+ "errorModel": {
+  "message": "Le modèle n’a pas pu être chargé. Si vous avez compilé l’extension vous-même, lancez « pnpm fetch-model » puis recompilez."
+ },
+ "retry": {
+  "message": "Réessayer"
+ },
+ "emptyTitle": {
+  "message": "Rien à ranger"
+ },
+ "emptyHint": {
+  "message": "Aucun favori en vrac dans les dossiers à ranger. Choisissez d’autres dossiers dans les réglages."
+ },
+ "reasonHomeService": {
+  "message": "Service hébergé à la maison (adresse locale ou domaine personnel)"
+ },
+ "reasonTopicHasServices": {
+  "message": "« {1} » contient déjà des services du même sujet"
+ },
+ "reasonAppGuide": {
+  "message": "Parle de {1}, déjà présent dans « {2} »"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Guide sur {1}, que vous hébergez"
+ },
+ "reasonSelfHostGuides": {
+  "message": "Guides sur des applications que vous hébergez"
+ },
+ "reasonUsageFolder": {
+  "message": "Correspond au dossier « {1} »"
+ },
+ "reasonTopicFolder": {
+  "message": "Même sujet que les favoris de « {1} »"
+ },
+ "reasonNewGroup": {
+  "message": "Groupe de {1} favoris proches"
+ },
+ "reasonStay": {
+  "message": "Pas assez de favoris semblables pour un dossier"
+ },
+ "reasonExample": {
+  "message": "Proche de « {1} », que vous avez rangé dans « {2} »"
+ },
+ "reasonUser": {
+  "message": "Votre choix"
+ },
+ "reviewVague": {
+  "message": "Titre générique et adresse peu parlante : impossible de savoir ce que contient la page."
+ },
+ "settingsSources": {
+  "message": "Dossiers à ranger"
+ },
+ "settingsSourcesHint": {
+  "message": "Les favoris placés directement dans ces dossiers peuvent être déplacés."
+ },
+ "settingsDefaults": {
+  "message": "Choix par défaut"
+ },
+ "settingsHistoryOn": {
+  "message": "Autorisé"
+ },
+ "settingsHistoryOff": {
+  "message": "Non autorisé"
+ },
+ "settingsNames": {
+  "message": "Favoris en icône seule"
+ },
+ "settingsNamesCount": {
+  "message": "{1} favoris affichés en icône"
+ },
+ "restoreNames": {
+  "message": "Réafficher tous les noms"
+ },
+ "namesRestored": {
+  "message": "{1} noms réaffichés."
+ },
+ "settingsData": {
+  "message": "Données"
+ },
+ "clearCache": {
+  "message": "Cache d’analyse"
+ },
+ "cacheCleared": {
+  "message": "Cache vidé."
+ },
+ "settingsAbout": {
+  "message": "À propos"
+ },
+ "aboutModel": {
+  "message": "Modèle : {1}, exécuté localement."
+ },
+ "aboutPrivacy": {
+  "message": "Ni compte ni serveur : vos favoris ne quittent jamais cet ordinateur."
+ },
+ "saved": {
+  "message": "Enregistré"
+ },
+ "unnamed": {
+  "message": "(sans nom)"
+ },
+ "barFolder": {
+  "message": "Barre de favoris"
+ },
+ "otherFolder": {
+  "message": "Autres favoris"
+ },
+ "lang": {
+  "message": "fr",
+  "description": "Language of this message file, used for folder names."
+ },
+ "interruptedTitle": {
+  "message": "Le dernier tri a été interrompu"
+ },
+ "interruptedHint": {
+  "message": "Le navigateur s’est fermé pendant l’application. Annulez ce qui a été fait, ou gardez-le tel quel."
+ },
+ "interruptedUndo": {
+  "message": "Annuler ce qui a été fait"
+ },
+ "interruptedKeep": {
+  "message": "Garder ces changements"
+ },
+ "errorUnresolved": {
+  "message": "Le dernier tri a été interrompu. Annulez-le ou gardez-le avant de ranger à nouveau."
+ },
+ "changedBlocked": {
+  "message": "Actualisez d’abord la proposition : vos favoris ont changé."
+ },
+ "startCount": {
+  "message": "{1} favoris à ranger"
+ },
+ "startCountOne": {
+  "message": "1 favori à ranger"
+ },
+ "startCountNone": {
+  "message": "Aucun favori en vrac"
+ },
+ "finish": {
+  "message": "Terminé"
+ },
+ "sourceMeta": {
+  "message": "{1} favoris"
+ },
+ "destinations": {
+  "message": "Dossiers proposés"
+ },
+ "proposal": {
+  "message": "Proposition"
+ },
+ "nodeOff": {
+  "message": "Ne sera pas créé"
+ },
+ "nodeReview": {
+  "message": "À vérifier"
+ },
+ "nodeReviewMeta": {
+  "message": "Pas assez d’indices"
+ },
+ "nodeStay": {
+  "message": "Restent en place"
+ },
+ "nodeStayMeta": {
+  "message": "Non déplacés"
+ },
+ "nodeNewHint": {
+  "message": "Sera créé dans Autres favoris"
+ },
+ "nodeOffHint": {
+  "message": "Ce dossier ne sera pas créé : ses favoris restent en place."
+ },
+ "countLabel": {
+  "message": "{1} favoris"
+ },
+ "createThisFolder": {
+  "message": "Créer ce dossier"
+ },
+ "dontCreate": {
+  "message": "Ne pas créer"
+ },
+ "sheetClose": {
+  "message": "Fermer"
+ },
+ "staysHint": {
+  "message": "Ces favoris restent où ils sont."
+ },
+ "emptyFolder": {
+  "message": "Glissez des favoris ici"
+ },
+ "dialogNewFolderTitle": {
+  "message": "Nouveau dossier"
+ },
+ "create": {
+  "message": "Créer"
+ },
+ "cancel": {
+  "message": "Annuler"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Garder le titre d’origine"
+ },
+ "useNewTitle": {
+  "message": "Utiliser le titre proposé"
+ },
+ "noEmoji": {
+  "message": "Sans emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Cliquez pour n’afficher que l’icône"
+ },
+ "showName": {
+  "message": "cliquez pour afficher le nom"
+ },
+ "nothingYet": {
+  "message": "Rien n’est encore modifié"
+ },
+ "restoreProposal": {
+  "message": "Rétablir la proposition"
+ },
+ "applyShort": {
+  "message": "Appliquer"
+ },
+ "applyRegion": {
+  "message": "Appliquer les changements"
+ },
+ "announceMoved": {
+  "message": "« {1} » déplacé vers {2}"
+ },
+ "announceStay": {
+  "message": "« {1} » reste à sa place"
+ },
+ "back": {
+  "message": "Retour"
+ },
+ "clear": {
+  "message": "Vider"
+ },
+ "footerSync": {
+  "message": "Les changements s’appliqueront aussi à vos autres appareils connectés."
+ },
+ "barHint": {
+  "message": "Cliquez sur un favori pour masquer ou afficher son nom"
+ },
+ "applyCount": {
+  "message": "Appliquer {1} changements"
+ },
+ "applyOne": {
+  "message": "Appliquer 1 changement"
+ }
+}

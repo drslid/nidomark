@@ -1,0 +1,48 @@
+{
+  "name": "nidomark",
+  "description": "Local AI that tidies your browser bookmarks into clear folders. Private, offline, free.",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@10.8.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "fetch-model": "node scripts/fetch-model.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "pnpm typecheck && pnpm test",
+    "postinstall": "wxt prepare",
+    "e2e": "node tests/e2e/smoke.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "fixtures": "jiti scripts/fixture-vectors.ts",
+    "eval": "jiti scripts/eval.ts"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.3.2"
+  },
+  "devDependencies": {
+    "puppeteer-core": "24.43.1",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0",
+    "wxt": "0.21.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ],
+    "ignoredBuiltDependencies": [
+      "onnxruntime-node",
+      "protobufjs",
+      "sharp"
+    ]
+  }
+}

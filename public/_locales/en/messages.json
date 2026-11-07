@@ -1,0 +1,384 @@
+{
+ "extName": {
+  "message": "Nidomark – Bookmark Organizer"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "A small local AI tidies your bookmarks into clear folders, with emoji and icon-only bar items. Private, offline, free."
+ },
+ "actionTitle": {
+  "message": "Organize my bookmarks"
+ },
+ "tabSettings": {
+  "message": "Settings"
+ },
+ "startTitle": {
+  "message": "Organize your bookmarks"
+ },
+ "startLead": {
+  "message": "A small AI on this computer proposes clear folders. You check, then you apply."
+ },
+ "optHistory": {
+  "message": "Use history for vague titles"
+ },
+ "optHistoryHint": {
+  "message": "Reads page titles already stored by your browser"
+ },
+ "optFolderStyle": {
+  "message": "Folder names"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + name"
+ },
+ "styleName": {
+  "message": "Name only"
+ },
+ "styleEmoji": {
+  "message": "Emoji only"
+ },
+ "optIconOnly": {
+  "message": "Bookmarks bar as icons"
+ },
+ "optIconOnlyHint": {
+  "message": "Proposed by default; names can be shown again"
+ },
+ "analyze": {
+  "message": "Analyze my bookmarks"
+ },
+ "privacyNote": {
+  "message": "Everything stays on this computer"
+ },
+ "lastRun": {
+  "message": "Last sort: {1}"
+ },
+ "undoLast": {
+  "message": "Undo"
+ },
+ "phaseReading": {
+  "message": "Reading your bookmarks"
+ },
+ "phaseLoading": {
+  "message": "Loading the model"
+ },
+ "phaseEmbedding": {
+  "message": "Understanding each bookmark"
+ },
+ "phaseGrouping": {
+  "message": "Building the folders"
+ },
+ "progressCount": {
+  "message": "{1} of {2}"
+ },
+ "newBadge": {
+  "message": "New"
+ },
+ "moveTo": {
+  "message": "Move to"
+ },
+ "dontMove": {
+  "message": "Keep in place"
+ },
+ "newFolderOption": {
+  "message": "New folder"
+ },
+ "folderName": {
+  "message": "Folder name"
+ },
+ "emojiLabel": {
+  "message": "Emoji for {1}"
+ },
+ "customEmoji": {
+  "message": "Other emoji"
+ },
+ "reviewHint": {
+  "message": "Not enough clues to file these bookmarks. Choose a folder, or leave them in place."
+ },
+ "barTitle": {
+  "message": "Bookmarks bar"
+ },
+ "iconOnly": {
+  "message": "icon only"
+ },
+ "rejectAll": {
+  "message": "Reject all"
+ },
+ "applying": {
+  "message": "Applying changes"
+ },
+ "doneTitle": {
+  "message": "Your bookmarks are organized"
+ },
+ "doneSummary": {
+  "message": "{1} changes applied."
+ },
+ "doneSkipped": {
+  "message": "{1} changes skipped because the bookmark changed meanwhile."
+ },
+ "undone": {
+  "message": "The last sort was undone."
+ },
+ "undoSkipped": {
+  "message": "{1} items were left as you changed them."
+ },
+ "changedBanner": {
+  "message": "Your bookmarks changed in the browser during the review."
+ },
+ "refresh": {
+  "message": "Refresh the proposal"
+ },
+ "errorTitle": {
+  "message": "Something went wrong"
+ },
+ "errorModel": {
+  "message": "The model could not be loaded. If you built the extension yourself, run “pnpm fetch-model” then build again."
+ },
+ "retry": {
+  "message": "Try again"
+ },
+ "emptyTitle": {
+  "message": "Nothing to organize"
+ },
+ "emptyHint": {
+  "message": "No unfiled bookmarks in the folders to organize. Choose other folders in Settings."
+ },
+ "reasonHomeService": {
+  "message": "Service hosted at home (local address or personal domain)"
+ },
+ "reasonTopicHasServices": {
+  "message": "“{1}” already holds services on the same subject"
+ },
+ "reasonAppGuide": {
+  "message": "About {1}, already in “{2}”"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Guide about {1}, which you host"
+ },
+ "reasonSelfHostGuides": {
+  "message": "Guides about apps you host"
+ },
+ "reasonUsageFolder": {
+  "message": "Fits the “{1}” folder"
+ },
+ "reasonTopicFolder": {
+  "message": "Same subject as the bookmarks in “{1}”"
+ },
+ "reasonNewGroup": {
+  "message": "Group of {1} similar bookmarks"
+ },
+ "reasonStay": {
+  "message": "Not enough similar bookmarks to make a folder"
+ },
+ "reasonExample": {
+  "message": "Close to “{1}”, which you filed in “{2}”"
+ },
+ "reasonUser": {
+  "message": "Your choice"
+ },
+ "reviewVague": {
+  "message": "Generic title and uninformative address: impossible to know what the page contains."
+ },
+ "settingsSources": {
+  "message": "Folders to organize"
+ },
+ "settingsSourcesHint": {
+  "message": "Bookmarks placed directly in these folders can be moved."
+ },
+ "settingsDefaults": {
+  "message": "Default choices"
+ },
+ "settingsHistoryOn": {
+  "message": "Allowed"
+ },
+ "settingsHistoryOff": {
+  "message": "Not allowed"
+ },
+ "settingsNames": {
+  "message": "Icon-only bookmarks"
+ },
+ "settingsNamesCount": {
+  "message": "{1} bookmarks shown as icons"
+ },
+ "restoreNames": {
+  "message": "Show all names again"
+ },
+ "namesRestored": {
+  "message": "{1} names shown again."
+ },
+ "settingsData": {
+  "message": "Data"
+ },
+ "clearCache": {
+  "message": "Analysis cache"
+ },
+ "cacheCleared": {
+  "message": "Cache cleared."
+ },
+ "settingsAbout": {
+  "message": "About"
+ },
+ "aboutModel": {
+  "message": "Model: {1}, running locally."
+ },
+ "aboutPrivacy": {
+  "message": "No account, no server: your bookmarks never leave this computer."
+ },
+ "saved": {
+  "message": "Saved"
+ },
+ "unnamed": {
+  "message": "(no name)"
+ },
+ "barFolder": {
+  "message": "Bookmarks bar"
+ },
+ "otherFolder": {
+  "message": "Other bookmarks"
+ },
+ "lang": {
+  "message": "en",
+  "description": "Language of this message file, used for folder names."
+ },
+ "interruptedTitle": {
+  "message": "The last sort was interrupted"
+ },
+ "interruptedHint": {
+  "message": "The browser closed while changes were being applied. Undo what was done, or keep it as it is."
+ },
+ "interruptedUndo": {
+  "message": "Undo what was done"
+ },
+ "interruptedKeep": {
+  "message": "Keep these changes"
+ },
+ "errorUnresolved": {
+  "message": "The last sort was interrupted. Undo it or keep it before organizing again."
+ },
+ "changedBlocked": {
+  "message": "Refresh the proposal first: your bookmarks changed."
+ },
+ "startCount": {
+  "message": "{1} bookmarks to organize"
+ },
+ "startCountOne": {
+  "message": "1 bookmark to organize"
+ },
+ "startCountNone": {
+  "message": "No unfiled bookmarks"
+ },
+ "finish": {
+  "message": "Done"
+ },
+ "sourceMeta": {
+  "message": "{1} bookmarks"
+ },
+ "destinations": {
+  "message": "Proposed folders"
+ },
+ "proposal": {
+  "message": "Proposal"
+ },
+ "nodeOff": {
+  "message": "Won’t be created"
+ },
+ "nodeReview": {
+  "message": "To check"
+ },
+ "nodeReviewMeta": {
+  "message": "Not enough clues"
+ },
+ "nodeStay": {
+  "message": "Stay in place"
+ },
+ "nodeStayMeta": {
+  "message": "Not moved"
+ },
+ "nodeNewHint": {
+  "message": "Will be created in Other bookmarks"
+ },
+ "nodeOffHint": {
+  "message": "This folder won’t be created: its bookmarks stay in place."
+ },
+ "countLabel": {
+  "message": "{1} bookmarks"
+ },
+ "createThisFolder": {
+  "message": "Create this folder"
+ },
+ "dontCreate": {
+  "message": "Don’t create"
+ },
+ "sheetClose": {
+  "message": "Close"
+ },
+ "staysHint": {
+  "message": "These bookmarks stay where they are."
+ },
+ "emptyFolder": {
+  "message": "Drag bookmarks here"
+ },
+ "dialogNewFolderTitle": {
+  "message": "New folder"
+ },
+ "create": {
+  "message": "Create"
+ },
+ "cancel": {
+  "message": "Cancel"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Keep original title"
+ },
+ "useNewTitle": {
+  "message": "Use the cleaner title"
+ },
+ "noEmoji": {
+  "message": "No emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Click to show the icon only"
+ },
+ "showName": {
+  "message": "click to show the name"
+ },
+ "nothingYet": {
+  "message": "Nothing has changed yet"
+ },
+ "restoreProposal": {
+  "message": "Restore proposal"
+ },
+ "applyShort": {
+  "message": "Apply"
+ },
+ "applyRegion": {
+  "message": "Apply the changes"
+ },
+ "announceMoved": {
+  "message": "“{1}” moved to {2}"
+ },
+ "announceStay": {
+  "message": "“{1}” stays in place"
+ },
+ "back": {
+  "message": "Back"
+ },
+ "clear": {
+  "message": "Clear"
+ },
+ "footerSync": {
+  "message": "Changes also apply to your other signed-in devices."
+ },
+ "barHint": {
+  "message": "Click a bookmark to hide or show its name"
+ },
+ "applyCount": {
+  "message": "Apply {1} changes"
+ },
+ "applyOne": {
+  "message": "Apply 1 change"
+ }
+}

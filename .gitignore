@@ -1,0 +1,13 @@
+node_modules/
+.output/
+.wxt/
+dist/
+*.zip
+.env*
+!.env.example
+# Large third-party runtime files, fetched by `pnpm fetch-model`
+public/models/
+public/ort/
+# Local design-review workspace; DESIGN.md and its machine-readable sidecar are kept
+.impeccable/*
+!.impeccable/design.json
