@@ -1,0 +1,109 @@
+---
+// Every group and category of the classifier, read from the extension's own taxonomy (lib/taxonomy.ts).
+import { CATEGORIES, GROUPS } from '@lib/taxonomy';
+
+const siteCount = new Set(CATEGORIES.flatMap((c) => `${c.sites} ${c.platforms ?? ''}`.split(/\s+/).filter(Boolean))).size;
+const groups = GROUPS.map((g) => ({
+  ...g,
+  categories: CATEGORIES.filter((c) => c.group === g.id).map((c) => ({
+    ...c,
+    // Examples of known sites; none are listed for adult content.
+    examples: c.group === 'adult' ? [] : c.sites.split(/\s+/).filter((s) => s && !s.includes('/') && !s.endsWith('.*')).slice(0, 3),
+  })),
+}));
+---
+
+<p class="category-intro">
+  {groups.length} top-level folders and {CATEGORIES.length} categories. {siteCount.toLocaleString('en')} sites and services are recognised by their address.
+</p>
+<div class="category-groups not-content">
+  {
+    groups.map((g) => (
+      <section class="category-group" aria-labelledby={`group-${g.id}`}>
+        <h3 id={`group-${g.id}`}>
+          <span class="tile" aria-hidden="true">{g.emoji}</span>
+          <span>{g.en}</span>
+          <span class="fr" lang="fr">{g.fr}</span>
+        </h3>
+        <ul>
+          {g.categories.map((c) => (
+            <li>
+              <span class="emoji" aria-hidden="true">{c.emoji}</span>
+              <span class="name">
+                {c.en}
+                <span class="fr" lang="fr">{c.fr}</span>
+              </span>
+              {c.examples.length > 0 && <span class="examples">{c.examples.join(', ')}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .category-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .category-group {
+    padding: 1rem 1.25rem 1.25rem;
+    border-radius: 16px;
+    background: var(--nm-surface-low);
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 0.75rem;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--nm-on-surface);
+  }
+  .tile {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 12px;
+    background: var(--nm-secondary-container);
+    font-size: 1.125rem;
+  }
+  .fr {
+    color: var(--nm-on-surface-variant);
+    font-size: 0.8125rem;
+    font-weight: 400;
+  }
+  h3 .fr {
+    margin-left: auto;
+  }
+  ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    column-gap: 0.5rem;
+    color: var(--nm-on-surface);
+  }
+  .emoji {
+    grid-row: span 2;
+    text-align: center;
+  }
+  .name .fr {
+    margin-left: 0.4rem;
+  }
+  .examples {
+    grid-column: 2;
+    color: var(--nm-on-surface-variant);
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+  }
+</style>

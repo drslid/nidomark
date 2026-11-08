@@ -1,0 +1,48 @@
+---
+title: Overview
+description: What Nidomark does with your bookmarks, how it decides, and what it never does.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Nidomark is a browser extension that rebuilds a whole bookmark collection into a clear tree. A small multilingual AI model runs inside the browser: it proposes a place for every bookmark, you review the new tree, and nothing changes until you apply it.
+
+## What it does
+
+- **Files everything you choose.** The whole collection by default, the shortcuts of the bookmarks bar included, or only the folders you tick. Every bookmark gets a place in the new tree: nothing is left where it was.
+- **Puts your favourite sites first.** The bar opens with the icons of the sites you visit most, such as your mailbox or your video site, without their names.
+- **Uses a small set of folders.** About a dozen top-level folders, such as 🏠 Home, 💻 Tech, 🎬 Leisure or 🏛️ Everyday life, the most used first, hold precise subfolders such as 📺 Streaming or 📡 Tech news, created only when there are enough bookmarks for them. A big category is split once more, by site or by subject: three levels at most.
+- **Keeps the folders that make sense.** A folder whose bookmarks belong together, such as "Wedding 2025", is recreated with its subfolders. Catch-all folders such as "Misc", "To sort" or "Imported" are emptied.
+- **Reads a page when the title is not enough**, sets apart the sites that no longer answer, and leaves duplicates out.
+- **Explains every choice**, and files in "❓ To check" the bookmarks it cannot place with confidence, with a suggestion when it leans somewhere.
+- **Learns from you.** When you file a bookmark elsewhere in the review, the next sorts send its site there too.
+
+## How it decides
+
+Each bookmark is assessed from the most certain evidence to the least:
+
+1. an address only reachable at home (a NAS, a box, Home Assistant) goes to 🖥️ Home services;
+2. a site that no longer answers goes to 🚫 Unreachable sites;
+3. adult content always goes to 🔞 Porn;
+4. a site you filed yourself in an earlier sort goes where you put it;
+5. a known site or a typical address is filed for sure: more than 1,000 sites are recognised;
+6. the local model compares the title with typical bookmarks of each category, and with the bookmarks of your collection it already recognised;
+7. when that is not clear, the page itself is read, and the home page of its site if the page says too little;
+8. if the evidence is still too weak, the bookmark goes to "❓ To check", with the reason.
+
+[How sorting works](/reference/how-it-works/) gives the details, and [Categories](/reference/categories/) lists every folder Nidomark can create.
+
+## What it never does
+
+- It never sends your bookmarks anywhere. The model runs offline; the only network requests are the bookmarked pages themselves, without your cookies, and only if you allow it.
+- It never changes anything before you click **File**.
+- It never deletes a bookmark. The new tree is made of copies; your previous tree is moved, as it was, into a dated backup in Other bookmarks, and one click undoes the whole sort.
+
+<Aside type="caution" title="Alpha software">
+  Nidomark is in alpha. Export your bookmarks once before the first sort: `chrome://bookmarks` → ⋮ → **Export
+  bookmarks**.
+</Aside>
+
+## Next
+
+[Install Nidomark](/getting-started/install/), then follow [your first sort](/getting-started/first-sort/).

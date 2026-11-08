@@ -1,0 +1,70 @@
+---
+title: How sorting works
+description: The evidence Nidomark uses for each bookmark, how the local model decides, and how the new tree is built.
+---
+
+Nidomark sorts in three passes: it decides what each bookmark is, reads the pages it needs, then builds a new tree around your habits. Applying it recreates every bookmark in that tree and moves your previous tree, untouched, into a dated backup.
+
+## 1. What each bookmark is
+
+The decision follows the most certain evidence first.
+
+| Order | Evidence                                                                 | Result                                   |
+| ----- | ------------------------------------------------------------------------ | ---------------------------------------- |
+| 1     | A private address, a `.local` or `.lan` name, a dynamic DNS or remote-access name, or several services on one personal domain | 🖥️ Home services |
+| 2     | The site no longer answers (when dead links are checked)                 | 🚫 Unreachable sites                     |
+| 3     | Adult content: its site, its address, an explicit title, or a page that declares it | 🔞 Porn                       |
+| 4     | Your own choice in an earlier sort, for this address or this site        | The category you chose                   |
+| 5     | A known site, such as `netflix.com` or `korben.info`                     | Its category                             |
+| 6     | A typical address, such as `.gouv.fr`, a regional bank or a school portal | Its category                            |
+| 7     | A guide about an application you host, such as Jellyfin or Home Assistant | Self-hosting or Home automation         |
+| 8     | The local model                                                          | The category it clearly prefers          |
+
+Multi-topic platforms such as YouTube, GitHub, Reddit or Wikipedia are not filed by their address alone: the subject of the page decides, and the platform's own category, such as Videos for YouTube, only applies when the subject is unclear.
+
+## 2. The local model
+
+Nidomark runs [multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small), a small multilingual model, inside the browser with ONNX Runtime. It turns a text into a list of numbers, so that texts about the same thing get close numbers.
+
+- The text of a bookmark is its title, its address and the words of its path, or the real page title from your history when the title is vague and history is on.
+- The model compares it with about 300 typical bookmarks written by hand, a few for each category, and with the bookmarks of your collection already recognised in step 1, which teach it your own vocabulary.
+- The closest examples vote; the description of each category and the keywords found in the title add to the vote.
+- A category is chosen only when it clearly leads the second one. Otherwise the bookmark is unclear; if the leader is at least part of the way there and the title is not vague, it becomes a suggestion.
+
+## 3. Reading the pages
+
+When reading sites is allowed, the page of each unclear bookmark is read and scored the same way, the page and the title together. A page that says almost nothing, such as a login form, is completed with the home page of its site. The bookmarks still unclear after that go to ❓ To check, with the reason and, when there is one, a suggestion. See [Sites, dead links and duplicates](/guides/sites-and-duplicates/).
+
+## 4. Building the new tree
+
+Every bookmark gets a place: nothing stays where it was.
+
+**Quick access opens the bookmarks bar.** The sites you visit most, one icon per site, its shortest address, counted from your history on this computer; without the history, the shortcuts already in your bar. Bookmarklets of the bar stay there. Adult content, dead sites and duplicates never do. See [Quick access and folder names](/guides/names-and-bar/).
+
+**Your folders guide the new ones.** Nidomark reads their names, in English or French:
+
+- a folder named after a category or a group, such as "Recipes", "Séries" or "Leisure", lends its name to that category: the new folder is called the way you called it;
+- a catch-all folder, such as "Misc", "To sort", "Imported from Firefox" or "New folder", is emptied;
+- any other folder whose bookmarks belong together, such as "Wedding 2025" with a venue, a caterer and a dress shop, or a "Read later" list, is recreated with its subfolders: under the category or the group that holds most of it, or in 🗂️ My folders when it mixes subjects;
+- a folder of a single bookmark is not worth recreating: that bookmark is filed like the others.
+
+Adult content and dead links leave even your own folders.
+
+**New folders are few, three levels at most.**
+
+- About a dozen groups at the top, the most used first: by the visits of their sites when the history is known, else by size.
+- A category gets its own subfolder from two bookmarks; Streaming, Porn and Unreachable sites always get their own folder. When a group holds only one category, the folder takes the category's name, for example 📺 Streaming rather than 🎬 Leisure.
+- A category of ten bookmarks or more is split once more, by site ("Netflix", "YouTube") or by a word shared by its titles ("Linux"), from four bookmarks, six subfolders at most.
+- The top folders go to the destination you chose. Adult content, dead links, ❓ To check and 🧩 Browser links (bookmarklets, browser pages, files) always go to Other bookmarks.
+
+The full list is in [Categories](/reference/categories/).
+
+## 5. Applying
+
+Applying creates the new folders, recreates every bookmark in its folder (quick access first, so that its icons come first in the bar), then moves the previous tree, item by item and in order, into "Nidomark backup – _date_" in Other bookmarks. Each change is written to a journal before it happens. See [Backup and undo](/guides/backup-and-undo/).
+
+## 6. Learning from your corrections
+
+When you file a bookmark elsewhere than proposed and apply, Nidomark remembers the category you chose, on your computer: for that address, and for its site unless the site publishes on every subject (YouTube, GitHub, Medium…). At the next sort they go there. The names you give to folders are kept too. Undoing a sort forgets what it taught.
+
+A second sort of a tree Nidomark built proposes the same tree: its folders are recognised, and only what changed moves.

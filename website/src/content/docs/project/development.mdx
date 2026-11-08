@@ -1,0 +1,43 @@
+---
+title: Build from source
+description: Build the extension and this documentation site from the repository.
+---
+
+## The extension
+
+You need Node.js 22 or later and pnpm; `corepack enable` installs the version pinned in the repository.
+
+```bash
+git clone https://github.com/drslid/nidomark.git
+cd nidomark
+corepack enable
+pnpm install
+pnpm fetch-model   # downloads the pinned model (135 MB) and checks its hashes
+pnpm check         # type check and unit tests
+pnpm build         # extension in .output/chrome-mv3
+```
+
+Load `.output/chrome-mv3` from `chrome://extensions` with **Developer mode** → **Load unpacked**. After a rebuild, click the reload arrow on the extension's card.
+
+| Command        | Purpose                                                                 |
+| -------------- | ----------------------------------------------------------------------- |
+| `pnpm dev`     | Development build with hot reload in a new Chrome window                |
+| `pnpm check`   | Type check and unit tests                                               |
+| `pnpm e2e`     | End-to-end tests in Chrome, including site reading against a local server |
+| `pnpm eval`    | Where each bookmark of the test collection goes, and why               |
+| `pnpm zip`     | The zip published in the releases                                       |
+
+The [development guide](https://github.com/drslid/nidomark/blob/main/docs/DEVELOPMENT.md) describes the project layout, the sorting pipeline and the conventions.
+
+## This site
+
+The documentation is an [Astro Starlight](https://starlight.astro.build) site in the `website` folder. It reuses the extension's screenshots, font, icons and categories, so it stays in step with the code.
+
+```bash
+cd website
+pnpm install
+pnpm dev     # http://localhost:4321/nidomark/
+pnpm build   # static site in website/dist
+```
+
+Every push to `main` that changes the site is built and published to GitHub Pages by `.github/workflows/pages.yml`.

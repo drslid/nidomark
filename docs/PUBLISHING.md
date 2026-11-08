@@ -5,7 +5,7 @@
 ### One-time setup
 
 1. Register a developer account in the [Chrome Web Store developer dashboard](https://chrome.google.com/webstore/devconsole): accept the developer agreement and pay the one-time registration fee ([documentation](https://developer.chrome.com/docs/webstore/register)). Use an email address you check often; it cannot be changed later.
-2. Publish this repository's [privacy policy](PRIVACY.md) at a public URL (the GitHub page of the file works).
+2. Use the privacy policy published at <https://drslid.github.io/nidomark/reference/privacy/> (source: [PRIVACY.md](PRIVACY.md)).
 
 ### Each release
 
@@ -20,26 +20,26 @@ The package is about 163 MB unpacked (89 MB zipped); the limit is 2 GB ([documen
 
 | Field | English | Français |
 | --- | --- | --- |
-| Summary | A small local AI tidies your bookmarks into clear folders, with emoji and icon-only bar items. Private, offline, free. | Une petite IA locale range vos favoris dans des dossiers clairs, avec emoji et barre en icônes. Privé, hors ligne, gratuit. |
+| Summary | A small local AI recreates all your bookmarks in clear folders, your most visited sites first. Private, offline, free. | Une petite IA locale recrée tous vos favoris dans des dossiers clairs, vos sites préférés en tête. Privé, hors ligne, gratuit. |
 | Category | Productivity | Productivité |
 
 Description (English):
 
-> Nidomark proposes a clear folder tree for your bookmarks and applies it only after you review it.
+> Nidomark rebuilds your bookmarks into a clear tree and applies it only after you review it.
 > A small multilingual AI runs inside your browser: your bookmarks never leave your computer, there is no account and no server.
-> • Understands what each bookmark is about and what you use it for: home services, online tools, tutorials, articles, news.
-> • Reuses your folders, creates new ones only when several bookmarks belong together, and explains each move.
-> • Emoji folder names, icon-only bookmarks bar with a preview, cleaner titles.
-> • Review everything side by side; nothing changes until you apply, and one click undoes the last sort.
+> • Understands what each bookmark is about and what you use it for: home services, online tools, tutorials, articles, news, streaming.
+> • Files every bookmark: your most visited sites as icons at the start of the bar, then a dozen folders, three levels at most.
+> • Keeps your folders that make sense, sets dead links, duplicates and adult content apart, and explains each choice.
+> • Your previous tree is kept as it was in a dated backup; one click undoes the sort.
 
 Description (français) :
 
-> Nidomark propose une arborescence claire pour vos favoris et ne l'applique qu'après votre vérification.
+> Nidomark reconstruit vos favoris en une arborescence claire et ne l'applique qu'après votre vérification.
 > Une petite IA multilingue fonctionne dans votre navigateur : vos favoris ne quittent jamais votre ordinateur, sans compte ni serveur.
-> • Comprend de quoi parle chaque favori et à quoi il vous sert : services maison, outils en ligne, tutoriels, articles, actualités.
-> • Réutilise vos dossiers, n'en crée que lorsque plusieurs favoris vont ensemble, et explique chaque déplacement.
-> • Dossiers avec emoji, barre de favoris en icônes avec aperçu, titres plus clairs.
-> • Vérifiez tout côte à côte : rien ne change avant d'appliquer, et un clic annule le dernier tri.
+> • Comprend de quoi parle chaque favori et à quoi il vous sert : services maison, outils en ligne, tutoriels, articles, actualités, streaming.
+> • Range tous vos favoris : vos sites les plus visités en icônes au début de la barre, puis une douzaine de dossiers, trois niveaux au plus.
+> • Garde vos dossiers qui ont du sens, met à part les liens morts, les doublons et les contenus adultes, et explique chaque choix.
+> • Votre ancienne arborescence est gardée telle quelle dans une sauvegarde datée ; un clic annule le tri.
 
 Images ([requirements](https://developer.chrome.com/docs/webstore/images)):
 
@@ -49,10 +49,10 @@ Images ([requirements](https://developer.chrome.com/docs/webstore/images)):
 ### Privacy practices tab
 
 - **Single purpose:** organize the user's bookmarks into folders.
-- **`bookmarks`:** read the bookmarks to build the proposal; create folders, move and rename bookmarks after the user approves.
+- **`bookmarks`:** read the bookmarks to build the proposal; after the user approves, create the new folders and bookmarks, and move the previous tree into a backup folder.
 - **`storage`:** keep the settings, the undo journal and the original names of icon-only bookmarks.
 - **`favicon`:** show site icons in the review screen and the bookmarks bar preview.
-- **`history` (optional):** read page titles already stored by the browser to understand vague bookmark titles, only when the user enables it.
+- **`history` (optional, requested at the first analysis while "Put the most visited sites first" is on):** count the visits of each bookmarked site to put the most used ones first, and read page titles already stored by the browser to understand vague bookmark titles. Read locally, never stored or sent.
 - **Host permissions `http://*/*`, `https://*/*` (optional, requested at the first analysis):** request the bookmarked pages themselves, without cookies, to read their title and description when the bookmark title is not enough, and to find bookmarks whose site no longer answers. No other request is made; nothing is sent.
 - **Remote code:** no. The model and the WebAssembly runtime are packaged with the extension.
 - **Data usage:** no user data is collected or transmitted.

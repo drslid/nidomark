@@ -1,0 +1,56 @@
+---
+title: Install
+description: Install the Nidomark alpha in Chrome on Windows, macOS or Linux, update it and remove it.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+## Requirements
+
+| Requirement | Minimum                            |
+| ----------- | ---------------------------------- |
+| Browser     | Chrome 116 or later, on a computer |
+| System      | Windows, macOS or Linux            |
+| Disk        | About 200 MB free                  |
+| Memory      | 4 GB of RAM or more                |
+
+Firefox and Edge are planned: see [Status and roadmap](/project/status/).
+
+## Install the alpha
+
+Nidomark is not on the Chrome Web Store yet. Load it in developer mode:
+
+<Steps>
+
+1. Download `nidomark-<version>-chrome.zip` from the [Releases page](https://github.com/drslid/nidomark/releases) and unzip it into a folder you will keep.
+
+2. Open `chrome://extensions` and turn on **Developer mode**, top right.
+
+3. Click **Load unpacked** and select the unzipped folder.
+
+4. Pin Nidomark to the toolbar from the puzzle-piece menu, then click its button: the organizer opens in a tab.
+
+</Steps>
+
+<Aside type="caution" title="Before the first sort">
+  Export your bookmarks once: `chrome://bookmarks` → ⋮ → **Export bookmarks**. Nidomark keeps your previous tree in
+  a dated backup when it applies a sort, but an export is a copy outside the browser.
+</Aside>
+
+## Update
+
+Chrome identifies an extension loaded in developer mode by its folder. To keep your settings and the undo journal:
+
+<Steps>
+
+1. Empty the folder you loaded, then unzip the new version into it.
+
+2. In `chrome://extensions`, click the reload arrow on the Nidomark card.
+
+</Steps>
+
+If you unzip the new version somewhere else, Chrome treats it as a second extension: remove the old one first.
+
+## Remove
+
+In `chrome://extensions`, click **Remove** on the Nidomark card. This deletes its settings, its cache and the undo journal. The backup folders it created are bookmarks: they stay until you delete them.

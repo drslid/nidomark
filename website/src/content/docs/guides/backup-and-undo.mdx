@@ -1,0 +1,34 @@
+---
+title: Backup and undo
+description: Where your previous tree goes, undoing the last sort, and what happens if Chrome closes during one.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## The backup
+
+A sort never edits your bookmarks in place. It creates the new tree with copies of your bookmarks, then moves your previous tree, exactly as it was, into a dated folder of Other bookmarks named "Nidomark backup – _date_". Inside, one folder per root (Bookmarks bar, Other bookmarks…) holds what was there, in the same order, with the same bookmarks and the same dates.
+
+- The backup is always made: it is what makes the sort safe to undo.
+- It is a normal bookmark folder. Chrome sync copies it to your other devices, and your bookmarks count twice until you delete it.
+- Nidomark never sorts it, and never counts its bookmarks as duplicates.
+- Duplicates left out of the new tree are still in the backup.
+- Delete it from **Settings** → **Backups** when the new tree suits you, or from the bookmarks manager. After that, the sort can no longer be undone.
+
+## Undo
+
+**Undo** appears at the end of a sort and on the start screen. It reverses the last sort:
+
+- every original bookmark and folder goes back to its place, at its position: the same bookmarks, with the same ids and dates;
+- the copies of the new tree are removed, but only while their original still exists, so that nothing is ever lost;
+- folders created by the sort are removed when they are empty and unchanged;
+- the backup folder is removed once it is empty;
+- what the sort taught Nidomark about your corrections is forgotten.
+
+Anything you changed after the sort is left as you made it: a bookmark of the new tree you renamed or moved stays where you put it, with the folder that holds it.
+
+<Aside>Only the last sort can be undone. The backup folders of earlier sorts stay until you delete them.</Aside>
+
+## If Chrome closes during a sort
+
+Every change is written to a journal before it is made. If the browser closes midway, the start screen says so and offers to **Undo what was done** or **Keep these changes**. A new sort can start once you have chosen.

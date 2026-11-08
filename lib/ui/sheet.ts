@@ -161,7 +161,7 @@ export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode
       close);
     sub = [t('nodeNewIn', rootName(an, node.rootId)), shared].filter(Boolean).join(' · ');
   } else if (node.kind === 'bar') {
-    head = staticHead('bolt', t('nodeBar'));
+    head = staticHead('bolt', t('nodeBar'), 'tile-quick');
     sub = t('barSheetHint');
   } else if (node.kind === 'dupes') {
     head = staticHead('content_copy', t('nodeDupes'));

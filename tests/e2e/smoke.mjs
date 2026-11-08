@@ -68,6 +68,8 @@ try {
   await page.waitForSelector('[data-focus="analyze"]');
   await page.evaluate(() => document.fonts.ready);
   const storeShot = async (name) => {
+    // No hover highlight left where the last click happened.
+    await page.mouse.move(2, 790);
     await page.evaluate((text) => {
       const el = document.createElement('div');
       el.id = 'e2e-sample';

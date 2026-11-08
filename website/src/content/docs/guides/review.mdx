@@ -1,0 +1,69 @@
+---
+title: Review the new tree
+description: Read the new tree, see why each bookmark goes where it does, and change anything before applying.
+---
+
+import { Image } from 'astro:assets';
+import review from '@repo-docs/assets/review.png';
+import sheet from '@repo-docs/store/store-3-sheet-en.png';
+
+The new tree is drawn as a map: your bookmarks on the left, every folder of the new tree on the right, linked by a curve whose thickness follows the number of bookmarks it carries. Nothing has changed in the browser yet.
+
+<figure className="doc-figure not-content">
+  <Image
+    src={review}
+    alt="The review map: curves from your bookmarks to Quick access and to each top-level folder of the new tree, with the number of bookmarks it receives"
+    widths={[480, 960, 1280]}
+    sizes="(min-width: 50rem) 45rem, 100vw"
+  />
+  <figcaption>The review map. Fictional sample collection.</figcaption>
+</figure>
+
+## Read the map
+
+The folders are grouped under the place they will be created in, as in Chrome:
+
+- **Bookmarks bar**: ⚡ **Quick access**, the icons that open the bar, then the top-level folders, the most used first. Under each name, its subfolders.
+- **Other bookmarks**: ❓ **To check**, in amber, with the bookmarks Nidomark could not place with confidence; 🔞 Porn and 🚫 Unreachable sites when there are any.
+- **Not recreated**: the **Duplicates**, copies of a page kept elsewhere. They stay in the backup.
+
+Each folder shows the icons of a few of its bookmarks and how many it holds, subfolders included.
+
+The strip at the top previews your new bookmarks bar: the quick access icons, then the folders as Chrome will show them. Click a bookmark there to show its name, or to show it as an icon again.
+
+## Open a folder
+
+Click a folder to open it in the side panel: first its own bookmarks, then each of its subfolders. Each bookmark shows its site and, when it differs from the rest of the folder, the reason it goes there: a known site, a typical address, what its page says, a site you filed yourself, or one of your folders recreated as it is.
+
+<figure className="doc-figure not-content">
+  <Image
+    src={sheet}
+    alt="The Home folder opened in the side panel, with its Domotique and Home services subfolders, their bookmarks, addresses and move buttons"
+    widths={[480, 960, 1280]}
+    sizes="(min-width: 50rem) 45rem, 100vw"
+  />
+  <figcaption>A folder and its subfolders in the side panel. Fictional sample collection.</figcaption>
+</figure>
+
+- **Move a bookmark** with its move button, or drag it onto another folder: every folder that can take it lights up while you drag. The move menu follows the new tree, subfolders included, and offers Quick access too.
+- **Rename a folder** in the panel header, or a subfolder in its heading; change an emoji with the tile next to the name. Your names are kept for the next sorts.
+- **Don't create** a subfolder: its bookmarks go to the folder above it. **Create this folder** brings it back.
+- **Create a folder of your own** with **New folder**, at the bottom of the map or in the move menu.
+- **Accept a suggestion**: in To check, a bookmark the model leans to place somewhere shows a suggestion; one click files it there. The move menu lists the suggestion first.
+- **Open a page** to see it for yourself: bookmarks to check and unreachable sites have an open button.
+- **Keep a cleaner title or the original one** from the move menu, when Nidomark proposes a cleaner title.
+
+When you file a bookmark elsewhere than proposed, Nidomark remembers it: the next sorts send that page, and the other pages of its site, to the same category. Undoing the sort forgets it.
+
+Everything works with the keyboard: Tab moves between folders, Enter opens one, Escape closes the panel, and the move menu replaces dragging. Moves are announced to screen readers.
+
+## Apply
+
+The bar at the bottom always says that nothing has changed yet.
+
+- **File _N_ bookmarks** creates the new tree, then moves your previous tree, as it was, into a dated backup. _N_ counts every bookmark recreated; duplicates are not.
+- **Restore proposal** brings back every choice Nidomark made, undoing your changes in the review.
+- The back arrow leaves the review without changing anything, after asking: the analysis would have to run again.
+- If your bookmarks change in Chrome during the review, Nidomark asks you to refresh the proposal before applying.
+
+Applying ends on a summary with an **Undo** button: see [Backup and undo](/guides/backup-and-undo/).

@@ -1,0 +1,53 @@
+---
+title: Sites, dead links and duplicates
+description: When Nidomark reads a page, what To check means, how it finds dead links, and which copy of a duplicate it recreates.
+---
+
+## Reading sites
+
+When the title and address of a bookmark are not enough, Nidomark reads its page: the title, the description, the first headings and the beginning of the text. If the page says too little, a login form for instance, it also reads the home page of the same site.
+
+- Pages are requested like a visit, without your cookies and without a referrer.
+- 16 sites are read at a time, never more than 2 from the same site.
+- Addresses of your local network and services hosted at home are never requested.
+- If nearly every request fails, the computer is considered offline and no site is reported dead.
+
+The option is **Read sites when the title is not enough**, on the start screen and in the settings. Without it, the bookmarks the title cannot explain go to To check.
+
+## To check
+
+**❓ To check** is a real folder of the new tree, in Other bookmarks. Every bookmark that reaches it has been tested: its page was read when that was allowed, together with the home page of its site when needed. Its reason says what was missing:
+
+| Reason                                          | What it means                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------------ |
+| Page read, no clear theme                       | The page was read but fits no category clearly.                    |
+| The site refuses to be read (403)               | A login wall or a bot check: the site is alive.                    |
+| Generic title and uninformative address         | The title says nothing and the page could not be read.             |
+| No clear theme in the title and address         | The title fits no category clearly and the page could not be read. |
+| Vague title; allow reading sites to learn more  | Reading sites is off, or access to sites was refused.              |
+
+When the model leans to a folder without being sure, the bookmark shows a **suggestion**: one click files it there. Open the page from the list to see it for yourself, then accept the suggestion, choose a folder, or leave the bookmark in To check. A bookmark you file yourself teaches the next sorts where its site goes.
+
+## Dead links
+
+With **Find sites that no longer answer**, every bookmark in the sort is checked, and these go to 🚫 Unreachable sites, in Other bookmarks:
+
+| What Nidomark sees                                               | Reason shown                       |
+| ---------------------------------------------------------------- | ---------------------------------- |
+| The page is gone (404 or 410)                                    | Page removed                       |
+| The domain is parked, for sale, expired, or shows a default page | Domain abandoned or for sale       |
+| The site cannot be found, or does not answer twice               | No longer answers                  |
+| A server error other than maintenance                            | Server error                       |
+
+These are not dead: sites behind a bot check, sites in maintenance, pages that need a login, services at home that are switched off, and well-known sites that only failed to connect, since a captive portal or a filtering proxy looks the same.
+
+## Duplicates
+
+With **One copy of each page**, copies of the same page are found even when their addresses differ by `http` or `https`, `www.`, a trailing slash or tracking parameters such as `utm_source`. The part after `#` counts: in web apps it often names a different screen.
+
+One copy is recreated in the new tree:
+
+1. a copy outside the sort, such as a shortcut in the bookmarks bar or a folder you left out;
+2. otherwise a copy with a real title rather than a generic one, then one filed in a folder, then the oldest.
+
+The other copies are listed under **Duplicates**, in the "Not recreated" group of the review, each with the copy it duplicates. **Keep all** recreates them too, and moving one to a folder recreates that one. The copies left out stay in the backup with the rest of your previous tree, and **Undo** puts them back where they were.

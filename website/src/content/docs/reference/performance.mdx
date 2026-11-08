@@ -1,0 +1,41 @@
+---
+title: Requirements and performance
+description: The model, its size, the time an analysis takes and the memory it uses.
+---
+
+## Requirements
+
+| Requirement | Minimum                            |
+| ----------- | ---------------------------------- |
+| Browser     | Chrome 116 or later, on a computer |
+| System      | Windows, macOS or Linux            |
+| Disk        | About 200 MB free                  |
+| Memory      | 4 GB of RAM or more                |
+
+## The model
+
+| Item           | Value                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| Model          | [multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small), 8-bit, MIT license |
+| Languages      | About 100, French and English included                                                        |
+| Files          | 118 MB of model and 17 MB of tokenizer, packaged with the extension                           |
+| Runtime        | ONNX Runtime WebAssembly, packaged, about 27 MB                                               |
+| Extension size | 89 MB to download, about 160 MB installed                                                     |
+
+Nothing is downloaded at run time and no code is loaded from the network: the extension works offline.
+
+## Time and memory
+
+Measured on the fictitious test collection, on one processor core:
+
+- **Loading the model**: a few seconds, at the first analysis of a session.
+- **Each bookmark**: about 60 ms. Later analyses reuse a local cache, so only new or changed bookmarks cost time.
+- **Memory**: about 0.5 GB more while the model works, up to 0.8 GB at peak, released when the analysis ends.
+
+Reading sites usually takes longest: 16 sites at a time, up to 12 seconds for a site that does not answer, then a second, slower try for the sites that failed. On a large collection with dead-link checking on, this can take a few minutes; the progress screen shows how many sites remain.
+
+Applying writes every bookmark of the new tree through Chrome's bookmarks API, by batches written to the undo journal first; the progress screen counts them, and undoing takes about as long.
+
+## Accuracy
+
+The default settings were tuned on a fictitious collection of 50 bookmarks: with page reading, every bookmark lands where the hand-made reference expects it; without, the four whose title says too little go to To check. Real collections are more varied, which is why every bookmark the model is not sure about goes to "To check" rather than to a guess, why every choice is explained before you apply it, and why your corrections teach the next sorts.

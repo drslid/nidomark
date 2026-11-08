@@ -1,0 +1,55 @@
+---
+title: Your first sort
+description: Choose what to sort and how, run the analysis and follow its progress.
+---
+
+import { Image } from 'astro:assets';
+import { Aside, Steps } from '@astrojs/starlight/components';
+import start from '@repo-docs/store/store-1-start-en.png';
+
+Click the Nidomark button in the toolbar: the organizer opens in a tab.
+
+<figure className="doc-figure not-content">
+  <Image
+    src={start}
+    alt="Start screen: the folders to organize with their counts, where new folders go, how they are named, how many quick access icons, more options, the backup note and the Analyze button"
+    widths={[480, 960, 1280]}
+    sizes="(min-width: 50rem) 45rem, 100vw"
+  />
+  <figcaption>The start screen. Fictional sample collection.</figcaption>
+</figure>
+
+## Choose what to sort
+
+The first card lists your bookmarks bar, Other bookmarks and, if it holds any, Mobile bookmarks, each with the number of bookmarks inside. Everything is ticked by default.
+
+- Untick a folder to leave it as it is, where it is. The arrow shows the folders right inside it, so that you can leave out only one of them.
+- The shortcuts of the bookmarks bar are sorted too: the ones you use most come back first, as [quick access](/guides/names-and-bar/) icons.
+- Nidomark never sorts its own backup folders.
+
+## Choose how
+
+- **Organize into**: where the new top-level folders go, the bookmarks bar (the default) or Other bookmarks. Adult content, unreachable sites, bookmarks to check and browser links always go to Other bookmarks.
+- **Folder names**: **Emoji only** (the default), **Emoji + name** or **Name only**. Emoji only applies to the folders side by side in the bookmarks bar; subfolders and your own folders always keep their names. See [Quick access and folder names](/guides/names-and-bar/).
+- **Quick access**: how many icons of your most visited sites open the bar: none, 5, 10 (the default) or 20.
+- **More options**: reading sites when the title is not enough, finding sites that no longer answer, one copy of each page, and putting the most visited sites first (it uses your browsing history, on this computer). All are on by default.
+
+Under the options, a line reminds you that your current tree is kept as it is in a dated backup: see [Backup and undo](/guides/backup-and-undo/).
+
+## Analyze
+
+<Steps>
+
+1. Click **Analyze _N_ bookmarks**. _N_ is the number of bookmarks your choice covers.
+
+2. Chrome asks once, in a single prompt, for what the options need: access to sites (to read the bookmarked pages and find dead links) and your browsing history (to find your most visited sites). Accept to let Nidomark use them on this computer; refuse, and it sorts from titles and addresses only, with the shortcuts of your bar as quick access. See [Privacy and permissions](/reference/privacy/).
+
+3. Follow the progress: reading your bookmarks, loading the model, understanding each bookmark, reading sites, analyzing pages, building the folders.
+
+</Steps>
+
+The first analysis loads the model, which takes a few seconds. Each bookmark then takes about 60 ms on one processor core, and later analyses reuse a local cache. Reading sites takes longer: 16 sites at a time, up to 12 seconds for a site that does not answer, then a second, slower try for the ones that failed.
+
+<Aside>
+  Nothing has changed yet when the analysis ends: the new tree opens for you to [review](/guides/review/).
+</Aside>

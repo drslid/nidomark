@@ -1,0 +1,185 @@
+---
+title: Nidomark
+description: Recreate all your browser bookmarks in a few clear folders with a small AI that runs in your browser. Free, open source and offline.
+template: splash
+head:
+  - tag: title
+    content: Nidomark – Sort your bookmarks on your computer
+hero:
+  title: Your bookmarks, sorted on your computer
+  tagline: Nidomark files every bookmark into a few clear folders with a small AI that runs in your browser, your most visited sites first. You review the new tree, apply it, and one click undoes it.
+  actions:
+    - text: Install Nidomark
+      link: getting-started/install/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/drslid/nidomark
+      icon: external
+      variant: minimal
+---
+
+import { Image } from 'astro:assets';
+import review from '@repo-docs/assets/review.png';
+import start from '@repo-docs/store/store-1-start-en.png';
+import sheet from '@repo-docs/store/store-3-sheet-en.png';
+import BarPreview from '../../components/BarPreview.astro';
+import MaterialIcon from '../../components/MaterialIcon.astro';
+
+<figure className="product-figure not-content">
+  <Image
+    src={review}
+    alt="Nidomark's review map: curves run from your bookmarks to each folder of the new tree, from Quick access, Home, Tech and Leisure to Travel and News, with the number of bookmarks each one receives"
+    widths={[640, 960, 1280]}
+    sizes="(min-width: 72rem) 70rem, 100vw"
+    loading="eager"
+  />
+  <figcaption>The new tree, before anything changes: every folder and the bookmarks it receives. Fictional sample collection.</figcaption>
+</figure>
+
+<section className="home-section home-summary not-content">
+  <div>
+    <h2>Every bookmark, filed the way you would</h2>
+    <div className="section-copy">
+      Nidomark looks at your whole collection at once and gives every bookmark a place in a new tree. Known sites are
+      filed for sure, the local model files the rest, and when a title says too little it reads the page. Your folders
+      that make sense are recreated; catch-all folders are emptied. Your previous tree is kept, untouched, in a dated
+      backup.
+    </div>
+    <a className="inline-action" href="/getting-started/overview/">
+      Read the overview <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <dl className="fact-grid">
+    <div>
+      <dt>License</dt>
+      <dd>Free and open source</dd>
+    </div>
+    <div>
+      <dt>Where it runs</dt>
+      <dd>In your browser, offline</dd>
+    </div>
+    <div>
+      <dt>Your bookmarks</dt>
+      <dd>Never sent anywhere</dd>
+    </div>
+    <div>
+      <dt>Browser</dt>
+      <dd>Chrome 116 and later</dd>
+    </div>
+  </dl>
+</section>
+
+<section className="home-section not-content">
+  <h2 className="section-heading">Your favourite sites first, then a few clear folders</h2>
+  <div className="section-copy">
+    The bar opens with the icons of the sites you visit most. Then about a dozen top-level folders, the most used
+    first, hold precise subfolders, three levels at most, created only when there are enough bookmarks for them. In
+    the bar they sit side by side as emoji; inside, every folder keeps its name. Adult content, dead links and
+    bookmarks to check go to Other bookmarks, never to the bar.
+  </div>
+  <BarPreview />
+  <a className="inline-action" href="/reference/categories/">
+    See every category <span aria-hidden="true">→</span>
+  </a>
+</section>
+
+<section className="home-section shots not-content">
+  <div className="shots-copy">
+    <h2>Check everything before it happens</h2>
+    <div className="section-copy">
+      Open any folder to see its subfolders and why each bookmark goes there. Move one, rename a folder or skip a
+      subfolder, with the mouse or the keyboard. Bookmarks Nidomark cannot place with confidence go to “To check”,
+      tested, explained and often with a suggestion.
+    </div>
+    <ul className="compact-list">
+      <li>Dead links set apart, duplicates left out</li>
+      <li>Your previous tree kept as it was, in a dated backup</li>
+      <li>One click undoes the whole sort</li>
+    </ul>
+    <a className="inline-action" href="/guides/review/">
+      Follow the review guide <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div className="shots-images">
+    <figure className="product-shot">
+      <Image
+        src={sheet}
+        alt="The Home folder opened in the side panel, with its Domotique and Home services subfolders and the reason each bookmark goes there"
+        widths={[480, 960, 1280]}
+        sizes="(min-width: 64rem) 42rem, 100vw"
+      />
+      <figcaption>Each folder with its subfolders, each bookmark with its site and the reason it goes there.</figcaption>
+    </figure>
+    <figure className="product-shot">
+      <Image
+        src={start}
+        alt="Start screen: the folders to organize with their counts, where new folders go, how they are named, how many quick access icons, and the Analyze button"
+        widths={[480, 960, 1280]}
+        sizes="(min-width: 64rem) 42rem, 100vw"
+      />
+      <figcaption>Choose the folders to sort, where new folders go, how they are named and how many icons come first.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section className="home-section not-content">
+  <h2 className="section-heading">From a crowded menu to clear folders</h2>
+  <ol className="process-grid">
+    <li>
+      <span className="step" aria-hidden="true">1</span>
+      <h3>Choose</h3>
+      <p>Everything is ticked, the bar's shortcuts included. Leave out a folder to keep it as it is.</p>
+    </li>
+    <li>
+      <span className="step" aria-hidden="true">2</span>
+      <h3>Analyze</h3>
+      <p>The model reads titles and addresses, and the pages when it needs to.</p>
+    </li>
+    <li>
+      <span className="step" aria-hidden="true">3</span>
+      <h3>Review</h3>
+      <p>See the new tree and why each bookmark goes where it does. Move, rename or skip anything.</p>
+    </li>
+    <li>
+      <span className="step" aria-hidden="true">4</span>
+      <h3>Apply</h3>
+      <p>Your previous tree goes into a dated backup, and one click undoes the sort.</p>
+    </li>
+  </ol>
+
+  <div className="install-preview">
+    <h3>Try the alpha in Chrome</h3>
+    <ol>
+      <li>
+        Download the zip of the <a href="https://github.com/drslid/nidomark/releases">latest release</a> and unzip it.
+      </li>
+      <li>
+        Open <code>chrome://extensions</code> and turn on <strong>Developer mode</strong>.
+      </li>
+      <li>
+        Click <strong>Load unpacked</strong> and choose the unzipped folder.
+      </li>
+    </ol>
+    <a className="inline-action" href="/getting-started/install/">
+      Requirements and updates <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<section className="privacy-band not-content">
+  <MaterialIcon name="shield" class="band-icon" />
+  <div>
+    <h2>No data leaves your computer</h2>
+    <p>
+      The model and its runtime are packaged with the extension and run offline. To understand a site, Nidomark opens
+      the bookmarked page like your browser would, without your cookies, and sends nothing else. No account, no
+      server, no analytics.
+    </p>
+  </div>
+  <a className="band-action" href="/reference/privacy/">
+    Read the privacy policy
+  </a>
+</section>

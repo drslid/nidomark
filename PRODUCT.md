@@ -24,14 +24,14 @@ A browser extension: a toolbar button opens a full-tab page in Chrome on desktop
 
 ## Capabilities and Constraints
 
-- The whole collection is sorted by default, or the folders the user chooses; the shortcuts of the bookmarks bar stay in place. Folders that make sense are kept, catch-all folders are emptied, nothing is deleted.
-- Nothing changes in the browser before the user applies; a sort never deletes a bookmark; a dated backup copy of the previous tree is made first; undo restores the same tree and never overwrites changes made since.
-- Folders can carry an emoji before their name, only an emoji, or only a name, as the user prefers; bookmarks of the bookmarks bar can be shown as icons only.
-- A dozen top-level folders hold precise categories (streaming, tech news, banking, adult content…); known sites and typical addresses are filed for sure, the local model files the rest, and the page is read when the title is not enough.
-- Sites that no longer answer are set apart; every bookmark left to check has been tested and can be opened from the list.
-- Duplicates are removed (one copy stays, the backup keeps the others).
-- Bookmarks without enough clues are listed "to check" with a short reason instead of being filed.
-- Optional permissions: access to sites, to read the bookmarked pages themselves (no cookies, nothing sent); browsing history, to understand vague titles from the real page titles.
+- Every bookmark of the chosen folders (the whole collection by default, the bar's shortcuts included) is recreated in a new tree; nothing stays where it was. The previous tree is moved, untouched, into a dated backup in Other bookmarks; nothing is deleted.
+- The new tree: quick access icons of the most visited sites at the start of the bookmarks bar, then about a dozen top-level folders (the most used first) holding precise categories, three levels at most. Folders of the user that make sense are recreated, catch-all folders are emptied. Adult content, dead sites, bookmarks to check and browser links go to Other bookmarks, never to the bar.
+- Nothing changes in the browser before the user applies; undo puts every original back, with the same ids and dates, and never overwrites changes made since.
+- Folders can carry an emoji before their name, only an emoji, or only a name, as the user prefers; quick access shows icons only, names can be shown again.
+- Known sites and typical addresses are filed for sure, the local model files the rest, and the page is read when the title is not enough. Corrections made in the review teach the next sorts.
+- Sites that no longer answer are set apart; every bookmark left to check has been tested, can be opened from the list and comes with a suggestion when the model leans somewhere.
+- Duplicates are not recreated (one copy is, the backup keeps the others).
+- Optional permissions: access to sites, to read the bookmarked pages themselves (no cookies, nothing sent); browsing history, to find the most visited sites and understand vague titles, read on the computer only.
 - No data leaves the computer, and the interface says so.
 - Chrome first (Manifest V3, Chrome Web Store), Firefox and Edge later.
 - Planned next: targeted history cleanup, then a password-protected vault.
@@ -41,6 +41,7 @@ A browser extension: a toolbar button opens a full-tab page in Chrome on desktop
 - Name: Nidomark. Icon: white bookmark ribbon on a teal rounded tile with an amber sparkle.
 - Visual direction requested by the user: faithful to Google's product style (Material 3: clean, light or dark like the browser, rounded corners, one accent colour, Google typography), simple, uncluttered and very intuitive.
 - Main screen requested by the user: a simplified n8n-like node view, where the unsorted bookmarks are linked by curves to the proposed folders, a folder opens its bookmarks in a side panel, and a bookmark can be dragged to another folder.
+- Sorting rules requested by the user: absolutely every link is filed, the old tree is kept in a dated backup with the application's name, at most three levels, the most visited sites first in the bar as icons only, adult content in a "Porn" folder outside the bar, streaming in "Streaming", and the fact that no data leaves the computer is put forward.
 
 ## Evidence on Hand
 
