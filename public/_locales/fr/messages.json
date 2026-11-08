@@ -18,13 +18,13 @@
   "message": "Rangez vos favoris"
  },
  "startLead": {
-  "message": "Une petite IA, sur cet ordinateur, range tout dans des dossiers clairs. Vous vérifiez, puis vous appliquez."
+  "message": "Une petite IA, sur cet ordinateur, recrée tous vos favoris dans des dossiers clairs. Vous vérifiez, puis vous validez."
  },
  "optHistory": {
-  "message": "Utiliser l’historique pour les titres vagues"
+  "message": "Mettre en premier les sites les plus visités"
  },
  "optHistoryHint": {
-  "message": "Lit les titres de pages déjà enregistrés par le navigateur"
+  "message": "Compte les visites de chaque site et lit les titres déjà enregistrés, sur cet ordinateur. Rien n’est envoyé."
  },
  "optFolderStyle": {
   "message": "Nom des dossiers"
@@ -68,14 +68,8 @@
  "progressCount": {
   "message": "{1} sur {2}"
  },
- "newBadge": {
-  "message": "Nouveau"
- },
  "moveTo": {
   "message": "Déplacer vers"
- },
- "dontMove": {
-  "message": "Laisser à sa place"
  },
  "newFolderOption": {
   "message": "Nouveau dossier"
@@ -90,16 +84,13 @@
   "message": "Autre emoji"
  },
  "reviewHint": {
-  "message": "Testés, sans indice suffisant. Ouvrez-les pour vérifier, puis choisissez un dossier ou laissez-les en place."
+  "message": "Testés, sans indice suffisant. Ouvrez-les pour vérifier, puis acceptez la suggestion ou choisissez un dossier. Sinon, ils iront dans « À vérifier », dans Autres favoris."
  },
  "barTitle": {
-  "message": "Barre de favoris"
+  "message": "Nouvelle barre"
  },
  "iconOnly": {
   "message": "icône seule"
- },
- "rejectAll": {
-  "message": "Tout refuser"
  },
  "applying": {
   "message": "Application des changements"
@@ -108,10 +99,10 @@
   "message": "Vos favoris sont rangés"
  },
  "doneSummary": {
-  "message": "{1} changements appliqués."
+  "message": "{1} favoris rangés dans {2} dossiers."
  },
  "doneSkipped": {
-  "message": "{1} changements ignorés : le favori a changé entre-temps."
+  "message": "{1} éléments ignorés parce qu’ils ont changé entre-temps. Rien n’est perdu : les originaux sont dans la sauvegarde."
  },
  "undone": {
   "message": "Le dernier tri a été annulé."
@@ -138,7 +129,7 @@
   "message": "Rien à ranger"
  },
  "emptyHint": {
-  "message": "Aucun favori en vrac dans les dossiers à ranger. Choisissez d’autres dossiers dans les réglages."
+  "message": "Aucun favori dans les dossiers choisis. Choisissez d’autres dossiers."
  },
  "reasonHomeService": {
   "message": "Service hébergé à la maison (adresse locale ou domaine personnel)"
@@ -226,7 +217,7 @@
   "message": "Actualisez d’abord la proposition : vos favoris ont changé."
  },
  "startCountNone": {
-  "message": "Aucun favori en vrac"
+  "message": "Aucun favori à ranger"
  },
  "finish": {
   "message": "Terminé"
@@ -240,23 +231,11 @@
  "proposal": {
   "message": "Proposition"
  },
- "nodeOff": {
-  "message": "Ne sera pas créé"
- },
  "nodeReview": {
   "message": "À vérifier"
  },
  "nodeReviewMeta": {
   "message": "Pas assez d’indices"
- },
- "nodeStay": {
-  "message": "Restent en place"
- },
- "nodeStayMeta": {
-  "message": "Non déplacés"
- },
- "nodeOffHint": {
-  "message": "Ce dossier ne sera pas créé : ses favoris restent en place."
  },
  "countLabel": {
   "message": "{1} favoris"
@@ -269,9 +248,6 @@
  },
  "sheetClose": {
   "message": "Fermer"
- },
- "staysHint": {
-  "message": "Ces favoris restent où ils sont."
  },
  "emptyFolder": {
   "message": "Glissez des favoris ici"
@@ -309,17 +285,11 @@
  "restoreProposal": {
   "message": "Rétablir la proposition"
  },
- "applyShort": {
-  "message": "Appliquer"
- },
  "applyRegion": {
   "message": "Appliquer les changements"
  },
  "announceMoved": {
   "message": "« {1} » déplacé vers {2}"
- },
- "announceStay": {
-  "message": "« {1} » reste à sa place"
  },
  "back": {
   "message": "Retour"
@@ -334,16 +304,16 @@
   "message": "Cliquez sur un favori pour masquer ou afficher son nom"
  },
  "applyCount": {
-  "message": "Appliquer {1} changements"
+  "message": "Ranger {1} favoris"
  },
  "applyOne": {
-  "message": "Appliquer 1 changement"
+  "message": "Ranger 1 favori"
  },
  "scopeLabel": {
   "message": "Dossiers à ranger"
  },
  "barScopeHint": {
-  "message": "Ses dossiers seulement : vos raccourcis restent dans la barre"
+  "message": "Raccourcis compris : les plus utilisés reviennent en tête"
  },
  "showSubfolders": {
   "message": "Afficher les dossiers de {1}"
@@ -360,9 +330,6 @@
  "sumCheckDead": {
   "message": "sites morts"
  },
- "sumBackup": {
-  "message": "sauvegarde"
- },
  "sumHistory": {
   "message": "historique"
  },
@@ -377,12 +344,6 @@
  },
  "optCheckDeadHint": {
   "message": "Ils sont rangés à part, dans « Sites inaccessibles »."
- },
- "optBackup": {
-  "message": "Sauvegarder l’arborescence actuelle"
- },
- "optBackupHint": {
-  "message": "Une copie datée dans Autres favoris, à supprimer quand vous voulez."
  },
  "optFolderStyleHint": {
   "message": "Les sous-dossiers gardent leur nom."
@@ -408,9 +369,6 @@
  "sitesNote": {
   "message": "Plusieurs sites à la fois. Rien n’est envoyé, seules les pages sont lues."
  },
- "doneBackup": {
-  "message": "Copie de l’ancienne arborescence : « {1} »"
- },
  "sitesAllowed": {
   "message": "Accès aux sites autorisé"
  },
@@ -424,7 +382,7 @@
   "message": "Aucune sauvegarde"
  },
  "backupCount": {
-  "message": "{1} favoris et dossiers copiés"
+  "message": "{1} favoris"
  },
  "backupDelete": {
   "message": "Supprimer"
@@ -433,7 +391,7 @@
   "message": "Supprimer cette sauvegarde ?"
  },
  "backupConfirm": {
-  "message": "« {1} » ne contient que des copies : vos favoris rangés ne bougent pas."
+  "message": "« {1} » et son contenu seront supprimés définitivement. Vos favoris rangés ne bougent pas, mais le tri qui l’a créée ne pourra plus être annulé."
  },
  "backupDeleted": {
   "message": "Sauvegarde supprimée."
@@ -477,14 +435,8 @@
  "reasonLearnedSite": {
   "message": "Vous rangez {1} dans « {2} »"
  },
- "reasonAlreadyFiled": {
-  "message": "Déjà dans « {1} »"
- },
  "reasonKeptFolder": {
-  "message": "Reste dans « {1} »"
- },
- "reasonUserKept": {
-  "message": "Rangé ici par vous"
+  "message": "Votre dossier « {1} », recréé tel quel"
  },
  "reasonNewCategory": {
   "message": "{1} favoris de cette catégorie"
@@ -520,16 +472,10 @@
   "message": "Doublons"
  },
  "nodeDupesMeta": {
-  "message": "Supprimés, gardés dans la sauvegarde"
- },
- "nodeDupesMetaNoBackup": {
-  "message": "Supprimés, Annuler les remet"
+  "message": "Non recréés, gardés dans la sauvegarde"
  },
  "dupesHint": {
-  "message": "Ces pages existent déjà ailleurs : une seule copie reste. La sauvegarde garde celles-ci."
- },
- "dupesHintNoBackup": {
-  "message": "Ces pages existent déjà ailleurs : une seule copie reste. Annuler le tri les remet."
+  "message": "Ces pages existent déjà ailleurs : une seule copie est recréée. Celles-ci restent dans la sauvegarde."
  },
  "keepAllDupes": {
   "message": "Tout garder"
@@ -541,10 +487,10 @@
   "message": "Doublon de « {1} » ({2})"
  },
  "optDupes": {
-  "message": "Supprimer les doublons"
+  "message": "Une seule copie de chaque page"
  },
  "optDupesHint": {
-  "message": "Une seule copie de chaque page reste ; les autres sont gardées dans la sauvegarde."
+  "message": "Les doublons ne sont pas recréés ; ils restent dans la sauvegarde."
  },
  "sumDupes": {
   "message": "doublons"
@@ -553,6 +499,72 @@
   "message": "Ouvrir {1}"
  },
  "reviewHintUntested": {
-  "message": "Pas assez d’indices. Autorisez la lecture des sites pour qu’ils soient testés, ou ouvrez-les pour vérifier."
+  "message": "Pas assez d’indices. Autorisez la lecture des sites pour qu’ils soient testés, ou ouvrez-les pour vérifier. Sinon, ils iront dans « À vérifier »."
+ },
+ "archiveNote": {
+  "message": "Votre arborescence actuelle est gardée telle quelle dans une sauvegarde datée, dans Autres favoris. Un clic annule le tri."
+ },
+ "barSheetHint": {
+  "message": "Les sites que vous ouvrez le plus, en icônes au début de la barre. Dans l’aperçu, cliquez sur une icône pour afficher son nom."
+ },
+ "doneArchive": {
+  "message": "L’ancienne arborescence est dans « {1} », dans Autres favoris."
+ },
+ "nodeBar": {
+  "message": "Accès rapide"
+ },
+ "nodeBarMeta": {
+  "message": "Icônes au début de la barre"
+ },
+ "notRecreated": {
+  "message": "Non recréés"
+ },
+ "optQuickAccess": {
+  "message": "Accès rapide"
+ },
+ "optQuickAccessHint": {
+  "message": "Les sites les plus visités, en icônes au début de la barre"
+ },
+ "quickNone": {
+  "message": "Aucun"
+ },
+ "reasonBarShortcut": {
+  "message": "Déjà dans votre barre de favoris"
+ },
+ "reasonBarTool": {
+  "message": "Outil de la barre (bookmarklet ou page du navigateur)"
+ },
+ "reasonFacet": {
+  "message": "{1} favoris du même site ou du même sujet"
+ },
+ "reasonLearned": {
+  "message": "Vous l’aviez rangé dans « {1} »"
+ },
+ "reasonMyFolders": {
+  "message": "Vos dossiers qui mêlent plusieurs sujets"
+ },
+ "reasonQuickAccess": {
+  "message": "Parmi les sites que vous ouvrez le plus"
+ },
+ "reasonReviewFolder": {
+  "message": "Pas assez d’indices pour les ranger"
+ },
+ "reasonSpecial": {
+  "message": "Lien qui n’est pas une page web (bookmarklet, page du navigateur, fichier)"
+ },
+ "sectionOff": {
+  "message": "Ce dossier ne sera pas créé : ses favoris iront dans « {1} »."
+ },
+ "suggestion": {
+  "message": "Suggestion : {1}"
+ },
+ "leaveTitle": {
+  "message": "Abandonner cette proposition ?"
+ },
+ "leaveBody": {
+  "message": "Vos favoris n’ont pas été modifiés. Pour les ranger, il faudra relancer l’analyse."
+ },
+ "leaveConfirm": {
+  "message": "Abandonner"
  }
 }

@@ -49,7 +49,10 @@ export interface BackupSource {
 export type Op =
   | { type: 'backup'; parentId: string; title: string; sources: BackupSource[] }
   | { type: 'createFolder'; key: string; parentId?: string; parentKey?: string; title: string }
-  | { type: 'move'; id: string; to: { folderId?: string; newKey?: string }; expect: Expected }
+  /** A copy of the bookmark `source` in the new tree; the original goes to the archive. */
+  | { type: 'createBookmark'; key: string; source: string; parentId?: string; parentKey?: string; title: string; url: string }
+  /** `index`: position in the destination (moves into the archive go to 0, last item first, to keep the order). */
+  | { type: 'move'; id: string; to: { folderId?: string; newKey?: string; index?: number }; expect: Expected }
   | { type: 'rename'; id: string; title: string; expect: Expected; iconOnly?: boolean }
   | { type: 'remove'; id: string; expect: Expected };
 
@@ -102,6 +105,98 @@ export function acceptedFolders(p: Proposal, d: Decisions): Set<string> {
   return ok;
 }
 
+/**
+ * The folder that really receives the bookmarks proposed for a folder: a declined folder hands them to the nearest
+ * folder above it that is created. Undefined when no folder above it is.
+ */
+export function folderResolver(p: Proposal, d: Decisions): (key: string) => string | undefined {
+  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
+  const accepted = (key: string) => d.newFolders[key]?.accepted !== false;
+  const up = (key: string) => {
+    const out: string[] = [];
+    for (let k: string | undefined = key; k && out.length < 8; k = byKey.get(k)?.parentKey) out.push(k);
+    return out;
+  };
+  return (key) => up(key).find((k) => up(k).every(accepted));
+}
+
+export interface ArchiveSource {
+  /** Key of the folder of the archive that receives these items ("archive:<root id>"). */
+  key: string;
+  /** Its name: the root folder the items come from ("Bookmarks bar"). */
+  title: string;
+  /** The items of the previous tree, in their order. */
+  items: { id: string; expect: Expected }[];
+}
+
+export interface RebuildContext {
+  barId?: string;
+  node: (id: string) => Expected | undefined;
+  archive: { parentId: string; title: string; sources: ArchiveSource[] };
+}
+
+/**
+ * The whole tree is rebuilt: the new folders are created, every bookmark is recreated in its folder (or at the start
+ * of the bookmarks bar for quick access), then the previous tree is moved, as it was, into a dated archive folder.
+ */
+export function buildRebuildPlan(p: Proposal, d: Decisions, ctx: RebuildContext): Op[] {
+  const ops: Op[] = [];
+  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
+  const resolve = folderResolver(p, d);
+  const topOf = (key: string) => {
+    let f = byKey.get(key);
+    for (let i = 0; f?.parentKey && i < 8; i++) f = byKey.get(f.parentKey);
+    return f;
+  };
+  const titleOf = (id: string) => {
+    const t = d.titles[id];
+    return t?.accepted ? t.title : (ctx.node(id)?.title ?? '');
+  };
+  const placement = new Map(p.placements.map((pl) => [pl.bookmarkId, pl.target]));
+  const inFolder = new Map<string, string[]>();
+  const loose = new Map<string, string[]>();
+  const bar: string[] = [];
+  for (const id of p.candidates) {
+    if (d.removes[id]) continue;
+    const t = d.moves[id]?.target ?? placement.get(id);
+    if (t?.kind === 'bar') bar.push(id);
+    if (t?.kind !== 'new') continue;
+    const k = resolve(t.key);
+    if (k) inFolder.set(k, [...(inFolder.get(k) ?? []), id]);
+    else {
+      const root = topOf(t.key)?.parentId ?? ctx.archive.parentId;
+      loose.set(root, [...(loose.get(root) ?? []), id]);
+    }
+  }
+  const quickOrder = new Map(p.quickAccess.map((id, i) => [id, i]));
+  bar.sort((a, b) => (quickOrder.get(a) ?? 1e6) - (quickOrder.get(b) ?? 1e6));
+  const used = new Set<string>();
+  for (const k of inFolder.keys()) for (let x: string | undefined = k; x && !used.has(x); x = byKey.get(x)?.parentKey) used.add(x);
+  const create = (id: string, where: { parentId?: string; parentKey?: string }, title: string) => {
+    const url = ctx.node(id)?.url;
+    if (url) ops.push({ type: 'createBookmark', key: `b:${id}`, source: id, ...where, title, url });
+  };
+  // Quick access first: created before the folders, the icons come first in the bar once the old tree is archived.
+  for (const id of bar) create(id, { parentId: ctx.barId }, d.iconOnly[id] ? '' : titleOf(id));
+  for (const f of p.newFolders) {
+    if (!used.has(f.key)) continue;
+    const nf = d.newFolders[f.key];
+    // "Emoji only" is for the folders side by side in the bookmarks bar; anywhere else a folder keeps its name.
+    const inBar = !f.parentKey && !!ctx.barId && f.parentId === ctx.barId;
+    ops.push({ type: 'createFolder', key: f.key, parentId: f.parentKey ? undefined : f.parentId, parentKey: f.parentKey, title: folderTitle(nf?.name ?? f.name, nf?.emoji ?? f.emoji, inBar ? d.folderStyle : nestedStyle(d.folderStyle)) });
+  }
+  const byTitle = (a: string, b: string) => titleOf(a).localeCompare(titleOf(b));
+  for (const f of p.newFolders) for (const id of [...(inFolder.get(f.key) ?? [])].sort(byTitle)) create(id, { parentKey: f.key }, titleOf(id));
+  for (const [parentId, ids] of loose) for (const id of ids.sort(byTitle)) create(id, { parentId }, titleOf(id));
+  const sources = ctx.archive.sources.filter((src) => src.items.length);
+  if (sources.length) {
+    ops.push({ type: 'createFolder', key: 'archive', parentId: ctx.archive.parentId, title: ctx.archive.title });
+    for (const src of sources) ops.push({ type: 'createFolder', key: src.key, parentKey: 'archive', title: src.title });
+    for (const src of sources) for (const it of [...src.items].reverse()) ops.push({ type: 'move', id: it.id, to: { newKey: src.key, index: 0 }, expect: it.expect });
+  }
+  return ops;
+}
+
 /** Ordered operations: back up, create folders, move bookmarks, remove duplicates, then rename. */
 export function buildPlan(p: Proposal, d: Decisions, current: Current, backup?: { parentId: string; title: string; sources: BackupSource[] }): Op[] {
   const ops: Op[] = [];
@@ -115,7 +210,7 @@ export function buildPlan(p: Proposal, d: Decisions, current: Current, backup?: 
   }
   const moves: Op[] = [];
   for (const [id, m] of Object.entries(d.moves)) {
-    if (!m.accepted || m.target.kind === 'stay') continue;
+    if (!m.accepted || m.target.kind === 'stay' || m.target.kind === 'bar') continue;
     if (m.target.kind === 'new' && !accepted.has(m.target.key)) continue;
     const cur = current.node(id);
     if (!cur) continue;
@@ -255,6 +350,7 @@ export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStor
   if (isUnresolved(await store.load())) throw new UnresolvedJournalError();
   const journal: Journal = { id: `run-${Date.now()}`, createdAt: Date.now(), status: 'applying', entries: [] };
   const created = new Map<string, string>();
+  const createdIds = new Set<string>();
   const skipped: RunResult['skipped'] = [];
   let done = 0;
   await store.save(journal);
@@ -328,6 +424,7 @@ export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStor
       try {
         const node = await api.create({ parentId: parentId as string, title: op.title });
         created.set(op.key, node.id);
+        createdIds.add(node.id);
         entry.createdId = node.id;
         entry.after = { parentId, title: op.title };
         entry.status = 'done';
@@ -340,14 +437,58 @@ export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStor
       i++;
       continue;
     }
+    if (op.type === 'createBookmark') {
+      // Copies, by batches, in order. In a folder that existed before (the bookmarks bar), its children are noted
+      // once per batch: after an interruption, they tell the copies made from the originals with the same name.
+      const batch: JournalEntry[] = [];
+      const noted = new Set<string>();
+      while (i < ops.length && batch.length < BATCH && (ops[i] as Op).type === 'createBookmark') {
+        const next = ops[i] as Extract<Op, { type: 'createBookmark' }>;
+        const entry: JournalEntry = { op: next, status: 'pending' };
+        try {
+          const parentId = next.parentKey ? created.get(next.parentKey) : next.parentId;
+          if (!parentId) throw new Error('no-folder');
+          const source = await getNode(api, next.source);
+          if (!source) throw new Error('missing');
+          if (source.url !== next.url) throw new Error('changed');
+          entry.before = { parentId, title: next.title };
+          if (!createdIds.has(parentId) && !noted.has(parentId)) {
+            entry.before.siblings = (await api.getChildren(parentId)).map((c) => c.id);
+            noted.add(parentId);
+          }
+          batch.push(entry);
+        } catch (e) {
+          fail(entry, e);
+        }
+        journal.entries.push(entry);
+        i++;
+      }
+      await store.save(journal);
+      for (const entry of batch) {
+        const bop = entry.op as Extract<Op, { type: 'createBookmark' }>;
+        try {
+          const node = await api.create({ parentId: entry.before?.parentId as string, title: bop.title, url: bop.url });
+          entry.createdId = node.id;
+          entry.after = { parentId: entry.before?.parentId, title: bop.title };
+          entry.status = 'done';
+          done++;
+        } catch (e) {
+          fail(entry, e);
+        }
+      }
+      await store.save(journal);
+      progress();
+      continue;
+    }
     // Moves, removals and renames, by batches: check every precondition, journal the batch, then change.
     const batch: { entry: JournalEntry; target?: string }[] = [];
     while (i < ops.length && batch.length < BATCH) {
       const next = ops[i] as Op;
       if (next.type !== 'move' && next.type !== 'rename' && next.type !== 'remove') break;
+      const id = next.id;
       const entry: JournalEntry = { op: next, status: 'pending' };
       try {
-        const cur = await getNode(api, next.id);
+        const cur = await getNode(api, id);
         if (!cur) throw new Error('missing');
         if (!sameAsExpected(cur, next.expect, next.type !== 'rename')) throw new Error('changed');
         let target: string | undefined;
@@ -378,7 +519,8 @@ export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStor
           done++;
           continue;
         }
-        const res = asNode(bop.type === 'move' ? await api.move(bop.id, { parentId: target as string }) : await api.update(bop.id, { title: bop.title }));
+        const dest = bop.type === 'move' ? (bop.to.index === undefined ? { parentId: target as string } : { parentId: target as string, index: bop.to.index }) : undefined;
+        const res = asNode(bop.type === 'move' ? await api.move(bop.id, dest as { parentId: string; index?: number }) : await api.update(bop.id, { title: bop.title }));
         const after = res ?? (await getNode(api, bop.id));
         entry.after = after ? snap(after) : { parentId: bop.type === 'move' ? target : entry.before?.parentId, title: bop.type === 'rename' ? bop.title : (entry.before?.title ?? '') };
         entry.status = 'done';
@@ -398,8 +540,26 @@ export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStor
 /** Decides from the bookmarks themselves whether the change of each pending entry happened. */
 async function reconcile(api: BookmarksApi, journal: Journal): Promise<void> {
   const createdByKey = new Map<string, string>();
+  const createdFolders = new Set<string>();
+  // Children of the folders that existed before, as noted before each batch of copies.
+  const noted = new Map<string, Set<string>>();
+  const claimed = new Set(journal.entries.flatMap((e) => (e.createdId ? [e.createdId] : [])));
   for (const entry of journal.entries) {
     const { op } = entry;
+    if (op.type === 'createBookmark' && entry.before?.siblings && entry.before.parentId) noted.set(entry.before.parentId, new Set(entry.before.siblings));
+    if (entry.status === 'pending' && op.type === 'createBookmark') {
+      const parentId = entry.before?.parentId;
+      const before = parentId && createdFolders.has(parentId) ? new Set<string>() : parentId ? noted.get(parentId) : undefined;
+      const children = parentId && before ? await api.getChildren(parentId).catch(() => [] as NodeView[]) : [];
+      const copy = children.find((c) => before && !before.has(c.id) && !claimed.has(c.id) && c.id !== op.source && c.url === op.url && c.title === op.title);
+      if (copy) {
+        claimed.add(copy.id);
+        entry.createdId = copy.id;
+        entry.after = { parentId, title: op.title };
+        entry.status = 'done';
+      } else entry.status = 'failed';
+      continue;
+    }
     if (entry.status === 'pending') {
       if (op.type === 'backup' || op.type === 'createFolder') {
         const parentId = entry.before?.parentId;
@@ -415,7 +575,7 @@ async function reconcile(api: BookmarksApi, journal: Journal): Promise<void> {
         } else entry.status = 'failed';
       } else if (op.type === 'remove') {
         entry.status = (await getNode(api, op.id)) ? 'failed' : 'done';
-      } else {
+      } else if (op.type === 'move' || op.type === 'rename') {
         const cur = await getNode(api, op.id);
         const target = op.type === 'move' ? (op.to.folderId ?? createdByKey.get(op.to.newKey ?? '')) : undefined;
         const happened = !!cur && (op.type === 'move' ? cur.parentId === target : cur.title === op.title && cur.title !== entry.before?.title);
@@ -425,7 +585,10 @@ async function reconcile(api: BookmarksApi, journal: Journal): Promise<void> {
         } else entry.status = 'failed';
       }
     }
-    if (op.type === 'createFolder' && entry.createdId && entry.status === 'done') createdByKey.set(op.key, entry.createdId);
+    if (op.type === 'createFolder' && entry.createdId && entry.status === 'done') {
+      createdByKey.set(op.key, entry.createdId);
+      createdFolders.add(entry.createdId);
+    }
   }
 }
 
@@ -465,6 +628,15 @@ export async function undoLast(api: BookmarksApi, store: JournalStore, onProgres
           if (entry.after?.count !== undefined && (await countTree(api, entry.createdId)) !== entry.after.count) throw new Error('changed');
           await api.removeTree(entry.createdId);
         }
+      } else if (op.type === 'createBookmark') {
+        if (!entry.createdId) continue;
+        const cur = await getNode(api, entry.createdId);
+        if (!cur) throw new Error('missing');
+        if (cur.url !== op.url || cur.title !== entry.after?.title || cur.parentId !== entry.after?.parentId) throw new Error('changed');
+        // The copy goes only while its original exists: if the archive was deleted, the copy is all that is left.
+        const source = await getNode(api, op.source);
+        if (!source || source.url !== op.url) throw new Error('no-original');
+        await api.remove(entry.createdId);
       } else if (op.type === 'remove') {
         if (!entry.before?.parentId) throw new Error('missing');
         // Never twice: the user may have added the page again since.

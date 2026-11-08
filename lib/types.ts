@@ -84,7 +84,8 @@ export interface Reason {
   subs?: string[];
 }
 
-export type Target = { kind: 'existing'; folderId: string } | { kind: 'new'; key: string } | { kind: 'stay' };
+/** Where a bookmark goes: a new folder, the start of the bookmarks bar (quick access), or, from older sorts, an existing folder or nowhere. */
+export type Target = { kind: 'existing'; folderId: string } | { kind: 'new'; key: string } | { kind: 'bar' } | { kind: 'stay' };
 
 export interface Placement {
   bookmarkId: string;
@@ -103,6 +104,8 @@ export interface NewFolder {
   parentId: string;
   /** New parent folder (a group folder for a category subfolder). */
   parentKey?: string;
+  /** 1 at the top of the bookmarks bar or of Other bookmarks, 3 at most. */
+  level?: number;
   reason: Reason;
 }
 
@@ -124,4 +127,8 @@ export interface Proposal {
   titles: Record<string, string>;
   /** Emoji suggested for existing folders: folderId → emoji. */
   folderEmojis: Record<string, string>;
+  /** Bookmarks shown first in the bookmarks bar, as icons, in this order. */
+  quickAccess: string[];
+  /** For bookmarks to check: the folder the model leans to. */
+  guesses: Record<string, string>;
 }

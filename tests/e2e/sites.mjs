@@ -17,7 +17,8 @@ const assert = (cond, msg) => {
   console.log(`✓ ${msg}`);
 };
 
-// The built extension, with access to sites granted up front: no permission prompt in a headless browser.
+// The built extension, with access to sites and to the history granted up front: no permission prompt in a
+// headless browser.
 // Hard links keep the copy instant; the manifest is rewritten as a file of its own.
 fs.rmSync(EXT, { recursive: true, force: true });
 execFileSync('cp', ['-al', BUILT, EXT]);
@@ -25,6 +26,7 @@ const manifestPath = path.join(EXT, 'manifest.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 fs.unlinkSync(manifestPath);
 manifest.host_permissions = ['http://*/*', 'https://*/*'];
+manifest.permissions = [...new Set([...(manifest.permissions ?? []), 'history'])];
 fs.writeFileSync(manifestPath, JSON.stringify(manifest));
 
 const page = (title, description, body = '') =>
@@ -100,13 +102,14 @@ try {
   await tab.waitForSelector('.actionbar [data-focus="apply"], .center[role="alert"]', { timeout: 300000 });
   if (await tab.$('.center[role="alert"]')) throw new Error(`analysis failed: ${await tab.$eval('.center[role="alert"]', (e) => e.textContent)}`);
 
-  // Where each bookmark goes: open every node and read its rows.
+  // Where each bookmark goes: open every node and read its rows, under their subfolder when they have one.
   const where = {};
   for (const key of await tab.$$eval('.dests .node', (els) => els.map((n) => n.dataset.key))) {
     await tab.click(`.dests .node[data-key="${key}"]`);
     await tab.waitForSelector('.sheet');
     const name = await tab.$eval(`.dests .node[data-key="${key}"] .name span`, (e) => e.textContent);
-    for (const row of await tab.$$eval('.sheet .row', (rows) => rows.map((r) => ({ id: r.dataset.id, why: r.querySelector('.why')?.textContent ?? '' })))) where[row.id] = { name, key, why: row.why };
+    const rows = await tab.$$eval('.sheet .row', (els) => els.map((r) => ({ id: r.dataset.id, section: r.closest('.sec')?.getAttribute('aria-label') ?? null, why: r.querySelector('.why')?.textContent ?? '' })));
+    for (const row of rows) where[row.id] = { name: row.section ?? name, key, why: row.why };
     await tab.keyboard.press('Escape');
   }
   const at = (id) => where[ids[id]] ?? {};

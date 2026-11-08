@@ -191,6 +191,7 @@ label.option-row, button.option-row { cursor: pointer; }
 .privacy-title { font-weight: 500; color: var(--on-surface); }
 .privacy .small { margin-top: 2px; text-wrap: pretty; }
 .note { display: inline-flex; align-items: center; gap: 8px; color: var(--on-surface-variant); }
+.archive-note { display: flex; align-items: flex-start; gap: 8px; max-width: 46ch; color: var(--on-surface-variant); text-align: left; text-wrap: pretty; }
 .note .icon { width: 18px; height: 18px; }
 .favicon { width: 16px; height: 16px; flex: none; border-radius: 4px; }
 .favicon-letter { display: inline-grid; place-items: center; font-size: 10px; font-weight: 700; color: var(--on-primary); background: var(--primary); }
@@ -224,15 +225,17 @@ label.option-row, button.option-row { cursor: pointer; }
 .wire.active, .wire.hot { stroke: var(--primary); }
 .wire.review { stroke: var(--tertiary); opacity: 0.7; }
 .wire.review.hot, .wire.review.active { stroke: var(--tertiary); opacity: 1; }
-.wire.stay { stroke-dasharray: 4 6; }
 .wire.dupes { stroke-dasharray: 1 5; }
 .wires.draw .wire { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: draw 700ms var(--ease-emphasized) forwards; animation-delay: var(--delay); }
-.wires.draw .wire.stay, .wires.draw .wire.dupes { animation-name: draw-dashed; }
+.wires.draw .wire.dupes { animation-name: draw-dashed; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes draw-dashed { from { opacity: 0; } to { opacity: 1; } }
 /* The source stays in view while a long list of folders scrolls; the connectors follow it. */
 .source { grid-column: 1; align-self: start; position: sticky; top: max(24px, calc(50vh - 156px)); }
 .dests { grid-column: 3; display: flex; flex-direction: column; gap: 8px; container: dests / inline-size; }
+/* Where the folders go, as in the browser: the bookmarks bar, then Other bookmarks. */
+.dests-label { padding: 0 4px; color: var(--on-surface-variant); font-weight: 500; }
+.dests-label:not(:first-child) { margin-top: 16px; }
 /* Folder names keep their room: the preview shrinks first when the column narrows. */
 @container dests (max-width: 399px) { .node .favicons .favicon:nth-child(n + 3) { display: none; } }
 @container dests (max-width: 339px) { .node .favicons { display: none; } }
@@ -257,11 +260,9 @@ label.option-row, button.option-row { cursor: pointer; }
 .source .node:hover { box-shadow: none; }
 .source .node .port { right: -6px; }
 .source .node .name { font-size: 1rem; line-height: 1.5rem; }
+.node.kind-bar .tile { background: var(--primary-container); color: var(--on-primary-container); }
 .node.kind-review .tile { background: var(--tertiary-container); color: var(--on-tertiary-container); }
-.node.kind-stay .tile, .node.kind-dupes .tile { background: var(--surface-high); color: var(--on-surface-variant); }
-.node.off { opacity: 0.6; }
-.node.off .name span:first-child { text-decoration: line-through; }
-.tag { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 6px; background: var(--tertiary-container); color: var(--on-tertiary-container); font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03em; flex: none; }
+.node.kind-dupes .tile { background: var(--surface-high); color: var(--on-surface-variant); }
 .add-node { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 7px 16px 7px 8px; border: 1px dashed var(--outline); border-radius: 16px; background: transparent; color: var(--primary); font: inherit; font-weight: 500; text-align: left; cursor: pointer; transition: background 150ms, border-color 150ms; }
 .add-node:hover { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
 .add-node .tile { display: grid; place-items: center; width: 40px; height: 40px; }
@@ -281,7 +282,22 @@ label.option-row, button.option-row { cursor: pointer; }
 .name-field:focus { outline: none; border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
 .sheet-sub { padding: 0 20px 12px; color: var(--on-surface-variant); }
 .sheet-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px 8px 20px; }
-.sheet-list { flex: 1; min-height: 0; overflow: auto; list-style: none; margin: 0; padding: 4px 8px 24px; }
+.sheet-list { flex: 1; min-height: 0; overflow: auto; padding: 4px 8px 24px; }
+.rows { list-style: none; margin: 0; padding: 0; }
+/* Subfolders of the folder, each under its own editable heading; the third level steps in. */
+.sec { margin-top: 8px; }
+.sec-head { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 8px 4px 4px 12px; border-top: 1px solid var(--surface-high); }
+.sec.level-3 .sec-head { padding-left: 36px; }
+.sec.level-3 .rows { padding-left: 24px; }
+.tile-btn.tile-sm { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 10px; background: var(--secondary-container); color: var(--on-secondary-container); font-size: 1.125rem; line-height: 1; cursor: pointer; flex: none; }
+.tile-btn.tile-sm:hover:not(:disabled) { box-shadow: var(--elev-1); }
+.name-field.name-sm { flex: 1; min-width: 0; height: 36px; margin-left: 0; padding: 0 8px; font-size: 1rem; line-height: 1.5rem; font-weight: 500; }
+.sec-head .count { padding: 0 4px; color: var(--on-surface-variant); font-weight: 500; font-variant-numeric: tabular-nums; }
+.btn-sm { height: 32px; padding: 0 12px; }
+.sec.off .tile-sm { background: var(--surface-high); color: var(--on-surface-variant); cursor: default; }
+.sec.off .name-sm { color: var(--on-surface-variant); text-decoration: line-through; }
+.sec.off .rows { opacity: 0.6; }
+.sec-note { padding: 0 16px 4px 52px; color: var(--on-surface-variant); text-wrap: pretty; }
 .row { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 16px; min-height: 64px; padding: 8px 4px 8px 16px; border-radius: 12px; }
 .row:hover { background: var(--surface-low); }
 .row[draggable='true'] { cursor: grab; }
@@ -293,6 +309,9 @@ label.option-row, button.option-row { cursor: pointer; }
 a.icon-btn { text-decoration: none; }
 .row .sub { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--on-surface-variant); font-size: 0.75rem; line-height: 1rem; }
 .row .why { display: block; margin-top: 4px; color: var(--on-surface); font-size: 0.75rem; line-height: 1rem; text-wrap: pretty; }
+.row .suggest { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; height: 28px; margin-top: 6px; padding: 0 10px 0 8px; border: 0; border-radius: 8px; background: var(--tertiary-container); color: var(--on-tertiary-container); font-size: 0.75rem; line-height: 1rem; font-weight: 500; cursor: pointer; }
+.row .suggest span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .suggest:hover { box-shadow: var(--elev-1); }
 .empty-drop { margin: 8px 12px; padding: 32px 16px; border: 1px dashed var(--outline-variant); border-radius: 16px; color: var(--on-surface-variant); text-align: center; }
 
 /* Menus, emoji picker and dialog (top layer) */
@@ -302,6 +321,10 @@ a.icon-btn { text-decoration: none; }
 .menu button:hover, .menu button:focus-visible { background: color-mix(in srgb, var(--on-surface) 8%, transparent); outline: none; }
 .menu button[aria-current='true'] { background: var(--secondary-container); color: var(--on-secondary-container); }
 .menu .emoji { width: 24px; text-align: center; font-size: 1.125rem; }
+.menu button > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The move menu follows the new tree: subfolders step in and take less height. */
+.menu button.indent-2 { min-height: 40px; padding-left: 40px; }
+.menu button.indent-3 { min-height: 40px; padding-left: 64px; }
 .menu hr { margin: 8px 0; border: 0; border-top: 1px solid var(--outline-variant); }
 .emoji-grid { display: grid; grid-template-columns: repeat(8, 40px); gap: 2px; padding: 8px; }
 .emoji-grid button { display: grid; place-items: center; width: 40px; min-height: 40px; padding: 0; border-radius: 20px; font-size: 1.25rem; }

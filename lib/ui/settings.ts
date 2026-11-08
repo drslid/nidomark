@@ -5,7 +5,7 @@ import type { FolderItem } from '../types';
 import { h } from './dom';
 import type { Actions, State } from './state';
 import { openConfirmDialog } from './sheet';
-import { segmented, styleSwitch } from './views';
+import { quickAccessSwitch, segmented, styleSwitch } from './views';
 
 export interface SettingsData {
   folders: FolderItem[];
@@ -32,19 +32,19 @@ export function settingsView(s: State, a: Actions, _data: SettingsData): HTMLEle
       h('ul', { class: 'list' },
         item(t('destinationLabel'), null, segmented('settings-destination', st.destination, [['bar', t('barFolder')], ['other', t('otherFolder')]], (v) => a.setDestination(v), t('destinationLabel'))),
         item(t('optFolderStyle'), t('optFolderStyleHint'), styleSwitch(st.folderStyle, (v) => a.setFolderStyle(v), 'settings-style')),
+        item(t('optQuickAccess'), t('optQuickAccessHint'), quickAccessSwitch(st.quickAccess, (n) => a.setQuickAccess(n), 'settings-quick')),
         item(t('optIconOnly'), t('optIconOnlyHint'), toggle('set-icons', st.iconOnlyBar, (on) => a.setIconOnlyDefault(on)), 'set-icons'),
         item(t('optReadSites'), s.sitesAllowed ? t('sitesAllowed') : t('sitesAsked'), toggle('set-read', st.readSites, (on) => a.setOption('readSites', on)), 'set-read'),
         item(t('optCheckDead'), t('optCheckDeadHint'), toggle('set-dead', st.checkDead, (on) => a.setOption('checkDead', on)), 'set-dead'),
         item(t('optDupes'), t('optDupesHint'), toggle('set-dupes', st.removeDuplicates, (on) => a.setOption('removeDuplicates', on)), 'set-dupes'),
-        item(t('optBackup'), t('optBackupHint'), toggle('set-backup', st.backup, (on) => a.setOption('backup', on)), 'set-backup'),
-        item(t('optHistory'), s.useHistory ? t('settingsHistoryOn') : t('settingsHistoryOff'), toggle('set-history', s.useHistory, (on) => a.setUseHistory(on)), 'set-history'))),
+        item(t('optHistory'), st.useHistory && s.historyAllowed ? t('settingsHistoryOn') : t('settingsHistoryOff'), toggle('set-history', st.useHistory, (on) => a.setUseHistory(on)), 'set-history'))),
     h('section', { class: 'section' },
       h('h2', { class: 'section-title small' }, t('backupsTitle')),
       h('ul', { class: 'list' },
         s.backups.length
           ? s.backups.map((b) => item(b.title, b.count !== undefined ? t('backupCount', b.count.toLocaleString()) : null,
             h('button', { class: 'btn btn-outlined', 'data-focus': `del-${b.id}`, onclick: () => openConfirmDialog(t('backupDeleteTitle'), t('backupConfirm', b.title), t('backupDelete'), () => a.deleteBackup(b.id)) }, t('backupDelete'))))
-          : item(t('backupsNone'), t('optBackupHint'), null))),
+          : item(t('backupsNone'), t('archiveNote'), null))),
     h('section', { class: 'section' },
       h('h2', { class: 'section-title small' }, t('settingsData')),
       h('ul', { class: 'list' },

@@ -1,31 +1,35 @@
 import { describe, expect, it } from 'vitest';
-import { type BookmarksApi, type Decisions, type FolderStyle, UnresolvedJournalError, applyPlan, buildPlan, defaultDecisions, folderTitle, keepInterrupted, undoLast } from '../lib/plan';
-import { buildTree, run } from './fixtures/collection';
+import { type BookmarksApi, type Decisions, type FolderStyle, type Op, UnresolvedJournalError, applyPlan, buildRebuildPlan, defaultDecisions, folderTitle, keepInterrupted, undoLast } from '../lib/plan';
+import { archiveSources, pruneScope } from '../lib/pipeline';
+import { buildSnapshot, type TreeNode } from '../lib/snapshot';
+import { type InputOptions, buildTree, run } from './fixtures/collection';
 import { FakeBookmarks, MemoryJournal } from './fixtures/fake-bookmarks';
 
-const BACKUP = { parentId: '2', title: 'Nidomark – sauvegarde du 08/11/2026 14:10', sources: [{ id: '1', title: 'Barre de favoris' }, { id: '2', title: 'Autres favoris' }] };
+const ARCHIVE = 'Nidomark – sauvegarde du 08/11/2026 14:10';
+const rootTitle = (id: string) => (id === '1' ? 'Barre de favoris' : 'Autres favoris');
 
-function setup(crashAfter = Infinity, o: { backup?: boolean; dupes?: boolean; style?: FolderStyle; edit?: (d: Decisions) => void } = {}) {
+function setup(crashAfter = Infinity, o: { style?: FolderStyle; input?: InputOptions; edit?: (d: Decisions) => void } = {}) {
   const api = new FakeBookmarks(buildTree());
-  const { proposal } = run({ history: true, pages: true, destination: 'other' });
-  const decisions = defaultDecisions(proposal, o.style ?? 'emoji-name', ['b1', 'b2']);
-  // Removed bookmarks come back with a new id: most tests compare ids, so they keep the duplicates.
-  if (!o.dupes) decisions.removes = {};
+  const { proposal, snapshot } = run({ pages: true, ...o.input });
+  const decisions = defaultDecisions(proposal, o.style ?? 'emoji', proposal.quickAccess);
   o.edit?.(decisions);
-  const current = {
-    node: (id: string) => {
-      const n = api.nodes.get(id);
-      return n ? { parentId: n.parentId, title: n.title, url: n.url } : undefined;
-    },
-    roots: new Set(['1', '2']),
-    destinationRoot: '2',
+  const node = (id: string) => {
+    const n = api.nodes.get(id);
+    return n ? { parentId: n.parentId, title: n.title, url: n.url } : undefined;
   };
-  const ops = buildPlan(proposal, decisions, current, o.backup ? BACKUP : undefined);
+  const ops = buildRebuildPlan(proposal, decisions, { barId: '1', node, archive: { parentId: '2', title: ARCHIVE, sources: archiveSources(snapshot, ['1', '2'], [], rootTitle) } });
   return { api, ops, proposal, initial: api.state(), store: new MemoryJournal(api, crashAfter) };
 }
 
-const childTitles = (api: FakeBookmarks, id: string) => (api.nodes.get(id)?.children ?? []).map((c) => api.nodes.get(c)?.title);
-const folderNamed = (api: FakeBookmarks, title: string) => [...api.nodes.values()].find((n) => n.title === title && !n.url);
+const children = (api: FakeBookmarks, id: string) => (api.nodes.get(id)?.children ?? []).map((c) => api.nodes.get(c));
+const titles = (api: FakeBookmarks, id: string) => children(api, id).map((n) => n?.title);
+const folderNamed = (api: FakeBookmarks, title: string, parentId?: string) => [...api.nodes.values()].find((n) => n.title === title && !n.url && (!parentId || n.parentId === parentId));
+const under = (api: FakeBookmarks, id: string): string[] => children(api, id).flatMap((n) => (!n ? [] : n.url !== undefined ? [n.id] : under(api, n.id)));
+/** Addresses of the bookmarks in the new tree, the archive aside. */
+const newTreeUrls = (api: FakeBookmarks) => {
+  const archive = folderNamed(api, ARCHIVE)?.id;
+  return ['1', '2'].flatMap((root) => children(api, root).flatMap((n) => (!n || n.id === archive ? [] : n.url !== undefined ? [n.url] : under(api, n.id).map((id) => api.nodes.get(id)?.url))));
+};
 
 describe('folder titles', () => {
   it('follows the chosen style', () => {
@@ -35,54 +39,94 @@ describe('folder titles', () => {
   });
 });
 
-describe('apply and undo', () => {
-  it('applies the proposal, then restores an identical tree', async () => {
-    const { api, ops, initial, store } = setup();
+describe('rebuild', () => {
+  it('recreates the whole collection: icons first in the bar, then the folders; the old tree archived as it was', async () => {
+    const { api, ops, store } = setup();
+    const before = { bar: [...(api.nodes.get('1')?.children ?? [])], other: [...(api.nodes.get('2')?.children ?? [])] };
     const res = await applyPlan(api, ops, store);
     expect(res.skipped).toEqual([]);
-    const other = childTitles(api, '2');
-    expect(other).toContain('🖥️ Services maison');
-    expect(other).toContain('✈️ Voyages');
-    expect(other).toContain('💡 Domotique');
-    expect(childTitles(api, folderNamed(api, '💻 Tech')?.id as string)).toEqual(expect.arrayContaining(['👨‍💻 Développement', '📡 Actu tech', '🗄️ Auto-hébergement']));
-    expect(api.nodes.get('b1')?.title).toBe('');
-    expect(api.nodes.get('u22')?.parentId).toBe('f-domotique');
-    expect(api.state()).not.toBe(initial);
+    const bar = children(api, '1');
+    expect(bar.slice(0, 3).map((n) => [n?.url, n?.title])).toEqual([
+      ['http://192.168.1.20:8123/lovelace/0', ''],
+      ['http://192.168.1.30:5000/', ''],
+      ['https://www.lemonde.fr/', ''],
+    ]);
+    // Folders side by side in the bar show their emoji only; the most used come first.
+    expect(bar.slice(3).map((n) => n?.title)).toEqual(['🏠', '💻', '🎬', '🏛️', '✈️', '🔧', '📰', '🗂️']);
+    // Subfolders keep their name.
+    expect(titles(api, folderNamed(api, '💻', '1')?.id as string)).toEqual(expect.arrayContaining(['📡 Actu tech', '🗄️ Auto-hébergement', '👨‍💻 Développement']));
+    expect(titles(api, '2')).toEqual([ARCHIVE]);
+    const archive = folderNamed(api, ARCHIVE)?.id as string;
+    expect(titles(api, archive)).toEqual(['Barre de favoris', 'Autres favoris']);
+    // The same items, in the same order: nothing of the old tree is lost or changed.
+    expect(api.nodes.get(folderNamed(api, 'Barre de favoris', archive)?.id as string)?.children).toEqual(before.bar);
+    expect(api.nodes.get(folderNamed(api, 'Autres favoris', archive)?.id as string)?.children).toEqual(before.other);
+    // Every page once in the new tree, duplicates aside.
+    expect(newTreeUrls(api)).toHaveLength(47);
+    expect(new Set(newTreeUrls(api)).size).toBe(47);
+  });
 
+  it('undoes the whole sort: the same tree as before, ids included', async () => {
+    const { api, ops, initial, store } = setup();
+    await applyPlan(api, ops, store);
     const undo = await undoLast(api, store);
     expect(undo.skipped).toEqual([]);
     expect(api.state()).toBe(initial);
   });
 
-  it('never overwrites a change made after the sort', async () => {
+  it('keeps a copy the user changed after the sort, and the folder that holds it', async () => {
     const { api, ops, store } = setup();
     await applyPlan(api, ops, store);
-    await api.move('u1', { parentId: 'f-domotique' });
+    const copy = [...api.nodes.values()].find((n) => n.url === 'https://www.sncf-connect.com/' && n.id !== 'u26');
+    await api.update(copy?.id as string, { title: 'Train' });
     const undo = await undoLast(api, store);
-    expect(undo.skipped.map((s) => s.reason)).toEqual(['changed']);
-    expect(api.nodes.get('u1')?.parentId).toBe('f-domotique');
-    expect(api.nodes.get('u2')?.parentId).toBe('2');
+    expect(undo.skipped.map((s) => s.reason).sort()).toEqual(['changed', 'not-empty']);
+    expect(api.nodes.get(copy?.id as string)?.title).toBe('Train');
+    expect(api.nodes.get('u26')?.parentId).toBe('2');
   });
 
-  it('keeps a created folder that the user renamed after the sort', async () => {
+  it('never removes a copy once its original is gone', async () => {
     const { api, ops, store } = setup();
     await applyPlan(api, ops, store);
-    const folder = folderNamed(api, '✈️ Voyages');
-    await api.update(folder?.id as string, { title: 'Mes voyages' });
+    await api.removeTree(folderNamed(api, ARCHIVE)?.id as string);
     const undo = await undoLast(api, store);
-    expect(undo.skipped.map((s) => s.reason)).toEqual(['changed']);
-    expect(folderNamed(api, 'Mes voyages')).toBeDefined();
-    expect(api.nodes.get('u27')?.parentId).toBe('2');
+    expect(undo.done).toBe(0);
+    expect(undo.skipped.some((s) => s.reason === 'no-original')).toBe(true);
+    expect(newTreeUrls(api)).toHaveLength(47);
   });
 
-  it('skips operations whose bookmark changed during the review, URL included', async () => {
+  it('leaves a bookmark changed during the review where it is, outside the archive', async () => {
     const { api, ops, store } = setup();
-    await api.update('u20', { title: 'Pain maison (modifié)' });
     await api.update('u21', { url: 'https://example.org/gateau' });
     const res = await applyPlan(api, ops, store);
-    expect(res.skipped.map((s) => [(s.op as { id?: string }).id, s.reason]).sort()).toEqual([['u20', 'changed'], ['u21', 'changed'], ['u21', 'changed']]);
-    expect(api.nodes.get('u20')?.parentId).toBe('2');
+    expect(res.skipped.map((s) => [s.op.type, s.reason])).toEqual([['createBookmark', 'changed'], ['move', 'changed']]);
     expect(api.nodes.get('u21')?.parentId).toBe('2');
+  });
+
+  it('hands the bookmarks of a declined subfolder to its parent', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => ((d.newFolders['c:dev'] as { accepted: boolean }).accepted = false) });
+    await applyPlan(api, ops, store);
+    const tech = folderNamed(api, '💻', '1')?.id as string;
+    expect(titles(api, tech)).not.toContain('👨‍💻 Développement');
+    expect(children(api, tech).some((n) => n?.url === 'https://caniuse.com/')).toBe(true);
+  });
+
+  it('files bookmarks to check in Other bookmarks, under their full name', async () => {
+    const { api, ops, store, proposal } = setup(Infinity, { input: { pages: false } });
+    expect(proposal.review.length).toBeGreaterThan(0);
+    await applyPlan(api, ops, store);
+    const review = folderNamed(api, '❓ À vérifier', '2');
+    expect(review).toBeDefined();
+    expect(under(api, review?.id as string)).toHaveLength(proposal.review.length);
+  });
+
+  it('leaves duplicates in the archive, unless the user keeps them', async () => {
+    const dropped = setup();
+    await applyPlan(dropped.api, dropped.ops, dropped.store);
+    expect(newTreeUrls(dropped.api)).not.toContain('https://netflix.com/browse/');
+    const kept = setup(Infinity, { edit: (d) => (d.removes.v4 = false) });
+    await applyPlan(kept.api, kept.ops, kept.store);
+    expect(newTreeUrls(kept.api)).toContain('https://netflix.com/browse/');
   });
 
   it('reports instead of failing when the browser refuses an operation', async () => {
@@ -95,10 +139,10 @@ describe('apply and undo', () => {
 });
 
 describe('interrupted runs', () => {
-  it.each([1, 2, 5, 12])('undoes everything after a crash following change #%i', async (n) => {
+  it.each([1, 2, 5, 12, 30, 60, 90, 100])('undoes everything after a crash following change #%i', async (n) => {
     const { api, ops, initial, store } = setup(n);
     await expect(applyPlan(api, ops, store)).rejects.toThrow('crash');
-    // Moves are journaled by batches: the crash comes at the next save, the journal says what may have happened.
+    // Copies and moves are journaled by batches: the crash comes at the next save, the journal says what may have happened.
     expect(api.mutations).toBeGreaterThanOrEqual(n);
     expect((await store.load())?.status).toBe('applying');
     store.restart();
@@ -115,7 +159,7 @@ describe('interrupted runs', () => {
   });
 
   it('can keep the changes of an interrupted run, and undo them later', async () => {
-    const { api, ops, initial, store } = setup(4);
+    const { api, ops, initial, store } = setup(40);
     await expect(applyPlan(api, ops, store)).rejects.toThrow('crash');
     store.restart();
     const changed = api.state();
@@ -127,96 +171,53 @@ describe('interrupted runs', () => {
   });
 });
 
-describe('folders', () => {
-  it('names top-level folders with an emoji only and subfolders in full', async () => {
-    const { api, ops, store } = setup(Infinity, { style: 'emoji' });
-    await applyPlan(api, ops, store);
-    const other = childTitles(api, '2');
-    expect(other).toEqual(expect.arrayContaining(['🖥️', '✈️', '💻']));
-    // The user's own folders keep their names: an emoji is only added in front.
-    expect(other).toEqual(expect.arrayContaining(['💡 Domotique', '🍳 Recettes']));
-    expect(childTitles(api, folderNamed(api, '💻')?.id as string)).toEqual(expect.arrayContaining(['👨‍💻 Développement']));
+describe('archive', () => {
+  const tree = (): TreeNode[] => [{ id: '0', title: '', children: [
+    { id: '1', parentId: '0', title: 'Barre de favoris', folderType: 'bookmarks-bar', children: [
+      { id: 'g', index: 0, title: 'Gmail', url: 'https://mail.google.com/' },
+      { id: 'work', index: 1, title: 'Travail', children: [{ id: 'deep', title: 'Projets', children: [] }] },
+    ] },
+    { id: '2', parentId: '0', title: 'Autres favoris', folderType: 'other', children: [
+      { id: 'old', index: 0, title: 'Nidomark – sauvegarde du 01/11/2026 10:00', children: [] },
+      { id: 'perso', index: 1, title: 'Perso', children: [] },
+      { id: 'x', index: 2, title: 'X', url: 'https://x.com/' },
+    ] },
+  ] }];
+
+  it('takes the top of each chosen root, in order, and leaves earlier backups and folders left out', () => {
+    const snap = buildSnapshot(tree(), 1);
+    const sources = archiveSources(snap, ['1', '2'], ['work'], rootTitle);
+    expect(sources.map((s) => [s.key, s.title, s.items.map((i) => i.id)])).toEqual([
+      ['archive:1', 'Barre de favoris', ['g']],
+      ['archive:2', 'Autres favoris', ['perso', 'x']],
+    ]);
   });
 
-  it('creates no subfolder of a group folder the user declined', () => {
-    const { ops, proposal } = setup(Infinity, { edit: (d) => { (d.newFolders['g:tech'] as { accepted: boolean }).accepted = false; } });
-    const creates = ops.flatMap((o) => (o.type === 'createFolder' ? [o.key] : []));
-    expect(creates).not.toContain('g:tech');
-    expect(creates).not.toContain('c:dev');
-    const devIds = proposal.placements.filter((p) => p.target.kind === 'new' && p.target.key === 'c:dev').map((p) => p.bookmarkId);
-    expect(devIds.length).toBeGreaterThan(0);
-    expect(ops.some((o) => o.type === 'move' && devIds.includes(o.id))).toBe(false);
+  it('takes a chosen folder whole, and only folders at the top can be chosen', () => {
+    const snap = buildSnapshot(tree(), 1);
+    expect(archiveSources(snap, ['perso'], [], rootTitle).map((s) => s.items.map((i) => i.id))).toEqual([['perso']]);
+    expect(pruneScope(snap, ['deep', 'work', '2'])).toEqual(['work', '2']);
   });
 });
 
-describe('backup', () => {
-  const backupFolder = (api: FakeBookmarks) => folderNamed(api, BACKUP.title);
-
-  it('copies the whole tree first, then undo removes the copy with the rest', async () => {
-    const { api, ops, initial, store } = setup(Infinity, { backup: true });
-    expect(ops[0]?.type).toBe('backup');
+describe('sorts made by version 0.2', () => {
+  it('can still be undone: backup, folders, moves, renames and removals', async () => {
+    const api = new FakeBookmarks(buildTree());
+    const store = new MemoryJournal(api);
+    const shape = () => JSON.stringify([...api.nodes.values()].filter((n) => n.url).map((n) => [n.parentId, n.title, n.url]).sort());
+    const initial = shape();
+    const ops: Op[] = [
+      { type: 'backup', parentId: '2', title: 'Nidomark – sauvegarde du 01/11/2025 10:00', sources: [{ id: '1', title: 'Barre de favoris' }, { id: '2', title: 'Autres favoris' }] },
+      { type: 'createFolder', key: 'c:travel', parentId: '2', title: '✈️ Voyages' },
+      { type: 'move', id: 'u26', to: { newKey: 'c:travel' }, expect: { parentId: '2', title: 'SNCF Connect', url: 'https://www.sncf-connect.com/' } },
+      { type: 'remove', id: 'v4', expect: { parentId: '2', title: 'Netflix', url: 'https://netflix.com/browse/' } },
+      { type: 'rename', id: 'b1', title: '', expect: { parentId: '1', title: 'Home Assistant', url: 'http://192.168.1.20:8123/lovelace/0' }, iconOnly: true },
+    ];
     const res = await applyPlan(api, ops, store);
     expect(res.skipped).toEqual([]);
-    const copy = backupFolder(api);
-    expect(copy?.parentId).toBe('2');
-    expect(childTitles(api, copy?.id as string)).toEqual(['Barre de favoris', 'Autres favoris']);
-    const copiedOther = [...api.nodes.values()].find((n) => n.parentId === copy?.id && n.title === 'Autres favoris');
-    // Same folders and bookmarks as before the sort, in the same order.
-    const original = new FakeBookmarks(buildTree());
-    expect(childTitles(api, copiedOther?.id as string)).toEqual(childTitles(original, '2'));
-    const urls = (id: string, a: FakeBookmarks): string[] => (a.nodes.get(id)?.children ?? []).flatMap((c) => { const n = a.nodes.get(c); return n?.url ? [n.url] : n ? urls(n.id, a) : []; });
-    expect(urls(copiedOther?.id as string, api).sort()).toEqual(urls('2', original).sort());
-
+    expect(shape()).not.toBe(initial);
     const undo = await undoLast(api, store);
     expect(undo.skipped).toEqual([]);
-    expect(api.state()).toBe(initial);
-  });
-
-  it('keeps a backup the user changed', async () => {
-    const { api, ops, store } = setup(Infinity, { backup: true });
-    await applyPlan(api, ops, store);
-    const copy = backupFolder(api);
-    await api.create({ parentId: copy?.id as string, title: 'Ma note', url: 'https://example.org/' });
-    const undo = await undoLast(api, store);
-    expect(undo.skipped.map((s) => s.reason)).toEqual(['changed']);
-    expect(backupFolder(api)).toBeDefined();
-  });
-
-  it('removes a backup cut short by a crash', async () => {
-    const { api, ops, initial, store } = setup(5, { backup: true });
-    await expect(applyPlan(api, ops, store)).rejects.toThrow('crash');
-    store.restart();
-    await undoLast(api, store);
-    expect(backupFolder(api)).toBeUndefined();
-    expect(api.state()).toBe(initial);
-  });
-});
-
-describe('duplicates', () => {
-  /** The tree as the user sees it: titles and addresses in order, whatever the ids. */
-  const shape = (api: FakeBookmarks, id = '0'): unknown => {
-    const n = api.nodes.get(id);
-    return n?.url ? `${n.title} <${n.url}>` : { [n?.title ?? '']: (n?.children ?? []).map((c) => shape(api, c)) };
-  };
-
-  it('removes the copies after backing them up, and undo puts them back in place', async () => {
-    const { api, ops, store } = setup(Infinity, { backup: true, dupes: true });
-    const before = shape(api);
-    const removed = ops.flatMap((o) => (o.type === 'remove' ? [o.id] : []));
-    expect(removed.sort()).toEqual(['v4', 'v5', 'v6']);
-    await applyPlan(api, ops, store);
-    for (const id of removed) expect(api.nodes.has(id)).toBe(false);
-    const copy = folderNamed(api, BACKUP.title);
-    const inCopy = JSON.stringify(shape(api, copy?.id));
-    expect(inCopy).toContain('https://netflix.com/browse/');
-    expect(inCopy).toContain('utm_source=twitter');
-    await undoLast(api, store);
-    expect(shape(api)).toEqual(before);
-  });
-
-  it('keeps a duplicate the user chose to move', () => {
-    const { ops } = setup(Infinity, { dupes: true, edit: (d) => { d.moves.v4 = { accepted: true, target: { kind: 'existing', folderId: 'f-recettes' } }; d.removes.v4 = false; } });
-    expect(ops.some((o) => o.type === 'remove' && o.id === 'v4')).toBe(false);
-    expect(ops.some((o) => o.type === 'move' && o.id === 'v4')).toBe(true);
+    expect(shape()).toBe(initial);
   });
 });

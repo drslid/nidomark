@@ -1,8 +1,11 @@
 /**
- * Sorts a collection into a small set of folders: a dozen groups at the top, precise categories inside them.
+ * Sorts a collection into a new tree: quick access icons at the start of the bookmarks bar, then a dozen groups,
+ * precise categories inside them and, for big categories, a third level by site or subject.
  * Each bookmark is assessed from the most certain evidence to the least: a dead site, an address only reachable
- * at home, a known site, the shape of the address, then the local model on its title and, when needed, its page.
+ * at home, adult content, the user's earlier choices, a known site, the shape of the address, then the local
+ * model on its title and, when needed, its page.
  */
+import { normalizeUrl } from './duplicates';
 import type { LabeledVector } from './examples';
 import { type SiteVerdict, pageText } from './site';
 import {
@@ -14,7 +17,6 @@ import {
   adultTitle,
   categoryById,
   folderRole,
-  groupById,
   isBackupTitle,
   keywordHits,
   knownSite,
@@ -22,7 +24,9 @@ import {
 } from './taxonomy';
 import type { Features, FolderItem, NewFolder, Placement, Proposal, Reason, ReviewItem, Snapshot, Target, Usage } from './types';
 import { USAGES } from './types';
-import { allKnownAppsIn, leadingEmoji, usageOfFolderTitle } from './vocab';
+import { fold, words } from './text';
+import { siteKey } from './url';
+import { allKnownAppsIn, leadingEmoji, stripEmoji, usageOfFolderTitle } from './vocab';
 
 export interface CategorizeOptions {
   /** Nearest labelled examples consulted for each bookmark. */
@@ -45,6 +49,18 @@ export interface CategorizeOptions {
   subfolderMin: number;
   /** How much bookmarks must relate to the name of a personal folder for it to be kept as it is. */
   zCoherent: number;
+  /** Icons of the most visited sites at the start of the bookmarks bar (0: none). */
+  quickAccess: number;
+  /** Visits a site needs (typed visits count twice) to earn a place in quick access. */
+  quickMinVisits: number;
+  /** A category folder is split by site or subject from this many bookmarks. */
+  facetFolderMin: number;
+  /** Bookmarks a site or a subject needs to get its own subfolder. */
+  facetMin: number;
+  /** Subfolders per category, at most. */
+  maxFacets: number;
+  /** Lead a category needs to be suggested for a bookmark to check (a decision needs `margin`). */
+  guessMin: number;
 }
 
 export const DEFAULT_CATEGORIZE: CategorizeOptions = {
@@ -58,7 +74,43 @@ export const DEFAULT_CATEGORIZE: CategorizeOptions = {
   platformPrior: 0.5,
   subfolderMin: 2,
   zCoherent: 0.8,
+  quickAccess: 10,
+  quickMinVisits: 10,
+  facetFolderMin: 10,
+  facetMin: 4,
+  maxFacets: 6,
+  guessMin: 0.3,
 };
+
+/** The new tree has three levels at most: group › category › site or subject. */
+export const MAX_LEVEL = 3;
+/** Key of the folder of bookmarks to check. */
+export const REVIEW_KEY = 'review';
+
+const BRANDS: Record<string, string> = {
+  'youtube.com': 'YouTube', 'github.com': 'GitHub', 'gitlab.com': 'GitLab', 'reddit.com': 'Reddit', 'medium.com': 'Medium', 'wikipedia.org': 'Wikipedia',
+  'stackoverflow.com': 'Stack Overflow', 'linkedin.com': 'LinkedIn', 'facebook.com': 'Facebook', 'instagram.com': 'Instagram', 'pinterest.com': 'Pinterest',
+  'pinterest.fr': 'Pinterest', 'x.com': 'X', 'twitter.com': 'X', 'amazon.fr': 'Amazon', 'amazon.com': 'Amazon', 'google.com': 'Google', 'dev.to': 'DEV',
+  'twitch.tv': 'Twitch', 'netflix.com': 'Netflix', 'spotify.com': 'Spotify', 'deezer.com': 'Deezer', 'soundcloud.com': 'SoundCloud', 'vimeo.com': 'Vimeo',
+  'dailymotion.com': 'Dailymotion', 'notion.so': 'Notion', 'leboncoin.fr': 'leboncoin', 'marmiton.org': 'Marmiton', 'allocine.fr': 'AlloCiné',
+};
+
+/** Display name of a site: its brand when known, else its domain name capitalised ("korben.info" → "Korben"). */
+export function siteName(domain: string): string {
+  if (BRANDS[domain]) return BRANDS[domain] as string;
+  const label = domain.split('.')[0] ?? domain;
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+/** How deep an address goes: a home page is 0. */
+function pathDepth(url: string): number {
+  try {
+    const u = new URL(url);
+    return u.pathname.split('/').filter(Boolean).length + (u.search ? 1 : 0);
+  } catch {
+    return 99;
+  }
+}
 
 export type Destination = 'bar' | 'other';
 
@@ -84,10 +136,14 @@ export interface CategorizeInput {
   duplicates?: { bookmarkId: string; keepId: string }[];
   /** Whether pages could be read at all (permission granted and option on). */
   siteReading: boolean;
-  /** Bookmarks the user filed differently from a proposal: bookmark → folder. */
-  examples: Map<string, string>;
-  /** Folders created by earlier sorts: folder → group or category. */
-  known: Map<string, { group?: GroupId; category?: string }>;
+  /** Categories the user chose in earlier sorts: by address and by site. */
+  learned?: { urls: Map<string, string>; domains: Map<string, string> };
+  /** Visits of each site (`siteKey`: host and port) from the browsing history, typed visits counting twice. */
+  hostVisits?: Map<string, number>;
+  /** The bookmarks bar is rebuilt: quick access goes at its start. Without it, the bar is left as it is. */
+  barInScope?: boolean;
+  /** Folders created by earlier sorts: folder → group or category, and the name it was given. */
+  known: Map<string, { group?: GroupId; category?: string; name?: string }>;
   destination: Destination;
   lang: string;
   options?: Partial<CategorizeOptions>;
@@ -99,6 +155,8 @@ export interface Assessment {
   reason: Reason;
   /** Reading the page could make the decision clearer. */
   unclear: boolean;
+  /** The category the model leans to when it is not sure: suggested for bookmarks to check. */
+  guess?: string | null;
 }
 
 export interface CategorizeResult {
@@ -208,7 +266,16 @@ export function categorize(input: CategorizeInput): CategorizeResult {
       const reason: Reason = known?.category === 'adult' ? { key: 'reasonKnownSite', subs: [known.site] } : page?.adult ? { key: 'reasonAdultPage' } : { key: 'reasonAdultWords' };
       return { category: 'adult', confidence: 'evident', reason, unclear: false };
     }
-    // 4. Known sites and typical addresses.
+    // 4. The user's own choice in an earlier sort, for this address or this site.
+    const norm = normalizeUrl(b.url) ?? b.url;
+    const learnedUrl = input.learned?.urls.get(norm);
+    const learnedSite = !known?.platform && f.registrable ? input.learned?.domains.get(f.registrable) : undefined;
+    const learned = learnedUrl ?? learnedSite;
+    if (learned && categoryById(learned)) {
+      const c = categoryById(learned) as Category;
+      return { category: learned, confidence: 'evident', reason: learnedUrl ? { key: 'reasonLearned', subs: [localName(c, lang)] } : { key: 'reasonLearnedSite', subs: [f.registrable, localName(c, lang)] }, unclear: false };
+    }
+    // 5. Known sites and typical addresses.
     if (known && !known.platform) return { category: known.category, confidence: 'evident', reason: { key: 'reasonKnownSite', subs: [known.site] }, unclear: false };
     if (pattern) return { category: pattern.category, confidence: 'evident', reason: { key: 'reasonPattern', subs: [pattern.label] }, unclear: false };
     // 5. Pages about self-hosted applications.
@@ -299,6 +366,10 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     }
     // 7. A platform without a clear subject: its own category.
     if (known?.platform) return { category: known.category, confidence: 'model', reason: { key: 'reasonPlatform', subs: [known.site] }, unclear: !page };
+    // A suggestion needs some evidence: never from a vague title alone, and at least part of the way to a decision.
+    const lean = together ?? fromTitle ?? fromPage;
+    const vague = (f.insufficient || f.vagueTitle) && !read;
+    const guess = lean && !vague && lean.lead >= o.guessMin ? (lean.category ?? null) : null;
     // 8. Not enough evidence.
     const reason: Reason =
       verdict?.kind === 'blocked'
@@ -308,7 +379,7 @@ export function categorize(input: CategorizeInput): CategorizeResult {
           : f.insufficient || f.vagueTitle
             ? { key: input.siteReading ? 'reviewVague' : 'reviewNoAccess' }
             : { key: input.siteReading ? 'reviewUnclear' : 'reviewNoAccess' };
-    return { category: null, confidence: 'none', reason, unclear: !read && verdict?.kind !== 'blocked' };
+    return { category: null, confidence: 'none', reason, unclear: !read && verdict?.kind !== 'blocked', guess };
   }
 
   const assessments = new Map(input.candidates.map((id) => [id, assess(id)]));
@@ -359,7 +430,9 @@ export function categorize(input: CategorizeInput): CategorizeResult {
       folderInfo.set(f.id, { f, kind: 'group', group: k.group, coherent: true });
       continue;
     }
-    const role = folderRole(f.title);
+    // A name made of an unknown emoji only ("🦄") still means something to the user: it is not an untitled folder.
+    const emojiOnly = !!f.title.trim() && leadingEmoji(f.title) === f.title.trim();
+    const role = emojiOnly ? ({ kind: 'personal' } as const) : folderRole(f.title);
     if (role.kind === 'category') folderInfo.set(f.id, { f, kind: 'category', category: role.category, coherent: true, usage });
     else if (role.kind === 'group') folderInfo.set(f.id, { f, kind: 'group', group: role.group, coherent: true, usage });
     else if (role.kind === 'catch-all' && !usage) folderInfo.set(f.id, { f, kind: 'catch-all', coherent: false });
@@ -403,226 +476,341 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     if (concentrated && topGroup) info.group = topGroup;
   }
 
-  const ancestors = (folderId: string): FolderInfo[] => {
-    const out: FolderInfo[] = [];
-    let cur = folderInfo.get(folderId);
-    while (cur) {
-      out.push(cur);
-      cur = cur.f.parentId ? folderInfo.get(cur.f.parentId) : undefined;
-    }
-    return out;
-  };
-
-  // --- Who moves ----------------------------------------------------------------------------------------
-  type Decision =
-    | { kind: 'stay'; reason: Reason }
-    | { kind: 'review'; reason: Reason }
-    | { kind: 'move'; category: string; reason: Reason }
-    | { kind: 'folder'; folderId: string; reason: Reason }
-    | { kind: 'duplicate'; keepId: string; reason: Reason };
-  const decisions = new Map<string, Decision>();
-  const duplicateOf = new Map((input.duplicates ?? []).map((d) => [d.bookmarkId, d.keepId]));
-  const exampleFolders = new Map<string, string>();
-  /** Bookmarks lying directly in a group folder, by "folder|category". */
-  const loose = new Map<string, string[]>();
-  for (const [bid, folderId] of input.examples) {
-    const b = bookmark(bid);
-    const f = b ? features.get(bid) : undefined;
-    if (b && f?.registrable && b.parentId === folderId && folderInfo.has(folderId)) exampleFolders.set(f.registrable, folderId);
-  }
-
-  for (const id of input.candidates) {
-    const b = bookmark(id) as { parentId: string; url: string };
-    const a = assessments.get(id) as Assessment;
-    const chain = ancestors(b.parentId);
-    const parent = chain[0];
-    const f = features.get(id) as Features;
-    // A copy of a page kept elsewhere goes, whatever it is about.
-    const keepId = duplicateOf.get(id);
-    if (keepId) {
-      const kept = bookmark(keepId);
-      const where = kept ? snapshot.folders.get(kept.parentId) : undefined;
-      const fr = lang.startsWith('fr');
-      const place = where?.isRoot ? (where.id === snapshot.barId ? (fr ? 'Barre de favoris' : 'Bookmarks bar') : fr ? 'Autres favoris' : 'Other bookmarks') : (where?.title ?? '');
-      decisions.set(id, { kind: 'duplicate', keepId, reason: { key: 'reasonDuplicate', subs: [kept?.title || kept?.url || '', place] } });
-      continue;
-    }
-    // The user's own corrections come first.
-    if (input.examples.get(id) === b.parentId) {
-      decisions.set(id, { kind: 'stay', reason: { key: 'reasonUserKept' } });
-      continue;
-    }
-    const learned = f.registrable ? exampleFolders.get(f.registrable) : undefined;
-    if (learned && learned !== b.parentId && !STRONG.has(a.category ?? '')) {
-      decisions.set(id, { kind: 'folder', folderId: learned, reason: { key: 'reasonLearnedSite', subs: [f.registrable, snapshot.folders.get(learned)?.title ?? ''] } });
-      continue;
-    }
-    if (!a.category) {
-      const sorted = parent && (parent.kind === 'personal' || parent.kind === 'category' || parent.kind === 'group');
-      decisions.set(id, sorted ? { kind: 'stay', reason: { key: 'reasonKeptFolder', subs: [parent.f.title] } } : { kind: 'review', reason: a.reason });
-      continue;
-    }
-    const c = categoryById(a.category) as Category;
-    if (parent?.usage && !STRONG.has(c.id) && (usageOf(id) === parent.usage || (parent.usage === 'read' && usageOf(id) === 'learn'))) {
-      decisions.set(id, { kind: 'stay', reason: { key: 'reasonKeptFolder', subs: [parent.f.title] } });
-      continue;
-    }
-    // Already in the right place: its category, its group, or a folder of the user's that holds together.
-    const home = chain.find((x) => (x.kind === 'category' && x.category === c.id) || (x.kind === 'group' && x.group === c.group));
-    if (home && !(home.kind === 'group' && STRONG.has(c.id))) {
-      decisions.set(id, { kind: 'stay', reason: { key: 'reasonAlreadyFiled', subs: [home.f.title] } });
-      if (home.kind === 'group' && home === parent) {
-        const k = `${home.f.id}|${c.id}`;
-        loose.set(k, [...(loose.get(k) ?? []), id]);
-      }
-      continue;
-    }
-    if (parent?.kind === 'personal' && parent.coherent && !STRONG.has(c.id)) {
-      decisions.set(id, { kind: 'stay', reason: { key: 'reasonKeptFolder', subs: [parent.f.title] } });
-      continue;
-    }
-    if (parent?.kind === 'category' && !STRONG.has(c.id) && relatedness(id, parent.f.id) >= o.zCoherent) {
-      decisions.set(id, { kind: 'stay', reason: { key: 'reasonKeptFolder', subs: [parent.f.title] } });
-      continue;
-    }
-    decisions.set(id, { kind: 'move', category: c.id, reason: a.reason });
-  }
-
-  // --- Where they go ------------------------------------------------------------------------------------
+  // --- Layout: every bookmark gets a place in a new tree ------------------------------------------------
+  const fr = lang.startsWith('fr');
   const rootId = (input.destination === 'bar' ? snapshot.barId : snapshot.otherId) ?? snapshot.otherId ?? snapshot.barId ?? '';
-  // Adult content and dead links never go to the always-visible bar.
-  const discreetRoot = snapshot.otherId ?? rootId;
-  const moving = new Map<string, string[]>();
-  for (const [id, d] of decisions) if (d.kind === 'move') moving.set(d.category, [...(moving.get(d.category) ?? []), id]);
+  // Adult content, dead links and bookmarks to check never go to the always-visible bar.
+  const otherRoot = snapshot.otherId ?? rootId;
+  const removed = new Map((input.duplicates ?? []).map((d) => [d.bookmarkId, d.keepId]));
+  const cat = (id: string): string | null => assessments.get(id)?.category ?? null;
+  const strong = (id: string) => STRONG.has(cat(id) ?? '');
 
-  const usable = (x: FolderInfo) => !x.f.isRoot;
-  const existingFor = (cat: string): FolderInfo | undefined => {
-    const all = [...folderInfo.values()].filter((x) => usable(x) && x.kind === 'category' && x.category === cat);
-    return all.sort((a, b) => memberIds(b.f).length - memberIds(a.f).length || a.f.depth - b.f.depth)[0];
+  // 1. Quick access: the most visited sites, as icons at the start of the bookmarks bar. Without history, the
+  //    shortcuts the user already keeps in the bar.
+  const quickAccess: string[] = [];
+  const quickReason = new Map<string, Reason>();
+  const candidateSet = new Set(input.candidates);
+  const barIds = snapshot.barId ? (snapshot.folders.get(snapshot.barId)?.bookmarkIds ?? []).filter((id) => candidateSet.has(id) && !removed.has(id)) : [];
+  if (o.quickAccess > 0 && snapshot.barId && input.barInScope !== false) {
+    const eligible = (id: string) => features.has(id) && !removed.has(id) && !strong(id);
+    if (input.hostVisits?.size) {
+      // One icon per site: its shortest address (the home page rather than an article).
+      const bySite = new Map<string, { id: string; score: number; depth: number }>();
+      for (const id of input.candidates) {
+        if (!eligible(id)) continue;
+        const url = bookmark(id)?.url ?? '';
+        const site = siteKey(url);
+        const score = input.hostVisits.get(site) ?? 0;
+        if (score < o.quickMinVisits) continue;
+        const depth = pathDepth(url);
+        const cur = bySite.get(site);
+        if (!cur || depth < cur.depth) bySite.set(site, { id, score, depth });
+      }
+      for (const x of [...bySite.values()].sort((a, b) => b.score - a.score).slice(0, o.quickAccess)) {
+        quickAccess.push(x.id);
+        quickReason.set(x.id, { key: 'reasonQuickAccess' });
+      }
+    }
+    // Without history, or when no bookmarked site is visited often: the shortcuts already in the bar, in their order.
+    if (!quickAccess.length) {
+      for (const id of barIds.filter(eligible).slice(0, o.quickAccess)) {
+        quickAccess.push(id);
+        quickReason.set(id, { key: 'reasonBarShortcut' });
+      }
+    }
+  }
+  // Bookmarklets and browser pages kept in the bar stay there: they are used from it, on any page.
+  for (const id of barIds) {
+    if (features.has(id)) continue;
+    quickAccess.push(id);
+    quickReason.set(id, { key: 'reasonBarTool' });
+  }
+  const quick = new Set(quickAccess);
+
+  // 2. The user's folders that make sense are recreated with their bookmarks: under the category or the group
+  //    they are about, or in "My folders" when they mix subjects ("Wedding 2025").
+  interface Kept {
+    info: FolderInfo;
+    ids: string[];
+    /** Bookmarks of each of its subfolders ("Wedding 2025" › "Caterers"), deeper levels included. */
+    parts: Map<string, string[]>;
+    category?: string;
+    group?: GroupId;
+  }
+  const kept = new Map<string, Kept>();
+  // The outermost folder that makes sense, so that a project keeps its parts together. A folder that only holds
+  // folders ("Personal") is not a project by itself: its subfolders are judged one by one.
+  const keptAbove = (folderId: string): { info: FolderInfo; part?: string } | undefined => {
+    let found: { info: FolderInfo; part?: string } | undefined;
+    let below: string | undefined;
+    for (let cur = folderInfo.get(folderId); cur && cur.kind !== 'root'; cur = cur.f.parentId ? folderInfo.get(cur.f.parentId) : undefined) {
+      if (cur.kind === 'personal' && cur.coherent && memberIds(cur.f).length) found = { info: cur, part: below };
+      below = cur.f.id;
+    }
+    return found;
   };
-  const groupFolderFor = (g: GroupId): FolderInfo | undefined => {
-    const all = [...folderInfo.values()].filter((x) => usable(x) && x.kind === 'group' && x.group === g);
-    return all.sort((a, b) => memberIds(b.f).length - memberIds(a.f).length || a.f.depth - b.f.depth)[0];
-  };
-  /** Bookmarks that leave their group folder for a subfolder of their category. */
-  const retarget = new Map<string, Target>();
+  for (const id of input.candidates) {
+    if (removed.has(id) || quick.has(id) || strong(id) || !features.has(id)) continue;
+    const at = keptAbove(bookmark(id)?.parentId ?? '');
+    if (!at) continue;
+    const k: Kept = kept.get(at.info.f.id) ?? { info: at.info, ids: [], parts: new Map() };
+    k.ids.push(id);
+    if (at.part) k.parts.set(at.part, [...(k.parts.get(at.part) ?? []), id]);
+    kept.set(at.info.f.id, k);
+  }
+  // A folder left with a single bookmark is not worth recreating: that bookmark is sorted like the others.
+  for (const [fid, k] of kept) if (k.ids.length < 2) kept.delete(fid);
+  for (const k of kept.values()) {
+    const cats = new Map<string, number>();
+    const groups = new Map<GroupId, number>();
+    for (const id of k.ids) {
+      const c = cat(id) ? categoryById(cat(id) as string) : undefined;
+      if (!c) continue;
+      cats.set(c.id, (cats.get(c.id) ?? 0) + 1);
+      groups.set(c.group, (groups.get(c.group) ?? 0) + 1);
+    }
+    const [topCat, nCat] = [...cats.entries()].sort((a, b) => b[1] - a[1])[0] ?? [undefined, 0];
+    const [topGroup, nGroup] = [...groups.entries()].sort((a, b) => b[1] - a[1])[0] ?? [undefined, 0];
+    if (!k.info.usage && topCat && nCat >= 2 && nCat / k.ids.length >= 0.6) k.category = topCat;
+    else if (!k.info.usage && topGroup && nGroup >= 3 && nGroup / k.ids.length >= 0.6) k.group = topGroup;
+  }
+  const keptOf = new Map<string, Kept>();
+  for (const k of kept.values()) for (const id of k.ids) keptOf.set(id, k);
+
+  // 3. Everything else by category; unclear bookmarks wait in "To check", links that are not web pages apart.
+  const byCategory = new Map<string, string[]>();
+  const toReview: string[] = [];
+  const special: string[] = [];
+  for (const id of input.candidates) {
+    if (removed.has(id) || quick.has(id) || keptOf.has(id)) continue;
+    if (!features.has(id)) {
+      special.push(id);
+      continue;
+    }
+    const c = cat(id);
+    if (!c) toReview.push(id);
+    else byCategory.set(c, [...(byCategory.get(c) ?? []), id]);
+  }
+
+  // 4. Folders. Names: the user's own name for a category or a group when one of their folders meant it.
+  const userName = new Map<string, { name: string; size: number }>();
+  for (const info of folderInfo.values()) {
+    const id = info.kind === 'category' ? info.category : info.kind === 'group' ? `g:${info.group}` : undefined;
+    // A folder of an earlier sort may be named with its emoji only: its name was kept aside.
+    const name = stripEmoji(info.f.title) || input.known.get(info.f.id)?.name || '';
+    if (!id || !name || info.f.isRoot) continue;
+    const size = memberIds(info.f).length;
+    if ((userName.get(id)?.size ?? -1) < size) userName.set(id, { name, size });
+  }
+  const catName = (c: Category) => userName.get(c.id)?.name ?? localName(c, lang);
+  const groupName = (g: { id: GroupId; fr: string; en: string }) => userName.get(`g:${g.id}`)?.name ?? localName(g, lang);
+  const byTitle = (a: string, b: string) => (bookmark(a)?.title ?? '').localeCompare(bookmark(b)?.title ?? '', lang);
 
   const newFolders: NewFolder[] = [];
   const targets = new Map<string, Target>();
-  const folderName = (x: { fr: string; en: string }) => localName(x, lang);
-  const addFolder = (key: string, x: { fr: string; en: string; emoji: string }, parent: { parentId?: string; parentKey?: string }, reason: Reason, ids: { category?: string; group?: GroupId }) => {
-    newFolders.push({ key, vocabId: ids.category ?? null, groupId: ids.group, name: folderName(x), emoji: x.emoji, parentId: parent.parentId ?? '', parentKey: parent.parentKey, reason });
+  const add = (f: NewFolder): string => {
+    newFolders.push(f);
+    return f.key;
   };
-
-  for (const g of GROUPS) {
-    const groupFolder = groupFolderFor(g.id);
-    const looseIn = (c: Category) => (groupFolder ? (loose.get(`${groupFolder.f.id}|${c.id}`) ?? []) : []);
-    const cats = CATEGORIES.filter((c) => c.group === g.id && moving.has(c.id));
-    if (!cats.length) continue;
-    const needNew: Category[] = [];
-    for (const c of cats) {
-      const ex = existingFor(c.id);
-      if (!ex) {
-        needNew.push(c);
-        continue;
-      }
-      targets.set(c.id, { kind: 'existing', folderId: ex.f.id });
-      if (groupFolder && ex.f.parentId === groupFolder.f.id) for (const id of looseIn(c)) retarget.set(id, { kind: 'existing', folderId: ex.f.id });
+  const put = (ids: string[], key: string) => {
+    for (const id of ids) targets.set(id, { kind: 'new', key });
+  };
+  // The user's name, without the emoji in front; a folder named with an emoji only keeps it as its name.
+  const nameOf = (title: string) => {
+    const name = stripEmoji(title);
+    return name ? { name, emoji: leadingEmoji(title) ?? '' } : { name: title.trim() || (fr ? 'Sans titre' : 'Untitled'), emoji: '' };
+  };
+  const addKept = (k: Kept, parent: { parentId?: string; parentKey?: string }, level: number) => {
+    const key = add({ key: `k:${k.info.f.id}`, vocabId: k.category ?? null, groupId: k.group, ...nameOf(k.info.f.title), parentId: parent.parentId ?? '', parentKey: parent.parentKey, level, reason: { key: 'reasonKeptFolder', subs: [k.info.f.title] } });
+    put(k.ids, key);
+    if (level >= MAX_LEVEL) return;
+    const parts = [...k.parts.entries()].filter(([, ids]) => ids.length >= 2).sort((a, b) => (snapshot.folders.get(a[0])?.title ?? '').localeCompare(snapshot.folders.get(b[0])?.title ?? '', lang));
+    for (const [fid, ids] of parts) {
+      const title = snapshot.folders.get(fid)?.title ?? '';
+      put(ids, add({ key: `k:${fid}`, vocabId: null, ...nameOf(title), parentId: '', parentKey: key, level: level + 1, reason: { key: 'reasonKeptFolder', subs: [title] } }));
     }
-    if (!needNew.length) continue;
-    const parentRoot = g.id === 'adult' || g.id === 'dead' ? discreetRoot : rootId;
-    const count = (c: Category) => (moving.get(c.id)?.length ?? 0) + looseIn(c).length;
-    const ownSub = (c: Category) => c.own || count(c) >= o.subfolderMin;
-    if (groupFolder) {
-      for (const c of needNew) {
-        if (!ownSub(c)) {
-          targets.set(c.id, { kind: 'existing', folderId: groupFolder.f.id });
-          continue;
+  };
+  // A big category is split by site or by subject, on a third level at most.
+  const fill = (key: string, cid: string, ids: string[], level: number) => {
+    const rest = new Set(ids);
+    if (level < MAX_LEVEL) {
+      for (const facet of buildFacets(ids, cid)) {
+        const fkey = add({ key: `f:${cid}:${facet.slug}`, vocabId: cid, name: facet.name, emoji: '', parentId: '', parentKey: key, level: level + 1, reason: { key: 'reasonFacet', subs: [String(facet.ids.length)] } });
+        put(facet.ids, fkey);
+        for (const id of facet.ids) rest.delete(id);
+      }
+    }
+    put([...rest], key);
+    for (const k of kept.values()) {
+      if (k.category !== cid) continue;
+      if (level < MAX_LEVEL) addKept(k, { parentKey: key }, level + 1);
+      else put(k.ids, key);
+    }
+  };
+  function buildFacets(ids: string[], cid: string): { slug: string; name: string; ids: string[] }[] {
+    if (ids.length < o.facetFolderMin) return [];
+    const c = categoryById(cid) as Category;
+    const ignore = new Set([...c.keywords.split(','), ...c.aliases.split(','), c.fr, c.en].flatMap((w) => words(w)));
+    const pool = new Set(ids);
+    const out: { slug: string; name: string; ids: string[] }[] = [];
+    while (out.length < o.maxFacets) {
+      const sites = new Map<string, string[]>();
+      const terms = new Map<string, string[]>();
+      for (const id of pool) {
+        const f = features.get(id) as Features;
+        if (f.registrable && !f.privateHost) sites.set(f.registrable, [...(sites.get(f.registrable) ?? []), id]);
+        for (const w of new Set(words(stripEmoji(f.bestTitle)))) {
+          if (w.length < 3 || ignore.has(w) || f.registrable.startsWith(`${w}.`)) continue;
+          terms.set(w, [...(terms.get(w) ?? []), id]);
         }
-        const key = `c:${c.id}`;
-        addFolder(key, c, { parentId: groupFolder.f.id }, { key: 'reasonNewCategory', subs: [String(count(c))] }, { category: c.id });
-        targets.set(c.id, { kind: 'new', key });
-        for (const id of looseIn(c)) retarget.set(id, { kind: 'new', key });
       }
-      continue;
+      const best = [
+        ...[...sites.entries()].map(([d, m]) => ({ slug: `site-${d}`, name: siteName(d), ids: m })),
+        ...[...terms.entries()].map(([w, m]) => ({ slug: `term-${w}`, name: displayWord(w, m), ids: m })),
+      ]
+        .filter((x) => x.ids.length >= o.facetMin && x.ids.length < pool.size)
+        .sort((a, b) => b.ids.length - a.ids.length || a.name.localeCompare(b.name))[0];
+      if (!best) break;
+      out.push(best);
+      for (const id of best.ids) pool.delete(id);
     }
-    const groupCategories = CATEGORIES.filter((c) => c.group === g.id).length;
-    if (needNew.length === 1 || groupCategories === 1) {
-      // One category in this group: the folder is named after it ("📺 Streaming", not "🎬 Leisure").
-      for (const c of needNew) {
-        const key = `c:${c.id}`;
-        addFolder(key, c, { parentId: parentRoot }, { key: 'reasonNewCategory', subs: [String(count(c))] }, { category: c.id });
-        targets.set(c.id, { kind: 'new', key });
+    return out.sort((a, b) => a.name.localeCompare(b.name, lang));
+  }
+  function displayWord(w: string, ids: string[]): string {
+    const forms = new Map<string, number>();
+    for (const id of ids) {
+      for (const token of (features.get(id) as Features).bestTitle.split(/[^\p{L}\p{N}+#.-]+/u)) {
+        if (token && fold(token) === w) forms.set(token, (forms.get(token) ?? 0) + 1);
       }
-      continue;
     }
-    const gkey = `g:${g.id}`;
-    addFolder(gkey, g, { parentId: parentRoot }, { key: 'reasonNewGroup', subs: [String(needNew.reduce((s, c) => s + count(c), 0))] }, { group: g.id });
-    for (const c of needNew) {
-      if (!ownSub(c)) {
-        targets.set(c.id, { kind: 'new', key: gkey });
-        continue;
-      }
-      const key = `c:${c.id}`;
-      addFolder(key, c, { parentKey: gkey }, { key: 'reasonNewCategory', subs: [String(count(c))] }, { category: c.id });
-      targets.set(c.id, { kind: 'new', key });
-    }
+    const form = [...forms.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? w;
+    return form.charAt(0).toUpperCase() + form.slice(1);
   }
 
+  const groupsWith = new Map<GroupId, Map<string, string[]>>();
+  for (const [cid, ids] of byCategory) {
+    const g = (categoryById(cid) as Category).group;
+    const m = groupsWith.get(g) ?? new Map<string, string[]>();
+    m.set(cid, ids);
+    groupsWith.set(g, m);
+  }
+  // A kept folder about a category or a group makes it exist.
+  for (const k of kept.values()) {
+    const g = k.category ? (categoryById(k.category) as Category).group : k.group;
+    if (!g) continue;
+    const m = groupsWith.get(g) ?? new Map<string, string[]>();
+    if (k.category && !m.has(k.category)) m.set(k.category, []);
+    groupsWith.set(g, m);
+  }
+  const layGroup = (g: (typeof GROUPS)[number], parentId: string) => {
+    const cats = groupsWith.get(g.id);
+    if (!cats) return;
+    const keptHere = [...kept.values()].filter((k) => k.group === g.id && !k.category);
+    const entries = [...cats.entries()].sort((a, b) => catName(categoryById(a[0]) as Category).localeCompare(catName(categoryById(b[0]) as Category), lang));
+    if (entries.length === 1 && !keptHere.length) {
+      // One category in this group: the folder is named after it ("📺 Streaming", not "🎬 Leisure"), unless the
+      // user had a folder for the group ("Tools").
+      const [cid, ids] = entries[0] as [string, string[]];
+      const c = categoryById(cid) as Category;
+      const name = userName.get(cid)?.name ?? userName.get(`g:${g.id}`)?.name ?? localName(c, lang);
+      fill(add({ key: `c:${cid}`, vocabId: cid, groupId: g.id, name, emoji: c.emoji, parentId, level: 1, reason: { key: 'reasonNewCategory', subs: [String(ids.length)] } }), cid, ids, 1);
+      return;
+    }
+    const total = entries.reduce((n, [, ids]) => n + ids.length, 0);
+    const gkey = add({ key: `g:${g.id}`, vocabId: null, groupId: g.id, name: groupName(g), emoji: g.emoji, parentId, level: 1, reason: { key: 'reasonNewGroup', subs: [String(total)] } });
+    for (const [cid, ids] of entries) {
+      const c = categoryById(cid) as Category;
+      const hasKept = [...kept.values()].some((k) => k.category === cid);
+      if (c.own || ids.length >= o.subfolderMin || hasKept) fill(add({ key: `c:${cid}`, vocabId: cid, groupId: g.id, name: catName(c), emoji: c.emoji, parentId: '', parentKey: gkey, level: 2, reason: { key: 'reasonNewCategory', subs: [String(ids.length)] } }), cid, ids, 2);
+      else put(ids, gkey);
+    }
+    for (const k of keptHere) addKept(k, { parentKey: gkey }, 2);
+  };
+  // The most used folders come first, next to quick access: by the visits of their sites when the history is known
+  // (sites already in quick access aside; on a log scale, so that many used sites outweigh a single one), else by size.
+  const quickSites = new Set(quickAccess.map((id) => siteKey(bookmark(id)?.url ?? '')));
+  const groupScore = (g: GroupId): number => {
+    const ids = [...(groupsWith.get(g)?.values() ?? [])].flat();
+    for (const k of kept.values()) if (k.group === g || (k.category && (categoryById(k.category) as Category).group === g)) ids.push(...k.ids);
+    if (!input.hostVisits?.size) return ids.length;
+    const sites = new Set(ids.map((id) => siteKey(bookmark(id)?.url ?? '')).filter((x) => !quickSites.has(x)));
+    return [...sites].reduce((n, x) => n + Math.log2(1 + (input.hostVisits?.get(x) ?? 0)), 0) + ids.length / 1000;
+  };
+  const tops = GROUPS.filter((g) => g.id !== 'adult' && g.id !== 'dead' && groupsWith.has(g.id));
+  const score = new Map(tops.map((g) => [g.id, groupScore(g.id)]));
+  for (const g of tops.sort((a, b) => (score.get(b.id) ?? 0) - (score.get(a.id) ?? 0))) layGroup(g, rootId);
+  const mine = [...kept.values()].filter((k) => !k.category && !k.group).sort((a, b) => a.info.f.title.localeCompare(b.info.f.title, lang));
+  if (mine.length) {
+    add({ key: 'mine', vocabId: null, name: fr ? 'Mes dossiers' : 'My folders', emoji: '🗂️', parentId: rootId, level: 1, reason: { key: 'reasonMyFolders' } });
+    for (const k of mine) addKept(k, { parentKey: 'mine' }, 2);
+  }
+  for (const g of GROUPS) if (g.id === 'adult' || g.id === 'dead') layGroup(g, otherRoot);
+  if (toReview.length) {
+    add({ key: REVIEW_KEY, vocabId: null, name: fr ? 'À vérifier' : 'To check', emoji: '❓', parentId: otherRoot, level: 1, reason: { key: 'reasonReviewFolder' } });
+    put(toReview, REVIEW_KEY);
+  }
+  if (special.length) {
+    add({ key: 'special', vocabId: null, name: fr ? 'Liens du navigateur' : 'Browser links', emoji: '🧩', parentId: otherRoot, level: 1, reason: { key: 'reasonSpecial' } });
+    put(special, 'special');
+  }
+  for (const id of quickAccess) targets.set(id, { kind: 'bar' });
+  // A duplicate the user decides to keep goes where its kept copy goes.
+  for (const [id, keepId] of removed) targets.set(id, targets.get(keepId) ?? { kind: 'new', key: toReview.length ? REVIEW_KEY : (newFolders[0]?.key ?? REVIEW_KEY) });
+
   // --- Proposal -----------------------------------------------------------------------------------------
+  const ordered = [...input.candidates].sort(byTitle);
   const placements: Placement[] = [];
   const review: ReviewItem[] = [];
   const duplicates: Proposal['duplicates'] = [];
-  const title = (id: string) => bookmark(id)?.title ?? '';
-  const ordered = [...input.candidates].sort((a, b) => title(a).localeCompare(title(b), lang));
+  const guesses: Record<string, string> = {};
+  const keys = new Set(newFolders.map((f) => f.key));
   for (const id of ordered) {
-    const d = decisions.get(id) as Decision;
-    if (d.kind === 'duplicate') {
-      duplicates.push({ bookmarkId: id, keepId: d.keepId });
-      placements.push({ bookmarkId: id, target: { kind: 'stay' }, reason: d.reason });
-    } else if (d.kind === 'review') {
-      review.push({ bookmarkId: id, reason: d.reason });
-      placements.push({ bookmarkId: id, target: { kind: 'stay' }, reason: d.reason });
-    } else if (d.kind === 'stay') placements.push({ bookmarkId: id, target: retarget.get(id) ?? { kind: 'stay' }, reason: retarget.has(id) ? (assessments.get(id) as Assessment).reason : d.reason });
-    else if (d.kind === 'folder') placements.push({ bookmarkId: id, target: { kind: 'existing', folderId: d.folderId }, reason: d.reason });
-    else placements.push({ bookmarkId: id, target: targets.get(d.category) ?? { kind: 'stay' }, reason: d.reason });
+    const a = assessments.get(id);
+    const target = targets.get(id) ?? { kind: 'new', key: REVIEW_KEY };
+    let reason: Reason = a?.reason ?? { key: 'reasonSpecial' };
+    const keepId = removed.get(id);
+    if (keepId) {
+      const kept = bookmark(keepId);
+      const where = kept ? snapshot.folders.get(kept.parentId) : undefined;
+      const place = where?.isRoot ? (where.id === snapshot.barId ? (fr ? 'Barre de favoris' : 'Bookmarks bar') : fr ? 'Autres favoris' : 'Other bookmarks') : (where?.title ?? '');
+      reason = { key: 'reasonDuplicate', subs: [kept?.title || kept?.url || '', place] };
+      duplicates.push({ bookmarkId: id, keepId });
+    } else if (quick.has(id)) reason = quickReason.get(id) as Reason;
+    else if (keptOf.has(id)) reason = { key: 'reasonKeptFolder', subs: [(keptOf.get(id) as Kept).info.f.title] };
+    if (target.kind === 'new' && target.key === REVIEW_KEY && !keepId) {
+      review.push({ bookmarkId: id, reason });
+      const g = a?.guess ? categoryById(a.guess) : undefined;
+      const key = g && [`c:${g.id}`, `g:${g.group}`].find((k) => keys.has(k));
+      if (key) guesses[id] = key;
+    }
+    placements.push({ bookmarkId: id, target, reason });
   }
 
-  // Cleaner titles for the bookmarks sorted and for the bookmarks bar.
+  // Cleaner titles: notification counters and repeated site names removed; short names for the bar.
   const titles: Record<string, string> = {};
-  const candidateSet = new Set(input.candidates);
-  for (const b of snapshot.bookmarks.values()) {
-    const f = features.get(b.id);
-    if (!f || b.unmodifiable || !(candidateSet.has(b.id) || b.parentId === snapshot.barId)) continue;
+  for (const id of input.candidates) {
+    const b = bookmark(id);
+    const f = features.get(id);
+    if (!b || !f) continue;
     let t = f.cleanTitle;
-    if (b.parentId === snapshot.barId && (t ?? b.title).length > 24) {
+    if (quick.has(id) && (t ?? b.title).length > 24) {
       const head = (t ?? b.title).split(/\s+[-|–—·:]\s+/)[0]?.replace(/\.(com|fr|org|net|io)$/i, '');
       if (head && head.length >= 3) t = head;
     }
-    if (t && t !== b.title) titles[b.id] = t;
-  }
-
-  // An emoji for the user's category folders that receive bookmarks or sit next to the new ones.
-  const folderEmojis: Record<string, string> = {};
-  const receiving = new Set(placements.flatMap((p) => (p.target.kind === 'existing' ? [p.target.folderId] : [])));
-  for (const info of folderInfo.values()) {
-    if (info.f.isRoot || leadingEmoji(info.f.title)) continue;
-    if (!receiving.has(info.f.id) && !(newFolders.length && info.f.parentId === rootId)) continue;
-    const emoji = info.kind === 'category' ? categoryById(info.category ?? '')?.emoji : info.kind === 'group' && info.group ? groupById(info.group).emoji : undefined;
-    if (emoji) folderEmojis[info.f.id] = emoji;
+    if (t && t !== b.title) titles[id] = t;
   }
 
   return {
-    proposal: { snapshotTakenAt: snapshot.takenAt, candidates: ordered, duplicates, placements, newFolders, review, titles, folderEmojis },
+    proposal: { snapshotTakenAt: snapshot.takenAt, candidates: ordered, duplicates, placements, newFolders, review, titles, folderEmojis: {}, quickAccess, guesses },
     assessments,
   };
 }
 
 /**
- * Bookmarks a sort covers: every web bookmark inside the chosen folders, except the bookmarks bar's own shortcuts
- * and Nidomark's backups. The nearest chosen ancestor decides, so a subfolder can be left out of a chosen folder.
+ * Bookmarks a sort covers: every bookmark inside the chosen folders, the shortcuts of the bookmarks bar included,
+ * except Nidomark's backups and managed bookmarks. The nearest chosen ancestor decides, so a folder can be left out.
  */
-export function scopeCandidates(snapshot: Snapshot, features: { has(id: string): boolean }, include: string[], exclude: string[] = []): string[] {
+export function scopeCandidates(snapshot: Snapshot, include: string[], exclude: string[] = []): string[] {
   const included = new Set(include.filter((id) => snapshot.folders.has(id)));
   const excluded = new Set(exclude);
   const memo = new Map<string, boolean>();
@@ -641,7 +829,7 @@ export function scopeCandidates(snapshot: Snapshot, features: { has(id: string):
   };
   const out: string[] = [];
   for (const b of snapshot.bookmarks.values()) {
-    if (b.unmodifiable || !features.has(b.id) || b.parentId === snapshot.barId) continue;
+    if (b.unmodifiable) continue;
     if (inScope(b.parentId)) out.push(b.id);
   }
   return out;

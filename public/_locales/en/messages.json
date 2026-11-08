@@ -18,13 +18,13 @@
   "message": "Organize your bookmarks"
  },
  "startLead": {
-  "message": "A small AI on this computer files everything into clear folders. You check, then you apply."
+  "message": "A small AI on this computer recreates all your bookmarks in clear folders. You check, then you confirm."
  },
  "optHistory": {
-  "message": "Use history for vague titles"
+  "message": "Put the most visited sites first"
  },
  "optHistoryHint": {
-  "message": "Reads page titles already stored by your browser"
+  "message": "Counts the visits of each site and reads the titles already stored, on this computer. Nothing is sent."
  },
  "optFolderStyle": {
   "message": "Folder names"
@@ -68,14 +68,8 @@
  "progressCount": {
   "message": "{1} of {2}"
  },
- "newBadge": {
-  "message": "New"
- },
  "moveTo": {
   "message": "Move to"
- },
- "dontMove": {
-  "message": "Keep in place"
  },
  "newFolderOption": {
   "message": "New folder"
@@ -90,16 +84,13 @@
   "message": "Other emoji"
  },
  "reviewHint": {
-  "message": "Tested, not enough clues. Open them to check, then choose a folder or leave them in place."
+  "message": "Tested, not enough clues. Open them to check, then accept the suggestion or choose a folder. Otherwise they go to “To check”, in Other bookmarks."
  },
  "barTitle": {
-  "message": "Bookmarks bar"
+  "message": "New bar"
  },
  "iconOnly": {
   "message": "icon only"
- },
- "rejectAll": {
-  "message": "Reject all"
  },
  "applying": {
   "message": "Applying changes"
@@ -108,10 +99,10 @@
   "message": "Your bookmarks are organized"
  },
  "doneSummary": {
-  "message": "{1} changes applied."
+  "message": "{1} bookmarks filed in {2} folders."
  },
  "doneSkipped": {
-  "message": "{1} changes skipped because the bookmark changed meanwhile."
+  "message": "{1} items skipped because they changed meanwhile. Nothing is lost: the originals are in the backup."
  },
  "undone": {
   "message": "The last sort was undone."
@@ -138,7 +129,7 @@
   "message": "Nothing to organize"
  },
  "emptyHint": {
-  "message": "No unfiled bookmarks in the folders to organize. Choose other folders in Settings."
+  "message": "No bookmarks in the chosen folders. Choose other folders."
  },
  "reasonHomeService": {
   "message": "Service hosted at home (local address or personal domain)"
@@ -226,7 +217,7 @@
   "message": "Refresh the proposal first: your bookmarks changed."
  },
  "startCountNone": {
-  "message": "No unfiled bookmarks"
+  "message": "No bookmarks to file"
  },
  "finish": {
   "message": "Done"
@@ -240,23 +231,11 @@
  "proposal": {
   "message": "Proposal"
  },
- "nodeOff": {
-  "message": "Won’t be created"
- },
  "nodeReview": {
   "message": "To check"
  },
  "nodeReviewMeta": {
   "message": "Not enough clues"
- },
- "nodeStay": {
-  "message": "Stay in place"
- },
- "nodeStayMeta": {
-  "message": "Not moved"
- },
- "nodeOffHint": {
-  "message": "This folder won’t be created: its bookmarks stay in place."
  },
  "countLabel": {
   "message": "{1} bookmarks"
@@ -269,9 +248,6 @@
  },
  "sheetClose": {
   "message": "Close"
- },
- "staysHint": {
-  "message": "These bookmarks stay where they are."
  },
  "emptyFolder": {
   "message": "Drag bookmarks here"
@@ -309,17 +285,11 @@
  "restoreProposal": {
   "message": "Restore proposal"
  },
- "applyShort": {
-  "message": "Apply"
- },
  "applyRegion": {
   "message": "Apply the changes"
  },
  "announceMoved": {
   "message": "“{1}” moved to {2}"
- },
- "announceStay": {
-  "message": "“{1}” stays in place"
  },
  "back": {
   "message": "Back"
@@ -334,16 +304,16 @@
   "message": "Click a bookmark to hide or show its name"
  },
  "applyCount": {
-  "message": "Apply {1} changes"
+  "message": "File {1} bookmarks"
  },
  "applyOne": {
-  "message": "Apply 1 change"
+  "message": "File 1 bookmark"
  },
  "scopeLabel": {
   "message": "Folders to organize"
  },
  "barScopeHint": {
-  "message": "Its folders only: your shortcuts stay in the bar"
+  "message": "Shortcuts included: the most used come back first"
  },
  "showSubfolders": {
   "message": "Show the folders of {1}"
@@ -360,9 +330,6 @@
  "sumCheckDead": {
   "message": "dead sites"
  },
- "sumBackup": {
-  "message": "backup"
- },
  "sumHistory": {
   "message": "history"
  },
@@ -377,12 +344,6 @@
  },
  "optCheckDeadHint": {
   "message": "They are set apart, in “Unreachable sites”."
- },
- "optBackup": {
-  "message": "Back up the current tree"
- },
- "optBackupHint": {
-  "message": "A dated copy in Other bookmarks, to delete whenever you like."
  },
  "optFolderStyleHint": {
   "message": "Subfolders keep their names."
@@ -408,9 +369,6 @@
  "sitesNote": {
   "message": "Several sites at a time. Nothing is sent, pages are only read."
  },
- "doneBackup": {
-  "message": "Copy of the previous tree: “{1}”"
- },
  "sitesAllowed": {
   "message": "Access to sites granted"
  },
@@ -424,7 +382,7 @@
   "message": "No backup"
  },
  "backupCount": {
-  "message": "{1} bookmarks and folders copied"
+  "message": "{1} bookmarks"
  },
  "backupDelete": {
   "message": "Delete"
@@ -433,7 +391,7 @@
   "message": "Delete this backup?"
  },
  "backupConfirm": {
-  "message": "“{1}” only holds copies: your organized bookmarks do not move."
+  "message": "“{1}” and everything in it will be deleted for good. Your filed bookmarks do not move, but the sort that created it can no longer be undone."
  },
  "backupDeleted": {
   "message": "Backup deleted."
@@ -477,14 +435,8 @@
  "reasonLearnedSite": {
   "message": "You file {1} in “{2}”"
  },
- "reasonAlreadyFiled": {
-  "message": "Already in “{1}”"
- },
  "reasonKeptFolder": {
-  "message": "Stays in “{1}”"
- },
- "reasonUserKept": {
-  "message": "Filed here by you"
+  "message": "Your folder “{1}”, recreated as it is"
  },
  "reasonNewCategory": {
   "message": "{1} bookmarks of this category"
@@ -520,16 +472,10 @@
   "message": "Duplicates"
  },
  "nodeDupesMeta": {
-  "message": "Removed, kept in the backup"
- },
- "nodeDupesMetaNoBackup": {
-  "message": "Removed, Undo brings them back"
+  "message": "Not recreated, kept in the backup"
  },
  "dupesHint": {
-  "message": "These pages already exist elsewhere: one copy stays. The backup keeps these ones."
- },
- "dupesHintNoBackup": {
-  "message": "These pages already exist elsewhere: one copy stays. Undoing the sort brings them back."
+  "message": "These pages already exist elsewhere: one copy is recreated. These ones stay in the backup."
  },
  "keepAllDupes": {
   "message": "Keep all"
@@ -541,10 +487,10 @@
   "message": "Duplicate of “{1}” ({2})"
  },
  "optDupes": {
-  "message": "Remove duplicates"
+  "message": "One copy of each page"
  },
  "optDupesHint": {
-  "message": "One copy of each page stays; the others are kept in the backup."
+  "message": "Duplicates are not recreated; they stay in the backup."
  },
  "sumDupes": {
   "message": "duplicates"
@@ -553,6 +499,72 @@
   "message": "Open {1}"
  },
  "reviewHintUntested": {
-  "message": "Not enough clues. Allow reading sites so that they are tested, or open them to check."
+  "message": "Not enough clues. Allow reading sites so that they are tested, or open them to check. Otherwise they go to “To check”."
+ },
+ "archiveNote": {
+  "message": "Your current tree is kept as it is in a dated backup, in Other bookmarks. One click undoes the sort."
+ },
+ "barSheetHint": {
+  "message": "The sites you open most, as icons at the start of the bar. In the preview, click an icon to show its name."
+ },
+ "doneArchive": {
+  "message": "Your previous tree is in “{1}”, in Other bookmarks."
+ },
+ "nodeBar": {
+  "message": "Quick access"
+ },
+ "nodeBarMeta": {
+  "message": "Icons at the start of the bar"
+ },
+ "notRecreated": {
+  "message": "Not recreated"
+ },
+ "optQuickAccess": {
+  "message": "Quick access"
+ },
+ "optQuickAccessHint": {
+  "message": "The most visited sites, as icons at the start of the bar"
+ },
+ "quickNone": {
+  "message": "None"
+ },
+ "reasonBarShortcut": {
+  "message": "Already in your bookmarks bar"
+ },
+ "reasonBarTool": {
+  "message": "Bar tool (bookmarklet or browser page)"
+ },
+ "reasonFacet": {
+  "message": "{1} bookmarks from the same site or on the same subject"
+ },
+ "reasonLearned": {
+  "message": "You filed it in “{1}”"
+ },
+ "reasonMyFolders": {
+  "message": "Your folders that mix several subjects"
+ },
+ "reasonQuickAccess": {
+  "message": "One of the sites you open most"
+ },
+ "reasonReviewFolder": {
+  "message": "Not enough clues to file them"
+ },
+ "reasonSpecial": {
+  "message": "A link that is not a web page (bookmarklet, browser page, file)"
+ },
+ "sectionOff": {
+  "message": "This folder will not be created: its bookmarks go to “{1}”."
+ },
+ "suggestion": {
+  "message": "Suggestion: {1}"
+ },
+ "leaveTitle": {
+  "message": "Discard this proposal?"
+ },
+ "leaveBody": {
+  "message": "Your bookmarks have not been changed. To sort them, you will run the analysis again."
+ },
+ "leaveConfirm": {
+  "message": "Discard"
  }
 }

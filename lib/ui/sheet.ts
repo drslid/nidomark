@@ -1,12 +1,12 @@
 import type { Analysis } from '../analyze';
+import { REVIEW_KEY } from '../categorize';
 import { t } from '../i18n';
 import type { Decisions } from '../plan';
-import type { FolderItem, Reason } from '../types';
-import { isBackupTitle } from '../taxonomy';
-import { VOCAB, stripEmoji } from '../vocab';
+import type { Placement, Reason, Target } from '../types';
+import { VOCAB } from '../vocab';
 import { closeMenus, favicon, h, icon, openMenu } from './dom';
 import type { Actions } from './state';
-import { type DestNode, folderEmoji, keyToTarget, nodeOf, targetKey } from './viewmodel';
+import { type DestNode, type Layout, type Section, targetKey } from './viewmodel';
 
 /** Drag-and-drop payload type for a bookmark id. */
 export const DRAG_TYPE = 'application/x-nidomark-bookmark';
@@ -15,39 +15,23 @@ export function reasonText(r: Reason): string {
   return t(r.key, ...(r.subs ?? []));
 }
 
-/** Title shown for a bookmark: the accepted cleaner title, or the current one. */
+/** Title shown for a bookmark: the accepted cleaner title (or its name, for an icon), or the current one. */
 export function bookmarkTitle(an: Analysis, d: Decisions, id: string): string {
   const tt = d.titles[id];
   return tt?.accepted ? tt.title : (an.snapshot.bookmarks.get(id)?.title ?? '');
 }
 
-/** "Bookmarks bar › Tools" for a folder. */
-export function folderPathLabel(an: Analysis, f: FolderItem): string {
-  let top: FolderItem | undefined = f;
-  while (top?.parentId && !an.snapshot.folders.get(top.parentId)?.isRoot) top = an.snapshot.folders.get(top.parentId);
-  const rootId = top?.parentId;
-  const root = rootId === an.snapshot.barId ? t('barFolder') : rootId === an.snapshot.otherId ? t('otherFolder') : (an.snapshot.folders.get(rootId ?? '')?.title ?? '');
-  return [root, ...f.path].filter(Boolean).join(' › ');
+/** "Tech › Development" for a proposed folder. */
+export function folderPath(an: Analysis, d: Decisions, key: string): string {
+  const byKey = new Map(an.proposal.newFolders.map((f) => [f.key, f]));
+  const names: string[] = [];
+  for (let k: string | undefined = key; k && names.length < 8; k = byKey.get(k)?.parentKey) names.unshift(d.newFolders[k]?.name ?? byKey.get(k)?.name ?? '');
+  return names.join(' › ');
 }
 
-/** Existing folders a bookmark can be moved to: any folder but the roots, managed folders and backups. */
-export function destinationFolders(an: Analysis): FolderItem[] {
-  const backup = (f: FolderItem): boolean => isBackupTitle(f.title) || (!!f.parentId && !!an.snapshot.folders.get(f.parentId) && backup(an.snapshot.folders.get(f.parentId) as FolderItem));
-  return [...an.snapshot.folders.values()].filter((f) => !f.isRoot && !f.unmodifiable && !backup(f));
-}
-
-/** Where a proposed folder will be created: "Bookmarks bar", or the group folder it goes into. */
-export function newFolderPlace(an: Analysis, d: Decisions, key: string): string {
-  const f = an.proposal.newFolders.find((x) => x.key === key);
-  if (!f) return '';
-  if (f.parentKey) {
-    const parent = d.newFolders[f.parentKey];
-    return parent ? `${parent.emoji} ${parent.name}`.trim() : '';
-  }
-  if (f.parentId === an.snapshot.barId) return t('barFolder');
-  if (f.parentId === an.snapshot.otherId) return t('otherFolder');
-  const folder = an.snapshot.folders.get(f.parentId);
-  return folder ? folderPathLabel(an, folder) : '';
+/** Root folder a proposed folder is created in. */
+function rootName(an: Analysis, rootId: string | undefined): string {
+  return rootId === an.snapshot.barId ? t('barFolder') : rootId === an.snapshot.otherId ? t('otherFolder') : (an.snapshot.folders.get(rootId ?? '')?.title ?? '');
 }
 
 export function openNewFolderDialog(onCreate: (name: string) => void): void {
@@ -108,40 +92,30 @@ function openEmojiMenu(anchor: HTMLElement, current: string, name: string, onPic
   ], t('emojiLabel', name));
 }
 
-function openMoveMenu(anchor: HTMLElement, an: Analysis, d: Decisions, a: Actions, id: string): void {
-  const current = nodeOf(an, d, id);
-  const go = (key: string) => {
-    a.move(id, keyToTarget(key));
+function openMoveMenu(anchor: HTMLElement, an: Analysis, d: Decisions, a: Actions, lay: Layout, id: string): void {
+  const now = lay.where.get(id);
+  const go = (target: Target) => {
+    a.move(id, target);
     closeMenus();
   };
-  const item = (key: string, emoji: string, label: string) =>
-    h('button', { type: 'button', role: 'menuitem', 'aria-current': key === current ? 'true' : undefined, onclick: () => go(key) },
-      emoji ? h('span', { class: 'emoji', 'aria-hidden': 'true' }, emoji) : icon('folder'), h('span', null, label));
-  const fresh = an.proposal.newFolders.filter((f) => d.newFolders[f.key]?.accepted).map((f) => item(`n:${f.key}`, d.newFolders[f.key]?.emoji ?? '', d.newFolders[f.key]?.name ?? f.name));
-  const existing = destinationFolders(an).map((f) => item(`e:${f.id}`, d.folderStyle !== 'name' ? folderEmoji(d, f) : '', `${stripEmoji(f.title) || f.title}`));
+  const item = (lead: Node | string, label: string, target: Target, current: boolean, level = 1) =>
+    h('button', { type: 'button', role: 'menuitem', class: `indent-${level}`, 'aria-current': current ? 'true' : undefined, onclick: () => go(target) },
+      typeof lead === 'string' ? h('span', { class: 'emoji', 'aria-hidden': 'true' }, lead) : lead, h('span', null, label));
+  const items: HTMLElement[] = [h('div', { class: 'menu-label' }, t('moveTo'))];
+  // The model's lean comes first for a bookmark it could not place for sure.
+  const guess = an.proposal.guesses[id];
+  if (guess && now?.folder !== guess) items.push(item(icon('auto_awesome'), t('suggestion', folderPath(an, d, guess)), { kind: 'new', key: guess }, false), h('hr'));
+  items.push(item(icon('bolt'), t('nodeBar'), { kind: 'bar' }, now?.node === 'bar'));
+  for (const n of lay.nodes) {
+    if (n.kind === 'bar' || n.kind === 'dupes') continue;
+    const key = n.kind === 'review' ? REVIEW_KEY : n.key.slice(2);
+    items.push(item(n.kind === 'review' ? icon('help') : n.emoji || icon('folder'), n.kind === 'review' ? t('nodeReview') : n.name, { kind: 'new', key }, now?.folder === key));
+    for (const sec of n.sections) items.push(item(sec.emoji || icon('folder'), sec.name, { kind: 'new', key: sec.key }, now?.folder === sec.key, sec.level));
+  }
+  items.push(h('hr'), h('button', { type: 'button', role: 'menuitem', onclick: () => { closeMenus(); openNewFolderDialog((name) => a.move(id, { kind: 'new', key: a.createFolder(name).slice(2) })); } }, icon('create_new_folder'), t('newFolderOption')));
   const tt = d.titles[id];
-  const items: HTMLElement[] = [
-    h('div', { class: 'menu-label' }, t('moveTo')),
-    ...fresh,
-    ...existing,
-    h('hr'),
-    h('button', { type: 'button', role: 'menuitem', 'aria-current': current === 'stay' || current === 'review' ? 'true' : undefined, onclick: () => go('stay') }, icon('push_pin'), t('dontMove')),
-    h('button', { type: 'button', role: 'menuitem', onclick: () => { closeMenus(); openNewFolderDialog((name) => a.move(id, keyToTarget(a.createFolder(name)))); } }, icon('create_new_folder'), t('newFolderOption')),
-  ];
   if (tt) items.push(h('hr'), h('button', { type: 'button', role: 'menuitem', onclick: () => { a.toggleTitle(id); closeMenus(); } }, icon('restart_alt'), tt.accepted ? t('keepTitle') : t('useNewTitle')));
   openMenu(anchor, items, t('moveTo'));
-}
-
-/** Why a bookmark is where it is: the proposal's reason, or the user's own choice. */
-function rowReason(an: Analysis, d: Decisions, id: string): string {
-  const placement = an.proposal.placements.find((p) => p.bookmarkId === id);
-  const review = an.proposal.review.find((r) => r.bookmarkId === id);
-  const m = d.moves[id];
-  const proposedKey = placement ? targetKey(placement.target) : 'stay';
-  const nowKey = m?.accepted ? targetKey(m.target) : 'stay';
-  if (review && !m?.accepted) return reasonText(review.reason);
-  if (placement && proposedKey === nowKey) return reasonText(placement.reason);
-  return t('reasonUser');
 }
 
 function host(url: string): string {
@@ -153,73 +127,64 @@ function host(url: string): string {
   }
 }
 
-/** The reason most bookmarks of a node share, shown once under its title instead of on every row. */
-function sharedReason(an: Analysis, d: Decisions, ids: string[]): string | null {
-  const counts = new Map<string, number>();
-  for (const id of ids) {
-    const r = rowReason(an, d, id);
-    counts.set(r, (counts.get(r) ?? 0) + 1);
-  }
-  const [top] = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-  return top && top[1] >= Math.max(2, ids.length / 2) ? top[0] : null;
-}
-
 export function clearDropTargets(): void {
   document.querySelectorAll('.drop-target, .origin').forEach((el) => el.classList.remove('drop-target', 'origin'));
   document.querySelector('.board')?.classList.remove('drag-active');
 }
 
-export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode, backupOn: boolean): HTMLElement {
-  const close = h('button', { class: 'icon-btn', 'aria-label': t('sheetClose'), 'data-focus': 'sheet-close', onclick: () => a.select(null) }, icon('close'));
-  let head: HTMLElement;
-  let sub: string | null = null;
-  let actions: HTMLElement | null = null;
+export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode, lay: Layout): HTMLElement {
+  const placements = new Map<string, Placement>(an.proposal.placements.map((p) => [p.bookmarkId, p]));
+  /** Why a bookmark is where it is: the proposal's reason, or the user's own choice. */
+  const reasonOf = (id: string): string => {
+    const pl = placements.get(id);
+    const m = d.moves[id];
+    if (pl && (!m || targetKey(m.target) === targetKey(pl.target))) return reasonText(pl.reason);
+    return t('reasonUser');
+  };
   // A reason most bookmarks share is said once, under the title; the others are said on their row.
-  const shared = node.kind === 'review' ? null : sharedReason(an, d, node.ids);
+  const counts = new Map<string, number>();
+  if (node.kind !== 'review') for (const id of node.ids) counts.set(reasonOf(id), (counts.get(reasonOf(id)) ?? 0) + 1);
+  const top = [...counts.entries()].sort((x, y) => y[1] - x[1])[0];
+  const shared = top && top[1] >= Math.max(2, node.ids.length / 2) ? top[0] : null;
+
+  const close = h('button', { class: 'icon-btn', 'aria-label': t('sheetClose'), 'data-focus': 'sheet-close', onclick: () => a.select(null) }, icon('close'));
+  const staticHead = (iconName: string, title: string, extra = '') =>
+    h('div', { class: 'sheet-head' }, h('span', { class: `tile-btn tile-static ${extra}`.trim() }, icon(iconName)), h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, title)), close);
+  let head: HTMLElement;
+  let sub: string | null;
+  let actions: HTMLElement | null = null;
   if (node.kind === 'new') {
     const key = node.key.slice(2);
-    const tileBtn = h('button', { class: 'tile-btn', 'aria-label': t('emojiLabel', node.name), 'data-focus': 'sheet-emoji', onclick: (e: Event) => openEmojiMenu(e.currentTarget as HTMLElement, node.emoji, node.name, (emoji) => a.setNewFolder(key, { emoji })) },
-      node.emoji || icon('folder'));
-    const name = h('input', { class: 'name-field', type: 'text', value: node.name, 'aria-label': t('folderName'), 'data-focus': 'sheet-name', maxlength: 60, onchange: (e: Event) => { const v = (e.target as HTMLInputElement).value.trim(); if (v) a.setNewFolder(key, { name: v }); } });
-    head = h('div', { class: 'sheet-head' }, tileBtn, h('div', { class: 'grow' }, name), close);
-    sub = node.off ? t('nodeOffHint') : [t('nodeNewIn', newFolderPlace(an, d, key)), shared].filter(Boolean).join(' · ');
-    actions = h('div', { class: 'sheet-actions' },
-      h('span', { class: 'muted' }, t('countLabel', node.ids.length)),
-      node.off
-        ? h('button', { class: 'btn btn-tonal', 'data-focus': 'sheet-create', onclick: () => a.setNewFolder(key, { accepted: true }) }, icon('add'), t('createThisFolder'))
-        : h('button', { class: 'btn btn-text', 'data-focus': 'sheet-dont', onclick: () => a.setNewFolder(key, { accepted: false }) }, t('dontCreate')));
-  } else if (node.kind === 'existing' && node.folder) {
-    const f = node.folder;
-    const tileBtn = h('button', { class: 'tile-btn', 'aria-label': t('emojiLabel', node.name), 'data-focus': 'sheet-emoji', disabled: d.folderStyle === 'name', onclick: (e: Event) => openEmojiMenu(e.currentTarget as HTMLElement, node.emoji, node.name, (emoji) => a.setFolderEmoji(f.id, emoji)) },
-      d.folderStyle !== 'name' && node.emoji ? node.emoji : icon('folder'));
-    head = h('div', { class: 'sheet-head' }, tileBtn, h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, node.name)), close);
-    sub = [folderPathLabel(an, f), shared].filter(Boolean).join(' · ');
-  } else if (node.kind === 'dupes') {
     head = h('div', { class: 'sheet-head' },
-      h('span', { class: 'tile-btn tile-static' }, icon('content_copy')),
-      h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, t('nodeDupes'))), close);
-    sub = backupOn ? t('dupesHint') : t('dupesHintNoBackup');
+      h('button', { class: 'tile-btn', 'aria-label': t('emojiLabel', node.name), 'data-focus': 'sheet-emoji', onclick: (e: Event) => openEmojiMenu(e.currentTarget as HTMLElement, node.emoji, node.name, (emoji) => a.setNewFolder(key, { emoji })) }, node.emoji || icon('folder')),
+      h('div', { class: 'grow' }, h('input', { class: 'name-field', type: 'text', value: node.name, 'aria-label': t('folderName'), 'data-focus': 'sheet-name', maxlength: 60, onchange: (e: Event) => { const v = (e.target as HTMLInputElement).value.trim(); if (v) a.setNewFolder(key, { name: v }); } })),
+      close);
+    sub = [t('nodeNewIn', rootName(an, node.rootId)), shared].filter(Boolean).join(' · ');
+  } else if (node.kind === 'bar') {
+    head = staticHead('bolt', t('nodeBar'));
+    sub = t('barSheetHint');
+  } else if (node.kind === 'dupes') {
+    head = staticHead('content_copy', t('nodeDupes'));
+    sub = t('dupesHint');
     actions = h('div', { class: 'sheet-actions' },
       h('span', { class: 'muted' }, t('countLabel', node.ids.length)),
       h('button', { class: 'btn btn-text', 'data-focus': 'sheet-keep-dupes', onclick: () => a.keepAllDuplicates() }, t('keepAllDupes')));
   } else {
-    const review = node.kind === 'review';
-    head = h('div', { class: 'sheet-head' },
-      h('span', { class: `tile-btn tile-static${review ? ' tile-review' : ''}` }, icon(review ? 'help' : 'push_pin')),
-      h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, review ? t('nodeReview') : t('nodeStay'))), close);
+    head = staticHead('help', t('nodeReview'), 'tile-review');
     // Say "tested" only when the pages were actually read.
-    const untested = review && node.ids.every((id) => an.proposal.review.find((r) => r.bookmarkId === id)?.reason.key === 'reviewNoAccess');
-    sub = review ? (untested ? t('reviewHintUntested') : t('reviewHint')) : (shared ?? t('staysHint'));
+    const untested = node.ids.every((id) => placements.get(id)?.reason.key === 'reviewNoAccess');
+    sub = untested ? t('reviewHintUntested') : t('reviewHint');
   }
   // Bookmarks to check and dead sites can be opened, to see for oneself.
-  const openable = node.kind === 'review' || node.key === 'n:c:dead' || node.folder?.title.includes('🚫');
-  const rows = node.ids.map((id) => {
+  const openable = node.kind === 'review' || node.key === 'n:c:dead';
+  const row = (id: string): HTMLElement => {
     const b = an.snapshot.bookmarks.get(id);
     const title = bookmarkTitle(an, d, id) || t('unnamed');
-    const reason = rowReason(an, d, id);
+    const reason = reasonOf(id);
     const why = reason !== shared ? reason : null;
+    const guess = node.kind === 'review' ? an.proposal.guesses[id] : undefined;
     const li = h('li', {
-      class: 'row', draggable: !node.off, 'data-id': id,
+      class: 'row', draggable: 'true', 'data-id': id,
       ondragstart: (e: DragEvent) => {
         e.dataTransfer?.setData(DRAG_TYPE, id);
         e.dataTransfer?.setData('text/plain', title);
@@ -238,17 +203,32 @@ export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode
       h('div', { class: 'row-text' },
         h('span', { class: 'title' }, title),
         h('span', { class: 'sub' }, host(b?.url ?? '')),
-        why ? h('span', { class: 'why', id: `why-${id}` }, why) : null),
+        why ? h('span', { class: 'why', id: `why-${id}` }, why) : null,
+        guess ? h('button', { class: 'suggest', type: 'button', title: t('suggestion', folderPath(an, d, guess)), 'data-focus': `guess-${id}`, onclick: () => a.move(id, { kind: 'new', key: guess }) }, icon('auto_awesome', undefined, 'icon-sm'), h('span', null, t('suggestion', folderPath(an, d, guess)))) : null),
       h('span', { class: 'row-actions' },
         openable && b?.url ? h('a', { class: 'icon-btn', href: b.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('openSite', title), title: t('openSite', title), 'data-focus': `open-${id}` }, icon('open_in_new')) : null,
-        h('button', { class: 'icon-btn', 'aria-label': `${t('moveTo')} : ${title}`, 'aria-describedby': why ? `why-${id}` : undefined, 'aria-haspopup': 'menu', 'data-focus': `mv-${id}`, onclick: (e: Event) => openMoveMenu(e.currentTarget as HTMLElement, an, d, a, id) }, icon('drive_file_move'))));
+        h('button', { class: 'icon-btn', 'aria-label': `${t('moveTo')} : ${title}`, 'aria-describedby': why ? `why-${id}` : undefined, 'aria-haspopup': 'menu', 'data-focus': `mv-${id}`, onclick: (e: Event) => openMoveMenu(e.currentTarget as HTMLElement, an, d, a, lay, id) }, icon('drive_file_move'))));
     return li;
-  });
-  return h('aside', { class: 'sheet', id: 'sheet', 'aria-label': node.kind === 'new' || node.kind === 'existing' ? node.name : node.kind === 'review' ? t('nodeReview') : node.kind === 'dupes' ? t('nodeDupes') : t('nodeStay') },
+  };
+  const rows = (ids: string[], label: string) => (ids.length ? h('ul', { class: 'rows', 'aria-label': label }, ids.map(row)) : null);
+  const section = (sec: Section): HTMLElement =>
+    h('section', { class: `sec level-${sec.level}${sec.off ? ' off' : ''}`, 'aria-label': sec.name },
+      h('div', { class: 'sec-head' },
+        h('button', { class: 'tile-btn tile-sm', 'aria-label': t('emojiLabel', sec.name), 'data-focus': `sec-emoji-${sec.key}`, disabled: sec.off, onclick: (e: Event) => openEmojiMenu(e.currentTarget as HTMLElement, sec.emoji, sec.name, (emoji) => a.setNewFolder(sec.key, { emoji })) }, sec.emoji || icon('folder', undefined, 'icon-sm')),
+        h('input', { class: 'name-field name-sm', type: 'text', value: sec.name, 'aria-label': t('folderName'), 'data-focus': `sec-name-${sec.key}`, maxlength: 60, disabled: sec.off, onchange: (e: Event) => { const v = (e.target as HTMLInputElement).value.trim(); if (v) a.setNewFolder(sec.key, { name: v }); } }),
+        h('span', { class: 'count' }, String(sec.ids.length)),
+        sec.off
+          ? h('button', { class: 'btn btn-text btn-sm', 'data-focus': `sec-create-${sec.key}`, onclick: () => a.setNewFolder(sec.key, { accepted: true }) }, t('createThisFolder'))
+          : h('button', { class: 'btn btn-text btn-sm', 'data-focus': `sec-dont-${sec.key}`, onclick: () => a.setNewFolder(sec.key, { accepted: false }) }, t('dontCreate'))),
+      sec.off && sec.into ? h('p', { class: 'sec-note small' }, t('sectionOff', sec.into)) : null,
+      rows(sec.ids, sec.name));
+  const empty = !node.ids.length && !node.sections.length;
+  const label = node.kind === 'new' ? node.name : node.kind === 'bar' ? t('nodeBar') : node.kind === 'review' ? t('nodeReview') : t('nodeDupes');
+  return h('aside', { class: 'sheet', id: 'sheet', 'aria-label': label },
     head,
     sub && h('p', { class: 'sheet-sub' }, sub),
     actions,
-    rows.length
-      ? h('ul', { class: 'sheet-list', 'data-scroll': `sheet-${node.key}`, 'aria-label': t('countLabel', rows.length) }, rows)
-      : h('div', { class: 'empty-drop' }, t('emptyFolder')));
+    empty
+      ? h('div', { class: 'empty-drop' }, t('emptyFolder'))
+      : h('div', { class: 'sheet-list', 'data-scroll': `sheet-${node.key}` }, rows(node.ids, label), node.sections.map(section)));
 }

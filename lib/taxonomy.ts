@@ -558,7 +558,7 @@ for (const g of GROUPS) for (const a of [fold(g.fr), fold(g.en), ...list(g.alias
 
 const CATCH_ALL = new Set(
   list(
-    'divers, diverses, autre, autres, misc, miscellaneous, other, others, utile, utiles, a voir plus tard, a trier, trier, a classer, classer, non classe, non classes, unsorted, unfiled, to sort, temp, tmp, temporaire, nouveau dossier, new folder, sans titre, untitled, vrac, en vrac, bazar, fourre tout, stuff, random, old, ancien, anciens, vieux, favoris, mes favoris, bookmarks, my bookmarks, liens, links, mes liens, sites, sites web, web, internet, general, nouveaux, new, recents, recent',
+    'divers, diverses, autre, autres, misc, miscellaneous, other, others, utile, utiles, a voir plus tard, a trier, trier, a classer, classer, non classe, non classes, unsorted, unfiled, to sort, temp, tmp, temporaire, nouveau dossier, new folder, sans titre, untitled, vrac, en vrac, bazar, fourre tout, stuff, random, old, ancien, anciens, vieux, a verifier, to check, to review, favoris, mes favoris, bookmarks, my bookmarks, liens, links, mes liens, sites, sites web, web, internet, general, nouveaux, new, recents, recent',
   ).map(normalizeTitle),
 );
 const CATCH_ALL_PATTERNS = [/^(importe|importes|imported|import)\b/, /^(nouveau dossier|new folder|dossier|folder)( \d+)?$/, /^(from|depuis) (firefox|safari|edge|chrome|opera|internet explorer|ie)$/];

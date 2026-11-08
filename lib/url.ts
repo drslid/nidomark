@@ -22,6 +22,15 @@ export function isWebUrl(url: string): boolean {
   return /^https?:\/\//i.test(url);
 }
 
+/** A site as the history counts it: host and port, without "www." (two services of a home server are two sites). */
+export function siteKey(url: string): string {
+  try {
+    return new URL(url).host.toLowerCase().replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
+
 const PRIVATE_SUFFIXES = ['.local', '.lan', '.home', '.home.arpa', '.internal', '.localdomain', '.intranet', '.box'];
 /** Appliance and home-router names reachable on a home network. */
 const HOME_APPLIANCE_HOSTS = new Set([

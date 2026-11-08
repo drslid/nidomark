@@ -15,6 +15,12 @@ export function styleSwitch(current: FolderStyle, onChange: (s: FolderStyle) => 
   return segmented(name, current, [['emoji', t('styleEmoji')], ['emoji-name', t('styleEmojiName')], ['name', t('styleName')]], onChange, t('optFolderStyle'));
 }
 
+/** Number of quick access icons: none, or a few. */
+export function quickAccessSwitch(current: number, onChange: (n: number) => void, name = 'quick-access'): HTMLElement {
+  const choices: [string, string][] = [['0', t('quickNone')], ['5', '5'], ['10', '10'], ['20', '20']];
+  return segmented(name, String(current), choices, (v) => onChange(Number(v)), t('optQuickAccess'));
+}
+
 export function favicons(urls: string[], max = 5): HTMLElement {
   return h('span', { class: 'favicons', 'aria-hidden': 'true' }, urls.slice(0, max).map((u) => favicon(u, 18)));
 }
@@ -70,7 +76,7 @@ export function startView(s: State, a: Actions): HTMLElement {
   const st = s.settings;
   const count = p?.count ?? 0;
   const more = s.moreOptions;
-  const extras = [st.readSites && t('sumReadSites'), st.checkDead && t('sumCheckDead'), st.removeDuplicates && t('sumDupes'), st.backup && t('sumBackup'), s.useHistory && t('sumHistory')].filter(Boolean).join(' · ');
+  const extras = [st.readSites && t('sumReadSites'), st.checkDead && t('sumCheckDead'), st.removeDuplicates && t('sumDupes'), st.useHistory && t('sumHistory')].filter(Boolean).join(' · ');
   return h('div', { class: 'center start' },
     interrupted && h('div', { class: 'banner banner-warn', role: 'alert' },
       icon('warning'),
@@ -91,14 +97,17 @@ export function startView(s: State, a: Actions): HTMLElement {
       h('div', { class: 'option-row' },
         h('span', { class: 'grow row-title' }, t('optFolderStyle')),
         styleSwitch(st.folderStyle, (v) => a.setFolderStyle(v), 'start-style')),
+      h('div', { class: 'option-row' },
+        h('span', { class: 'grow' }, h('span', { class: 'row-title' }, t('optQuickAccess')), h('span', { class: 'muted small row-hint' }, t('optQuickAccessHint'))),
+        quickAccessSwitch(st.quickAccess, (n) => a.setQuickAccess(n), 'start-quick')),
       h('button', { class: 'option-row disclosure', type: 'button', 'aria-expanded': String(more), 'data-focus': 'more-options', onclick: () => a.toggleMoreOptions() },
         h('span', { class: 'grow' }, h('span', { class: 'row-title' }, t('moreOptions')), !more && extras ? h('span', { class: 'muted small row-hint' }, extras) : null),
         icon('expand_more', undefined, `chevron-icon${more ? ' open' : ''}`)),
       more && switchRow('opt-read', t('optReadSites'), t('optReadSitesHint'), st.readSites, (on) => a.setOption('readSites', on)),
       more && switchRow('opt-dead', t('optCheckDead'), t('optCheckDeadHint'), st.checkDead, (on) => a.setOption('checkDead', on)),
       more && switchRow('opt-dupes', t('optDupes'), t('optDupesHint'), st.removeDuplicates, (on) => a.setOption('removeDuplicates', on)),
-      more && switchRow('opt-backup', t('optBackup'), t('optBackupHint'), st.backup, (on) => a.setOption('backup', on)),
-      more && switchRow('opt-history', t('optHistory'), t('optHistoryHint'), s.useHistory, (on) => a.setUseHistory(on))),
+      more && switchRow('opt-history', t('optHistory'), t('optHistoryHint'), st.useHistory, (on) => a.setUseHistory(on))),
+    h('p', { class: 'archive-note small' }, icon('inventory_2', undefined, 'icon-sm'), h('span', null, t('archiveNote'))),
     h('button', { class: 'btn btn-filled btn-lg', disabled: interrupted || count === 0, onclick: () => a.analyze(), 'data-focus': 'analyze' },
       icon('auto_awesome'), count === 0 ? t('startCountNone') : count === 1 ? t('analyzeOne') : t('analyzeCount', count.toLocaleString())),
     h('div', { class: 'privacy' },
@@ -126,8 +135,8 @@ export function doneView(s: State, a: Actions): HTMLElement {
   return h('div', { class: 'center', role: 'status' },
     icon(r?.undone ? 'undo' : 'check_circle', undefined, 'done-icon'),
     h('h1', null, r?.undone ? t('undone') : t('doneTitle')),
-    !r?.undone && h('p', { class: 'lead' }, t('doneSummary', (r?.done ?? 0).toLocaleString())),
-    !r?.undone && s.backups[0] && s.lastJournal && s.backups[0].createdAt === s.lastJournal.createdAt && h('p', { class: 'note small' }, icon('history'), t('doneBackup', s.backups[0].title)),
+    !r?.undone && h('p', { class: 'lead' }, t('doneSummary', (r?.done ?? 0).toLocaleString(), (r?.folders ?? 0).toLocaleString())),
+    !r?.undone && r?.archive && h('p', { class: 'note small' }, icon('inventory_2'), t('doneArchive', r.archive)),
     r?.undone && (r.skipped ?? 0) > 0 && h('p', { class: 'lead' }, t('undoSkipped', r.skipped)),
     !r?.undone && (r?.skipped ?? 0) > 0 && h('div', { class: 'banner banner-warn' }, icon('warning'), h('span', { class: 'grow' }, t('doneSkipped', r?.skipped ?? 0))),
     h('div', { style: 'display:flex;gap:8px' },

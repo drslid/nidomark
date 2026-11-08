@@ -30,7 +30,8 @@ export interface State {
   tab: 'organize' | 'settings';
   view: View;
   settings: Settings;
-  useHistory: boolean;
+  /** The permission to read the history was granted. */
+  historyAllowed: boolean;
   /** The permission to read sites was granted. */
   sitesAllowed: boolean;
   /** Root folders unfolded in the scope picker. */
@@ -46,7 +47,8 @@ export interface State {
   /** Connectors get their entrance motion once per proposal. */
   wiresDrawn: boolean;
   changedDuringReview: boolean;
-  result: { done: number; skipped: number; undone?: boolean } | null;
+  /** Bookmarks recreated (or changes undone), folders created, changes skipped, and the archive of the old tree. */
+  result: { done: number; folders: number; skipped: number; undone?: boolean; archive?: string } | null;
   error: string | null;
   lastJournal: Journal | null;
   iconOnlyCount: number;
@@ -56,6 +58,7 @@ export interface State {
 export interface Actions {
   setTab(tab: State['tab']): void;
   setUseHistory(on: boolean): void;
+  setQuickAccess(n: number): void;
   setFolderStyle(style: FolderStyle): void;
   setIconOnlyDefault(on: boolean): void;
   analyze(): void;
@@ -64,10 +67,8 @@ export interface Actions {
   toggleTitle(id: string): void;
   toggleIconOnly(id: string): void;
   setNewFolder(key: string, patch: Partial<{ name: string; emoji: string; accepted: boolean }>): void;
-  setFolderEmoji(folderId: string, emoji: string): void;
   /** Creates a folder of the user's own; returns its node key. */
   createFolder(name: string): string;
-  rejectAll(): void;
   restoreProposal(): void;
   apply(): void;
   undo(): void;
@@ -77,7 +78,7 @@ export interface Actions {
   toggleExpanded(folderId: string): void;
   toggleMoreOptions(): void;
   setDestination(d: Destination): void;
-  setOption(key: 'readSites' | 'checkDead' | 'backup' | 'removeDuplicates', on: boolean): void;
+  setOption(key: 'readSites' | 'checkDead' | 'removeDuplicates', on: boolean): void;
   keepAllDuplicates(): void;
   deleteBackup(id: string): void;
   restoreNames(): void;

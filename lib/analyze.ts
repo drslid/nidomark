@@ -3,12 +3,12 @@ import pslText from './data/public_suffix_list.dat?raw';
 import { type CategorizeInput, type Destination, categorize } from './categorize';
 import type { EmbedProgress, Embedder } from './embedder';
 import { exampleVectors } from './examples';
-import { prepare, splitVectors } from './pipeline';
+import { prepare, pruneScope, splitVectors } from './pipeline';
 import { loadPublicSuffixList } from './psl';
 import { DEFAULT_POOL, type SiteRequest, type SiteVerdict, mergePages, pageText, readSites, siteRoot } from './site';
 import { buildSnapshot, type TreeNode } from './snapshot';
-import type { GroupId } from './taxonomy';
 import type { Features, HistoryInfo, Proposal, Snapshot } from './types';
+import { siteKey } from './url';
 
 loadPublicSuffixList(pslText);
 
@@ -19,6 +19,8 @@ export interface Analysis {
   features: Map<string, Features>;
   proposal: Proposal;
   scopeFolderIds: string[];
+  /** Folders left out inside the chosen ones: they stay where they are. */
+  scopeExcluded: string[];
   /** Pages read and sites checked during this analysis. */
   sitesChecked: number;
   destination: Destination;
@@ -29,8 +31,11 @@ export interface AnalyzeOptions {
   useHistory: boolean;
   scopeFolderIds: string[];
   scopeExcluded: string[];
-  examples: Map<string, string>;
-  known: Map<string, { group?: GroupId; category?: string }>;
+  /** Categories the user chose in earlier sorts. */
+  learned?: CategorizeInput['learned'];
+  /** Icons of the most visited sites at the start of the bookmarks bar. */
+  quickAccess: number;
+  known: CategorizeInput['known'];
   destination: Destination;
   /** Read the pages of the bookmarks the title does not explain (needs the permission to access sites). */
   readSites: boolean;
@@ -47,16 +52,28 @@ export interface AnalyzeOptions {
 const READ_BYTES = 128 * 1024;
 const CHECK_BYTES = 16 * 1024;
 
-async function readHistory(): Promise<Map<string, HistoryInfo>> {
+/** The whole history (maxResults 0: no limit), by address, and the visits of each site (typed visits count twice). */
+async function readHistory(): Promise<{ byUrl: Map<string, HistoryInfo>; hostVisits: Map<string, number> }> {
   const items = await browser.history.search({ text: '', startTime: 0, maxResults: 0 });
-  return new Map(items.filter((h) => h.url).map((h) => [h.url as string, { title: h.title, visitCount: h.visitCount ?? 0, typedCount: h.typedCount ?? 0 }]));
+  const byUrl = new Map<string, HistoryInfo>();
+  const hostVisits = new Map<string, number>();
+  for (const h of items) {
+    if (!h.url) continue;
+    const info = { title: h.title, visitCount: h.visitCount ?? 0, typedCount: h.typedCount ?? 0 };
+    byUrl.set(h.url, info);
+    const site = siteKey(h.url);
+    if (site) hostVisits.set(site, (hostVisits.get(site) ?? 0) + info.visitCount + 2 * info.typedCount);
+  }
+  return { byUrl, hostVisits };
 }
 
 export async function analyze(o: AnalyzeOptions): Promise<Analysis> {
   o.onProgress('reading', 0, 1);
   const snapshot = buildSnapshot((await browser.bookmarks.getTree()) as TreeNode[]);
-  const history = o.useHistory ? await readHistory().catch(() => new Map<string, HistoryInfo>()) : undefined;
-  const p = prepare(snapshot, history, o.scopeFolderIds, o.lang, o.scopeExcluded);
+  const history = o.useHistory ? await readHistory().catch(() => undefined) : undefined;
+  // A rebuild archives whole folders: only root folders and the folders right inside them can be chosen.
+  const excluded = pruneScope(snapshot, o.scopeExcluded);
+  const p = prepare(snapshot, history?.byUrl, pruneScope(snapshot, o.scopeFolderIds), o.lang, excluded);
   const vectors = await o.embedder.embed(p.texts, (e: EmbedProgress) => o.onProgress(e.phase, e.done, e.total));
   const input: CategorizeInput = {
     snapshot,
@@ -68,10 +85,13 @@ export async function analyze(o: AnalyzeOptions): Promise<Analysis> {
     sites: new Map(),
     duplicates: o.removeDuplicates ? p.duplicates : [],
     siteReading: o.readSites,
-    examples: o.examples,
+    learned: o.learned,
+    hostVisits: history?.hostVisits,
+    barInScope: !!snapshot.barId && p.scopeFolderIds.includes(snapshot.barId) && !excluded.includes(snapshot.barId),
     known: o.known,
     destination: o.destination,
     lang: o.lang,
+    options: { quickAccess: o.quickAccess },
   };
   let result = categorize(input);
   let sitesChecked = 0;
@@ -80,8 +100,8 @@ export async function analyze(o: AnalyzeOptions): Promise<Analysis> {
     const removed = new Set(input.duplicates?.map((d) => d.bookmarkId));
     // Addresses only reachable at home and home services are never requested from here; nor are duplicates.
     const requestable = (id: string) => {
-      const f = p.features.get(id) as Features;
-      return !f.privateHost && !f.remoteAccessHost && !removed.has(id) && result.assessments.get(id)?.category !== 'home-services' && /^https?:/i.test(snapshot.bookmarks.get(id)?.url ?? '');
+      const f = p.features.get(id);
+      return !!f && !f.privateHost && !f.remoteAccessHost && !removed.has(id) && result.assessments.get(id)?.category !== 'home-services' && /^https?:/i.test(snapshot.bookmarks.get(id)?.url ?? '');
     };
     const unclear = new Set(o.readSites ? p.candidates.filter((id) => result.assessments.get(id)?.unclear) : []);
     const ids = [...new Set([...(o.checkDead ? p.candidates : []), ...unclear])].filter(requestable);
@@ -142,5 +162,5 @@ export async function analyze(o: AnalyzeOptions): Promise<Analysis> {
     }
   }
   o.onProgress('grouping', 1, 1);
-  return { snapshot, features: p.features, proposal: result.proposal, scopeFolderIds: p.scopeFolderIds, sitesChecked, destination: o.destination };
+  return { snapshot, features: p.features, proposal: result.proposal, scopeFolderIds: p.scopeFolderIds, scopeExcluded: excluded, sitesChecked, destination: o.destination };
 }

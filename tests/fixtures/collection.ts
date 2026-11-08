@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { type CategorizeInput, type CategorizeOptions, type Destination, categorize } from '../../lib/categorize';
+import { type CategorizeInput, type CategorizeOptions, type Destination, REVIEW_KEY, categorize } from '../../lib/categorize';
 import { exampleVectors } from '../../lib/examples';
 import { prepare, splitVectors } from '../../lib/pipeline';
 import { loadPublicSuffixList } from '../../lib/psl';
@@ -9,6 +9,7 @@ import type { PageInfo, SiteVerdict } from '../../lib/site';
 import { pageText } from '../../lib/site';
 import { buildSnapshot } from '../../lib/snapshot';
 import type { Proposal, Snapshot } from '../../lib/types';
+import { siteKey } from '../../lib/url';
 import { corpus } from './corpus.js';
 import { SCENARIOS, buildTree, corpusHistory } from './tree';
 
@@ -51,8 +52,15 @@ export interface InputOptions {
   pages?: boolean;
   lang?: string;
   destination?: Destination;
-  examples?: Map<string, string>;
+  learned?: CategorizeInput['learned'];
   options?: Partial<CategorizeOptions>;
+}
+
+/** Visits of each site, as the extension counts them from the history: typed visits count twice. */
+export function corpusVisits(): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const b of corpus) out.set(siteKey(b.url), (out.get(siteKey(b.url)) ?? 0) + b.visits + 2 * b.typed);
+  return out;
 }
 
 /** Categorizer input for the fictitious collection, built by the extension's own pipeline, whole tree in scope. */
@@ -73,7 +81,8 @@ export function buildInput(o: InputOptions = {}): CategorizeInput {
     sites,
     duplicates: p.duplicates,
     siteReading: !!o.pages,
-    examples: o.examples ?? new Map(),
+    learned: o.learned,
+    hostVisits: o.history ? corpusVisits() : undefined,
     known: new Map(),
     destination: o.destination ?? 'bar',
     lang,
@@ -86,7 +95,7 @@ export function run(o: InputOptions = {}): { proposal: Proposal; snapshot: Snaps
   return { proposal: categorize(input).proposal, snapshot: input.snapshot };
 }
 
-/** Where each bookmark ends up, as a readable path: "Tech › Développement", "Recettes", "(reste)", "(à vérifier)". */
+/** Where each bookmark ends up, as a readable path: "Tech › Développement", "(barre)", "(à vérifier)", "(doublon)". */
 export function destinationsOf(proposal: Proposal, snapshot: Snapshot): Record<string, string> {
   const byKey = new Map(proposal.newFolders.map((f) => [f.key, f]));
   const newPath = (key: string): string => {
@@ -94,13 +103,14 @@ export function destinationsOf(proposal: Proposal, snapshot: Snapshot): Record<s
     if (!f) return key;
     return f.parentKey ? `${newPath(f.parentKey)} › ${f.name}` : f.name;
   };
-  const review = new Set(proposal.review.map((r) => r.bookmarkId));
   const dupes = new Set(proposal.duplicates.map((d) => d.bookmarkId));
   const out: Record<string, string> = {};
   for (const pl of proposal.placements) {
     if (dupes.has(pl.bookmarkId)) out[pl.bookmarkId] = '(doublon)';
-    else if (pl.target.kind === 'stay') out[pl.bookmarkId] = review.has(pl.bookmarkId) ? '(à vérifier)' : '(reste)';
+    else if (pl.target.kind === 'bar') out[pl.bookmarkId] = '(barre)';
+    else if (pl.target.kind === 'stay') out[pl.bookmarkId] = '(reste)';
     else if (pl.target.kind === 'existing') out[pl.bookmarkId] = snapshot.folders.get(pl.target.folderId)?.title ?? pl.target.folderId;
+    else if (pl.target.key === REVIEW_KEY) out[pl.bookmarkId] = '(à vérifier)';
     else out[pl.bookmarkId] = newPath(pl.target.key);
   }
   return out;

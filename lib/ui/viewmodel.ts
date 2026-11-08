@@ -1,106 +1,144 @@
 import type { Analysis } from '../analyze';
-import { type Decisions, acceptedFolders } from '../plan';
-import type { FolderItem, Target } from '../types';
-import { leadingEmoji, stripEmoji } from '../vocab';
+import { REVIEW_KEY } from '../categorize';
+import { type Decisions, folderResolver } from '../plan';
+import type { Target } from '../types';
 
-export type NodeKind = 'new' | 'existing' | 'review' | 'dupes' | 'stay';
+export type NodeKind = 'bar' | 'new' | 'review' | 'dupes';
 
-/** A destination on the canvas: a proposed folder, an existing folder, "to check" or "stays in place". */
+/** A subfolder of a node, shown as a section of its sheet. */
+export interface Section {
+  key: string;
+  name: string;
+  emoji: string;
+  /** 2 or 3. */
+  level: number;
+  /** Bookmarks proposed for this folder, or moved there by the user. */
+  ids: string[];
+  /** The user chose not to create it (or a folder above it): its bookmarks go to `into`. */
+  off: boolean;
+  into?: string;
+}
+
+/** A destination on the canvas: quick access, a folder at the top of the new tree, or duplicates left out. */
 export interface DestNode {
-  /** 'n:<new folder key>', 'e:<folder id>', 'review' or 'stay'. */
+  /** 'bar', 'n:<new folder key>', 'review' or 'dupes'. */
   key: string;
   kind: NodeKind;
   name: string;
   emoji: string;
-  folder?: FolderItem;
-  /** Bookmarks shown in this node, in the order of the source folder. */
+  /** Root folder it goes in: the bookmarks bar or Other bookmarks. */
+  rootId?: string;
+  /** Bookmarks right in this folder. */
   ids: string[];
-  /** A proposed folder the user chose not to create (or whose group folder they declined). */
-  off: boolean;
-  /** Group folder a new category folder goes into. */
-  parentKey?: string;
+  /** Every bookmark inside, subfolders included. */
+  all: string[];
+  sections: Section[];
+}
+
+export interface Layout {
+  nodes: DestNode[];
+  /** Node of each bookmark, and the folder it is proposed for. */
+  where: Map<string, { node: string; folder?: string }>;
 }
 
 export function targetKey(t: Target): string {
-  return t.kind === 'existing' ? `e:${t.folderId}` : t.kind === 'new' ? `n:${t.key}` : 'stay';
+  if (t.kind === 'bar') return 'bar';
+  if (t.kind === 'new') return t.key === REVIEW_KEY ? 'review' : `n:${t.key}`;
+  return t.kind === 'existing' ? `e:${t.folderId}` : 'stay';
 }
 
 export function keyToTarget(key: string): Target {
-  if (key.startsWith('e:')) return { kind: 'existing', folderId: key.slice(2) };
+  if (key === 'bar') return { kind: 'bar' };
+  if (key === 'review') return { kind: 'new', key: REVIEW_KEY };
   if (key.startsWith('n:')) return { kind: 'new', key: key.slice(2) };
+  if (key.startsWith('e:')) return { kind: 'existing', folderId: key.slice(2) };
   return { kind: 'stay' };
 }
 
-/** Bookmarks the sort covers, in display order. */
-export function candidateIds(an: Analysis): string[] {
-  return an.proposal.candidates;
+/** Quick access in the order of the bar: most visited first, then the bookmarks the user added. */
+function quickOrder(an: Analysis, ids: string[]): string[] {
+  const rank = new Map(an.proposal.quickAccess.map((id, i) => [id, i]));
+  return [...ids].sort((a, b) => (rank.get(a) ?? 1e6) - (rank.get(b) ?? 1e6));
 }
 
-/** Where a bookmark ends up with the current decisions. */
-export function nodeOf(an: Analysis, d: Decisions, id: string): string {
-  if (d.removes[id]) return 'dupes';
-  const m = d.moves[id];
-  if (m?.accepted && m.target.kind === 'existing') return targetKey(m.target);
-  if (m?.accepted && m.target.kind === 'new' && acceptedFolders(an.proposal, d).has(m.target.key)) return targetKey(m.target);
-  return an.proposal.review.some((r) => r.bookmarkId === id) ? 'review' : 'stay';
-}
-
-export function folderEmoji(d: Decisions, f: FolderItem): string {
-  const fe = d.folderEmojis[f.id];
-  return fe?.accepted ? fe.emoji : (leadingEmoji(f.title) ?? '');
-}
-
-/** Canvas nodes: new folders, then existing folders (largest first), declined folders, "to check", "stays". */
-export function destinations(an: Analysis, d: Decisions): DestNode[] {
-  const ids = candidateIds(an);
-  const accepted = acceptedFolders(an.proposal, d);
-  const where = new Map(ids.map((id) => [id, nodeOf(an, d, id)]));
-  const by = (key: string) => ids.filter((id) => where.get(id) === key);
+/** The new tree as the canvas shows it, computed in one pass: thousands of bookmarks stay fluid. */
+export function layout(an: Analysis, d: Decisions): Layout {
+  const p = an.proposal;
+  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
+  const placement = new Map(p.placements.map((pl) => [pl.bookmarkId, pl.target]));
+  const topOf = (key: string) => {
+    let f = byKey.get(key);
+    for (let i = 0; f?.parentKey && i < 8; i++) f = byKey.get(f.parentKey);
+    return f;
+  };
+  const where = new Map<string, { node: string; folder?: string }>();
+  const bar: string[] = [];
+  const dupes: string[] = [];
+  const inFolder = new Map<string, string[]>();
+  for (const id of p.candidates) {
+    if (d.removes[id]) {
+      dupes.push(id);
+      where.set(id, { node: 'dupes' });
+      continue;
+    }
+    const target = d.moves[id]?.target ?? placement.get(id);
+    if (target?.kind === 'bar') {
+      bar.push(id);
+      where.set(id, { node: 'bar' });
+    } else if (target?.kind === 'new' && byKey.has(target.key)) {
+      const list = inFolder.get(target.key);
+      if (list) list.push(id);
+      else inFolder.set(target.key, [id]);
+      where.set(id, { node: targetKey({ kind: 'new', key: topOf(target.key)?.key ?? target.key }), folder: target.key });
+    }
+  }
+  const resolve = folderResolver(p, d);
+  const nameOf = (key: string) => d.newFolders[key]?.name ?? byKey.get(key)?.name ?? '';
+  // A section shows when it or a folder below it holds bookmarks: "Tech › Dev" heads its "GitHub" subfolder.
+  const filled = new Set<string>();
+  for (const [key, ids] of inFolder) if (ids.length) for (let k: string | undefined = key; k && !filled.has(k); k = byKey.get(k)?.parentKey) filled.add(k);
   const nodes: DestNode[] = [];
-  for (const f of an.proposal.newFolders) {
-    const nf = d.newFolders[f.key];
-    if (!nf) continue;
-    const off = !accepted.has(f.key);
-    const members = off ? ids.filter((id) => d.moves[id]?.accepted && d.moves[id]?.target.kind === 'new' && (d.moves[id]?.target as { key: string }).key === f.key) : by(`n:${f.key}`);
-    // A group folder that only holds subfolders has no node of its own.
-    if (!members.length && !f.key.startsWith('user-')) continue;
-    nodes.push({ key: `n:${f.key}`, kind: 'new', name: nf.name, emoji: nf.emoji, ids: members, off, parentKey: f.parentKey });
+  if (bar.length) nodes.push({ key: 'bar', kind: 'bar', name: '', emoji: '', rootId: an.snapshot.barId, ids: quickOrder(an, bar), all: quickOrder(an, bar), sections: [] });
+  const folders: DestNode[] = [];
+  for (const f of p.newFolders) {
+    if (f.parentKey) continue;
+    const user = f.key.startsWith('user-');
+    if (!filled.has(f.key) && !user) continue;
+    const ids = inFolder.get(f.key) ?? [];
+    const all = [...ids];
+    const sections: Section[] = [];
+    for (const sub of p.newFolders) {
+      if (!sub.parentKey || topOf(sub.key)?.key !== f.key || !filled.has(sub.key)) continue;
+      const subIds = inFolder.get(sub.key) ?? [];
+      const into = resolve(sub.key);
+      sections.push({ key: sub.key, name: nameOf(sub.key), emoji: d.newFolders[sub.key]?.emoji ?? sub.emoji, level: sub.level ?? 2, ids: subIds, off: into !== sub.key, into: into && into !== sub.key ? nameOf(into) : undefined });
+      all.push(...subIds);
+    }
+    folders.push({ key: targetKey({ kind: 'new', key: f.key }), kind: f.key === REVIEW_KEY ? 'review' : 'new', name: nameOf(f.key), emoji: d.newFolders[f.key]?.emoji ?? f.emoji, rootId: f.parentId, ids, all, sections });
   }
-  const existing = new Set([...where.values()].filter((k) => k.startsWith('e:')));
-  for (const key of existing) {
-    const f = an.snapshot.folders.get(key.slice(2));
-    if (f) nodes.push({ key, kind: 'existing', name: stripEmoji(f.title) || f.title, emoji: folderEmoji(d, f), folder: f, ids: by(key), off: false });
-  }
-  nodes.sort((a, b) => Number(a.off) - Number(b.off) || Number(a.kind === 'existing') - Number(b.kind === 'existing') || b.ids.length - a.ids.length);
-  const review = by('review');
-  if (review.length) nodes.push({ key: 'review', kind: 'review', name: '', emoji: '', ids: review, off: false });
-  const dupes = by('dupes');
-  if (dupes.length) nodes.push({ key: 'dupes', kind: 'dupes', name: '', emoji: '', ids: dupes, off: false });
-  const stay = by('stay');
-  if (stay.length) nodes.push({ key: 'stay', kind: 'stay', name: '', emoji: '', ids: stay, off: false });
-  return nodes;
+  // Folders of the bookmarks bar first, as in the browser, then those of Other bookmarks.
+  const barId = an.snapshot.barId;
+  nodes.push(...folders.filter((n) => n.rootId === barId), ...folders.filter((n) => n.rootId !== barId));
+  if (dupes.length) nodes.push({ key: 'dupes', kind: 'dupes', name: '', emoji: '', ids: dupes, all: dupes, sections: [] });
+  return { nodes, where };
 }
 
 export interface BarItem {
+  /** Bookmark id, or the node key of a folder. */
   id: string;
   folder: boolean;
   url?: string;
   title: string;
+  emoji?: string;
 }
 
-/** Items of the bookmarks bar, in order. */
-export function barItems(an: Analysis): BarItem[] {
-  const bar = an.snapshot.barId ? an.snapshot.folders.get(an.snapshot.barId) : undefined;
-  if (!bar) return [];
-  const items = [
-    ...bar.bookmarkIds.map((id) => {
-      const b = an.snapshot.bookmarks.get(id);
-      return { id, index: b?.index ?? 0, folder: false, url: b?.url, title: b?.title ?? '' };
-    }),
-    ...bar.folderIds.map((id) => {
-      const f = an.snapshot.folders.get(id);
-      return { id, index: f?.index ?? 0, folder: true, title: f?.title ?? '' };
-    }),
-  ];
-  return items.sort((a, b) => a.index - b.index).map(({ index: _index, ...rest }) => rest);
+/** The new bookmarks bar: quick access icons, then the folders created in it. */
+export function barPreview(an: Analysis, lay: Layout): BarItem[] {
+  const items: BarItem[] = [];
+  for (const id of lay.nodes.find((n) => n.kind === 'bar')?.ids ?? []) {
+    const b = an.snapshot.bookmarks.get(id);
+    items.push({ id, folder: false, url: b?.url, title: b?.title ?? '' });
+  }
+  for (const n of lay.nodes) if (n.kind !== 'bar' && n.kind !== 'dupes' && n.rootId === an.snapshot.barId) items.push({ id: n.key, folder: true, title: n.name, emoji: n.emoji });
+  return items;
 }

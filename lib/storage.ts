@@ -16,21 +16,23 @@ export interface Settings {
   readSites: boolean;
   /** Look for sites that no longer answer. */
   checkDead: boolean;
-  /** Copy the current tree into a dated folder before applying. */
-  backup: boolean;
-  /** Remove the copies of a page kept elsewhere. */
+  /** Leave the copies of a page out of the new tree (they stay in the archive). */
   removeDuplicates: boolean;
+  /** Icons of the most visited sites at the start of the bookmarks bar (0: none). */
+  quickAccess: number;
+  /** Count the visits of each site in the history, on this computer, to put the most used first. */
+  useHistory: boolean;
 }
 
-export const DEFAULT_SETTINGS: Settings = { folderStyle: 'emoji', iconOnlyBar: true, scopeFolderIds: [], scopeExcluded: [], destination: 'bar', readSites: true, checkDead: true, backup: true, removeDuplicates: true };
+export const DEFAULT_SETTINGS: Settings = { folderStyle: 'emoji', iconOnlyBar: true, scopeFolderIds: [], scopeExcluded: [], destination: 'bar', readSites: true, checkDead: true, removeDuplicates: true, quickAccess: 10, useHistory: true };
 
 const local = browser.storage.local;
 
 export async function loadSettings(): Promise<Settings> {
   const { settings } = await local.get('settings');
-  const saved = (settings as Partial<Settings> & { sourceFolderIds?: string[] } | undefined) ?? {};
-  // Before 0.2 only the direct content of chosen folders was sorted: that setting does not carry over.
-  const { sourceFolderIds: _legacy, ...rest } = saved;
+  const saved = (settings as (Partial<Settings> & { sourceFolderIds?: string[]; backup?: boolean }) | undefined) ?? {};
+  // Before 0.2 only the direct content of chosen folders was sorted; since 0.3 the archive is not optional.
+  const { sourceFolderIds: _legacy, backup: _backup, ...rest } = saved;
   return { ...DEFAULT_SETTINGS, ...rest };
 }
 
@@ -58,14 +60,35 @@ export async function saveIconOnlyNames(names: Record<string, string>): Promise<
   await local.set({ iconOnlyNames: names });
 }
 
-/** Bookmarks the user filed differently from the proposal: bookmarkId → folderId. */
-export async function loadExamples(): Promise<Map<string, string>> {
-  const { examples } = await local.get('examples');
-  return new Map(Object.entries((examples as Record<string, string> | undefined) ?? {}));
+/** A category the user chose instead of the proposal, and the sort that recorded it (undone with it). */
+export interface LearnedChoice {
+  category: string;
+  run: string;
 }
 
-export async function saveExamples(examples: Map<string, string>): Promise<void> {
-  await local.set({ examples: Object.fromEntries(examples) });
+/** The user's corrections, by address and by site: the next sort follows them. */
+export interface Learned {
+  urls: Record<string, LearnedChoice>;
+  domains: Record<string, LearnedChoice>;
+}
+
+export async function loadLearned(): Promise<Learned> {
+  const { learned } = await local.get('learned');
+  const l = learned as Partial<Learned> | undefined;
+  return { urls: l?.urls ?? {}, domains: l?.domains ?? {} };
+}
+
+export async function saveLearned(l: Learned): Promise<void> {
+  await local.set({ learned: l });
+  // Corrections of 0.2 pointed at folders that a rebuild archives: they no longer mean anything.
+  await local.remove('examples');
+}
+
+/** Forgets the corrections recorded by a sort that was undone. */
+export async function forgetRun(run: string): Promise<void> {
+  const l = await loadLearned();
+  const keep = (r: Record<string, LearnedChoice>) => Object.fromEntries(Object.entries(r).filter(([, c]) => c.run !== run));
+  await saveLearned({ urls: keep(l.urls), domains: keep(l.domains) });
 }
 
 export async function hasHistoryPermission(): Promise<boolean> {
@@ -81,12 +104,18 @@ export async function removeHistoryPermission(): Promise<void> {
   await browser.permissions.remove({ permissions: ['history'] });
 }
 
-export type KnownFolders = Map<string, { group?: GroupId; category?: string }>;
+/** A folder created by a sort: the group or category it holds, and its name (its title may be an emoji only). */
+export interface KnownFolder {
+  group?: GroupId;
+  category?: string;
+  name?: string;
+}
+export type KnownFolders = Map<string, KnownFolder>;
 
 /** Folders created by Nidomark, with the group or category they hold: recognised at the next sort. */
 export async function loadKnownFolders(): Promise<KnownFolders> {
   const { knownFolders } = await local.get('knownFolders');
-  return new Map(Object.entries((knownFolders as Record<string, { group?: GroupId; category?: string }> | undefined) ?? {}));
+  return new Map(Object.entries((knownFolders as Record<string, KnownFolder> | undefined) ?? {}));
 }
 
 export async function saveKnownFolders(known: KnownFolders): Promise<void> {
@@ -120,6 +149,12 @@ export async function hasSitesPermission(): Promise<boolean> {
 /** Must be called from a user gesture (click). */
 export async function requestSitesPermission(): Promise<boolean> {
   return browser.permissions.request({ origins: SITE_ORIGINS });
+}
+
+/** Asks for what is missing in one browser prompt; must be called from a user gesture (click). */
+export async function requestPermissions(want: { history: boolean; sites: boolean }): Promise<boolean> {
+  if (!want.history && !want.sites) return true;
+  return browser.permissions.request({ permissions: want.history ? ['history'] : [], origins: want.sites ? SITE_ORIGINS : [] });
 }
 
 export async function removeSitesPermission(): Promise<void> {
