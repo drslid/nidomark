@@ -8,4 +8,4 @@ Thanks for helping. Issues and pull requests are welcome in English or French.
 4. Add every new user-facing string to `public/_locales/en` and `public/_locales/fr`.
 5. Never commit model files, secrets or personal bookmarks.
 
-Classifier changes must not lower the result on the fictitious collection (`tests/classify.test.ts`). When you change a threshold, explain why in the pull request.
+Categorizer changes must not lower the result on the fictitious collection (`tests/categorize.test.ts`, `pnpm eval --pages`). When you change a threshold, a known site or an example, explain why in the pull request.

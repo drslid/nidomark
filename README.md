@@ -40,30 +40,38 @@ The first analysis loads the model, which takes a few seconds. Each bookmark the
 
 ## What Nidomark is
 
-Nidomark is a browser extension that proposes a clear folder tree for your bookmarks, then applies it only after you have reviewed every change. A small multilingual model runs inside the browser, so your bookmarks never leave your computer.
+Nidomark is a browser extension that sorts your whole collection into a few clear folders, then applies the result only after you have reviewed every change. A small multilingual model runs inside the browser, so your bookmarks never leave your computer.
 
 <p align="center">
   <img src="docs/assets/review.png" alt="Review screen: links fan out from the current folder to each proposed folder, with the number of bookmarks it receives" width="1200">
   <br><sub>Fictional sample collection used by the tests.</sub>
 </p>
 
-It understands two things about each bookmark:
+Each bookmark is filed from the most certain evidence to the least:
 
-- **its subject**, from the title and the address, compared with the rest of your collection;
-- **its use**: a service you sign in to, an online tool, a tutorial, an article or a site you follow.
+1. **a site that no longer answers** goes to "Unreachable sites" (page removed, expired domain, server down);
+2. **an address only reachable at home** (NAS, box, Home Assistant) goes to "Home services";
+3. **a known site or a typical address**: more than 1,000 sites are recognised as streaming, news, tech news, banking, paperwork, adult content and so on;
+4. **the local model** compares the title with typical bookmarks of each category and with your own bookmarks it already recognised;
+5. when that is not clear, **the page itself is read** (title, description, headings), several sites at a time, and the home page of its site when the page says too little (a login form, for instance);
+6. if the evidence is still too weak, the bookmark is listed "to check" with the reason, after being tested; you can open it from the list to see for yourself.
 
-A Home Assistant dashboard and a tutorial about installing it share a subject but not a use. When your folders separate them, so does the proposal; when your "Home automation" folder already mixes both, the dashboard joins it.
+About a dozen top-level folders (🎬 Leisure, 📰 News, 💻 Tech, 🏠 Home, 🛒 Shopping, 💶 Money…) hold the precise categories as subfolders (📺 Streaming, 📡 Tech news…), only when there are enough bookmarks for them. Your folders that make sense are kept; catch-all folders ("Misc", "To sort", "Imported") are emptied; nothing is deleted.
 
 ### Included
 
-- Grouping at the scale of the whole collection, reusing your folders before creating new ones.
+- The whole collection by default, or the folders you choose; the shortcuts of the bookmarks bar stay where they are.
+- New folders in the bookmarks bar (emoji only by default) or in Other bookmarks; adult content and dead links always go to Other bookmarks.
+- Reading the pages of unclear bookmarks, in parallel, without cookies; nothing else is sent.
+- Dead links set apart: removed pages, expired or parked domains, servers that no longer answer. Sites behind a bot check are not mistaken for dead ones.
+- Duplicates removed: one copy of each page stays (the one in your bookmarks bar first); the others are kept in the backup.
+- A dated backup copy of the previous tree, created before anything moves, and one-click undo.
 - Home services recognised by private addresses, `.local` names, ports and personal domains.
-- New folders only for three or more similar bookmarks, with short, concrete names.
-- Folder names with an emoji, names only or emoji only, and an emoji picker for each folder.
+- Folder names with an emoji, names only or emoji only, and an emoji picker for each folder; your own folders keep their names.
 - Icon-only bookmarks bar: a live preview where one click hides or shows a bookmark's name.
 - Cleaner titles: notification counters and repeated site names removed.
 - "To check" list when the clues are too weak, with the reason.
-- Visual review before anything is written: your folder on the left, the proposed folders on the right. Open a folder to move a bookmark (menu or drag and drop), rename a new folder or skip it.
+- Visual review before anything is written: your bookmarks on the left, the proposed folders on the right. Open a folder to see why each bookmark goes there, move one (menu or drag and drop), rename a new folder or skip it.
 - Write-ahead journal and one-click undo that never overwrites later changes.
 - Optional use of the browsing history to understand vague titles such as "Home" or "Dashboard".
 - Clean Material Design interface, light or dark like your browser, in English and French.
@@ -116,13 +124,13 @@ tests                   Unit tests (Vitest) and an end-to-end test in Chrome
 
 ## Security and scope
 
-- The analysis runs on your computer; the extension makes no network request.
-- Required permission: `bookmarks`. `favicon` shows site icons. `history` is optional and asked for only when you enable it.
+- The analysis runs on your computer. The only network requests are the bookmarked pages themselves, when you let Nidomark read sites: without cookies, and nothing else is sent.
+- Required permission: `bookmarks`. `favicon` shows site icons. Access to sites and `history` are optional and asked for only when you use them.
 - A sort never deletes a bookmark: it creates folders, moves and renames, so that undo restores the same bookmarks with the same dates.
 - Every operation is written to a journal first; undo skips anything you changed afterwards instead of overwriting it.
 - The extension's code is fully packaged. Its Content Security Policy only adds WebAssembly, required by the model runtime.
 
-Not included yet: reading page descriptions, targeted history cleanup, a password-protected vault, Firefox and Edge builds. They are planned in this order.
+Not included yet: Firefox and Edge builds, targeted history cleanup, a password-protected vault. They are planned in this order.
 
 ## License
 

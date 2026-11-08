@@ -45,7 +45,7 @@ try {
 
   await sw.evaluate(async (items) => {
     const folders = { Barre: '1', Autres: '2' };
-    for (const [key, parentId, title] of [['Barre/Outils', '1', 'Outils'], ['Autres/Domotique', '2', 'Domotique'], ['Autres/Recettes', '2', 'Recettes'], ['Autres/À lire', '2', 'À lire']]) {
+    for (const [key, parentId, title] of [['Barre/Outils', '1', 'Outils'], ['Autres/Domotique', '2', 'Domotique'], ['Autres/Recettes', '2', 'Recettes'], ['Autres/À lire', '2', 'À lire'], ['Autres/Divers', '2', 'Divers'], ['Autres/Mariage 2025', '2', 'Mariage 2025']]) {
       folders[key] = (await chrome.bookmarks.create({ parentId, title })).id;
     }
     for (const b of items) await chrome.bookmarks.create({ parentId: folders[b.folder], title: b.title, url: b.url });
@@ -56,7 +56,13 @@ try {
     (await chrome.bookmarks.getTree()).forEach(walk);
     return JSON.stringify(out.sort((a, b) => a[0].localeCompare(b[0])));
   });
+  // The tree as the user sees it: removed duplicates come back with a new id and date.
+  const shape = () => sw.evaluate(async () => {
+    const walk = (n) => (n.url ? `${n.title} <${n.url}>` : { [n.title]: (n.children ?? []).map(walk) });
+    return JSON.stringify((await chrome.bookmarks.getTree()).map(walk));
+  });
   const before = await snapshot();
+  const shapeBefore = await shape();
 
   const page = await browser.newPage();
   await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: DARK ? 'dark' : 'light' }]);
@@ -79,6 +85,14 @@ try {
     await page.evaluate(() => document.getElementById('e2e-sample')?.remove());
   };
   await storeShot('store-1-start');
+  // The whole tree is chosen by default; the bookmarks bar shortcuts are not counted.
+  const analyzeLabel = await page.$eval('[data-focus="analyze"]', (b) => b.textContent);
+  assert(/47/.test(analyzeLabel), `every bookmark outside the bar shortcuts is covered (${analyzeLabel})`);
+  // No site is read in this test: no permission prompt, no network.
+  await page.click('[data-focus="more-options"]');
+  await page.waitForSelector('#opt-read');
+  for (const id of ['opt-read', 'opt-dead']) if (await page.$eval(`#${id}`, (e) => e.checked)) await page.click(`#${id}`);
+  assert(await page.$eval('#opt-backup', (e) => e.checked), 'the backup is on by default');
   if (REVIEW) {
     await page.setViewport({ width: 390, height: 844 });
     await page.screenshot({ path: path.join(REVIEW, `mobile-start${DARK ? '-dark' : ''}.png`), fullPage: true });
@@ -102,6 +116,7 @@ try {
   assert(initial.some((n) => /Services maison|Home services/.test(n.name) && n.count >= 5), 'home services are grouped');
   assert(initial.some((n) => /^(Voyages|Travel)$/.test(n.name) && n.count >= 3), 'trip bookmarks get a travel folder');
   assert(initial.some((n) => n.name === 'Domotique'), 'the Home Assistant video joins Domotique');
+  assert(initial.some((n) => n.key === 'dupes' && n.count === 3), 'the three duplicates are listed apart');
   assert(await page.$$eval('.wires .wire', (w) => w.length) === initial.filter((n) => n.count >= 0).length, 'every node is wired to the source');
   const box = async (sel) => page.$eval(sel, (e) => { const r = e.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; });
   assert((await box('.dests > :last-child')).bottom <= (await box('.actionbar')).top || (await page.$eval('.canvas-wrap', (e) => e.scrollHeight > e.clientHeight)), 'the action bar never covers the canvas');
@@ -211,13 +226,35 @@ try {
   assert(after !== before, 'the bookmarks changed after applying');
   const titles = await sw.evaluate(async () => (await chrome.bookmarks.getChildren('2')).map((n) => n.title));
   console.log('other bookmarks:', JSON.stringify(titles));
-  assert(titles.some((x) => /^\S+ Services maison$|^\S+ Home services$/u.test(x)), 'new folders carry an emoji');
+  assert(titles.some((x) => /^Nidomark (– sauvegarde du|backup –) /.test(x)), 'the previous tree is backed up in a dated folder');
+  const urls = await sw.evaluate(async () => {
+    const out = [];
+    const walk = (n, inBackup) => {
+      const backup = inBackup || /^Nidomark (– sauvegarde|backup)/.test(n.title ?? '');
+      if (n.url) out.push([n.url, backup]);
+      (n.children ?? []).forEach((c) => walk(c, backup));
+    };
+    (await chrome.bookmarks.getTree()).forEach((n) => walk(n, false));
+    return out;
+  });
+  const live = urls.filter(([, b]) => !b).map(([u]) => u);
+  const saved = urls.filter(([, b]) => b).map(([u]) => u);
+  assert(!live.includes('https://netflix.com/browse/') && !live.includes('http://lemonde.fr/'), 'duplicates are removed');
+  assert(live.includes('https://www.netflix.com/browse') && live.includes('https://www.lemonde.fr/'), 'one copy of each page stays');
+  assert(saved.includes('https://netflix.com/browse/') && saved.includes('http://lemonde.fr/'), 'the backup keeps the removed duplicates');
   const bar = await sw.evaluate(async () => (await chrome.bookmarks.getChildren('1')).map((n) => n.title));
+  console.log('bookmarks bar:', JSON.stringify(bar));
   assert(bar.includes(''), 'bar bookmarks are shown as icons only');
+  assert(bar.includes('🖥️') && bar.includes('💻'), 'new folders sit in the bar, named with an emoji only');
+  const tech = await sw.evaluate(async () => {
+    const [folder] = (await chrome.bookmarks.getChildren('1')).filter((n) => n.title === '💻');
+    return folder ? (await chrome.bookmarks.getChildren(folder.id)).map((n) => n.title) : [];
+  });
+  assert(tech.some((x) => /Développement|Development/.test(x)), `subfolders keep their names (${JSON.stringify(tech)})`);
 
   await page.click('[data-focus="undo"]');
   await page.waitForSelector('[data-focus="again"]', { timeout: 120000 });
-  assert((await snapshot()) === before, 'undo restores the exact same tree');
+  assert((await shape()) === shapeBefore, 'undo restores the same tree, removed duplicates included');
   assert(errors.length === 0, `no page error (${errors.join(' | ')})`);
   console.log('E2E OK');
 } finally {

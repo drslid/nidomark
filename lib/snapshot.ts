@@ -35,11 +35,11 @@ export function buildSnapshot(tree: TreeNode[], takenAt = Date.now()): Snapshot 
   const root = tree[0];
   if (!root) return snapshot;
 
-  const walk = (node: TreeNode, path: string[], depth: number, inBar: boolean, isRoot: boolean, locked: boolean) => {
+  const walk = (node: TreeNode, path: string[], depth: number, inBar: boolean, isRoot: boolean, locked: boolean, parentId: string | undefined) => {
     // Before Chrome 134 managed bookmarks are only recognisable by `unmodifiable`; it applies to the whole subtree.
     const unmodifiable = locked || !!node.unmodifiable || node.folderType === 'managed';
     const folder: FolderItem = {
-      id: node.id, parentId: node.parentId, index: node.index, title: node.title, path, depth,
+      id: node.id, parentId: node.parentId ?? parentId, index: node.index, title: node.title, path, depth,
       folderType: node.folderType, isRoot, inBar, bookmarkIds: [], folderIds: [], syncing: node.syncing, unmodifiable,
     };
     snapshot.folders.set(node.id, folder);
@@ -54,7 +54,7 @@ export function buildSnapshot(tree: TreeNode[], takenAt = Date.now()): Snapshot 
         folder.bookmarkIds.push(child.id);
       } else {
         folder.folderIds.push(child.id);
-        walk(child, isRoot ? [] : [...path, node.title], depth + 1, inBar, false, unmodifiable);
+        walk(child, isRoot ? [] : [...path, node.title], depth + 1, inBar, false, unmodifiable, node.id);
       }
     }
   };
@@ -64,7 +64,7 @@ export function buildSnapshot(tree: TreeNode[], takenAt = Date.now()): Snapshot 
     if (kind === 'bar') snapshot.barId ??= top.id;
     if (kind === 'other') snapshot.otherId ??= top.id;
     if (kind === 'mobile') snapshot.mobileId ??= top.id;
-    walk(top, [], 0, kind === 'bar', true, false);
+    walk(top, [], 0, kind === 'bar', true, false, root.id);
   }
   return snapshot;
 }

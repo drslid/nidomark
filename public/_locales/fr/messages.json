@@ -18,7 +18,7 @@
   "message": "Rangez vos favoris"
  },
  "startLead": {
-  "message": "Une petite IA, sur cet ordinateur, propose des dossiers clairs. Vous vérifiez, puis vous appliquez."
+  "message": "Une petite IA, sur cet ordinateur, range tout dans des dossiers clairs. Vous vérifiez, puis vous appliquez."
  },
  "optHistory": {
   "message": "Utiliser l’historique pour les titres vagues"
@@ -46,9 +46,6 @@
  },
  "analyze": {
   "message": "Analyser mes favoris"
- },
- "privacyNote": {
-  "message": "Tout reste sur cet ordinateur"
  },
  "lastRun": {
   "message": "Dernier tri : {1}"
@@ -93,7 +90,7 @@
   "message": "Autre emoji"
  },
  "reviewHint": {
-  "message": "Pas assez d’indices pour ranger ces favoris. Choisissez un dossier ou laissez-les en place."
+  "message": "Testés, sans indice suffisant. Ouvrez-les pour vérifier, puis choisissez un dossier ou laissez-les en place."
  },
  "barTitle": {
   "message": "Barre de favoris"
@@ -146,44 +143,17 @@
  "reasonHomeService": {
   "message": "Service hébergé à la maison (adresse locale ou domaine personnel)"
  },
- "reasonTopicHasServices": {
-  "message": "« {1} » contient déjà des services du même sujet"
- },
- "reasonAppGuide": {
-  "message": "Parle de {1}, déjà présent dans « {2} »"
- },
  "reasonSelfHostGuide": {
-  "message": "Guide sur {1}, que vous hébergez"
- },
- "reasonSelfHostGuides": {
-  "message": "Guides sur des applications que vous hébergez"
- },
- "reasonUsageFolder": {
-  "message": "Correspond au dossier « {1} »"
- },
- "reasonTopicFolder": {
-  "message": "Même sujet que les favoris de « {1} »"
+  "message": "Guide sur {1} (auto-hébergement)"
  },
  "reasonNewGroup": {
-  "message": "Groupe de {1} favoris proches"
- },
- "reasonStay": {
-  "message": "Pas assez de favoris semblables pour un dossier"
- },
- "reasonExample": {
-  "message": "Proche de « {1} », que vous avez rangé dans « {2} »"
+  "message": "{1} favoris de ce thème"
  },
  "reasonUser": {
   "message": "Votre choix"
  },
  "reviewVague": {
   "message": "Titre générique et adresse peu parlante : impossible de savoir ce que contient la page."
- },
- "settingsSources": {
-  "message": "Dossiers à ranger"
- },
- "settingsSourcesHint": {
-  "message": "Les favoris placés directement dans ces dossiers peuvent être déplacés."
  },
  "settingsDefaults": {
   "message": "Choix par défaut"
@@ -221,9 +191,6 @@
  "aboutModel": {
   "message": "Modèle : {1}, exécuté localement."
  },
- "aboutPrivacy": {
-  "message": "Ni compte ni serveur : vos favoris ne quittent jamais cet ordinateur."
- },
  "saved": {
   "message": "Enregistré"
  },
@@ -258,12 +225,6 @@
  "changedBlocked": {
   "message": "Actualisez d’abord la proposition : vos favoris ont changé."
  },
- "startCount": {
-  "message": "{1} favoris à ranger"
- },
- "startCountOne": {
-  "message": "1 favori à ranger"
- },
  "startCountNone": {
   "message": "Aucun favori en vrac"
  },
@@ -293,9 +254,6 @@
  },
  "nodeStayMeta": {
   "message": "Non déplacés"
- },
- "nodeNewHint": {
-  "message": "Sera créé dans Autres favoris"
  },
  "nodeOffHint": {
   "message": "Ce dossier ne sera pas créé : ses favoris restent en place."
@@ -380,5 +338,221 @@
  },
  "applyOne": {
   "message": "Appliquer 1 changement"
+ },
+ "scopeLabel": {
+  "message": "Dossiers à ranger"
+ },
+ "barScopeHint": {
+  "message": "Ses dossiers seulement : vos raccourcis restent dans la barre"
+ },
+ "showSubfolders": {
+  "message": "Afficher les dossiers de {1}"
+ },
+ "destinationLabel": {
+  "message": "Ranger dans"
+ },
+ "moreOptions": {
+  "message": "Plus d’options"
+ },
+ "sumReadSites": {
+  "message": "lecture des sites"
+ },
+ "sumCheckDead": {
+  "message": "sites morts"
+ },
+ "sumBackup": {
+  "message": "sauvegarde"
+ },
+ "sumHistory": {
+  "message": "historique"
+ },
+ "optReadSites": {
+  "message": "Lire les sites quand le titre ne suffit pas"
+ },
+ "optReadSitesHint": {
+  "message": "Plus long, plus juste. Chrome vous demandera une fois l’accès aux sites."
+ },
+ "optCheckDead": {
+  "message": "Repérer les sites qui ne répondent plus"
+ },
+ "optCheckDeadHint": {
+  "message": "Ils sont rangés à part, dans « Sites inaccessibles »."
+ },
+ "optBackup": {
+  "message": "Sauvegarder l’arborescence actuelle"
+ },
+ "optBackupHint": {
+  "message": "Une copie datée dans Autres favoris, à supprimer quand vous voulez."
+ },
+ "optFolderStyleHint": {
+  "message": "Les sous-dossiers gardent leur nom."
+ },
+ "analyzeCount": {
+  "message": "Analyser {1} favoris"
+ },
+ "analyzeOne": {
+  "message": "Analyser 1 favori"
+ },
+ "privacyTitle": {
+  "message": "Aucune donnée ne sort de cet ordinateur"
+ },
+ "privacyBody": {
+  "message": "L’IA fonctionne ici, sans compte ni serveur. Pour comprendre un site, Nidomark ouvre sa page comme votre navigateur, sans cookies, et n’envoie rien d’autre."
+ },
+ "phaseSites": {
+  "message": "Lecture des sites"
+ },
+ "phasePages": {
+  "message": "Analyse des pages"
+ },
+ "sitesNote": {
+  "message": "Plusieurs sites à la fois. Rien n’est envoyé, seules les pages sont lues."
+ },
+ "doneBackup": {
+  "message": "Copie de l’ancienne arborescence : « {1} »"
+ },
+ "sitesAllowed": {
+  "message": "Accès aux sites autorisé"
+ },
+ "sitesAsked": {
+  "message": "Chrome demandera l’accès aux sites à la prochaine analyse"
+ },
+ "backupsTitle": {
+  "message": "Sauvegardes"
+ },
+ "backupsNone": {
+  "message": "Aucune sauvegarde"
+ },
+ "backupCount": {
+  "message": "{1} favoris et dossiers copiés"
+ },
+ "backupDelete": {
+  "message": "Supprimer"
+ },
+ "backupDeleteTitle": {
+  "message": "Supprimer cette sauvegarde ?"
+ },
+ "backupConfirm": {
+  "message": "« {1} » ne contient que des copies : vos favoris rangés ne bougent pas."
+ },
+ "backupDeleted": {
+  "message": "Sauvegarde supprimée."
+ },
+ "backupTitle": {
+  "message": "Nidomark – sauvegarde du {1}"
+ },
+ "clearCacheHint": {
+  "message": "Le cache accélère les analyses suivantes ; il reste sur cet ordinateur."
+ },
+ "nodeNewIn": {
+  "message": "Sera créé dans {1}"
+ },
+ "sourceAll": {
+  "message": "Vos favoris"
+ },
+ "reasonKnownSite": {
+  "message": "Site connu ({1})"
+ },
+ "reasonPattern": {
+  "message": "Adresse typique ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Titre explicite"
+ },
+ "reasonAdultPage": {
+  "message": "La page se déclare réservée aux adultes"
+ },
+ "reasonPage": {
+  "message": "D’après la page : « {1} »"
+ },
+ "reasonModel": {
+  "message": "Ressemble à « {1} »"
+ },
+ "reasonPlatform": {
+  "message": "Publié sur {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Parle de {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Vous rangez {1} dans « {2} »"
+ },
+ "reasonAlreadyFiled": {
+  "message": "Déjà dans « {1} »"
+ },
+ "reasonKeptFolder": {
+  "message": "Reste dans « {1} »"
+ },
+ "reasonUserKept": {
+  "message": "Rangé ici par vous"
+ },
+ "reasonNewCategory": {
+  "message": "{1} favoris de cette catégorie"
+ },
+ "deadNetwork": {
+  "message": "Ne répond plus : site introuvable"
+ },
+ "deadTimeout": {
+  "message": "Ne répond plus : délai dépassé"
+ },
+ "deadGone": {
+  "message": "Page supprimée ({1})"
+ },
+ "deadServer": {
+  "message": "Erreur du serveur ({1})"
+ },
+ "deadParked": {
+  "message": "Nom de domaine abandonné ou à vendre"
+ },
+ "reviewUnclear": {
+  "message": "Aucun thème clair dans le titre et l’adresse"
+ },
+ "reviewUnclearPage": {
+  "message": "Page lue, sans thème clair"
+ },
+ "reviewBlocked": {
+  "message": "Le site refuse d’être lu ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Titre peu parlant ; autorisez la lecture des sites pour en savoir plus"
+ },
+ "nodeDupes": {
+  "message": "Doublons"
+ },
+ "nodeDupesMeta": {
+  "message": "Supprimés, gardés dans la sauvegarde"
+ },
+ "nodeDupesMetaNoBackup": {
+  "message": "Supprimés, Annuler les remet"
+ },
+ "dupesHint": {
+  "message": "Ces pages existent déjà ailleurs : une seule copie reste. La sauvegarde garde celles-ci."
+ },
+ "dupesHintNoBackup": {
+  "message": "Ces pages existent déjà ailleurs : une seule copie reste. Annuler le tri les remet."
+ },
+ "keepAllDupes": {
+  "message": "Tout garder"
+ },
+ "announceDupesKept": {
+  "message": "Les doublons sont gardés."
+ },
+ "reasonDuplicate": {
+  "message": "Doublon de « {1} » ({2})"
+ },
+ "optDupes": {
+  "message": "Supprimer les doublons"
+ },
+ "optDupesHint": {
+  "message": "Une seule copie de chaque page reste ; les autres sont gardées dans la sauvegarde."
+ },
+ "sumDupes": {
+  "message": "doublons"
+ },
+ "openSite": {
+  "message": "Ouvrir {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Pas assez d’indices. Autorisez la lecture des sites pour qu’ils soient testés, ou ouvrez-les pour vérifier."
  }
 }

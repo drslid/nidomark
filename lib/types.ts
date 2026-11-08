@@ -1,3 +1,5 @@
+import type { GroupId } from './taxonomy';
+
 /** How the user relies on a bookmark, independently of its subject. */
 export type Usage = 'access' | 'tool' | 'learn' | 'read' | 'follow';
 
@@ -92,10 +94,15 @@ export interface Placement {
 
 export interface NewFolder {
   key: string;
+  /** Category of the folder, or null for a group or a folder the user created. */
   vocabId: string | null;
+  groupId?: GroupId;
   name: string;
   emoji: string;
+  /** Existing parent folder, or empty when the parent is another new folder. */
   parentId: string;
+  /** New parent folder (a group folder for a category subfolder). */
+  parentKey?: string;
   reason: Reason;
 }
 
@@ -106,6 +113,10 @@ export interface ReviewItem {
 
 export interface Proposal {
   snapshotTakenAt: number;
+  /** Bookmarks covered by the sort, in display order. */
+  candidates: string[];
+  /** Copies of a page kept elsewhere, to remove. */
+  duplicates: { bookmarkId: string; keepId: string }[];
   placements: Placement[];
   newFolders: NewFolder[];
   review: ReviewItem[];

@@ -18,7 +18,7 @@
   "message": "Organize your bookmarks"
  },
  "startLead": {
-  "message": "A small AI on this computer proposes clear folders. You check, then you apply."
+  "message": "A small AI on this computer files everything into clear folders. You check, then you apply."
  },
  "optHistory": {
   "message": "Use history for vague titles"
@@ -46,9 +46,6 @@
  },
  "analyze": {
   "message": "Analyze my bookmarks"
- },
- "privacyNote": {
-  "message": "Everything stays on this computer"
  },
  "lastRun": {
   "message": "Last sort: {1}"
@@ -93,7 +90,7 @@
   "message": "Other emoji"
  },
  "reviewHint": {
-  "message": "Not enough clues to file these bookmarks. Choose a folder, or leave them in place."
+  "message": "Tested, not enough clues. Open them to check, then choose a folder or leave them in place."
  },
  "barTitle": {
   "message": "Bookmarks bar"
@@ -146,44 +143,17 @@
  "reasonHomeService": {
   "message": "Service hosted at home (local address or personal domain)"
  },
- "reasonTopicHasServices": {
-  "message": "“{1}” already holds services on the same subject"
- },
- "reasonAppGuide": {
-  "message": "About {1}, already in “{2}”"
- },
  "reasonSelfHostGuide": {
-  "message": "Guide about {1}, which you host"
- },
- "reasonSelfHostGuides": {
-  "message": "Guides about apps you host"
- },
- "reasonUsageFolder": {
-  "message": "Fits the “{1}” folder"
- },
- "reasonTopicFolder": {
-  "message": "Same subject as the bookmarks in “{1}”"
+  "message": "Guide about {1} (self-hosting)"
  },
  "reasonNewGroup": {
-  "message": "Group of {1} similar bookmarks"
- },
- "reasonStay": {
-  "message": "Not enough similar bookmarks to make a folder"
- },
- "reasonExample": {
-  "message": "Close to “{1}”, which you filed in “{2}”"
+  "message": "{1} bookmarks on this theme"
  },
  "reasonUser": {
   "message": "Your choice"
  },
  "reviewVague": {
   "message": "Generic title and uninformative address: impossible to know what the page contains."
- },
- "settingsSources": {
-  "message": "Folders to organize"
- },
- "settingsSourcesHint": {
-  "message": "Bookmarks placed directly in these folders can be moved."
  },
  "settingsDefaults": {
   "message": "Default choices"
@@ -221,9 +191,6 @@
  "aboutModel": {
   "message": "Model: {1}, running locally."
  },
- "aboutPrivacy": {
-  "message": "No account, no server: your bookmarks never leave this computer."
- },
  "saved": {
   "message": "Saved"
  },
@@ -258,12 +225,6 @@
  "changedBlocked": {
   "message": "Refresh the proposal first: your bookmarks changed."
  },
- "startCount": {
-  "message": "{1} bookmarks to organize"
- },
- "startCountOne": {
-  "message": "1 bookmark to organize"
- },
  "startCountNone": {
   "message": "No unfiled bookmarks"
  },
@@ -293,9 +254,6 @@
  },
  "nodeStayMeta": {
   "message": "Not moved"
- },
- "nodeNewHint": {
-  "message": "Will be created in Other bookmarks"
  },
  "nodeOffHint": {
   "message": "This folder won’t be created: its bookmarks stay in place."
@@ -380,5 +338,221 @@
  },
  "applyOne": {
   "message": "Apply 1 change"
+ },
+ "scopeLabel": {
+  "message": "Folders to organize"
+ },
+ "barScopeHint": {
+  "message": "Its folders only: your shortcuts stay in the bar"
+ },
+ "showSubfolders": {
+  "message": "Show the folders of {1}"
+ },
+ "destinationLabel": {
+  "message": "Organize into"
+ },
+ "moreOptions": {
+  "message": "More options"
+ },
+ "sumReadSites": {
+  "message": "site reading"
+ },
+ "sumCheckDead": {
+  "message": "dead sites"
+ },
+ "sumBackup": {
+  "message": "backup"
+ },
+ "sumHistory": {
+  "message": "history"
+ },
+ "optReadSites": {
+  "message": "Read sites when the title is not enough"
+ },
+ "optReadSitesHint": {
+  "message": "Slower, more accurate. Chrome asks once for access to sites."
+ },
+ "optCheckDead": {
+  "message": "Find sites that no longer answer"
+ },
+ "optCheckDeadHint": {
+  "message": "They are set apart, in “Unreachable sites”."
+ },
+ "optBackup": {
+  "message": "Back up the current tree"
+ },
+ "optBackupHint": {
+  "message": "A dated copy in Other bookmarks, to delete whenever you like."
+ },
+ "optFolderStyleHint": {
+  "message": "Subfolders keep their names."
+ },
+ "analyzeCount": {
+  "message": "Analyze {1} bookmarks"
+ },
+ "analyzeOne": {
+  "message": "Analyze 1 bookmark"
+ },
+ "privacyTitle": {
+  "message": "No data leaves this computer"
+ },
+ "privacyBody": {
+  "message": "The AI runs here, with no account and no server. To understand a site, Nidomark opens its page like your browser, without cookies, and sends nothing else."
+ },
+ "phaseSites": {
+  "message": "Reading sites"
+ },
+ "phasePages": {
+  "message": "Analyzing pages"
+ },
+ "sitesNote": {
+  "message": "Several sites at a time. Nothing is sent, pages are only read."
+ },
+ "doneBackup": {
+  "message": "Copy of the previous tree: “{1}”"
+ },
+ "sitesAllowed": {
+  "message": "Access to sites granted"
+ },
+ "sitesAsked": {
+  "message": "Chrome will ask for access to sites at the next analysis"
+ },
+ "backupsTitle": {
+  "message": "Backups"
+ },
+ "backupsNone": {
+  "message": "No backup"
+ },
+ "backupCount": {
+  "message": "{1} bookmarks and folders copied"
+ },
+ "backupDelete": {
+  "message": "Delete"
+ },
+ "backupDeleteTitle": {
+  "message": "Delete this backup?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” only holds copies: your organized bookmarks do not move."
+ },
+ "backupDeleted": {
+  "message": "Backup deleted."
+ },
+ "backupTitle": {
+  "message": "Nidomark backup – {1}"
+ },
+ "clearCacheHint": {
+  "message": "The cache speeds up the next analyses; it stays on this computer."
+ },
+ "nodeNewIn": {
+  "message": "Will be created in {1}"
+ },
+ "sourceAll": {
+  "message": "Your bookmarks"
+ },
+ "reasonKnownSite": {
+  "message": "Known site ({1})"
+ },
+ "reasonPattern": {
+  "message": "Typical address ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Explicit title"
+ },
+ "reasonAdultPage": {
+  "message": "The page declares adult content"
+ },
+ "reasonPage": {
+  "message": "From the page: “{1}”"
+ },
+ "reasonModel": {
+  "message": "Looks like “{1}”"
+ },
+ "reasonPlatform": {
+  "message": "Published on {1}"
+ },
+ "reasonAboutApp": {
+  "message": "About {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "You file {1} in “{2}”"
+ },
+ "reasonAlreadyFiled": {
+  "message": "Already in “{1}”"
+ },
+ "reasonKeptFolder": {
+  "message": "Stays in “{1}”"
+ },
+ "reasonUserKept": {
+  "message": "Filed here by you"
+ },
+ "reasonNewCategory": {
+  "message": "{1} bookmarks of this category"
+ },
+ "deadNetwork": {
+  "message": "No longer answers: site not found"
+ },
+ "deadTimeout": {
+  "message": "No longer answers: timed out"
+ },
+ "deadGone": {
+  "message": "Page removed ({1})"
+ },
+ "deadServer": {
+  "message": "Server error ({1})"
+ },
+ "deadParked": {
+  "message": "Domain abandoned or for sale"
+ },
+ "reviewUnclear": {
+  "message": "No clear theme in the title and address"
+ },
+ "reviewUnclearPage": {
+  "message": "Page read, no clear theme"
+ },
+ "reviewBlocked": {
+  "message": "The site refuses to be read ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Vague title; allow reading sites to learn more"
+ },
+ "nodeDupes": {
+  "message": "Duplicates"
+ },
+ "nodeDupesMeta": {
+  "message": "Removed, kept in the backup"
+ },
+ "nodeDupesMetaNoBackup": {
+  "message": "Removed, Undo brings them back"
+ },
+ "dupesHint": {
+  "message": "These pages already exist elsewhere: one copy stays. The backup keeps these ones."
+ },
+ "dupesHintNoBackup": {
+  "message": "These pages already exist elsewhere: one copy stays. Undoing the sort brings them back."
+ },
+ "keepAllDupes": {
+  "message": "Keep all"
+ },
+ "announceDupesKept": {
+  "message": "Duplicates are kept."
+ },
+ "reasonDuplicate": {
+  "message": "Duplicate of “{1}” ({2})"
+ },
+ "optDupes": {
+  "message": "Remove duplicates"
+ },
+ "optDupesHint": {
+  "message": "One copy of each page stays; the others are kept in the backup."
+ },
+ "sumDupes": {
+  "message": "duplicates"
+ },
+ "openSite": {
+  "message": "Open {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Not enough clues. Allow reading sites so that they are tested, or open them to check."
  }
 }

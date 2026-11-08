@@ -1,28 +1,25 @@
-// Grid search of classifier options on the fictitious collection (4 configurations + 2 scenario checks).
-import { classify } from '../lib/classify';
-import { EXPECTED, buildInput, placementNames } from '../tests/fixtures/collection';
+// Grid search of the categorizer options on the fictitious collection: how many bookmarks land where the
+// hand-written reference expects them, with and without reading pages and history. Usage: pnpm exec jiti scripts/eval-grid.ts
+import type { CategorizeOptions } from '../lib/categorize';
+import { destinationsOf, run } from '../tests/fixtures/collection';
+import { EXPECTED_DEST } from '../tests/fixtures/tree';
 
-const translate: Record<string, string> = { 'Home services': 'Services maison', 'Self-hosting': 'Auto-hébergement', 'Web development': 'Développement web', Travel: 'Voyages', Paperwork: 'Démarches' };
-const configs = [{ history: false, lang: 'fr' }, { history: true, lang: 'fr' }, { history: false, lang: 'en' }, { history: true, lang: 'en' }];
-const rows: { key: string; scores: number[]; total: number; extra: number; scen: string }[] = [];
-for (const wKw of [1]) for (const wLab of [0.75, 1, 1.25]) for (const zLink of [1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2.0]) for (const zAssign of [1.2]) {
-  const options = { wKw, wLab, zLink, zAssign };
-  const scores: number[] = [];
-  let extra = 0;
-  for (const c of configs) {
-    const input = buildInput({ ...c, options });
-    const p = classify(input);
-    const names = placementNames(p, input);
-    scores.push(Object.entries(EXPECTED).filter(([id, f]) => (translate[names[id] ?? ''] ?? names[id]) === f).length);
-    // New folders that the reference does not expect.
-    extra += p.newFolders.filter((f) => !['Services maison', 'Auto-hébergement', 'Voyages', 'Démarches', 'Développement web'].includes(translate[f.name] ?? f.name)).length;
-  }
-  const a = buildInput({ scenario: 'topicFiler', history: true, options });
-  const na = placementNames(classify(a), a);
-  const l = buildInput({ scenario: 'corrected', history: false, options, examples: new Map([['u13', 'f-Développement web'], ['u14', 'f-Développement web'], ['u29', 'f-Démarches'], ['u31', 'f-Démarches']]) });
-  const nl = placementNames(classify(l), l);
-  const scen = `${na.b1 === 'Domotique' ? 'A' : '-'}${nl.u15 === 'Développement web' ? 'L' : '-'}`;
-  rows.push({ key: JSON.stringify(options), scores, total: scores.reduce((x, y) => x + y, 0), extra, scen });
-}
-rows.sort((x, y) => y.total - x.total || x.extra - y.extra);
-for (const r of rows.slice(0, 25)) console.log(`${r.total} [${r.scores.join(' ')}] extra=${r.extra} ${r.scen} ${r.key}`);
+const grid: Partial<CategorizeOptions>[] = [];
+for (const margin of [0.4, 0.6, 0.8])
+  for (const marginPage of [0.2, 0.3, 0.45])
+    for (const protoWeight of [0, 0.2, 0.4])
+      for (const keywordWeight of [0.2, 0.4, 0.6]) grid.push({ margin, marginPage, protoWeight, keywordWeight });
+
+const score = (options: Partial<CategorizeOptions>) => {
+  let total = 0;
+  for (const pages of [true, false])
+    for (const history of [false, true]) {
+      const { proposal, snapshot } = run({ pages, history, options });
+      const dest = destinationsOf(proposal, snapshot);
+      total += Object.entries(EXPECTED_DEST).filter(([id, e]) => dest[id] === e).length;
+    }
+  return total;
+};
+const results = grid.map((options) => ({ options, score: score(options) })).sort((a, b) => b.score - a.score);
+for (const r of results.slice(0, 10)) console.log(r.score, JSON.stringify(r.options));
+console.log(`max ${Object.keys(EXPECTED_DEST).length * 4}`);

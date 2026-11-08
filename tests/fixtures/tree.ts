@@ -9,12 +9,17 @@ export const FOLDERS: Record<string, { id: string; title: string; parent: '1' | 
   'Autres/À lire': { id: 'f-alire', title: 'À lire', parent: '2' },
 };
 
-/** Reference proposal written by hand before the study's experiments (31 unfiled bookmarks). */
-export const EXPECTED: Record<string, string> = {
-  u1: 'Services maison', u2: 'Services maison', u3: 'Services maison', u4: 'Services maison', u5: 'Services maison', u6: 'Services maison', u7: 'Services maison',
-  u8: 'À vérifier', u9: 'Auto-hébergement', u10: 'Auto-hébergement', u11: 'Auto-hébergement', u12: 'À lire', u13: 'Développement web', u14: 'Développement web',
-  u15: 'Développement web', u16: 'Outils', u17: 'Outils', u18: '(racine)', u19: '(racine)', u20: 'Recettes', u21: 'Recettes', u22: 'Domotique', u23: 'À vérifier',
-  u24: '(racine)', u25: '(racine)', u26: 'Voyages', u27: 'Voyages', u28: 'Voyages', u29: 'Démarches', u30: 'Démarches', u31: 'Démarches',
+/** Where each bookmark should end up (destination "bookmarks bar", French), written by hand. */
+export const EXPECTED_DEST: Record<string, string> = {
+  b4: '(reste)', b5: '(reste)', b6: '(reste)', d1: '(reste)', d2: '(reste)', r1: '(reste)', a1: '(reste)',
+  u1: 'Services maison', u2: 'Services maison', u3: 'Services maison', u4: 'Services maison', u5: 'Services maison', u6: 'Services maison', u7: 'Services maison', u8: 'Services maison',
+  u9: 'Tech › Auto-hébergement', u10: 'Tech › Auto-hébergement', u11: 'Tech › Auto-hébergement', u12: 'Tech',
+  u13: 'Tech › Développement', u14: 'Tech › Développement', u15: 'Tech › Développement', u16: 'Tech › Développement',
+  u17: 'Outils', u18: 'Loisirs › Photo', u19: 'Loisirs › Photo', u20: 'Recettes', u21: 'Recettes', u22: 'Domotique', u23: 'Loisirs',
+  u24: 'Tech › Actu tech', u25: 'Tech › Actu tech', u26: 'Voyages', u27: 'Voyages', u28: 'Voyages',
+  u29: 'Vie pratique › Démarches', u30: 'Vie pratique', u31: 'Vie pratique › Démarches',
+  v1: 'Loisirs › Streaming', v2: 'Tech › Actu tech', m1: '(reste)', m2: '(reste)', m3: '(reste)',
+  v4: '(doublon)', v5: '(doublon)', v6: '(doublon)',
 };
 
 /** Variants of the collection used by the tests: bookmark id → folder key. */

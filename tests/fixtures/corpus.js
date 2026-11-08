@@ -88,6 +88,24 @@ export const corpus = [
     page: { title: 'Suivre un colis, une lettre - La Poste', desc: 'Suivez vos envois La Poste, Colissimo et Chronopost en temps réel avec votre numéro de suivi.', heads: ['Suivre un envoi'], text: '' } },
   { id: 'u31', folder: 'Autres', title: 'ANTS - Immatriculation', url: 'https://immatriculation.ants.gouv.fr/', visits: 2, typed: 0, role: 'acces',
     page: { title: 'ANTS - Immatriculation', desc: 'Faites vos démarches de carte grise en ligne : changement de titulaire, d’adresse, duplicata.', heads: [], text: '' } },
+  // --- Autres favoris / Divers (a catch-all folder)
+  { id: 'v1', folder: 'Autres/Divers', title: 'Netflix', url: 'https://www.netflix.com/browse', visits: 40, typed: 12, role: 'acces',
+    page: { title: 'Netflix France - Regarder des séries en ligne, regarder des films en ligne', desc: 'Regardez des films et des séries Netflix en ligne ou en streaming sur votre smart TV, console de jeu, PC, Mac, smartphone ou tablette.', heads: [], text: '' } },
+  { id: 'v2', folder: 'Autres/Divers', title: 'Le Pixel 10 est-il le meilleur smartphone Android ?', url: 'https://www.numerama.com/tech/1234567-le-pixel-10-est-il-le-meilleur-smartphone-android.html', visits: 1, typed: 0, role: 'lire',
+    page: { title: 'Le Pixel 10 est-il le meilleur smartphone Android ? - Numerama', desc: 'Nous avons testé le Pixel 10 de Google pendant deux semaines : écran, photo, autonomie et intelligence artificielle.', heads: ['Écran', 'Photo', 'Autonomie'], text: '' } },
+  { id: 'v3', folder: 'Autres/Divers', title: 'Accueil', url: 'https://www.mamie-gateaux.fr/', visits: 3, typed: 0, role: 'suivre',
+    page: { title: 'Mamie Gâteaux – recettes de desserts faciles', desc: 'Des recettes de gâteaux, tartes et desserts faciles, testées en famille : gâteau au yaourt, fondant au chocolat, crumble.', heads: ['Nos dernières recettes', 'Gâteaux du dimanche'], text: '' } },
+  // --- Duplicates: the same pages saved twice
+  { id: 'v4', folder: 'Autres', title: 'Netflix', url: 'https://netflix.com/browse/', visits: 2, typed: 0, role: 'acces', page: null },
+  { id: 'v5', folder: 'Autres', title: 'lemonde.fr', url: 'http://lemonde.fr/', visits: 1, typed: 0, role: 'suivre', page: null },
+  { id: 'v6', folder: 'Autres', title: 'Korben', url: 'https://korben.info/?utm_source=twitter&utm_medium=social', visits: 1, typed: 0, role: 'suivre', page: null },
+  // --- Autres favoris / Mariage 2025 (a personal folder that holds together)
+  { id: 'm1', folder: 'Autres/Mariage 2025', title: 'Domaine des Tilleuls – salle de réception pour mariage', url: 'https://www.domaine-des-tilleuls.fr/mariage/', visits: 6, typed: 0, role: 'lire',
+    page: { title: 'Domaine des Tilleuls – Réceptions et mariages', desc: 'Salle de réception pour mariages jusqu’à 150 invités, parc et hébergement sur place.', heads: ['Votre mariage au domaine'], text: '' } },
+  { id: 'm2', folder: 'Autres/Mariage 2025', title: 'Traiteur mariage – menus et devis', url: 'https://www.traiteur-gourmand.fr/mariage/menus', visits: 4, typed: 0, role: 'lire',
+    page: { title: 'Traiteur Gourmand – menus de mariage', desc: 'Menus de mariage, vin d’honneur et pièce montée : demandez votre devis.', heads: ['Nos menus mariage'], text: '' } },
+  { id: 'm3', folder: 'Autres/Mariage 2025', title: 'Robes de mariée – collection 2025', url: 'https://www.boutique-mariee.fr/collection-2025', visits: 5, typed: 0, role: 'lire',
+    page: { title: 'Boutique Mariée – Robes de mariée 2025', desc: 'Découvrez notre collection de robes de mariée 2025 et prenez rendez-vous pour un essayage.', heads: ['Collection 2025'], text: '' } },
 ];
 
 // Turns URL path and host into words: "/installer-home-assistant-raspberry-pi-4/" -> "installer home assistant raspberry pi 4"

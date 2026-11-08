@@ -53,6 +53,7 @@ Images ([requirements](https://developer.chrome.com/docs/webstore/images)):
 - **`storage`:** keep the settings, the undo journal and the original names of icon-only bookmarks.
 - **`favicon`:** show site icons in the review screen and the bookmarks bar preview.
 - **`history` (optional):** read page titles already stored by the browser to understand vague bookmark titles, only when the user enables it.
+- **Host permissions `http://*/*`, `https://*/*` (optional, requested at the first analysis):** request the bookmarked pages themselves, without cookies, to read their title and description when the bookmark title is not enough, and to find bookmarks whose site no longer answers. No other request is made; nothing is sent.
 - **Remote code:** no. The model and the WebAssembly runtime are packaged with the extension.
 - **Data usage:** no user data is collected or transmitted.
 

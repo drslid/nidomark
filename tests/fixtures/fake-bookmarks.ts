@@ -89,6 +89,18 @@ export class FakeBookmarks implements BookmarksApi {
     this.nodes.delete(id);
   }
 
+  async removeTree(id: string) {
+    this.mutations++;
+    const n = this.node(id);
+    const drop = (x: string) => {
+      for (const c of this.nodes.get(x)?.children ?? []) drop(c);
+      this.nodes.delete(x);
+    };
+    const siblings = this.node(n.parentId as string).children as string[];
+    siblings.splice(siblings.indexOf(id), 1);
+    drop(id);
+  }
+
   /** Comparable state: id, parent, position, title, url and dateAdded of every node. */
   state(): string {
     return JSON.stringify([...this.nodes.values()].map((n) => this.view(n)).sort((a, b) => a.id.localeCompare(b.id)));

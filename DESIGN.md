@@ -494,6 +494,17 @@ Every corner is rounded on the Material shape scale, and the shape says what the
 - **Emoji picker:** the same menu with an 8-column grid of 40px round cells and a custom-emoji row.
 - **Dialog:** up to 360px wide, 28px corners, `surface-high`, Level 3, 24px padding, over the `scrim`; actions sit right-aligned (text Cancel, filled Create).
 
+### Start screen
+- **Order:** heading and lead, the scope card, the options card, the large filled Analyze button carrying the number of bookmarks, then the privacy promise. Notice banners (last sort, interrupted sort) come first when present. The column starts 6vh from the top with 20px between blocks.
+- **Scope card:** a list card of the root folders (bookmarks bar, other bookmarks, mobile) as 56px rows: an 18px native checkbox, the name in body medium (the bookmarks bar adds a body-small hint that its shortcuts stay), the count in title small with tabular figures in `on-surface-variant`, and a 40px chevron icon button that unfolds the first-level folders as 48px rows indented to 54px. The card scrolls past min(46vh, 440px).
+- **Options card:** 64px rows with the label on the left and the control on the right: the destination and folder-name segmented buttons, then a disclosure row "More options" whose body-small summary lists what is on; it unfolds switch rows (read sites, dead sites, backup, history), each with a body-small hint. The chevron turns 180° over 200ms. Below 760px the segmented buttons take the full row and drop their check.
+- **Privacy promise:** a 24px shield in `on-surface`, a title-small line ("No data leaves this computer") and a body-small explanation, left-aligned in a 46ch block under the button. It is the screen's last word, never a banner.
+
+### Special destinations
+- **To check** (amber tile, help icon, solid amber connector), **Duplicates** (`surface-high` tile, copy icon, dotted connector 1px dash and 5px gap) and **Stays** (`surface-high` tile, pin icon, dashed connector) close the destination column, in that order. None of them is a drop target.
+- In the To-check sheet and in the dead-sites folder, each row gains an open icon button (a link styled as an icon button, opening the page in a new tab) before the move button.
+- The source node is sticky: it stays near the middle of the visible canvas, `max(24px, 50vh - 156px)` from the top, while a long destination column scrolls, and the connectors are redrawn on scroll. Below 760px it is static.
+
 ### Side sheet
 - A 400px column of `surface-lowest` behind a 1px `surface-high` seam. The header holds a 48px folder tile (a button that opens the emoji picker on folders; a static amber tile for To check, a `surface-high` one for Stays), the title or the rename field, and a close button. Below it come a sub line in `on-surface-variant`, the count with its action on proposed folders, then 64px rows: a 20px favicon, the title, the host, and the reason when it differs from the one most rows share, with a trailing move button that opens the move menu. Rows are draggable (grab cursor; the dragged row fades to 40%). An empty folder shows a dashed drop zone.
 - It enters with a 24px slide and a fade over 250ms on the emphasized curve.

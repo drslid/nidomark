@@ -1,36 +1,46 @@
 import type { Analysis } from '../analyze';
 import { t } from '../i18n';
-import { type Decisions, buildPlan, folderTitle } from '../plan';
+import { type Decisions, buildPlan, folderTitle, nestedStyle } from '../plan';
 import { stripEmoji } from '../vocab';
 import { favicon, h, icon } from './dom';
-import { DRAG_TYPE, bookmarkTitle, clearDropTargets, folderPathLabel, openNewFolderDialog, sheetView } from './sheet';
+import { DRAG_TYPE, bookmarkTitle, clearDropTargets, folderPathLabel, newFolderPlace, openNewFolderDialog, sheetView } from './sheet';
 import type { Actions, State } from './state';
 import { type DestNode, barItems, candidateIds, destinations, keyToTarget } from './viewmodel';
 import { favicons, styleSwitch } from './views';
 
-export function planFor(an: Analysis, d: Decisions) {
-  return buildPlan(an.proposal, d, {
-    node: (id) => {
-      const b = an.snapshot.bookmarks.get(id);
-      if (b) return { parentId: b.parentId, title: b.title, url: b.url };
-      const f = an.snapshot.folders.get(id);
-      return f ? { parentId: f.parentId, title: f.title } : undefined;
+export function planFor(an: Analysis, d: Decisions, backup?: Parameters<typeof buildPlan>[3]) {
+  const roots = new Set([an.snapshot.barId, an.snapshot.otherId, an.snapshot.mobileId].filter((x): x is string => !!x));
+  return buildPlan(
+    an.proposal,
+    d,
+    {
+      node: (id) => {
+        const b = an.snapshot.bookmarks.get(id);
+        if (b) return { parentId: b.parentId, title: b.title, url: b.url };
+        const f = an.snapshot.folders.get(id);
+        return f ? { parentId: f.parentId, title: f.title } : undefined;
+      },
+      roots,
+      destinationRoot: (an.destination === 'bar' ? an.snapshot.barId : an.snapshot.otherId) ?? an.snapshot.otherId,
     },
-  });
+    backup,
+  );
 }
 
 function sourceName(an: Analysis): string {
-  return an.sourceFolderIds.map((id) => (id === an.snapshot.otherId ? t('otherFolder') : (an.snapshot.folders.get(id)?.title ?? ''))).join(', ');
+  const all = [an.snapshot.barId, an.snapshot.otherId, an.snapshot.mobileId].filter(Boolean);
+  if (all.every((id) => an.scopeFolderIds.includes(id as string))) return t('sourceAll');
+  return an.scopeFolderIds.map((id) => (id === an.snapshot.barId ? t('barFolder') : id === an.snapshot.otherId ? t('otherFolder') : (an.snapshot.folders.get(id)?.title ?? ''))).join(', ');
 }
 
 function nodeTitle(n: DestNode): string {
-  return n.kind === 'review' ? t('nodeReview') : n.kind === 'stay' ? t('nodeStay') : n.name;
+  return n.kind === 'review' ? t('nodeReview') : n.kind === 'stay' ? t('nodeStay') : n.kind === 'dupes' ? t('nodeDupes') : n.name;
 }
 
 function nodeView(s: State, a: Actions, an: Analysis, d: Decisions, n: DestNode): HTMLElement {
-  const tile = n.kind === 'review' ? icon('help') : n.kind === 'stay' ? icon('push_pin') : d.folderStyle !== 'name' && n.emoji ? n.emoji : icon('folder');
-  const meta = n.kind === 'new' ? (n.off ? t('nodeOff') : t('otherFolder')) : n.kind === 'existing' && n.folder ? folderPathLabel(an, n.folder) : n.kind === 'review' ? t('nodeReviewMeta') : t('nodeStayMeta');
-  const droppable = !n.off && n.kind !== 'review';
+  const tile = n.kind === 'review' ? icon('help') : n.kind === 'stay' ? icon('push_pin') : n.kind === 'dupes' ? icon('content_copy') : d.folderStyle !== 'name' && n.emoji ? n.emoji : icon('folder');
+  const meta = n.kind === 'new' ? (n.off ? t('nodeOff') : newFolderPlace(an, d, n.key.slice(2))) : n.kind === 'existing' && n.folder ? folderPathLabel(an, n.folder) : n.kind === 'review' ? t('nodeReviewMeta') : n.kind === 'dupes' ? (s.settings.backup ? t('nodeDupesMeta') : t('nodeDupesMetaNoBackup')) : t('nodeStayMeta');
+  const droppable = !n.off && n.kind !== 'review' && n.kind !== 'dupes';
   const hot = (on: boolean) => document.querySelector(`.wires .wire[data-key="${CSS.escape(n.key)}"]`)?.classList.toggle('hot', on);
   const el = h('button', {
     class: `node kind-${n.kind}${n.off ? ' off' : ''}${droppable ? ' droppable' : ''}`, type: 'button', 'data-key': n.key, 'data-count': n.ids.length, 'data-focus': `node-${n.key}`,
@@ -75,7 +85,7 @@ function barStrip(a: Actions, an: Analysis, d: Decisions): HTMLElement | null {
       if (it.folder) {
         const f = an.snapshot.folders.get(it.id);
         const fe = d.folderEmojis[it.id];
-        const shown = f && fe?.accepted && d.folderStyle !== 'name' ? folderTitle(stripEmoji(f.title), fe.emoji, d.folderStyle) : it.title;
+        const shown = f && fe?.accepted && d.folderStyle !== 'name' ? folderTitle(stripEmoji(f.title), fe.emoji, nestedStyle(d.folderStyle)) : it.title;
         return h('span', { class: 'chip chip-folder', title: shown }, icon('folder', undefined, 'icon-sm'), h('span', null, shown));
       }
       const on = !!d.iconOnly[it.id];
@@ -109,7 +119,7 @@ export function reviewView(s: State, a: Actions): HTMLElement {
       barStrip(a, an, d),
       h('div', { class: 'canvas-wrap', 'data-scroll': 'canvas' }, canvas),
       reviewActionBar(s, a)),
-    selected ? sheetView(a, an, d, selected) : null);
+    selected ? sheetView(a, an, d, selected, s.settings.backup) : null);
 }
 
 export function reviewActionBar(s: State, a: Actions): HTMLElement {
@@ -133,6 +143,7 @@ export function reviewToolbar(s: State, a: Actions): HTMLElement {
 }
 
 let observer: ResizeObserver | null = null;
+let scrolled: HTMLElement | null = null;
 
 /** Draws the connectors from the source node to every destination node; stroke weight follows the number of bookmarks. */
 export function drawWires(root: HTMLElement, s: State, animate: boolean): void {
@@ -161,12 +172,12 @@ export function drawWires(root: HTMLElement, s: State, animate: boolean): void {
       const count = Number(node.dataset.count ?? 0);
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute('d', `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`);
-      const kind = node.classList.contains('kind-review') ? ' review' : node.classList.contains('kind-stay') ? ' stay' : '';
+      const kind = node.classList.contains('kind-review') ? ' review' : node.classList.contains('kind-stay') ? ' stay' : node.classList.contains('kind-dupes') ? ' dupes' : '';
       const hot = node.matches(':hover, :focus-visible') ? ' hot' : '';
       path.setAttribute('class', `wire${kind}${node.dataset.key === s.selected ? ' active' : ''}${hot}`);
       path.dataset.key = node.dataset.key ?? '';
       // Bookmarks that move get a weight that follows their number; "stays in place" stays a thin dashed line.
-      path.setAttribute('stroke-width', kind === ' stay' ? '1.5' : String(1.5 + Math.min(count, 12) * 0.5));
+      path.setAttribute('stroke-width', kind === ' stay' || kind === ' dupes' ? '1.5' : String(1.5 + Math.min(count, 12) * 0.5));
       svg.append(path);
       if (withMotion) {
         path.style.setProperty('--len', String(Math.ceil(path.getTotalLength?.() ?? 600)));
@@ -180,4 +191,18 @@ export function drawWires(root: HTMLElement, s: State, animate: boolean): void {
   paint(animate);
   observer = new ResizeObserver(() => paint(false));
   observer.observe(canvas);
+  // The source node is sticky: redraw the connectors as the canvas scrolls.
+  const wrap = root.querySelector<HTMLElement>('.canvas-wrap');
+  if (wrap && wrap !== scrolled) {
+    scrolled = wrap;
+    let queued = false;
+    wrap.addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        if (wrap.isConnected) paint(false);
+      });
+    }, { passive: true });
+  }
 }

@@ -1,9 +1,11 @@
-import type { ClassifyInput } from './classify';
+import { MODEL_CATEGORIES, scopeCandidates } from './categorize';
+import { type Duplicate, findDuplicates } from './duplicates';
 import { computeFeatures } from './features';
+import { CATEGORIES, GROUPS, categoryPrototype, isBackupTitle, localName } from './taxonomy';
 import type { Features, FolderItem, HistoryInfo, Snapshot, Usage } from './types';
 import { USAGES } from './types';
 import { isWebUrl } from './url';
-import { VOCAB, vocabLabelText } from './vocab';
+import { leadingEmoji, stripEmoji } from './vocab';
 
 /** Zero-shot descriptions of each usage (the model is multilingual, French works for every language). */
 export const USAGE_DESCRIPTIONS: Record<Usage, string> = {
@@ -14,51 +16,69 @@ export const USAGE_DESCRIPTIONS: Record<Usage, string> = {
   follow: 'Page d’accueil d’un site d’actualités, d’un blog ou d’un agrégateur consulté régulièrement',
 };
 
-/** How many bookmarks of each destination folder are embedded to describe it. */
-export const MEMBERS_PER_FOLDER = 40;
-
 export interface Prepared {
   snapshot: Snapshot;
   features: Map<string, Features>;
-  sources: string[];
-  docIds: string[];
+  /** Bookmarks to sort. */
+  candidates: string[];
+  /** Copies of a page kept elsewhere. */
+  duplicates: Duplicate[];
+  /** Folders the bookmarks can go to or stay in. */
   folders: FolderItem[];
-  /** Texts to embed, in this order: documents, usage descriptions, vocabulary labels, folder titles. */
+  scopeFolderIds: string[];
+  /** Texts to embed, in this order: candidates, usage descriptions, category descriptions, folder names. */
   texts: string[];
   lang: string;
 }
 
-/** Everything the analysis needs before running the model; pure, so that tests replay the exact same texts. */
-export function prepare(snapshot: Snapshot, history: Map<string, HistoryInfo> | undefined, sourceFolderIds: string[], lang: string): Prepared {
-  const sources = sourceFolderIds.filter((id) => snapshot.folders.has(id) && !snapshot.folders.get(id)?.unmodifiable);
-  if (!sources.length && snapshot.otherId) sources.push(snapshot.otherId);
-
-  const features = new Map<string, Features>();
-  for (const b of snapshot.bookmarks.values()) if (isWebUrl(b.url)) features.set(b.id, computeFeatures(b, { history }));
-
-  // Embed the bookmarks to organize and a sample of each destination folder, not the whole collection.
-  const sourceSet = new Set(sources);
-  const ids = new Set<string>();
-  for (const b of snapshot.bookmarks.values()) if (sourceSet.has(b.parentId) && features.has(b.id) && !b.unmodifiable) ids.add(b.id);
-  const folders = [...snapshot.folders.values()].filter((f) => !f.isRoot && !sourceSet.has(f.id) && !f.unmodifiable);
-  for (const f of folders) for (const id of f.bookmarkIds.filter((x) => features.has(x)).slice(0, MEMBERS_PER_FOLDER)) ids.add(id);
-  const docIds = [...ids];
-  const texts = [
-    ...docIds.map((id) => (features.get(id) as Features).text),
-    ...USAGES.map((u) => USAGE_DESCRIPTIONS[u]),
-    ...VOCAB.map((v) => vocabLabelText(v, lang)),
-    ...folders.map((f) => f.title || '—'),
-  ];
-  return { snapshot, features, sources, docIds, folders, texts, lang };
+/** Words a folder name gives the model; a folder named with an emoji only is described by what the emoji stands for. */
+export function folderText(title: string, lang: string): string {
+  const name = stripEmoji(title);
+  if (name) return name;
+  const emoji = leadingEmoji(title.trim());
+  const group = GROUPS.find((g) => g.emoji === emoji);
+  if (group) return localName(group, lang);
+  const category = CATEGORIES.find((c) => c.emoji === emoji);
+  return category ? localName(category, lang) : title || '—';
 }
 
-/** Builds the classifier input from the prepared analysis and the vectors of `p.texts`, in the same order. */
-export function toClassifyInput(p: Prepared, vectors: Float32Array[], examples: Map<string, string>): ClassifyInput {
+/** The scope by default: the whole tree. */
+export function defaultScope(snapshot: Snapshot): string[] {
+  return [snapshot.barId, snapshot.otherId, snapshot.mobileId].filter((x): x is string => !!x);
+}
+
+/** Everything the analysis needs before running the model; pure, so that tests replay the exact same texts. */
+export function prepare(snapshot: Snapshot, history: Map<string, HistoryInfo> | undefined, scopeFolderIds: string[], lang: string, excludedFolderIds: string[] = []): Prepared {
+  const scope = scopeFolderIds.filter((id) => snapshot.folders.has(id));
+  if (!scope.length) scope.push(...defaultScope(snapshot));
+  const features = new Map<string, Features>();
+  for (const b of snapshot.bookmarks.values()) if (isWebUrl(b.url)) features.set(b.id, computeFeatures(b, { history }));
+  const candidates = scopeCandidates(snapshot, features, scope, excludedFolderIds);
+  const duplicates = findDuplicates(snapshot, features, candidates);
+  const folders = [...snapshot.folders.values()].filter((f) => !f.isRoot && !f.unmodifiable && !isBackupTitle(f.title));
+  const texts = [
+    ...candidates.map((id) => (features.get(id) as Features).text),
+    ...USAGES.map((u) => USAGE_DESCRIPTIONS[u]),
+    ...MODEL_CATEGORIES.map((c) => categoryPrototype(c, lang)),
+    ...folders.map((f) => folderText(f.title, lang)),
+  ];
+  return { snapshot, features, candidates, duplicates, folders, scopeFolderIds: scope, texts, lang };
+}
+
+export interface PreparedVectors {
+  vectors: Map<string, Float32Array>;
+  usageVectors: Record<Usage, Float32Array>;
+  prototypes: Map<string, Float32Array>;
+  folderVectors: Map<string, Float32Array>;
+}
+
+/** Splits the vectors of `p.texts`, computed in the same order. */
+export function splitVectors(p: Prepared, vectors: Float32Array[]): PreparedVectors {
   let k = 0;
   const next = () => vectors[k++] as Float32Array;
-  const vecById = new Map(p.docIds.map((id) => [id, next()]));
+  const byId = new Map(p.candidates.map((id) => [id, next()]));
   const usageVectors = Object.fromEntries(USAGES.map((u) => [u, next()])) as Record<Usage, Float32Array>;
-  const labels = VOCAB.map((entry) => ({ entry, vector: next() }));
+  const prototypes = new Map(MODEL_CATEGORIES.map((c) => [c.id, next()]));
   const folderVectors = new Map(p.folders.map((f) => [f.id, next()]));
-  return { snapshot: p.snapshot, features: p.features, vectors: vecById, usageVectors, labels, folderVectors, sourceFolderIds: p.sources, examples, lang: p.lang };
+  return { vectors: byId, usageVectors, prototypes, folderVectors };
 }

@@ -2,6 +2,7 @@ import type { Analysis } from '../analyze';
 import { t } from '../i18n';
 import type { Decisions } from '../plan';
 import type { FolderItem, Reason } from '../types';
+import { isBackupTitle } from '../taxonomy';
 import { VOCAB, stripEmoji } from '../vocab';
 import { closeMenus, favicon, h, icon, openMenu } from './dom';
 import type { Actions } from './state';
@@ -29,9 +30,24 @@ export function folderPathLabel(an: Analysis, f: FolderItem): string {
   return [root, ...f.path].filter(Boolean).join(' › ');
 }
 
+/** Existing folders a bookmark can be moved to: any folder but the roots, managed folders and backups. */
 export function destinationFolders(an: Analysis): FolderItem[] {
-  const sources = new Set(an.sourceFolderIds);
-  return [...an.snapshot.folders.values()].filter((f) => !f.isRoot && !sources.has(f.id) && !f.unmodifiable);
+  const backup = (f: FolderItem): boolean => isBackupTitle(f.title) || (!!f.parentId && !!an.snapshot.folders.get(f.parentId) && backup(an.snapshot.folders.get(f.parentId) as FolderItem));
+  return [...an.snapshot.folders.values()].filter((f) => !f.isRoot && !f.unmodifiable && !backup(f));
+}
+
+/** Where a proposed folder will be created: "Bookmarks bar", or the group folder it goes into. */
+export function newFolderPlace(an: Analysis, d: Decisions, key: string): string {
+  const f = an.proposal.newFolders.find((x) => x.key === key);
+  if (!f) return '';
+  if (f.parentKey) {
+    const parent = d.newFolders[f.parentKey];
+    return parent ? `${parent.emoji} ${parent.name}`.trim() : '';
+  }
+  if (f.parentId === an.snapshot.barId) return t('barFolder');
+  if (f.parentId === an.snapshot.otherId) return t('otherFolder');
+  const folder = an.snapshot.folders.get(f.parentId);
+  return folder ? folderPathLabel(an, folder) : '';
 }
 
 export function openNewFolderDialog(onCreate: (name: string) => void): void {
@@ -52,6 +68,23 @@ export function openNewFolderDialog(onCreate: (name: string) => void): void {
   document.body.append(dialog);
   dialog.showModal();
   input.focus();
+}
+
+/** Asks before an action that cannot be undone. */
+export function openConfirmDialog(title: string, body: string, confirmLabel: string, onConfirm: () => void): void {
+  const dialog = h('dialog', { class: 'dialog', 'aria-labelledby': 'confirm-title', 'aria-describedby': 'confirm-body' });
+  const form = h('form', { method: 'dialog' },
+    h('h2', { id: 'confirm-title' }, title),
+    h('p', { id: 'confirm-body', class: 'muted' }, body),
+    h('div', { class: 'actions' },
+      h('button', { type: 'button', class: 'btn btn-text', onclick: () => dialog.close() }, t('cancel')),
+      h('button', { type: 'submit', class: 'btn btn-filled' }, confirmLabel)));
+  form.addEventListener('submit', () => onConfirm());
+  dialog.append(form);
+  dialog.addEventListener('close', () => dialog.remove());
+  document.body.append(dialog);
+  dialog.showModal();
+  (form.querySelector('.btn-text') as HTMLElement | null)?.focus();
 }
 
 function firstGrapheme(s: string): string {
@@ -136,7 +169,7 @@ export function clearDropTargets(): void {
   document.querySelector('.board')?.classList.remove('drag-active');
 }
 
-export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode): HTMLElement {
+export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode, backupOn: boolean): HTMLElement {
   const close = h('button', { class: 'icon-btn', 'aria-label': t('sheetClose'), 'data-focus': 'sheet-close', onclick: () => a.select(null) }, icon('close'));
   let head: HTMLElement;
   let sub: string | null = null;
@@ -149,7 +182,7 @@ export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode
       node.emoji || icon('folder'));
     const name = h('input', { class: 'name-field', type: 'text', value: node.name, 'aria-label': t('folderName'), 'data-focus': 'sheet-name', maxlength: 60, onchange: (e: Event) => { const v = (e.target as HTMLInputElement).value.trim(); if (v) a.setNewFolder(key, { name: v }); } });
     head = h('div', { class: 'sheet-head' }, tileBtn, h('div', { class: 'grow' }, name), close);
-    sub = node.off ? t('nodeOffHint') : (shared ?? t('nodeNewHint'));
+    sub = node.off ? t('nodeOffHint') : [t('nodeNewIn', newFolderPlace(an, d, key)), shared].filter(Boolean).join(' · ');
     actions = h('div', { class: 'sheet-actions' },
       h('span', { class: 'muted' }, t('countLabel', node.ids.length)),
       node.off
@@ -161,13 +194,25 @@ export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode
       d.folderStyle !== 'name' && node.emoji ? node.emoji : icon('folder'));
     head = h('div', { class: 'sheet-head' }, tileBtn, h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, node.name)), close);
     sub = [folderPathLabel(an, f), shared].filter(Boolean).join(' · ');
+  } else if (node.kind === 'dupes') {
+    head = h('div', { class: 'sheet-head' },
+      h('span', { class: 'tile-btn tile-static' }, icon('content_copy')),
+      h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, t('nodeDupes'))), close);
+    sub = backupOn ? t('dupesHint') : t('dupesHintNoBackup');
+    actions = h('div', { class: 'sheet-actions' },
+      h('span', { class: 'muted' }, t('countLabel', node.ids.length)),
+      h('button', { class: 'btn btn-text', 'data-focus': 'sheet-keep-dupes', onclick: () => a.keepAllDuplicates() }, t('keepAllDupes')));
   } else {
     const review = node.kind === 'review';
     head = h('div', { class: 'sheet-head' },
-      h('span', { class: 'tile-btn', style: review ? 'background:var(--tertiary-container);color:var(--on-tertiary-container);cursor:default' : 'background:var(--surface-high);color:var(--on-surface-variant);cursor:default' }, icon(review ? 'help' : 'push_pin')),
+      h('span', { class: `tile-btn tile-static${review ? ' tile-review' : ''}` }, icon(review ? 'help' : 'push_pin')),
       h('div', { class: 'grow' }, h('h2', { id: 'sheet-title' }, review ? t('nodeReview') : t('nodeStay'))), close);
-    sub = review ? t('reviewHint') : (shared ?? t('staysHint'));
+    // Say "tested" only when the pages were actually read.
+    const untested = review && node.ids.every((id) => an.proposal.review.find((r) => r.bookmarkId === id)?.reason.key === 'reviewNoAccess');
+    sub = review ? (untested ? t('reviewHintUntested') : t('reviewHint')) : (shared ?? t('staysHint'));
   }
+  // Bookmarks to check and dead sites can be opened, to see for oneself.
+  const openable = node.kind === 'review' || node.key === 'n:c:dead' || node.folder?.title.includes('🚫');
   const rows = node.ids.map((id) => {
     const b = an.snapshot.bookmarks.get(id);
     const title = bookmarkTitle(an, d, id) || t('unnamed');
@@ -194,10 +239,12 @@ export function sheetView(a: Actions, an: Analysis, d: Decisions, node: DestNode
         h('span', { class: 'title' }, title),
         h('span', { class: 'sub' }, host(b?.url ?? '')),
         why ? h('span', { class: 'why', id: `why-${id}` }, why) : null),
-      h('button', { class: 'icon-btn', 'aria-label': `${t('moveTo')} : ${title}`, 'aria-describedby': why ? `why-${id}` : undefined, 'aria-haspopup': 'menu', 'data-focus': `mv-${id}`, onclick: (e: Event) => openMoveMenu(e.currentTarget as HTMLElement, an, d, a, id) }, icon('drive_file_move')));
+      h('span', { class: 'row-actions' },
+        openable && b?.url ? h('a', { class: 'icon-btn', href: b.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('openSite', title), title: t('openSite', title), 'data-focus': `open-${id}` }, icon('open_in_new')) : null,
+        h('button', { class: 'icon-btn', 'aria-label': `${t('moveTo')} : ${title}`, 'aria-describedby': why ? `why-${id}` : undefined, 'aria-haspopup': 'menu', 'data-focus': `mv-${id}`, onclick: (e: Event) => openMoveMenu(e.currentTarget as HTMLElement, an, d, a, id) }, icon('drive_file_move'))));
     return li;
   });
-  return h('aside', { class: 'sheet', id: 'sheet', 'aria-label': node.kind === 'new' || node.kind === 'existing' ? node.name : node.kind === 'review' ? t('nodeReview') : t('nodeStay') },
+  return h('aside', { class: 'sheet', id: 'sheet', 'aria-label': node.kind === 'new' || node.kind === 'existing' ? node.name : node.kind === 'review' ? t('nodeReview') : node.kind === 'dupes' ? t('nodeDupes') : t('nodeStay') },
     head,
     sub && h('p', { class: 'sheet-sub' }, sub),
     actions,

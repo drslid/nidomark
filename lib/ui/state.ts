@@ -1,14 +1,28 @@
 import type { Analysis, AnalysisPhase } from '../analyze';
 import type { Decisions, FolderStyle, Journal } from '../plan';
-import type { Settings } from '../storage';
+import type { Destination } from '../categorize';
+import type { BackupRecord, Settings } from '../storage';
 import type { Target } from '../types';
 
 export type View = 'start' | 'progress' | 'review' | 'done' | 'empty' | 'error';
 
+/** A folder of the scope picker, with the number of bookmarks a sort would cover inside it. */
+export interface ScopeFolder {
+  id: string;
+  title: string;
+  /** Bookmarks inside, with everything below. */
+  count: number;
+  depth: number;
+  isRoot: boolean;
+  /** Checked: its bookmarks are sorted. */
+  included: boolean;
+}
+
 /** What the start screen shows before any analysis. */
 export interface Preview {
+  /** Bookmarks the current choice covers. */
   count: number;
-  folderName: string;
+  folders: ScopeFolder[];
   urls: string[];
 }
 
@@ -17,6 +31,12 @@ export interface State {
   view: View;
   settings: Settings;
   useHistory: boolean;
+  /** The permission to read sites was granted. */
+  sitesAllowed: boolean;
+  /** Root folders unfolded in the scope picker. */
+  expandedScope: string[];
+  moreOptions: boolean;
+  backups: BackupRecord[];
   preview: Preview | null;
   progress: { phase: AnalysisPhase | 'applying'; done: number; total: number };
   analysis: Analysis | null;
@@ -53,7 +73,13 @@ export interface Actions {
   undo(): void;
   keepInterrupted(): void;
   backToStart(): void;
-  setSources(ids: string[]): void;
+  toggleScope(folderId: string, included: boolean): void;
+  toggleExpanded(folderId: string): void;
+  toggleMoreOptions(): void;
+  setDestination(d: Destination): void;
+  setOption(key: 'readSites' | 'checkDead' | 'backup' | 'removeDuplicates', on: boolean): void;
+  keepAllDuplicates(): void;
+  deleteBackup(id: string): void;
   restoreNames(): void;
   clearCache(): void;
 }

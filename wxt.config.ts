@@ -9,6 +9,8 @@ export default defineConfig({
     // "favicon" exposes the browser's favicon cache to extension pages (Chrome only).
     permissions: browser === 'firefox' ? ['bookmarks', 'storage'] : ['bookmarks', 'storage', 'favicon'],
     optional_permissions: ['history'],
+    // Asked for at the first analysis, only to read the bookmarked pages themselves (no cookies, nothing sent).
+    optional_host_permissions: ['http://*/*', 'https://*/*'],
     action: { default_title: '__MSG_actionTitle__' },
     // WebAssembly is needed by ONNX Runtime; all code is packaged, nothing is loaded remotely.
     content_security_policy: { extension_pages: "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';" },

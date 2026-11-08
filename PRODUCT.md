@@ -24,10 +24,15 @@ A browser extension: a toolbar button opens a full-tab page in Chrome on desktop
 
 ## Capabilities and Constraints
 
-- Nothing changes in the browser before the user applies; a sort never deletes a bookmark; undo restores the same tree and never overwrites changes made since.
+- The whole collection is sorted by default, or the folders the user chooses; the shortcuts of the bookmarks bar stay in place. Folders that make sense are kept, catch-all folders are emptied, nothing is deleted.
+- Nothing changes in the browser before the user applies; a sort never deletes a bookmark; a dated backup copy of the previous tree is made first; undo restores the same tree and never overwrites changes made since.
 - Folders can carry an emoji before their name, only an emoji, or only a name, as the user prefers; bookmarks of the bookmarks bar can be shown as icons only.
+- A dozen top-level folders hold precise categories (streaming, tech news, banking, adult content…); known sites and typical addresses are filed for sure, the local model files the rest, and the page is read when the title is not enough.
+- Sites that no longer answer are set apart; every bookmark left to check has been tested and can be opened from the list.
+- Duplicates are removed (one copy stays, the backup keeps the others).
 - Bookmarks without enough clues are listed "to check" with a short reason instead of being filed.
-- Optional permission: browsing history, to understand vague titles from the real page titles.
+- Optional permissions: access to sites, to read the bookmarked pages themselves (no cookies, nothing sent); browsing history, to understand vague titles from the real page titles.
+- No data leaves the computer, and the interface says so.
 - Chrome first (Manifest V3, Chrome Web Store), Firefox and Edge later.
 - Planned next: targeted history cleanup, then a password-protected vault.
 
