@@ -8,6 +8,9 @@ on:
       - "docs/**"
       - "lib/**"
       - "public/fonts/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "tsconfig.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -22,9 +25,6 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: website
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -32,18 +32,29 @@ jobs:
           # The whole history, for the "last updated" date of each page.
           fetch-depth: 0
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            website/pnpm-lock.yaml
 
-      - name: Enable Corepack
-        run: corepack enable
+      # The site imports lib/ from the extension, and Vite reads the root tsconfig.json, which extends
+      # .wxt/tsconfig.json: installing the extension generates that file (postinstall: wxt prepare).
+      - name: Install extension dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
+      - name: Install site dependencies
+        working-directory: website
         run: pnpm install --frozen-lockfile
 
       - name: Build static site
+        working-directory: website
         run: pnpm build
 
       - name: Configure GitHub Pages
