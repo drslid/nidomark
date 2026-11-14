@@ -14,8 +14,11 @@ Nidomark is a browser extension that rebuilds a whole bookmark collection into a
 - **Uses a small set of folders.** About a dozen top-level folders, such as 🏠 Home, 💻 Tech, 🎬 Leisure or 🏛️ Everyday life, the most used first, hold precise subfolders such as 📺 Streaming or 📡 Tech news, created only when there are enough bookmarks for them. A big category is split once more, by site or by subject: three levels at most.
 - **Keeps the folders that make sense.** A folder whose bookmarks belong together, such as "Wedding 2025", is recreated with its subfolders. Catch-all folders such as "Misc", "To sort" or "Imported" are emptied.
 - **Reads a page when the title is not enough**, sets apart the sites that no longer answer, and leaves duplicates out.
-- **Explains every choice**, and files in "❓ To check" the bookmarks it cannot place with confidence, with a suggestion when it leans somewhere.
+- **Explains every choice**, and files in "❓ To check" the bookmarks it cannot place with confidence, each with up to three suggestions.
+- **Lets you change everything before applying.** Move, rename or remove a bookmark; create, move, rename or delete a folder, at any level; drag and drop on the map; undo any change.
+- **Analyzes a folder again** when you ask, with what you taught it in the review, reading the pages it had not read yet.
 - **Learns from you.** When you file a bookmark elsewhere in the review, the next sorts send its site there too.
+- **Speaks your language.** 21 languages, chosen from your browser's, Arabic written right to left.
 
 ## How it decides
 
@@ -28,7 +31,8 @@ Each bookmark is assessed from the most certain evidence to the least:
 5. a known site or a typical address is filed for sure: more than 1,000 sites are recognised;
 6. the local model compares the title with typical bookmarks of each category, and with the bookmarks of your collection it already recognised;
 7. when that is not clear, the page itself is read, and the home page of its site if the page says too little;
-8. if the evidence is still too weak, the bookmark goes to "❓ To check", with the reason.
+8. a page that is still unclear follows the other bookmarks of its site when they agree;
+9. if the evidence is still too weak, the bookmark goes to "❓ To check", with the reason and up to three suggestions.
 
 [How sorting works](/reference/how-it-works/) gives the details, and [Categories](/reference/categories/) lists every folder Nidomark can create.
 

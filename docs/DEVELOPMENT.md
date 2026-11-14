@@ -25,7 +25,7 @@ Load `.output/chrome-mv3` from `chrome://extensions` → **Developer mode** → 
 | `pnpm check` | Type check and unit tests |
 | `pnpm build` | Production build in `.output/chrome-mv3` |
 | `pnpm zip` | Zip for the Chrome Web Store |
-| `pnpm e2e` | End-to-end tests in Chrome: real analysis, review, rebuild, second sort, undo, then site reading against a local server (`CHROME_PATH` to override the browser) |
+| `pnpm e2e` | End-to-end tests in Chrome: real analysis, review and editing, rebuild, second sort, undo; site reading and Analyze again against a local server; the interface in Arabic (right to left), Japanese, Hindi and German (`CHROME_PATH` to override the browser, `E2E_LANGS=ar,ja` to choose languages) |
 | `pnpm eval` | Prints how the classifier files the fictitious collection (`--detail` lists the differences with the reference) |
 | `pnpm fixtures` | Recomputes the test vectors with the packaged model, after changing how texts are built |
 | `pnpm examples` | Recomputes the vectors of the category examples (`lib/data/examples.ts`) |
@@ -47,7 +47,10 @@ Load `.output/chrome-mv3` from `chrome://extensions` → **Developer mode** → 
    - **Third level:** a category of 10 bookmarks or more is split by site or by title word, from 4 bookmarks, 6 subfolders at most.
    - **The user's folders:** recognised by name (categories, groups, catch-alls, folders organised by use such as "Read later"); a folder whose bookmarks belong together ("Wedding 2025") is recreated with its subfolders, under the category or group holding 60 % of it, else in "My folders".
    - **Out of the bar:** adult content, dead sites, "To check" and browser links go to Other bookmarks.
-8. **Plan** (`lib/plan.ts`, `buildRebuildPlan`): the new folders are created, every bookmark is recreated in its folder (quick access first, so that its icons come first), then the previous tree is moved, item by item and in order, into a dated backup folder in Other bookmarks (`archiveSources`). Nothing is deleted. Copies and moves are journaled by batches of 50 written before the changes; after an interruption, a pending copy is recognised by its address and title among the new children of its folder. Undo runs in reverse: it puts every original back at its exact place, removes a copy only if it is unchanged and its original still exists, removes the folders left empty, and skips anything changed since. Journals of 0.2 (backup copy, moves, removals, renames) can still be undone.
+   - **Folders of earlier sorts** left out of a partial sort take what belongs to them (`existingId`): nothing is created again, and a category they lack becomes a new subfolder of its group.
+   - **Suggestions:** every bookmark to check gets up to three categories, the model's lean first; a page still unclear follows the other bookmarks of its site when at least two of them agree.
+8. **Review** (`lib/plan.ts`, `newTree`; `lib/edit.ts`): the user's decisions (moves, names, folders moved, made or deleted, display per folder, bookmarks removed) are applied to the proposal as one tree, used both by the screen and by the plan. A loop made by moving a folder below itself is cut. **Analyze again** (`reanalyze` in `lib/analyze.ts`) runs the classifier once more with the corrections of the review as learned choices and the pages not read yet, then `mergeAnalysis` files the folder's bookmarks in the tree under review.
+9. **Plan** (`lib/plan.ts`, `buildRebuildPlan`): the new folders are created, every bookmark is recreated in its folder (quick access first, so that its icons come first), then the previous tree is moved, item by item and in order, into a dated backup folder in Other bookmarks (`archiveSources`). Nothing is deleted. Copies and moves are journaled by batches of 50 written before the changes; after an interruption, a pending copy is recognised by its address and title among the new children of its folder. Undo runs in reverse: it puts every original back at its exact place, removes a copy only if it is unchanged and its original still exists, removes the folders left empty, and skips anything changed since. Journals of 0.2 (backup copy, moves, removals, renames) can still be undone.
 
 The unit tests replay this pipeline on the fictitious collection of the feasibility study (50 bookmarks, 3 of them duplicates), with vectors computed by the packaged model (`tests/fixtures/e5-pipeline-vectors.json`), with and without history, pages and in both languages. With pages, all 50 bookmarks land where the hand-made reference expects them; without pages, the 4 the title cannot explain go to "To check". The plan tests rebuild the tree in an in-memory bookmarks API, undo it, and interrupt it at eight points to check that undo still restores the exact tree. The end-to-end test sorts the collection in Chrome, sorts the result again (the same tree comes back) and undoes everything. `tests/e2e/sites.mjs` checks site reading in Chrome against a local server: pages, home pages, dead and parked sites, bot checks, no cookies, parallel requests. The default options come from `scripts/eval-grid.ts`. They are tuned on a small collection and must be checked on real ones.
 
@@ -57,18 +60,23 @@ The unit tests replay this pipeline on the fictitious collection of the feasibil
 entrypoints/app/        Organizer page (index.html, main.ts, style.css)
 entrypoints/background.ts
 lib/                    Logic, without UI
-lib/ui/                 Views built with a small h() helper: review.ts (canvas, connectors),
-                        sheet.ts (side sheet, menus, emoji picker), views.ts, settings.ts
-lib/data/               Public Suffix List (MPL-2.0)
-public/_locales/        Messages; "{1}" placeholders are replaced by lib/i18n.ts
-public/fonts/           Google Sans (OFL-1.1), latin and latin-ext subsets
+lib/ui/                 Views built with a small h() helper: review.ts (canvas, connectors, drop targets),
+                        sheet.ts (side sheet), menus.ts, dialogs.ts, dnd.ts, views.ts, settings.ts
+lib/data/               Public Suffix List (MPL-2.0), category examples
+lib/data/names/         Folder names in each language (lib/names.ts picks the closest one)
+public/_locales/        Messages in 21 languages; "{1}" placeholders are replaced by lib/i18n.ts
+public/fonts/           Google Sans (OFL-1.1): latin, latin-ext, vietnamese, cyrillic, arabic, devanagari and bengali
+                        subsets; Chinese, Japanese and Korean use the system fonts
 scripts/                fetch-model.mjs, make-icons.mjs, fixture-vectors.ts and evaluation tools
-tests/                  Vitest unit tests, fixtures (collection, model vectors) and tests/e2e/smoke.mjs
+tests/                  Vitest unit tests, fixtures (collection, model vectors), translations (i18n.test.ts)
+                        and tests/e2e (smoke.mjs: review and editing; sites.mjs: site reading and Analyze again;
+                        locales.mjs: other languages and right to left)
 ```
 
 ## Conventions
 
 - TypeScript strict mode, no UI framework, no runtime dependency besides Transformers.js.
-- Every user-facing string goes through `t()` and exists in English and French.
+- Every user-facing string goes through `t()` and exists in all 21 languages: `tests/i18n.test.ts` checks the keys, the `{1}` placeholders, the store limits and that nothing is left in English. Messages with a number avoid plural forms ("Restored: {1}"), which differ from one language to another.
+- The interface follows Chrome's language (`chrome.i18n`), Arabic right to left (`@@bidi_dir`): the stylesheet uses logical properties (`inset-inline-start`, `padding-inline`) only.
 - Colours, radii and elevation come from the Material 3 tokens at the top of `entrypoints/app/style.css`; [DESIGN.md](../DESIGN.md) describes the system.
 - Interactive elements carry a `data-focus` key so that re-rendering keeps keyboard focus.

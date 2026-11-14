@@ -7,12 +7,12 @@ import { Image } from 'astro:assets';
 import review from '@repo-docs/assets/review.png';
 import sheet from '@repo-docs/store/store-3-sheet-en.png';
 
-The new tree is drawn as a map: your bookmarks on the left, every folder of the new tree on the right, linked by a curve whose thickness follows the number of bookmarks it carries. Nothing has changed in the browser yet.
+The new tree is drawn as a map: your bookmarks on the left, every folder of the new tree on the right, its subfolders under it. A curve links your bookmarks to each top-level folder, as thick as the number of bookmarks it carries. Nothing has changed in the browser yet, and you can change everything.
 
 <figure className="doc-figure not-content">
   <Image
     src={review}
-    alt="The review map: curves from your bookmarks to Quick access and to each top-level folder of the new tree, with the number of bookmarks it receives"
+    alt="The review map: curves from your bookmarks to Quick access and to each top-level folder of the new tree, its subfolders listed under it"
     widths={[480, 960, 1280]}
     sizes="(min-width: 50rem) 45rem, 100vw"
   />
@@ -21,48 +21,66 @@ The new tree is drawn as a map: your bookmarks on the left, every folder of the 
 
 ## Read the map
 
-The folders are grouped under the place they will be created in, as in Chrome:
+The folders are grouped under the place they will be created in, with the name Chrome gives it:
 
-- **Bookmarks bar**: ⚡ **Quick access**, the icons that open the bar, then the top-level folders, the most used first. Under each name, its subfolders.
+- **Bookmarks bar**: ⚡ **Quick access**, the icons that open the bar, then the top-level folders, the most used first.
 - **Other bookmarks**: ❓ **To check**, in amber, with the bookmarks Nidomark could not place with confidence; 🔞 Porn and 🚫 Unreachable sites when there are any.
-- **Not recreated**: the **Duplicates**, copies of a page kept elsewhere. They stay in the backup.
+- **Not recreated**: the **Duplicates**, copies of a page kept elsewhere, and the bookmarks you **removed**. Both stay in the backup.
 
-Each folder shows the icons of a few of its bookmarks and how many it holds, subfolders included.
+Subfolders sit under their folder, joined to it by a line; the arrow at the end of a folder folds or unfolds them. Each folder says how many bookmarks it holds, subfolders included.
 
-The strip at the top previews your new bookmarks bar: the quick access icons, then the folders as Chrome will show them. Click a bookmark there to show its name, or to show it as an icon again.
+The strip at the top previews your new bookmarks bar: the quick access icons, then the folders as Chrome will show them. Click a bookmark there to show or hide its name; click a folder to open it.
 
 ## Open a folder
 
-Click a folder to open it in the side panel: first its own bookmarks, then each of its subfolders. Each bookmark shows its site and, when it differs from the rest of the folder, the reason it goes there: a known site, a typical address, what its page says, a site you filed yourself, or one of your folders recreated as it is.
+Click a folder, at any level, to open it in the side panel: where it is, how it will look in Chrome, what you can do with it, its bookmarks, then its subfolders. Each bookmark shows its site and, when it differs from the rest of the folder, the reason it goes there: a known site, a typical address, what its page says, the other bookmarks of its site, a site you filed yourself, or one of your folders recreated as it is.
 
 <figure className="doc-figure not-content">
   <Image
     src={sheet}
-    alt="The Home folder opened in the side panel, with its Domotique and Home services subfolders, their bookmarks, addresses and move buttons"
+    alt="The Home automation subfolder opened in the side panel: its path, the display choice, its actions, and its bookmarks with their reasons"
     widths={[480, 960, 1280]}
     sizes="(min-width: 50rem) 45rem, 100vw"
   />
-  <figcaption>A folder and its subfolders in the side panel. Fictional sample collection.</figcaption>
+  <figcaption>A subfolder in the side panel. Fictional sample collection.</figcaption>
 </figure>
 
-- **Move a bookmark** with its move button, or drag it onto another folder: every folder that can take it lights up while you drag. The move menu follows the new tree, subfolders included, and offers Quick access too.
-- **Rename a folder** in the panel header, or a subfolder in its heading; change an emoji with the tile next to the name. Your names are kept for the next sorts.
-- **Don't create** a subfolder: its bookmarks go to the folder above it. **Create this folder** brings it back.
-- **Create a folder of your own** with **New folder**, at the bottom of the map or in the move menu.
-- **Accept a suggestion**: in To check, a bookmark the model leans to place somewhere shows a suggestion; one click files it there. The move menu lists the suggestion first.
-- **Open a page** to see it for yourself: bookmarks to check and unreachable sites have an open button.
-- **Keep a cleaner title or the original one** from the move menu, when Nidomark proposes a cleaner title.
+## Change anything
 
-When you file a bookmark elsewhere than proposed, Nidomark remembers it: the next sorts send that page, and the other pages of its site, to the same category. Undoing the sort forgets it.
+**Bookmarks**
 
-Everything works with the keyboard: Tab moves between folders, Enter opens one, Escape closes the panel, and the move menu replaces dragging. Moves are announced to screen readers.
+- **Move one**: drag it from the panel onto a folder of the map, at any level. Every place that can take it lights up while you drag; drop it on _Bookmarks bar_ for quick access, or on _Other bookmarks_ to keep it outside any folder. From the keyboard, its ⋮ menu → **Move to…** lists the whole tree.
+- **Rename one**: double-click its name, or ⋮ → **Rename**. Enter keeps the new name, Escape cancels.
+- **Show it as an icon only**: in Quick access, ⋮ → **Icon only**, or click it in the bar preview. Chrome shows a bookmark without its name only in the bar itself: inside a folder, a bookmark without a name shows its address, so the choice is offered in the bar only.
+- **Remove one**: ⋮ → **Remove**. It is not recreated and waits in **Removed**, where **Restore** brings it back; it stays in the backup either way. Dragging it onto a folder brings it back too.
+
+**Folders**
+
+- **Create one**: **New folder** at the bottom of the map, or **Subfolder** in a folder's panel; choose its place in the dialog. A folder you create is kept even empty. Named after a category ("Recipes"), it receives what Nidomark files there.
+- **Move one**: drag it onto another folder, or onto _Bookmarks bar_ or _Other bookmarks_ to bring it to the top; or **Move** in its panel. A folder never goes inside one of its own subfolders. Its subfolders and bookmarks move with it.
+- **Rename one** in the panel header, and change its emoji with the tile next to the name. Your names are kept for the next sorts.
+- **Choose how it shows in Chrome**: **Display** → Emoji only, Emoji + name, or Name only, for this folder alone. The style in the top bar applies to every folder again.
+- **Delete one**: **Delete** in its panel. Keep what it holds, and its bookmarks and subfolders move up to the folder above; or delete what it holds too, and those bookmarks are not recreated (they stay in the backup).
+
+## Bookmarks to check
+
+Each bookmark in ❓ To check says why it is there and offers up to three **suggestions**: the folders the model leans to, the most likely first. One click files it; a suggestion for a folder the tree does not have yet creates it, in its group. **File all as suggested** files them all with their first suggestion.
+
+**Analyze again**, in any folder, runs Nidomark once more on the bookmarks inside it, its subfolders included, with what you taught it during the review: a page you filed in Recipes sends the other pages of its site there too. It reads the pages it had not read yet, asking Chrome for access to sites if needed, and the home page of a site when a page says too little. It never moves the bookmarks you placed yourself, and a bookmark it still cannot place stays where it is.
+
+## Undo a change
+
+Every change can be undone: **Undo** in the message that confirms it, the undo button next to **Restore proposal**, or Ctrl+Z (⌘Z on a Mac), as many times as needed. **Restore proposal** brings back every choice Nidomark made, and can itself be undone.
+
+When you file a bookmark elsewhere than proposed, Nidomark remembers it once you apply: the next sorts send that page, and the other pages of its site, to the same category. Undoing the sort forgets it.
+
+Everything works with the keyboard: Tab moves between folders, Enter opens one, Escape closes the panel, and the menus replace dragging. Changes are announced to screen readers.
 
 ## Apply
 
 The bar at the bottom always says that nothing has changed yet.
 
-- **File _N_ bookmarks** creates the new tree, then moves your previous tree, as it was, into a dated backup. _N_ counts every bookmark recreated; duplicates are not.
-- **Restore proposal** brings back every choice Nidomark made, undoing your changes in the review.
+- **File _N_ bookmarks** creates the new tree, then moves your previous tree, as it was, into a dated backup. _N_ counts every bookmark recreated; duplicates and removed bookmarks are not.
 - The back arrow leaves the review without changing anything, after asking: the analysis would have to run again.
 - If your bookmarks change in Chrome during the review, Nidomark asks you to refresh the proposal before applying.
 

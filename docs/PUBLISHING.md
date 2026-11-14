@@ -30,7 +30,10 @@ Description (English):
 > • Understands what each bookmark is about and what you use it for: home services, online tools, tutorials, articles, news, streaming.
 > • Files every bookmark: your most visited sites as icons at the start of the bar, then a dozen folders, three levels at most.
 > • Keeps your folders that make sense, sets dead links, duplicates and adult content apart, and explains each choice.
+> • Lets you change everything before applying: drag bookmarks and folders, create, rename or delete folders, show a folder as an emoji or a name, and undo any change.
+> • Suggests a folder for every bookmark it is unsure of, and analyzes a folder again when you ask.
 > • Your previous tree is kept as it was in a dated backup; one click undoes the sort.
+> • In 21 languages, chosen from your browser's.
 
 Description (français) :
 
@@ -39,7 +42,12 @@ Description (français) :
 > • Comprend de quoi parle chaque favori et à quoi il vous sert : services maison, outils en ligne, tutoriels, articles, actualités, streaming.
 > • Range tous vos favoris : vos sites les plus visités en icônes au début de la barre, puis une douzaine de dossiers, trois niveaux au plus.
 > • Garde vos dossiers qui ont du sens, met à part les liens morts, les doublons et les contenus adultes, et explique chaque choix.
+> • Vous laisse tout modifier avant d'appliquer : glissez favoris et dossiers, créez, renommez ou supprimez des dossiers, affichez un dossier en emoji ou en nom, et annulez chaque changement.
+> • Propose un dossier pour chaque favori incertain, et réanalyse un dossier à la demande.
 > • Votre ancienne arborescence est gardée telle quelle dans une sauvegarde datée ; un clic annule le tri.
+> • En 21 langues, choisie d'après celle de votre navigateur.
+
+The extension's name and summary come from `_locales/<code>/messages.json` (`extName`, `extDescription`) in each of the 21 languages; the dashboard takes the detailed description and the screenshots per language, English and French at least.
 
 Images ([requirements](https://developer.chrome.com/docs/webstore/images)):
 

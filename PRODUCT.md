@@ -20,14 +20,15 @@ The classification runs entirely on the user's computer (no account, no server, 
 
 ## Operating Context
 
-A browser extension: a toolbar button opens a full-tab page in Chrome on desktop (Windows, macOS, Linux). Typical session: open, analyze (a few seconds to a minute), review the proposal, apply. The page follows the browser's light or dark theme. Interface in English and French.
+A browser extension: a toolbar button opens a full-tab page in Chrome on desktop (Windows, macOS, Linux). Typical session: open, analyze (a few seconds to a minute), review the proposal, apply. The page follows the browser's light or dark theme. Interface in 21 languages, chosen from the browser's (Arabic right to left).
 
 ## Capabilities and Constraints
 
 - Every bookmark of the chosen folders (the whole collection by default, the bar's shortcuts included) is recreated in a new tree; nothing stays where it was. The previous tree is moved, untouched, into a dated backup in Other bookmarks; nothing is deleted.
 - The new tree: quick access icons of the most visited sites at the start of the bookmarks bar, then about a dozen top-level folders (the most used first) holding precise categories, three levels at most. Folders of the user that make sense are recreated, catch-all folders are emptied. Adult content, dead sites, bookmarks to check and browser links go to Other bookmarks, never to the bar.
 - Nothing changes in the browser before the user applies; undo puts every original back, with the same ids and dates, and never overwrites changes made since.
-- Folders can carry an emoji before their name, only an emoji, or only a name, as the user prefers; quick access shows icons only, names can be shown again.
+- Folders can carry an emoji before their name, only an emoji, or only a name, as the user prefers, folder by folder; quick access shows icons only, names can be shown again. Chrome always shows a bookmark's icon and shows the address of an unnamed bookmark inside a folder: a bookmark can be "icon only" in the bar only, never "text only".
+- Before applying, everything can be changed: folders at every level are moved, made, renamed or deleted, bookmarks moved, renamed or removed (removed ones stay in the backup), and every change can be undone. A folder can be analysed again with what the user taught during the review.
 - Known sites and typical addresses are filed for sure, the local model files the rest, and the page is read when the title is not enough. Corrections made in the review teach the next sorts.
 - Sites that no longer answer are set apart; every bookmark left to check has been tested, can be opened from the list and comes with a suggestion when the model leans somewhere.
 - Duplicates are not recreated (one copy is, the backup keeps the others).

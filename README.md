@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/status-alpha-f59e0b" alt="Alpha status">
   <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-0f766e?logo=googlechrome&logoColor=white" alt="Chrome Manifest V3">
   <img src="https://img.shields.io/badge/AI-local%20%7C%20offline-17314a" alt="Local and offline AI">
-  <img src="https://img.shields.io/badge/languages-English%20%7C%20French-17314a" alt="English and French">
+  <img src="https://img.shields.io/badge/languages-21-17314a" alt="21 languages">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0b1724" alt="MIT License"></a>
 </p>
 
@@ -57,7 +57,8 @@ Each bookmark is filed from the most certain evidence to the least:
 5. **a known site or a typical address**: more than 1,000 sites are recognised as streaming, news, tech news, banking, paperwork and so on;
 6. **the local model** compares the title with typical bookmarks of each category and with your own bookmarks it already recognised;
 7. when that is not clear, **the page itself is read** (title, description, headings), several sites at a time, and the home page of its site when the page says too little (a login form, for instance);
-8. if the evidence is still too weak, the bookmark goes to "❓ To check" with the reason and, when the model leans somewhere, a suggestion; you can open it from the list to see for yourself.
+8. a page still unclear **follows the other bookmarks of its site** when at least two of them agree (an unclear post of a tech blog goes with its other posts);
+9. if the evidence is still too weak, the bookmark goes to "❓ To check" with the reason and **up to three suggestions**; one click files it, and you can open it from the list to see for yourself.
 
 The new tree is built for finding things again:
 
@@ -80,11 +81,15 @@ The new tree is built for finding things again:
 - Folder names with an emoji, names only or emoji only, and an emoji picker for each folder; your own folders keep their names, and so do the folders you rename in the review.
 - A preview of the new bookmarks bar, where one click hides or shows a bookmark's name.
 - Cleaner titles: notification counters and repeated site names removed.
-- Visual review before anything is written: your bookmarks on the left, the new folders on the right, grouped by where they will be created. Open a folder to see its subfolders and why each bookmark goes there, move one (menu or drag and drop), rename a folder or skip a subfolder.
+- Visual review before anything is written: your bookmarks on the left, the new tree on the right with every level of folders, grouped by where they will be created. Open any folder to see why each bookmark goes there.
+- Everything can be changed before applying: drag bookmarks and folders anywhere in the tree, create folders at any level, rename, move or delete a folder (keeping or not what it holds), rename or remove a bookmark (it stays in the backup), choose for each folder how Chrome shows it (emoji, emoji and name, or name), show a bar bookmark as its icon only, and undo any change (Ctrl+Z).
+- Suggestions for every bookmark to check, the most likely first, and **File all as suggested** in one click.
+- **Analyze again** on any folder: a new analysis of its bookmarks with what you taught in the review, reading the pages not read yet.
+- Partial sorts add to the folders an earlier sort made, instead of making a second "Tech".
 - Learning from your corrections: a bookmark you file elsewhere teaches the next sorts where its site goes; undoing the sort forgets it.
 - Write-ahead journal and one-click undo that never overwrites later changes.
 - Optional use of the browsing history, on this computer, to find your most visited sites and to understand vague titles such as "Home" or "Dashboard".
-- Clean Material Design interface, light or dark like your browser, in English and French.
+- Clean Material Design interface, light or dark like your browser, in 21 languages chosen from the browser's own: English, French, Spanish, Italian, German, Portuguese (Brazil, Portugal), Russian, Ukrainian, Polish, Dutch, Turkish, Arabic (right to left), Hindi, Bengali, Indonesian, Vietnamese, Japanese, Korean, Chinese (simplified, traditional). Folder names follow, and your own folders are recognised in any of them.
 
 ## Architecture
 
@@ -126,9 +131,10 @@ Load `.output/chrome-mv3` with **Load unpacked**, or run `pnpm dev` for a browse
 ```text
 entrypoints/app         Organizer page: analysis, review, bookmarks bar preview, settings
 entrypoints/background  Toolbar button and first-run page
-lib                     Classifier, use signals, plan and undo, model worker, storage
-lib/ui                  Canvas, side sheet and settings, without a UI framework
-public/_locales         English and French messages
+lib                     Classifier, use signals, plan and undo, review edits, model worker, storage
+lib/data/names          Folder names in each language
+lib/ui                  Canvas, side sheet, menus and settings, without a UI framework
+public/_locales         Interface messages in 21 languages
 scripts                 Model download (pinned and verified) and icon generation
 tests                   Unit tests (Vitest) and an end-to-end test in Chrome
 ```
