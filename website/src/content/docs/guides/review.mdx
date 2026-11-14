@@ -6,6 +6,7 @@ description: Read the new tree, see why each bookmark goes where it does, and ch
 import { Image } from 'astro:assets';
 import review from '@repo-docs/assets/review.png';
 import sheet from '@repo-docs/store/store-3-sheet-en.png';
+import select from '@repo-docs/assets/select.png';
 
 The new tree is drawn as a map: your bookmarks on the left, every folder of the new tree on the right, its subfolders under it. A curve links your bookmarks to each top-level folder, as thick as the number of bookmarks it carries. Nothing has changed in the browser yet, and you can change everything.
 
@@ -33,7 +34,7 @@ The strip at the top previews your new bookmarks bar: the quick access icons, th
 
 ## Open a folder
 
-Click a folder, at any level, to open it in the side panel: where it is, how it will look in Chrome, what you can do with it, its bookmarks, then its subfolders. Each bookmark shows its site and, when it differs from the rest of the folder, the reason it goes there: a known site, a typical address, what its page says, the other bookmarks of its site, a site you filed yourself, or one of your folders recreated as it is.
+Click a folder, at any level, to open it in the side panel: where it is, how it will look in Chrome, what you can do with it, its bookmarks, then its subfolders. Each bookmark shows its site and, when it differs from the rest of the folder, the reason it goes there: a known site, a typical address, what its page says, the other bookmarks of its site, a site you filed yourself, the folder you had put it in, or one of your folders recreated as it is.
 
 <figure className="doc-figure not-content">
   <Image
@@ -50,9 +51,20 @@ Click a folder, at any level, to open it in the side panel: where it is, how it 
 **Bookmarks**
 
 - **Move one**: drag it from the panel onto a folder of the map, at any level. Every place that can take it lights up while you drag; drop it on _Bookmarks bar_ for quick access, or on _Other bookmarks_ to keep it outside any folder. From the keyboard, its ⋮ menu → **Move to…** lists the whole tree.
+- **Move several at once**: **Select all** at the top of the list checks every bookmark of the folder; point at a bookmark's icon and it turns into a checkbox, Shift+click checks everything up to the last one checked, Ctrl+A (⌘A) checks them all. The bar then says how many are checked: **Move to…** sends them to any folder, a new one included, **Remove** sets them aside, and dragging one of them onto a folder of the map carries the others. A single undo brings them all back; Escape clears the selection.
 - **Rename one**: double-click its name, or ⋮ → **Rename**. Enter keeps the new name, Escape cancels.
 - **Show it as an icon only**: in Quick access, ⋮ → **Icon only**, or click it in the bar preview. Chrome shows a bookmark without its name only in the bar itself: inside a folder, a bookmark without a name shows its address, so the choice is offered in the bar only.
 - **Remove one**: ⋮ → **Remove**. It is not recreated and waits in **Removed**, where **Restore** brings it back; it stays in the backup either way. Dragging it onto a folder brings it back too.
+
+<figure className="doc-figure not-content">
+  <Image
+    src={select}
+    alt="Seven of the eight home services checked in the side panel: the bar above the list says how many are checked and offers Move to and Remove"
+    widths={[480, 960, 1280]}
+    sizes="(min-width: 50rem) 45rem, 100vw"
+  />
+  <figcaption>Several bookmarks checked, to move together. Fictional sample collection.</figcaption>
+</figure>
 
 **Folders**
 
@@ -74,7 +86,7 @@ Every change can be undone: **Undo** in the message that confirms it, the undo b
 
 When you file a bookmark elsewhere than proposed, Nidomark remembers it once you apply: the next sorts send that page, and the other pages of its site, to the same category. Undoing the sort forgets it.
 
-Everything works with the keyboard: Tab moves between folders, Enter opens one, Escape closes the panel, and the menus replace dragging. Changes are announced to screen readers.
+Everything works with the keyboard: Tab moves between folders, Enter opens one, Space checks a bookmark, Escape clears the selection then closes the panel, and the menus replace dragging. Changes are announced to screen readers.
 
 ## Apply
 

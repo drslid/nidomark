@@ -54,18 +54,20 @@ Each bookmark is filed from the most certain evidence to the least:
 2. **a site that no longer answers** goes to "Unreachable sites" (page removed, expired domain, server down);
 3. **adult content** goes to "Porn", whatever else is known about it;
 4. **your own choice** in an earlier sort, for that address or that site;
-5. **a known site or a typical address**: more than 1,000 sites are recognised as streaming, news, tech news, banking, paperwork and so on;
-6. **the local model** compares the title with typical bookmarks of each category and with your own bookmarks it already recognised;
-7. when that is not clear, **the page itself is read** (title, description, headings), several sites at a time, and the home page of its site when the page says too little (a login form, for instance);
-8. a page still unclear **follows the other bookmarks of its site** when at least two of them agree (an unclear post of a tech blog goes with its other posts);
-9. if the evidence is still too weak, the bookmark goes to "❓ To check" with the reason and **up to three suggestions**; one click files it, and you can open it from the list to see for yourself.
+5. **a known site or a typical address**: more than 1,000 sites are recognised as streaming, news, tech news, banking, paperwork and so on. Past their home page, sites that cover every subject (YouTube, GitHub, Reddit, Amazon, tech news sites, course platforms) are filed by the subject of the page;
+6. **the local model** compares the title with typical bookmarks of each category and with your own bookmarks it already recognised, **the subject before the format**: a video, a tutorial or a product about cooking goes to Cooking, so that each subject has one place;
+7. **the folder you had put it in** settles close calls and files the bookmarks that say nothing by themselves: an unclear "Home" page in your "Recipes" folder goes to Recipes;
+8. when that is not clear, **the page itself is read** (title, description, headings), several sites at a time, and the home page of its site when the page says too little (a login form, for instance);
+9. a page still unclear **follows the other bookmarks of its site** when at least two of them agree (an unclear post of a tech blog goes with its other posts);
+10. if the evidence is still too weak, the bookmark goes to "❓ To check" with the reason and **up to three suggestions**; one click files it, and you can open it from the list to see for yourself.
 
 The new tree is built for finding things again:
 
 - **Quick access first:** the sites you open most (Gmail, YouTube…), as icons only, at the start of the bookmarks bar. Without the history, the shortcuts already in your bar.
 - **About a dozen top-level folders** (🏠 Home, 💻 Tech, 🎬 Leisure, 📰 News, 🛒 Shopping…), the most used first, holding the precise categories (📺 Streaming, 📡 Tech news…) when there are enough bookmarks for them.
-- **Three levels at most:** a big category is split by site or by subject ("📺 Streaming › Netflix").
-- **Your folders that make sense are recreated** with their subfolders, under the category they are about, or in "🗂️ My folders" when they mix subjects ("Wedding 2025"). Catch-all folders ("Misc", "To sort", "Imported") are emptied.
+- **Three levels at most:** a big category is split by site or by subject ("📺 Streaming › Netflix", "💡 Home automation › Zigbee"), never by a platform that would come back everywhere.
+- **No folder twice:** never two folders of the same name under one parent, nor "Travel › Travel".
+- **Your folders that make sense are recreated** with their subfolders, under the category they are about, or in "🗂️ My folders" when they mix subjects ("Wedding 2025"). Catch-all folders ("Misc", "To sort", "Imported"), reading lists and the roots of another browser are emptied, each bookmark joining its subject.
 - **Out of the bar:** adult content, unreachable sites, bookmarks to check and browser links go to Other bookmarks.
 
 ### Included
@@ -82,7 +84,7 @@ The new tree is built for finding things again:
 - A preview of the new bookmarks bar, where one click hides or shows a bookmark's name.
 - Cleaner titles: notification counters and repeated site names removed.
 - Visual review before anything is written: your bookmarks on the left, the new tree on the right with every level of folders, grouped by where they will be created. Open any folder to see why each bookmark goes there.
-- Everything can be changed before applying: drag bookmarks and folders anywhere in the tree, create folders at any level, rename, move or delete a folder (keeping or not what it holds), rename or remove a bookmark (it stays in the backup), choose for each folder how Chrome shows it (emoji, emoji and name, or name), show a bar bookmark as its icon only, and undo any change (Ctrl+Z).
+- Everything can be changed before applying: select all the bookmarks of a folder, or some of them, and move or remove them together; drag bookmarks and folders anywhere in the tree, create folders at any level, rename, move or delete a folder (keeping or not what it holds), rename or remove a bookmark (it stays in the backup), choose for each folder how Chrome shows it (emoji, emoji and name, or name), show a bar bookmark as its icon only, and undo any change (Ctrl+Z).
 - Suggestions for every bookmark to check, the most likely first, and **File all as suggested** in one click.
 - **Analyze again** on any folder: a new analysis of its bookmarks with what you taught in the review, reading the pages not read yet.
 - Partial sorts add to the folders an earlier sort made, instead of making a second "Tech".

@@ -84,6 +84,7 @@
       {"name": "snackbar-enter", "value": "200ms", "purpose": "The snackbar rises 8px and fades in on the emphasized curve."},
       {"name": "snackbar-dwell", "value": "8s", "purpose": "The snackbar leaves after 8s, never during a drag or with a menu or dialog open (it checks again every 2s)."},
       {"name": "switch-thumb", "value": "200ms", "purpose": "Thumb travels from 6px to 22px and grows from 16px to 24px."},
+      {"name": "pick-crossfade", "value": "120ms", "purpose": "A bookmark row's favicon and its selection checkbox crossfade on the standard curve: under the pointer, on keyboard focus, or on every row once one is checked."},
       {"name": "fold-chevron", "value": "200ms", "purpose": "Folding a folder turns its chevron -90° (90° in Arabic) on the standard curve."},
       {"name": "progress-width", "value": "250ms", "purpose": "Determinate progress indicator width."},
       {"name": "progress-indeterminate", "value": "1.4s infinite", "purpose": "A 40% segment slides across the track, the other way in Arabic."},

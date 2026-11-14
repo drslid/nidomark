@@ -15,21 +15,26 @@ The decision follows the most certain evidence first.
 | 2     | The site no longer answers (when dead links are checked)                 | 🚫 Unreachable sites                     |
 | 3     | Adult content: its site, its address, an explicit title, or a page that declares it | 🔞 Porn                       |
 | 4     | Your own choice in an earlier sort, for this address or this site        | The category you chose                   |
-| 5     | A known site, such as `netflix.com` or `korben.info`                     | Its category                             |
+| 5     | A known site, such as `netflix.com` or the home page of `korben.info`   | Its category                             |
 | 6     | A typical address, such as `.gouv.fr`, a regional bank or a school portal | Its category                            |
 | 7     | A guide about an application you host, such as Jellyfin or Home Assistant | Self-hosting or Home automation         |
 | 8     | The local model                                                          | The category it clearly prefers          |
-| 9     | At least two bookmarks of the same site already filed in one category    | That category                            |
+| 9     | The folder you had put it in: its name ("Recipes", "Zigbee"), or the subject most of its other bookmarks share | Settles a close call, or files a bookmark that says nothing by itself |
+| 10    | At least two bookmarks of the same site already filed in one category    | That category                            |
 
-Multi-topic platforms such as YouTube, GitHub, Reddit or Wikipedia are not filed by their address alone: the subject of the page decides, and the platform's own category, such as Videos for YouTube, only applies when the subject is unclear. They never take part in step 9 either.
+**The subject comes first, so that each subject has one place.** A video, a course, a forum thread, a news article or a product about cooking goes to Cooking, about home automation to Home automation. Videos, Courses & tutorials, Reference, Shopping, Social networks and Tech news keep what has no subject of its own.
+
+Sites that publish on every subject are never filed by their address alone. On YouTube, GitHub, Reddit or Wikipedia, and past the home page of a store (Amazon), a tech news site (Korben, Numerama) or a course platform (OpenClassrooms), the subject of the page decides; the site's own category, such as Videos for YouTube, applies only when the page names no subject. The site's name in a title ("… - YouTube") is not taken for a subject, and these sites never take part in step 10.
+
+**Your folders say what their bookmarks are about.** A bookmark in your "Recipes" folder leans to Cooking; one in a folder whose other bookmarks are mostly about home automation leans to Home automation. Clear evidence still wins (an adult site leaves any folder), a folder of a format such as "Tutorials" or "YouTube videos" pulls less than a folder of a subject, and folders without a subject ("Misc", "Read later") say nothing.
 
 ## 2. The local model
 
 Nidomark runs [multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small), a small multilingual model, inside the browser with ONNX Runtime. It turns a text into a list of numbers, so that texts about the same thing get close numbers.
 
 - The text of a bookmark is its title, its address and the words of its path, or the real page title from your history when the title is vague and history is on.
-- The model compares it with about 300 typical bookmarks written by hand, a few for each category, and with the bookmarks of your collection already recognised in step 1, which teach it your own vocabulary.
-- The closest examples vote; the description of each category and the keywords found in the title and in the words of the address (`recettes-faciles.fr` speaks of recipes) add to the vote.
+- The model compares it with about 300 typical bookmarks written by hand, a few for each category, and with the bookmarks of your collection already recognised in step 1, which teach it your own vocabulary. A page of a platform is not compared with the examples of the same platform: "youtube.com" would weigh more than its subject.
+- The five closest examples share a vote; the description of each category, the keywords found in the title and in the words of the address (`recettes-faciles.fr` speaks of recipes), and your folders (step 9) add to it.
 - A category is chosen only when it clearly leads the second one. Otherwise the bookmark is unclear, and the three categories it leans to most become its suggestions.
 
 ## 3. Reading the pages
@@ -44,9 +49,9 @@ Every bookmark gets a place: nothing stays where it was.
 
 **Your folders guide the new ones.** Nidomark reads their names, in any of its 21 languages:
 
-- a folder named after a category or a group, such as "Recipes", "Séries" or "Leisure", lends its name to that category: the new folder is called the way you called it;
-- a catch-all folder, such as "Misc", "To sort", "Imported from Firefox" or "New folder", is emptied;
-- any other folder whose bookmarks belong together, such as "Wedding 2025" with a venue, a caterer and a dress shop, or a "Read later" list, is recreated with its subfolders: under the category or the group that holds most of it, or in 🗂️ My folders when it mixes subjects;
+- a folder named after a category or a group, such as "Recipes", "Séries" or "Leisure", lends its name to that category: the new folder is called the way you called it. A name of its subject before its format counts: "Home automation purchases" is about home automation. A folder named after one site or one product ("Netflix", "Linux") tells what it holds but does not rename the whole category;
+- a catch-all folder ("Misc", "To sort", "New folder"), a reading list ("Read later") and the root folders of another browser imported as folders ("Imported from Firefox", "Bookmarks Menu", "Bookmarks Toolbar") are emptied: each bookmark joins its subject;
+- any other folder whose bookmarks belong together, such as "Wedding 2025" with a venue, a caterer and a dress shop, or "Docker" inside your "Tech" folder, is recreated with its subfolders: under the category or the group that holds most of it, or in 🗂️ My folders when it mixes subjects;
 - a folder of a single bookmark is not worth recreating: that bookmark is filed like the others.
 
 Adult content and dead links leave even your own folders.
@@ -54,8 +59,9 @@ Adult content and dead links leave even your own folders.
 **New folders are few, three levels at most.**
 
 - About a dozen groups at the top, the most used first: by the visits of their sites when the history is known, else by size.
-- A category gets its own subfolder from two bookmarks; Streaming, Porn and Unreachable sites always get their own folder. When a group holds only one category, the folder takes the category's name, for example 📺 Streaming rather than 🎬 Leisure.
-- A category of ten bookmarks or more is split once more, by site ("Netflix", "YouTube") or by a word shared by its titles ("Linux"), from four bookmarks, six subfolders at most.
+- A category gets its own subfolder from two bookmarks; Streaming, Porn and Unreachable sites always get their own folder. When a group holds only one category, the folder takes the category's name, for example 📺 Streaming rather than 🎬 Leisure. A category named like its group fills the group folder itself: ✈️ Travel holds the trips, with 🗺️ Maps & transit inside, never "Travel › Travel".
+- A category of ten bookmarks or more is split once more, by site ("Netflix", "Marmiton") or by a word shared by its titles ("Zigbee"), from four bookmarks, six subfolders at most. A word and its plural make one subfolder; a platform that publishes on every subject, such as YouTube or GitHub, never makes one, or it would come back under every category.
+- No folder appears twice under the same parent, nor inside a folder of the same name: such folders are merged, your own first.
 - The top folders go to the destination you chose. Adult content, dead links, ❓ To check and 🧩 Browser links (bookmarklets, browser pages, files) always go to Other bookmarks.
 
 The full list is in [Categories](/reference/categories/).
