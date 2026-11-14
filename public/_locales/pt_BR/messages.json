@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Organizador de favoritos"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Uma pequena IA local organiza seus favoritos em pastas claras, com emojis e barra só de ícones. Privado, offline e gratuito."
+ },
+ "actionTitle": {
+  "message": "Organizar meus favoritos"
+ },
+ "tabSettings": {
+  "message": "Configurações"
+ },
+ "startTitle": {
+  "message": "Organize seus favoritos"
+ },
+ "startLead": {
+  "message": "Uma pequena IA, neste computador, recria todos os seus favoritos em pastas claras. Você confere e depois confirma."
+ },
+ "optHistory": {
+  "message": "Colocar primeiro os sites mais visitados"
+ },
+ "optHistoryHint": {
+  "message": "Conta as visitas de cada site e lê os títulos já salvos, neste computador. Nada é enviado."
+ },
+ "optFolderStyle": {
+  "message": "Nomes das pastas"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + nome"
+ },
+ "styleName": {
+  "message": "Só nome"
+ },
+ "styleEmoji": {
+  "message": "Só emoji"
+ },
+ "optIconOnly": {
+  "message": "Barra de favoritos só com ícones"
+ },
+ "optIconOnlyHint": {
+  "message": "Proposto por padrão; os nomes podem ser mostrados de novo"
+ },
+ "analyze": {
+  "message": "Analisar meus favoritos"
+ },
+ "lastRun": {
+  "message": "Última organização: {1}"
+ },
+ "undoLast": {
+  "message": "Desfazer"
+ },
+ "phaseReading": {
+  "message": "Lendo seus favoritos"
+ },
+ "phaseLoading": {
+  "message": "Carregando o modelo"
+ },
+ "phaseEmbedding": {
+  "message": "Entendendo cada favorito"
+ },
+ "phaseGrouping": {
+  "message": "Criando as pastas"
+ },
+ "progressCount": {
+  "message": "{1} de {2}"
+ },
+ "moveTo": {
+  "message": "Mover para"
+ },
+ "newFolderOption": {
+  "message": "Nova pasta"
+ },
+ "folderName": {
+  "message": "Nome da pasta"
+ },
+ "emojiLabel": {
+  "message": "Emoji de {1}"
+ },
+ "customEmoji": {
+  "message": "Outro emoji"
+ },
+ "reviewHint": {
+  "message": "Testados, sem pistas suficientes. Abra-os para conferir e depois escolha uma sugestão ou arraste-os para uma pasta. Caso contrário, eles vão para “A verificar”, em Outros favoritos."
+ },
+ "barTitle": {
+  "message": "Nova barra"
+ },
+ "iconOnly": {
+  "message": "só o ícone"
+ },
+ "applying": {
+  "message": "Aplicando as alterações"
+ },
+ "doneTitle": {
+  "message": "Seus favoritos estão organizados"
+ },
+ "doneSummary": {
+  "message": "{1} favoritos organizados em {2} pastas."
+ },
+ "doneSkipped": {
+  "message": "{1} itens ignorados porque mudaram nesse meio-tempo. Nada foi perdido: os originais estão no backup."
+ },
+ "undone": {
+  "message": "A última organização foi desfeita."
+ },
+ "undoSkipped": {
+  "message": "{1} itens ficaram como você os alterou."
+ },
+ "changedBanner": {
+  "message": "Seus favoritos mudaram no navegador durante a revisão."
+ },
+ "refresh": {
+  "message": "Atualizar a proposta"
+ },
+ "errorTitle": {
+  "message": "Algo deu errado"
+ },
+ "errorModel": {
+  "message": "Não foi possível carregar o modelo. Se você compilou a extensão por conta própria, execute “pnpm fetch-model” e compile novamente."
+ },
+ "retry": {
+  "message": "Tentar novamente"
+ },
+ "emptyTitle": {
+  "message": "Nada para organizar"
+ },
+ "emptyHint": {
+  "message": "Nenhum favorito nas pastas escolhidas. Escolha outras pastas."
+ },
+ "reasonHomeService": {
+  "message": "Serviço hospedado em casa (endereço local ou domínio pessoal)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Guia sobre {1} (auto-hospedagem)"
+ },
+ "reasonNewGroup": {
+  "message": "{1} favoritos sobre este tema"
+ },
+ "reasonUser": {
+  "message": "Sua escolha"
+ },
+ "reviewVague": {
+  "message": "Título genérico e endereço pouco informativo: impossível saber o que a página contém."
+ },
+ "settingsDefaults": {
+  "message": "Opções padrão"
+ },
+ "settingsHistoryOn": {
+  "message": "Permitido"
+ },
+ "settingsHistoryOff": {
+  "message": "Não permitido"
+ },
+ "settingsNames": {
+  "message": "Favoritos só com ícone"
+ },
+ "settingsNamesCount": {
+  "message": "{1} favoritos mostrados como ícones"
+ },
+ "restoreNames": {
+  "message": "Mostrar todos os nomes de novo"
+ },
+ "namesRestored": {
+  "message": "{1} nomes mostrados novamente."
+ },
+ "settingsData": {
+  "message": "Dados"
+ },
+ "clearCache": {
+  "message": "Cache de análise"
+ },
+ "cacheCleared": {
+  "message": "Cache limpo."
+ },
+ "settingsAbout": {
+  "message": "Sobre"
+ },
+ "aboutModel": {
+  "message": "Modelo: {1}, executado localmente."
+ },
+ "saved": {
+  "message": "Salvo"
+ },
+ "unnamed": {
+  "message": "(sem nome)"
+ },
+ "barFolder": {
+  "message": "Barra de favoritos"
+ },
+ "otherFolder": {
+  "message": "Outros favoritos"
+ },
+ "lang": {
+  "message": "pt-BR"
+ },
+ "interruptedTitle": {
+  "message": "A última organização foi interrompida"
+ },
+ "interruptedHint": {
+  "message": "O navegador foi fechado enquanto as alterações eram aplicadas. Desfaça o que foi feito ou mantenha como está."
+ },
+ "interruptedUndo": {
+  "message": "Desfazer o que foi feito"
+ },
+ "interruptedKeep": {
+  "message": "Manter estas alterações"
+ },
+ "errorUnresolved": {
+  "message": "A última organização foi interrompida. Desfaça ou mantenha antes de organizar de novo."
+ },
+ "changedBlocked": {
+  "message": "Atualize a proposta primeiro: seus favoritos mudaram."
+ },
+ "startCountNone": {
+  "message": "Nenhum favorito para organizar"
+ },
+ "finish": {
+  "message": "Concluído"
+ },
+ "sourceMeta": {
+  "message": "{1} favoritos"
+ },
+ "destinations": {
+  "message": "Pastas propostas"
+ },
+ "proposal": {
+  "message": "Proposta"
+ },
+ "nodeReviewMeta": {
+  "message": "Pistas insuficientes"
+ },
+ "countLabel": {
+  "message": "{1} favoritos"
+ },
+ "sheetClose": {
+  "message": "Fechar"
+ },
+ "emptyFolder": {
+  "message": "Vazia. Arraste favoritos para esta pasta no diagrama."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Nova pasta"
+ },
+ "create": {
+  "message": "Criar"
+ },
+ "cancel": {
+  "message": "Cancelar"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Manter o título original"
+ },
+ "useNewTitle": {
+  "message": "Usar o título mais limpo"
+ },
+ "noEmoji": {
+  "message": "Sem emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Clique para mostrar só o ícone"
+ },
+ "showName": {
+  "message": "clique para mostrar o nome"
+ },
+ "nothingYet": {
+  "message": "Nada foi alterado ainda"
+ },
+ "restoreProposal": {
+  "message": "Restaurar a proposta"
+ },
+ "applyRegion": {
+  "message": "Aplicar as alterações"
+ },
+ "announceMoved": {
+  "message": "“{1}” movido para {2}"
+ },
+ "back": {
+  "message": "Voltar"
+ },
+ "clear": {
+  "message": "Limpar"
+ },
+ "footerSync": {
+  "message": "As alterações também serão aplicadas aos seus outros dispositivos sincronizados."
+ },
+ "barHint": {
+  "message": "Clique em um favorito para ocultar ou mostrar o nome"
+ },
+ "applyCount": {
+  "message": "Organizar {1} favoritos"
+ },
+ "applyOne": {
+  "message": "Organizar 1 favorito"
+ },
+ "scopeLabel": {
+  "message": "Pastas para organizar"
+ },
+ "barScopeHint": {
+  "message": "Atalhos incluídos: os mais usados voltam primeiro"
+ },
+ "showSubfolders": {
+  "message": "Mostrar as pastas de {1}"
+ },
+ "destinationLabel": {
+  "message": "Organizar em"
+ },
+ "moreOptions": {
+  "message": "Mais opções"
+ },
+ "sumReadSites": {
+  "message": "leitura dos sites"
+ },
+ "sumCheckDead": {
+  "message": "sites fora do ar"
+ },
+ "sumHistory": {
+  "message": "histórico"
+ },
+ "optReadSites": {
+  "message": "Ler os sites quando o título não basta"
+ },
+ "optReadSitesHint": {
+  "message": "Mais lento, mais preciso. O Chrome pede acesso aos sites uma única vez."
+ },
+ "optCheckDead": {
+  "message": "Encontrar sites que não respondem mais"
+ },
+ "optCheckDeadHint": {
+  "message": "Eles ficam separados, em “Sites fora do ar”."
+ },
+ "optFolderStyleHint": {
+  "message": "As subpastas mantêm os nomes."
+ },
+ "analyzeCount": {
+  "message": "Analisar {1} favoritos"
+ },
+ "analyzeOne": {
+  "message": "Analisar 1 favorito"
+ },
+ "privacyTitle": {
+  "message": "Nenhum dado sai deste computador"
+ },
+ "privacyBody": {
+  "message": "A IA funciona aqui, sem conta nem servidor. Para entender um site, o Nidomark abre a página como seu navegador faria, sem cookies, e não envia mais nada."
+ },
+ "phaseSites": {
+  "message": "Lendo os sites"
+ },
+ "phasePages": {
+  "message": "Analisando as páginas"
+ },
+ "sitesNote": {
+  "message": "Vários sites ao mesmo tempo. Nada é enviado; as páginas são apenas lidas."
+ },
+ "sitesAllowed": {
+  "message": "Acesso aos sites concedido"
+ },
+ "sitesAsked": {
+  "message": "O Chrome vai pedir acesso aos sites na próxima análise"
+ },
+ "backupsTitle": {
+  "message": "Backups"
+ },
+ "backupsNone": {
+  "message": "Nenhum backup"
+ },
+ "backupCount": {
+  "message": "{1} favoritos"
+ },
+ "backupDelete": {
+  "message": "Excluir"
+ },
+ "backupDeleteTitle": {
+  "message": "Excluir este backup?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” e todo o conteúdo dele serão excluídos definitivamente. Seus favoritos organizados não mudam de lugar, mas a organização que criou esse backup não poderá mais ser desfeita."
+ },
+ "backupDeleted": {
+  "message": "Backup excluído."
+ },
+ "backupTitle": {
+  "message": "Nidomark – backup de {1}"
+ },
+ "clearCacheHint": {
+  "message": "O cache acelera as próximas análises e fica neste computador."
+ },
+ "sourceAll": {
+  "message": "Seus favoritos"
+ },
+ "reasonKnownSite": {
+  "message": "Site conhecido ({1})"
+ },
+ "reasonPattern": {
+  "message": "Endereço típico ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Título explícito"
+ },
+ "reasonAdultPage": {
+  "message": "A página declara conteúdo adulto"
+ },
+ "reasonPage": {
+  "message": "Segundo a página: “{1}”"
+ },
+ "reasonModel": {
+  "message": "Parece ser “{1}”"
+ },
+ "reasonPlatform": {
+  "message": "Publicado em {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Fala sobre {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Você costuma organizar {1} em “{2}”"
+ },
+ "reasonKeptFolder": {
+  "message": "Sua pasta “{1}”, recriada como está"
+ },
+ "reasonNewCategory": {
+  "message": "{1} favoritos desta categoria"
+ },
+ "deadNetwork": {
+  "message": "Não responde mais: site não encontrado"
+ },
+ "deadTimeout": {
+  "message": "Não responde mais: tempo esgotado"
+ },
+ "deadGone": {
+  "message": "Página removida ({1})"
+ },
+ "deadServer": {
+  "message": "Erro no servidor ({1})"
+ },
+ "deadParked": {
+  "message": "Domínio abandonado ou à venda"
+ },
+ "reviewUnclear": {
+  "message": "Nenhum tema claro no título e no endereço"
+ },
+ "reviewUnclearPage": {
+  "message": "Página lida, sem tema claro"
+ },
+ "reviewBlocked": {
+  "message": "O site não permite a leitura ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Título vago; permita a leitura dos sites para saber mais"
+ },
+ "nodeDupes": {
+  "message": "Duplicados"
+ },
+ "nodeDupesMeta": {
+  "message": "Não recriados, mantidos no backup"
+ },
+ "dupesHint": {
+  "message": "Estas páginas já existem em outro lugar: só uma cópia é recriada. Estas ficam no backup."
+ },
+ "keepAllDupes": {
+  "message": "Manter todos"
+ },
+ "reasonDuplicate": {
+  "message": "Duplicado de “{1}” ({2})"
+ },
+ "optDupes": {
+  "message": "Uma só cópia de cada página"
+ },
+ "optDupesHint": {
+  "message": "Os duplicados não são recriados; eles ficam no backup."
+ },
+ "sumDupes": {
+  "message": "duplicados"
+ },
+ "openSite": {
+  "message": "Abrir {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Pistas insuficientes. “Analisar novamente” testa os sites deles; você também pode abri-los para conferir. Caso contrário, eles vão para “A verificar”."
+ },
+ "archiveNote": {
+  "message": "A estrutura atual dos seus favoritos é mantida como está em um backup com data, em Outros favoritos. Um clique desfaz a organização."
+ },
+ "barSheetHint": {
+  "message": "Os sites que você mais abre, como ícones no início da barra. Na prévia, clique em um ícone para mostrar o nome."
+ },
+ "doneArchive": {
+  "message": "A estrutura anterior está em “{1}”, em Outros favoritos."
+ },
+ "nodeBar": {
+  "message": "Acesso rápido"
+ },
+ "nodeBarMeta": {
+  "message": "Ícones no início da barra"
+ },
+ "notRecreated": {
+  "message": "Não recriados"
+ },
+ "optQuickAccess": {
+  "message": "Acesso rápido"
+ },
+ "optQuickAccessHint": {
+  "message": "Os sites mais visitados, como ícones no início da barra"
+ },
+ "quickNone": {
+  "message": "Nenhum"
+ },
+ "reasonBarShortcut": {
+  "message": "Já está na sua barra de favoritos"
+ },
+ "reasonBarTool": {
+  "message": "Ferramenta da barra (bookmarklet ou página do navegador)"
+ },
+ "reasonFacet": {
+  "message": "{1} favoritos do mesmo site ou sobre o mesmo assunto"
+ },
+ "reasonLearned": {
+  "message": "Você o organizou em “{1}”"
+ },
+ "reasonMyFolders": {
+  "message": "Suas pastas que misturam vários assuntos"
+ },
+ "reasonQuickAccess": {
+  "message": "Um dos sites que você mais abre"
+ },
+ "reasonReviewFolder": {
+  "message": "Pistas insuficientes para organizá-los"
+ },
+ "reasonSpecial": {
+  "message": "Um link que não é uma página da web (bookmarklet, página do navegador, arquivo)"
+ },
+ "leaveTitle": {
+  "message": "Descartar esta proposta?"
+ },
+ "leaveBody": {
+  "message": "Seus favoritos não foram alterados. Para organizá-los, será preciso fazer a análise de novo."
+ },
+ "leaveConfirm": {
+  "message": "Descartar"
+ },
+ "acceptAll": {
+  "message": "Organizar tudo como sugerido ({1})"
+ },
+ "acceptedAll": {
+  "message": "Organizados como sugerido: {1}"
+ },
+ "atTopOf": {
+  "message": "Diretamente em {1}"
+ },
+ "deleteFolder": {
+  "message": "Excluir"
+ },
+ "deleteFolderTitle": {
+  "message": "Excluir “{1}”?"
+ },
+ "deleteFolderBody": {
+  "message": "Favoritos dentro dela: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Favoritos dentro dela: {1} · subpastas: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Manter o conteúdo"
+ },
+ "deleteKeepHint": {
+  "message": "Os favoritos e as subpastas dela sobem para “{1}”."
+ },
+ "deleteWithContent": {
+  "message": "Excluir também o conteúdo"
+ },
+ "deleteWithContentHint": {
+  "message": "Os favoritos dela não são recriados: eles ficam no backup."
+ },
+ "displayInBrowser": {
+  "message": "Exibição"
+ },
+ "dropAtTop": {
+  "message": "Solte aqui, no nível superior"
+ },
+ "editUndone": {
+  "message": "Alteração desfeita"
+ },
+ "fileIn": {
+  "message": "Organizar em {1}"
+ },
+ "foldFolder": {
+  "message": "Recolher {1}"
+ },
+ "unfoldFolder": {
+  "message": "Expandir {1}"
+ },
+ "folderCreated": {
+  "message": "Pasta “{1}” criada"
+ },
+ "folderDeleted": {
+  "message": "Pasta “{1}” excluída: o conteúdo subiu um nível"
+ },
+ "folderDeletedAll": {
+  "message": "Pasta “{1}” excluída com todo o conteúdo"
+ },
+ "folderMoved": {
+  "message": "Pasta “{1}” movida para {2}"
+ },
+ "folderPlace": {
+  "message": "Local"
+ },
+ "iconOnlyItem": {
+  "message": "Só o ícone"
+ },
+ "keepDupe": {
+  "message": "Manter esta cópia"
+ },
+ "looseHint": {
+  "message": "Favoritos soltos em {1}, fora de qualquer pasta."
+ },
+ "moveFolder": {
+  "message": "Mover"
+ },
+ "moveFolderTo": {
+  "message": "Mover “{1}” para"
+ },
+ "moveToEllipsis": {
+  "message": "Mover para…"
+ },
+ "newShort": {
+  "message": "nova"
+ },
+ "newSubfolder": {
+  "message": "Subpasta"
+ },
+ "nodeLoose": {
+  "message": "Sem pasta"
+ },
+ "nodeLooseMeta": {
+  "message": "Direto na pasta raiz"
+ },
+ "nodeRemoved": {
+  "message": "Removidos"
+ },
+ "nodeRemovedMeta": {
+  "message": "Não recriados, mantidos no backup"
+ },
+ "openFolder": {
+  "message": "abrir a pasta"
+ },
+ "openPage": {
+  "message": "Abrir a página"
+ },
+ "proposalRestored": {
+  "message": "Proposta restaurada"
+ },
+ "reanalyze": {
+  "message": "Analisar novamente"
+ },
+ "reanalyzeFailed": {
+  "message": "A nova análise falhou: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "Nova análise de “{2}” · movidos: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Nada para analisar novamente em “{1}”: os favoritos dessa pasta foram colocados por você."
+ },
+ "reanalyzedSame": {
+  "message": "Nova análise de “{1}”: nenhuma alteração"
+ },
+ "reanalyzing": {
+  "message": "Analisando “{1}” novamente"
+ },
+ "reasonSameSite": {
+  "message": "Como outros {1} favoritos de {2}"
+ },
+ "removeBookmark": {
+  "message": "Remover"
+ },
+ "removedHint": {
+  "message": "Estes favoritos não são recriados. Eles ficam no backup: restaure-os aqui ou arraste-os para uma pasta."
+ },
+ "removedOne": {
+  "message": "“{1}” não será recriado (fica no backup)"
+ },
+ "rename": {
+  "message": "Renomear"
+ },
+ "renameLabel": {
+  "message": "Novo nome para {1}"
+ },
+ "renamedTo": {
+  "message": "Renomeado para “{1}”"
+ },
+ "restore": {
+  "message": "Restaurar"
+ },
+ "restoreAll": {
+  "message": "Restaurar todos"
+ },
+ "restoredCount": {
+  "message": "Restaurados: {1}"
+ },
+ "restoredOne": {
+  "message": "Favorito restaurado"
+ },
+ "rowActions": {
+  "message": "Ações para {1}"
+ },
+ "subfolders": {
+  "message": "Subpastas"
+ },
+ "suggestionsFor": {
+  "message": "Sugestões para {1}"
+ },
+ "undoEdit": {
+  "message": "Desfazer"
+ },
+ "undoEditHint": {
+  "message": "Desfazer a última alteração (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Já está nos seus favoritos"
+ },
+ "existingFolderHint": {
+  "message": "Pasta de uma organização anterior: recebe os novos favoritos e mantém o nome e o local."
+ }
+}

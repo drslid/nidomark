@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – 书签整理工具"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "小巧的本地 AI 会将您的书签整理到清晰的文件夹中，支持带表情符号的文件夹和仅显示图标的书签栏。注重隐私，离线运行，免费使用。"
+ },
+ "actionTitle": {
+  "message": "整理我的书签"
+ },
+ "tabSettings": {
+  "message": "设置"
+ },
+ "startTitle": {
+  "message": "整理您的书签"
+ },
+ "startLead": {
+  "message": "此计算机上的小型 AI 会在清晰的文件夹中重新创建您的所有书签。您先检查，再确认即可。"
+ },
+ "optHistory": {
+  "message": "将最常访问的网站排在前面"
+ },
+ "optHistoryHint": {
+  "message": "在此计算机上统计每个网站的访问次数，并读取已存储的标题。不会发送任何数据。"
+ },
+ "optFolderStyle": {
+  "message": "文件夹名称"
+ },
+ "styleEmojiName": {
+  "message": "表情符号 + 名称"
+ },
+ "styleName": {
+  "message": "仅名称"
+ },
+ "styleEmoji": {
+  "message": "仅表情符号"
+ },
+ "optIconOnly": {
+  "message": "书签栏仅显示图标"
+ },
+ "optIconOnlyHint": {
+  "message": "默认采用此方式；名称可随时重新显示"
+ },
+ "analyze": {
+  "message": "分析我的书签"
+ },
+ "lastRun": {
+  "message": "上次整理：{1}"
+ },
+ "undoLast": {
+  "message": "撤销"
+ },
+ "phaseReading": {
+  "message": "正在读取您的书签"
+ },
+ "phaseLoading": {
+  "message": "正在加载模型"
+ },
+ "phaseEmbedding": {
+  "message": "正在理解每个书签"
+ },
+ "phaseGrouping": {
+  "message": "正在构建文件夹"
+ },
+ "progressCount": {
+  "message": "{1} / {2}"
+ },
+ "moveTo": {
+  "message": "移至"
+ },
+ "newFolderOption": {
+  "message": "新建文件夹"
+ },
+ "folderName": {
+  "message": "文件夹名称"
+ },
+ "emojiLabel": {
+  "message": "{1} 的表情符号"
+ },
+ "customEmoji": {
+  "message": "其他表情符号"
+ },
+ "reviewHint": {
+  "message": "已测试网站，但线索仍不足。请打开查看，然后选择一个建议，或将它们拖到某个文件夹上。否则，它们会进入“其他书签”中的“待确认”文件夹。"
+ },
+ "barTitle": {
+  "message": "新书签栏"
+ },
+ "iconOnly": {
+  "message": "仅显示图标"
+ },
+ "applying": {
+  "message": "正在应用更改"
+ },
+ "doneTitle": {
+  "message": "您的书签已整理完毕"
+ },
+ "doneSummary": {
+  "message": "已将 {1} 个书签整理到 {2} 个文件夹中。"
+ },
+ "doneSkipped": {
+  "message": "有 {1} 个项目在此期间发生了更改，已跳过。没有任何内容丢失：原始项目都在备份中。"
+ },
+ "undone": {
+  "message": "已撤销上次整理。"
+ },
+ "undoSkipped": {
+  "message": "有 {1} 个项目保留了您更改后的状态。"
+ },
+ "changedBanner": {
+  "message": "在检查期间，浏览器中的书签发生了更改。"
+ },
+ "refresh": {
+  "message": "刷新方案"
+ },
+ "errorTitle": {
+  "message": "出了点问题"
+ },
+ "errorModel": {
+  "message": "无法加载模型。如果您自行构建了此扩展程序，请运行“pnpm fetch-model”，然后重新构建。"
+ },
+ "retry": {
+  "message": "重试"
+ },
+ "emptyTitle": {
+  "message": "没有需要整理的内容"
+ },
+ "emptyHint": {
+  "message": "所选文件夹中没有书签。请选择其他文件夹。"
+ },
+ "reasonHomeService": {
+  "message": "在家中托管的服务（本地地址或个人域名）"
+ },
+ "reasonSelfHostGuide": {
+  "message": "关于 {1} 的指南（自托管）"
+ },
+ "reasonNewGroup": {
+  "message": "此主题的 {1} 个书签"
+ },
+ "reasonUser": {
+  "message": "您的选择"
+ },
+ "reviewVague": {
+  "message": "标题过于笼统，网址也无法提供信息：无法得知网页的内容。"
+ },
+ "settingsDefaults": {
+  "message": "默认选项"
+ },
+ "settingsHistoryOn": {
+  "message": "已允许"
+ },
+ "settingsHistoryOff": {
+  "message": "未允许"
+ },
+ "settingsNames": {
+  "message": "仅显示图标的书签"
+ },
+ "settingsNamesCount": {
+  "message": "{1} 个书签仅显示图标"
+ },
+ "restoreNames": {
+  "message": "重新显示所有名称"
+ },
+ "namesRestored": {
+  "message": "已重新显示 {1} 个名称。"
+ },
+ "settingsData": {
+  "message": "数据"
+ },
+ "clearCache": {
+  "message": "分析缓存"
+ },
+ "cacheCleared": {
+  "message": "已清除缓存。"
+ },
+ "settingsAbout": {
+  "message": "关于"
+ },
+ "aboutModel": {
+  "message": "模型：{1}，在本地运行。"
+ },
+ "saved": {
+  "message": "已保存"
+ },
+ "unnamed": {
+  "message": "（未命名）"
+ },
+ "barFolder": {
+  "message": "书签栏"
+ },
+ "otherFolder": {
+  "message": "其他书签"
+ },
+ "lang": {
+  "message": "zh-CN"
+ },
+ "interruptedTitle": {
+  "message": "上次整理被中断"
+ },
+ "interruptedHint": {
+  "message": "应用更改时浏览器已关闭。请撤销已完成的操作，或保持现状。"
+ },
+ "interruptedUndo": {
+  "message": "撤销已完成的操作"
+ },
+ "interruptedKeep": {
+  "message": "保留这些更改"
+ },
+ "errorUnresolved": {
+  "message": "上次整理被中断。请先撤销或保留，然后再重新整理。"
+ },
+ "changedBlocked": {
+  "message": "请先刷新方案：您的书签已更改。"
+ },
+ "startCountNone": {
+  "message": "没有需要整理的书签"
+ },
+ "finish": {
+  "message": "完成"
+ },
+ "sourceMeta": {
+  "message": "{1} 个书签"
+ },
+ "destinations": {
+  "message": "方案中的文件夹"
+ },
+ "proposal": {
+  "message": "整理方案"
+ },
+ "nodeReviewMeta": {
+  "message": "线索不足"
+ },
+ "countLabel": {
+  "message": "{1} 个书签"
+ },
+ "sheetClose": {
+  "message": "关闭"
+ },
+ "emptyFolder": {
+  "message": "此文件夹为空。请在图中将书签拖到此文件夹上。"
+ },
+ "dialogNewFolderTitle": {
+  "message": "新建文件夹"
+ },
+ "create": {
+  "message": "创建"
+ },
+ "cancel": {
+  "message": "取消"
+ },
+ "ok": {
+  "message": "确定"
+ },
+ "keepTitle": {
+  "message": "保留原标题"
+ },
+ "useNewTitle": {
+  "message": "使用更简洁的标题"
+ },
+ "noEmoji": {
+  "message": "无表情符号"
+ },
+ "iconOnlyHint": {
+  "message": "点击即可仅显示图标"
+ },
+ "showName": {
+  "message": "点击即可显示名称"
+ },
+ "nothingYet": {
+  "message": "尚未进行任何更改"
+ },
+ "restoreProposal": {
+  "message": "恢复原方案"
+ },
+ "applyRegion": {
+  "message": "应用更改"
+ },
+ "announceMoved": {
+  "message": "已将“{1}”移至“{2}”"
+ },
+ "back": {
+  "message": "返回"
+ },
+ "clear": {
+  "message": "清除"
+ },
+ "footerSync": {
+  "message": "更改也会应用到您已登录的其他设备上。"
+ },
+ "barHint": {
+  "message": "点击书签即可隐藏或显示其名称"
+ },
+ "applyCount": {
+  "message": "整理 {1} 个书签"
+ },
+ "applyOne": {
+  "message": "整理 1 个书签"
+ },
+ "scopeLabel": {
+  "message": "要整理的文件夹"
+ },
+ "barScopeHint": {
+  "message": "包括快捷方式：最常用的会重新排在最前面"
+ },
+ "showSubfolders": {
+  "message": "显示 {1} 中的文件夹"
+ },
+ "destinationLabel": {
+  "message": "整理到"
+ },
+ "moreOptions": {
+  "message": "更多选项"
+ },
+ "sumReadSites": {
+  "message": "读取网站"
+ },
+ "sumCheckDead": {
+  "message": "失效网站"
+ },
+ "sumHistory": {
+  "message": "历史记录"
+ },
+ "optReadSites": {
+  "message": "标题不足以判断时读取网站"
+ },
+ "optReadSitesHint": {
+  "message": "速度较慢，但更准确。Chrome 会请求一次网站访问权限。"
+ },
+ "optCheckDead": {
+  "message": "查找不再响应的网站"
+ },
+ "optCheckDeadHint": {
+  "message": "这些网站会被单独放入“无法访问的网站”。"
+ },
+ "optFolderStyleHint": {
+  "message": "子文件夹会保留原名称。"
+ },
+ "analyzeCount": {
+  "message": "分析 {1} 个书签"
+ },
+ "analyzeOne": {
+  "message": "分析 1 个书签"
+ },
+ "privacyTitle": {
+  "message": "数据不会离开此计算机"
+ },
+ "privacyBody": {
+  "message": "AI 在此计算机上运行，无需账号，也不使用服务器。为了解某个网站，Nidomark 会像浏览器一样打开其网页，但不使用 Cookie，也不会发送任何其他内容。"
+ },
+ "phaseSites": {
+  "message": "正在读取网站"
+ },
+ "phasePages": {
+  "message": "正在分析网页"
+ },
+ "sitesNote": {
+  "message": "同时处理多个网站。只读取网页，不发送任何内容。"
+ },
+ "sitesAllowed": {
+  "message": "已授予网站访问权限"
+ },
+ "sitesAsked": {
+  "message": "下次分析时，Chrome 会请求网站访问权限"
+ },
+ "backupsTitle": {
+  "message": "备份"
+ },
+ "backupsNone": {
+  "message": "暂无备份"
+ },
+ "backupCount": {
+  "message": "{1} 个书签"
+ },
+ "backupDelete": {
+  "message": "删除"
+ },
+ "backupDeleteTitle": {
+  "message": "要删除此备份吗？"
+ },
+ "backupConfirm": {
+  "message": "“{1}”及其中的所有内容都将被永久删除。已整理的书签不会移动，但创建此备份的那次整理将无法再撤销。"
+ },
+ "backupDeleted": {
+  "message": "已删除备份。"
+ },
+ "backupTitle": {
+  "message": "Nidomark – 备份 {1}"
+ },
+ "clearCacheHint": {
+  "message": "缓存可加快后续分析；它只保存在此计算机上。"
+ },
+ "sourceAll": {
+  "message": "您的书签"
+ },
+ "reasonKnownSite": {
+  "message": "已知网站（{1}）"
+ },
+ "reasonPattern": {
+  "message": "典型网址（{1}）"
+ },
+ "reasonAdultWords": {
+  "message": "露骨的标题"
+ },
+ "reasonAdultPage": {
+  "message": "该网页声明含有成人内容"
+ },
+ "reasonPage": {
+  "message": "来自网页：“{1}”"
+ },
+ "reasonModel": {
+  "message": "看起来属于“{1}”"
+ },
+ "reasonPlatform": {
+  "message": "发布于 {1}"
+ },
+ "reasonAboutApp": {
+  "message": "关于 {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "您通常将 {1} 整理到“{2}”中"
+ },
+ "reasonKeptFolder": {
+  "message": "您的文件夹“{1}”，按原样重新创建"
+ },
+ "reasonNewCategory": {
+  "message": "此类别的 {1} 个书签"
+ },
+ "deadNetwork": {
+  "message": "不再响应：找不到网站"
+ },
+ "deadTimeout": {
+  "message": "不再响应：已超时"
+ },
+ "deadGone": {
+  "message": "网页已被删除（{1}）"
+ },
+ "deadServer": {
+  "message": "服务器错误（{1}）"
+ },
+ "deadParked": {
+  "message": "域名已弃用或待售"
+ },
+ "reviewUnclear": {
+  "message": "标题和网址中没有明确的主题"
+ },
+ "reviewUnclearPage": {
+  "message": "已读取网页，但没有明确的主题"
+ },
+ "reviewBlocked": {
+  "message": "该网站拒绝读取（{1}）"
+ },
+ "reviewNoAccess": {
+  "message": "标题含糊；允许读取网站即可了解更多"
+ },
+ "nodeDupes": {
+  "message": "重复项"
+ },
+ "nodeDupesMeta": {
+  "message": "不重新创建，保留在备份中"
+ },
+ "dupesHint": {
+  "message": "这些网页在其他位置已存在：只会重新创建一份。这里的副本会保留在备份中。"
+ },
+ "keepAllDupes": {
+  "message": "全部保留"
+ },
+ "reasonDuplicate": {
+  "message": "与“{1}”重复（{2}）"
+ },
+ "optDupes": {
+  "message": "每个网页只保留一份"
+ },
+ "optDupesHint": {
+  "message": "重复项不会重新创建，而是保留在备份中。"
+ },
+ "sumDupes": {
+  "message": "重复项"
+ },
+ "openSite": {
+  "message": "打开 {1}"
+ },
+ "reviewHintUntested": {
+  "message": "线索不足。“重新分析”会测试它们的网站；您也可以打开查看。否则，它们会进入“待确认”文件夹。"
+ },
+ "archiveNote": {
+  "message": "您当前的书签结构会原样保存在“其他书签”中一个带日期的备份里。只需点击一下即可撤销整理。"
+ },
+ "barSheetHint": {
+  "message": "您最常打开的网站，会以图标形式显示在书签栏开头。在预览中点击图标即可显示其名称。"
+ },
+ "doneArchive": {
+  "message": "您之前的书签结构位于“其他书签”中的“{1}”。"
+ },
+ "nodeBar": {
+  "message": "快速访问"
+ },
+ "nodeBarMeta": {
+  "message": "书签栏开头的图标"
+ },
+ "notRecreated": {
+  "message": "不重新创建的项目"
+ },
+ "optQuickAccess": {
+  "message": "快速访问"
+ },
+ "optQuickAccessHint": {
+  "message": "最常访问的网站，以图标形式显示在书签栏开头"
+ },
+ "quickNone": {
+  "message": "无"
+ },
+ "reasonBarShortcut": {
+  "message": "已在您的书签栏中"
+ },
+ "reasonBarTool": {
+  "message": "书签栏工具（书签小程序或浏览器页面）"
+ },
+ "reasonFacet": {
+  "message": "来自同一网站或同一主题的 {1} 个书签"
+ },
+ "reasonLearned": {
+  "message": "您曾将其整理到“{1}”中"
+ },
+ "reasonMyFolders": {
+  "message": "混合了多个主题的个人文件夹"
+ },
+ "reasonQuickAccess": {
+  "message": "您最常打开的网站之一"
+ },
+ "reasonReviewFolder": {
+  "message": "线索不足，无法整理"
+ },
+ "reasonSpecial": {
+  "message": "不是网页的链接（书签小程序、浏览器页面、文件）"
+ },
+ "leaveTitle": {
+  "message": "要舍弃此方案吗？"
+ },
+ "leaveBody": {
+  "message": "您的书签尚未更改。如需整理，您需要重新运行分析。"
+ },
+ "leaveConfirm": {
+  "message": "舍弃"
+ },
+ "acceptAll": {
+  "message": "全部按建议整理（{1}）"
+ },
+ "acceptedAll": {
+  "message": "已按建议整理：{1} 个"
+ },
+ "atTopOf": {
+  "message": "直接放在 {1} 中"
+ },
+ "deleteFolder": {
+  "message": "删除"
+ },
+ "deleteFolderTitle": {
+  "message": "要删除“{1}”吗？"
+ },
+ "deleteFolderBody": {
+  "message": "其中的书签：{1} 个"
+ },
+ "deleteFolderBodySub": {
+  "message": "其中的书签：{1} 个 · 子文件夹：{2} 个"
+ },
+ "deleteKeepContent": {
+  "message": "保留其中的内容"
+ },
+ "deleteKeepHint": {
+  "message": "其中的书签和子文件夹会上移到“{1}”中。"
+ },
+ "deleteWithContent": {
+  "message": "同时删除其中的内容"
+ },
+ "deleteWithContentHint": {
+  "message": "其中的书签不会重新创建，而是保留在备份中。"
+ },
+ "displayInBrowser": {
+  "message": "显示方式"
+ },
+ "dropAtTop": {
+  "message": "拖放到此处（顶层）"
+ },
+ "editUndone": {
+  "message": "已撤销更改"
+ },
+ "fileIn": {
+  "message": "整理到 {1}"
+ },
+ "foldFolder": {
+  "message": "收起 {1}"
+ },
+ "unfoldFolder": {
+  "message": "展开 {1}"
+ },
+ "folderCreated": {
+  "message": "已创建文件夹“{1}”"
+ },
+ "folderDeleted": {
+  "message": "已删除“{1}”：其中的内容已上移"
+ },
+ "folderDeletedAll": {
+  "message": "已删除“{1}”及其中的内容"
+ },
+ "folderMoved": {
+  "message": "已将“{1}”移至“{2}”"
+ },
+ "folderPlace": {
+  "message": "位置"
+ },
+ "iconOnlyItem": {
+  "message": "仅显示图标"
+ },
+ "keepDupe": {
+  "message": "保留此副本"
+ },
+ "looseHint": {
+  "message": "直接位于 {1} 中、不在任何文件夹内的书签。"
+ },
+ "moveFolder": {
+  "message": "移动"
+ },
+ "moveFolderTo": {
+  "message": "将“{1}”移至"
+ },
+ "moveToEllipsis": {
+  "message": "移至…"
+ },
+ "newShort": {
+  "message": "新建"
+ },
+ "newSubfolder": {
+  "message": "子文件夹"
+ },
+ "nodeLoose": {
+  "message": "无文件夹"
+ },
+ "nodeLooseMeta": {
+  "message": "直接位于根文件夹中"
+ },
+ "nodeRemoved": {
+  "message": "已移除"
+ },
+ "nodeRemovedMeta": {
+  "message": "不重新创建，保留在备份中"
+ },
+ "openFolder": {
+  "message": "打开文件夹"
+ },
+ "openPage": {
+  "message": "打开网页"
+ },
+ "proposalRestored": {
+  "message": "已恢复原方案"
+ },
+ "reanalyze": {
+  "message": "重新分析"
+ },
+ "reanalyzeFailed": {
+  "message": "重新分析失败：{1}"
+ },
+ "reanalyzedMoved": {
+  "message": "已重新分析“{2}” · 已移动：{1} 个"
+ },
+ "reanalyzedNothing": {
+  "message": "“{1}”中没有可重新分析的内容：其中的书签都是您手动放置的。"
+ },
+ "reanalyzedSame": {
+  "message": "已重新分析“{1}”：没有变化"
+ },
+ "reanalyzing": {
+  "message": "正在重新分析“{1}”"
+ },
+ "reasonSameSite": {
+  "message": "与 {2} 的其他 {1} 个书签相同"
+ },
+ "removeBookmark": {
+  "message": "移除"
+ },
+ "removedHint": {
+  "message": "这些书签不会重新创建，而是保留在备份中：您可以在此处恢复它们，或将它们拖到某个文件夹上。"
+ },
+ "removedOne": {
+  "message": "不会重新创建“{1}”（它会保留在备份中）"
+ },
+ "rename": {
+  "message": "重命名"
+ },
+ "renameLabel": {
+  "message": "{1} 的新名称"
+ },
+ "renamedTo": {
+  "message": "已重命名为“{1}”"
+ },
+ "restore": {
+  "message": "恢复"
+ },
+ "restoreAll": {
+  "message": "全部恢复"
+ },
+ "restoredCount": {
+  "message": "已恢复：{1} 个"
+ },
+ "restoredOne": {
+  "message": "已恢复书签"
+ },
+ "rowActions": {
+  "message": "{1} 的操作"
+ },
+ "subfolders": {
+  "message": "子文件夹"
+ },
+ "suggestionsFor": {
+  "message": "{1} 的建议"
+ },
+ "undoEdit": {
+  "message": "撤销"
+ },
+ "undoEditHint": {
+  "message": "撤销上次更改 (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "已在您的书签中"
+ },
+ "existingFolderHint": {
+  "message": "之前整理时创建的文件夹：新书签会添加到其中，文件夹的名称和位置保持不变。"
+ }
+}

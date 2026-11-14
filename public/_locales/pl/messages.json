@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Porządkowanie zakładek"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Mały lokalny model AI porządkuje zakładki w przejrzystych folderach, z emoji i paskiem samych ikon. Prywatnie, offline, za darmo."
+ },
+ "actionTitle": {
+  "message": "Uporządkuj moje zakładki"
+ },
+ "tabSettings": {
+  "message": "Ustawienia"
+ },
+ "startTitle": {
+  "message": "Uporządkuj zakładki"
+ },
+ "startLead": {
+  "message": "Mały model AI na tym komputerze odtwarza wszystkie zakładki w przejrzystych folderach. Ty sprawdzasz, a potem zatwierdzasz."
+ },
+ "optHistory": {
+  "message": "Najczęściej odwiedzane witryny na początku"
+ },
+ "optHistoryHint": {
+  "message": "Liczy na tym komputerze wizyty w każdej witrynie i odczytuje zapisane już tytuły. Nic nie jest wysyłane."
+ },
+ "optFolderStyle": {
+  "message": "Nazwy folderów"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + nazwa"
+ },
+ "styleName": {
+  "message": "Tylko nazwa"
+ },
+ "styleEmoji": {
+  "message": "Tylko emoji"
+ },
+ "optIconOnly": {
+  "message": "Pasek zakładek jako ikony"
+ },
+ "optIconOnlyHint": {
+  "message": "Proponowane domyślnie; nazwy można przywrócić"
+ },
+ "analyze": {
+  "message": "Przeanalizuj moje zakładki"
+ },
+ "lastRun": {
+  "message": "Ostatnie porządkowanie: {1}"
+ },
+ "undoLast": {
+  "message": "Cofnij"
+ },
+ "phaseReading": {
+  "message": "Odczytywanie zakładek"
+ },
+ "phaseLoading": {
+  "message": "Wczytywanie modelu"
+ },
+ "phaseEmbedding": {
+  "message": "Rozpoznawanie treści zakładek"
+ },
+ "phaseGrouping": {
+  "message": "Tworzenie folderów"
+ },
+ "progressCount": {
+  "message": "{1} z {2}"
+ },
+ "moveTo": {
+  "message": "Przenieś do"
+ },
+ "newFolderOption": {
+  "message": "Nowy folder"
+ },
+ "folderName": {
+  "message": "Nazwa folderu"
+ },
+ "emojiLabel": {
+  "message": "Emoji dla: {1}"
+ },
+ "customEmoji": {
+  "message": "Inne emoji"
+ },
+ "reviewHint": {
+  "message": "Przetestowane, za mało wskazówek. Otwórz je, aby sprawdzić, a potem wybierz sugestię lub przeciągnij je na folder. W przeciwnym razie trafią do folderu „Do sprawdzenia” w folderze Inne zakładki."
+ },
+ "barTitle": {
+  "message": "Nowy pasek"
+ },
+ "iconOnly": {
+  "message": "tylko ikona"
+ },
+ "applying": {
+  "message": "Wprowadzanie zmian"
+ },
+ "doneTitle": {
+  "message": "Zakładki są uporządkowane"
+ },
+ "doneSummary": {
+  "message": "Uporządkowane zakładki: {1}. Utworzone foldery: {2}."
+ },
+ "doneSkipped": {
+  "message": "Pominięte elementy: {1} (zmieniły się w międzyczasie). Nic nie zostało utracone: oryginały są w kopii zapasowej."
+ },
+ "undone": {
+  "message": "Ostatnie porządkowanie zostało cofnięte."
+ },
+ "undoSkipped": {
+  "message": "Elementy pozostawione tak, jak je zmieniono: {1}."
+ },
+ "changedBanner": {
+  "message": "Zakładki zmieniły się w przeglądarce podczas sprawdzania."
+ },
+ "refresh": {
+  "message": "Odśwież propozycję"
+ },
+ "errorTitle": {
+  "message": "Coś poszło nie tak"
+ },
+ "errorModel": {
+  "message": "Nie udało się wczytać modelu. Jeśli samodzielnie kompilujesz rozszerzenie, uruchom „pnpm fetch-model”, a potem skompiluj je ponownie."
+ },
+ "retry": {
+  "message": "Spróbuj ponownie"
+ },
+ "emptyTitle": {
+  "message": "Nie ma nic do uporządkowania"
+ },
+ "emptyHint": {
+  "message": "W wybranych folderach nie ma zakładek. Wybierz inne foldery."
+ },
+ "reasonHomeService": {
+  "message": "Usługa hostowana w domu (adres lokalny lub własna domena)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Poradnik: {1} (self-hosting)"
+ },
+ "reasonNewGroup": {
+  "message": "Zakładki na ten temat: {1}"
+ },
+ "reasonUser": {
+  "message": "Twój wybór"
+ },
+ "reviewVague": {
+  "message": "Ogólny tytuł i mało mówiący adres: nie da się ustalić, co zawiera strona."
+ },
+ "settingsDefaults": {
+  "message": "Ustawienia domyślne"
+ },
+ "settingsHistoryOn": {
+  "message": "Dozwolone"
+ },
+ "settingsHistoryOff": {
+  "message": "Niedozwolone"
+ },
+ "settingsNames": {
+  "message": "Zakładki tylko z ikoną"
+ },
+ "settingsNamesCount": {
+  "message": "Zakładki wyświetlane jako ikony: {1}"
+ },
+ "restoreNames": {
+  "message": "Pokaż wszystkie nazwy"
+ },
+ "namesRestored": {
+  "message": "Przywrócone nazwy: {1}."
+ },
+ "settingsData": {
+  "message": "Dane"
+ },
+ "clearCache": {
+  "message": "Pamięć podręczna analizy"
+ },
+ "cacheCleared": {
+  "message": "Wyczyszczono pamięć podręczną."
+ },
+ "settingsAbout": {
+  "message": "Informacje"
+ },
+ "aboutModel": {
+  "message": "Model: {1}, działa lokalnie."
+ },
+ "saved": {
+  "message": "Zapisano"
+ },
+ "unnamed": {
+  "message": "(bez nazwy)"
+ },
+ "barFolder": {
+  "message": "Pasek zakładek"
+ },
+ "otherFolder": {
+  "message": "Inne zakładki"
+ },
+ "lang": {
+  "message": "pl"
+ },
+ "interruptedTitle": {
+  "message": "Ostatnie porządkowanie zostało przerwane"
+ },
+ "interruptedHint": {
+  "message": "Przeglądarka została zamknięta podczas wprowadzania zmian. Cofnij to, co zostało zrobione, albo zachowaj obecny stan."
+ },
+ "interruptedUndo": {
+  "message": "Cofnij wprowadzone zmiany"
+ },
+ "interruptedKeep": {
+  "message": "Zachowaj te zmiany"
+ },
+ "errorUnresolved": {
+  "message": "Ostatnie porządkowanie zostało przerwane. Cofnij je lub zachowaj, zanim znów zaczniesz porządkować."
+ },
+ "changedBlocked": {
+  "message": "Najpierw odśwież propozycję: zakładki się zmieniły."
+ },
+ "startCountNone": {
+  "message": "Brak zakładek do uporządkowania"
+ },
+ "finish": {
+  "message": "Gotowe"
+ },
+ "sourceMeta": {
+  "message": "Zakładki: {1}"
+ },
+ "destinations": {
+  "message": "Proponowane foldery"
+ },
+ "proposal": {
+  "message": "Propozycja"
+ },
+ "nodeReviewMeta": {
+  "message": "Za mało wskazówek"
+ },
+ "countLabel": {
+  "message": "zakładki: {1}"
+ },
+ "sheetClose": {
+  "message": "Zamknij"
+ },
+ "emptyFolder": {
+  "message": "Pusty. Przeciągnij zakładki na ten folder na schemacie."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Nowy folder"
+ },
+ "create": {
+  "message": "Utwórz"
+ },
+ "cancel": {
+  "message": "Anuluj"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Zachowaj oryginalny tytuł"
+ },
+ "useNewTitle": {
+  "message": "Użyj czytelniejszego tytułu"
+ },
+ "noEmoji": {
+  "message": "Bez emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Kliknij, aby pokazać tylko ikonę"
+ },
+ "showName": {
+  "message": "kliknij, aby pokazać nazwę"
+ },
+ "nothingYet": {
+  "message": "Nic jeszcze nie zmieniono"
+ },
+ "restoreProposal": {
+  "message": "Przywróć propozycję"
+ },
+ "applyRegion": {
+  "message": "Zastosuj zmiany"
+ },
+ "announceMoved": {
+  "message": "Przeniesiono „{1}” do: {2}"
+ },
+ "back": {
+  "message": "Wstecz"
+ },
+ "clear": {
+  "message": "Wyczyść"
+ },
+ "footerSync": {
+  "message": "Zmiany obejmą też inne urządzenia zalogowane na Twoje konto."
+ },
+ "barHint": {
+  "message": "Kliknij zakładkę, aby ukryć lub pokazać jej nazwę"
+ },
+ "applyCount": {
+  "message": "Uporządkuj zakładki ({1})"
+ },
+ "applyOne": {
+  "message": "Uporządkuj 1 zakładkę"
+ },
+ "scopeLabel": {
+  "message": "Foldery do uporządkowania"
+ },
+ "barScopeHint": {
+  "message": "Razem ze skrótami: najczęściej używane wrócą na początek"
+ },
+ "showSubfolders": {
+  "message": "Pokaż podfoldery: {1}"
+ },
+ "destinationLabel": {
+  "message": "Miejsce docelowe"
+ },
+ "moreOptions": {
+  "message": "Więcej opcji"
+ },
+ "sumReadSites": {
+  "message": "odczyt witryn"
+ },
+ "sumCheckDead": {
+  "message": "martwe witryny"
+ },
+ "sumHistory": {
+  "message": "historia"
+ },
+ "optReadSites": {
+  "message": "Odczytuj witryny, gdy tytuł nie wystarcza"
+ },
+ "optReadSitesHint": {
+  "message": "Wolniej, ale dokładniej. Chrome raz poprosi o dostęp do witryn."
+ },
+ "optCheckDead": {
+  "message": "Wykrywaj witryny, które nie odpowiadają"
+ },
+ "optCheckDeadHint": {
+  "message": "Trafiają osobno do folderu „Niedostępne witryny”."
+ },
+ "optFolderStyleHint": {
+  "message": "Podfoldery zachowują swoje nazwy."
+ },
+ "analyzeCount": {
+  "message": "Przeanalizuj zakładki ({1})"
+ },
+ "analyzeOne": {
+  "message": "Przeanalizuj 1 zakładkę"
+ },
+ "privacyTitle": {
+  "message": "Żadne dane nie opuszczają tego komputera"
+ },
+ "privacyBody": {
+  "message": "Model AI działa tutaj, bez konta i bez serwera. Aby zrozumieć witrynę, Nidomark otwiera jej stronę tak jak Twoja przeglądarka, bez plików cookie, i nie wysyła niczego więcej."
+ },
+ "phaseSites": {
+  "message": "Odczytywanie witryn"
+ },
+ "phasePages": {
+  "message": "Analizowanie stron"
+ },
+ "sitesNote": {
+  "message": "Kilka witryn naraz. Nic nie jest wysyłane, strony są tylko odczytywane."
+ },
+ "sitesAllowed": {
+  "message": "Przyznano dostęp do witryn"
+ },
+ "sitesAsked": {
+  "message": "Chrome poprosi o dostęp do witryn przy następnej analizie"
+ },
+ "backupsTitle": {
+  "message": "Kopie zapasowe"
+ },
+ "backupsNone": {
+  "message": "Brak kopii zapasowych"
+ },
+ "backupCount": {
+  "message": "Zakładki: {1}"
+ },
+ "backupDelete": {
+  "message": "Usuń"
+ },
+ "backupDeleteTitle": {
+  "message": "Usunąć tę kopię zapasową?"
+ },
+ "backupConfirm": {
+  "message": "Folder „{1}” i cała jego zawartość zostaną trwale usunięte. Uporządkowane zakładki pozostaną na miejscu, ale porządkowania, w wyniku którego powstała ta kopia, nie będzie już można cofnąć."
+ },
+ "backupDeleted": {
+  "message": "Usunięto kopię zapasową."
+ },
+ "backupTitle": {
+  "message": "Nidomark – kopia zapasowa z {1}"
+ },
+ "clearCacheHint": {
+  "message": "Pamięć podręczna przyspiesza kolejne analizy i pozostaje na tym komputerze."
+ },
+ "sourceAll": {
+  "message": "Twoje zakładki"
+ },
+ "reasonKnownSite": {
+  "message": "Znana witryna ({1})"
+ },
+ "reasonPattern": {
+  "message": "Typowy adres ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Tytuł wskazuje na treści dla dorosłych"
+ },
+ "reasonAdultPage": {
+  "message": "Strona deklaruje treści dla dorosłych"
+ },
+ "reasonPage": {
+  "message": "Według strony: „{1}”"
+ },
+ "reasonModel": {
+  "message": "Podobne do: „{1}”"
+ },
+ "reasonPlatform": {
+  "message": "Opublikowano na {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Dotyczy: {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Zakładki z {1} umieszczasz w folderze „{2}”"
+ },
+ "reasonKeptFolder": {
+  "message": "Twój folder „{1}”, odtworzony bez zmian"
+ },
+ "reasonNewCategory": {
+  "message": "Zakładki z tej kategorii: {1}"
+ },
+ "deadNetwork": {
+  "message": "Nie odpowiada: nie znaleziono witryny"
+ },
+ "deadTimeout": {
+  "message": "Nie odpowiada: przekroczono limit czasu"
+ },
+ "deadGone": {
+  "message": "Strona usunięta ({1})"
+ },
+ "deadServer": {
+  "message": "Błąd serwera ({1})"
+ },
+ "deadParked": {
+  "message": "Domena porzucona lub na sprzedaż"
+ },
+ "reviewUnclear": {
+  "message": "Brak wyraźnego tematu w tytule i adresie"
+ },
+ "reviewUnclearPage": {
+  "message": "Strona odczytana, brak wyraźnego tematu"
+ },
+ "reviewBlocked": {
+  "message": "Witryna odmawia dostępu ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Niejasny tytuł; zezwól na odczyt witryn, aby dowiedzieć się więcej"
+ },
+ "nodeDupes": {
+  "message": "Duplikaty"
+ },
+ "nodeDupesMeta": {
+  "message": "Nieodtworzone, zachowane w kopii zapasowej"
+ },
+ "dupesHint": {
+  "message": "Te strony istnieją już gdzie indziej: odtwarzana jest jedna kopia. Te tutaj zostają w kopii zapasowej."
+ },
+ "keepAllDupes": {
+  "message": "Zachowaj wszystkie"
+ },
+ "reasonDuplicate": {
+  "message": "Duplikat: „{1}” ({2})"
+ },
+ "optDupes": {
+  "message": "Jedna kopia każdej strony"
+ },
+ "optDupesHint": {
+  "message": "Duplikaty nie są odtwarzane; zostają w kopii zapasowej."
+ },
+ "sumDupes": {
+  "message": "duplikaty"
+ },
+ "openSite": {
+  "message": "Otwórz {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Za mało wskazówek. „Analizuj ponownie” testuje ich witryny; możesz też je otworzyć, aby sprawdzić. W przeciwnym razie trafią do folderu „Do sprawdzenia”."
+ },
+ "archiveNote": {
+  "message": "Obecna struktura folderów zostaje zachowana bez zmian w datowanej kopii zapasowej w folderze Inne zakładki. Jedno kliknięcie cofa porządkowanie."
+ },
+ "barSheetHint": {
+  "message": "Witryny, które otwierasz najczęściej, jako ikony na początku paska. W podglądzie kliknij ikonę, aby pokazać jej nazwę."
+ },
+ "doneArchive": {
+  "message": "Poprzednia struktura folderów jest w „{1}” w folderze Inne zakładki."
+ },
+ "nodeBar": {
+  "message": "Szybki dostęp"
+ },
+ "nodeBarMeta": {
+  "message": "Ikony na początku paska"
+ },
+ "notRecreated": {
+  "message": "Nieodtworzone"
+ },
+ "optQuickAccess": {
+  "message": "Szybki dostęp"
+ },
+ "optQuickAccessHint": {
+  "message": "Najczęściej odwiedzane witryny jako ikony na początku paska"
+ },
+ "quickNone": {
+  "message": "Brak"
+ },
+ "reasonBarShortcut": {
+  "message": "Już na pasku zakładek"
+ },
+ "reasonBarTool": {
+  "message": "Narzędzie na pasku (bookmarklet lub strona przeglądarki)"
+ },
+ "reasonFacet": {
+  "message": "Zakładki z tej samej witryny lub na ten sam temat: {1}"
+ },
+ "reasonLearned": {
+  "message": "Umieszczono ją wcześniej w folderze „{1}”"
+ },
+ "reasonMyFolders": {
+  "message": "Twoje foldery łączące kilka tematów"
+ },
+ "reasonQuickAccess": {
+  "message": "Jedna z witryn, które otwierasz najczęściej"
+ },
+ "reasonReviewFolder": {
+  "message": "Za mało wskazówek, aby je przyporządkować"
+ },
+ "reasonSpecial": {
+  "message": "Link, który nie jest stroną internetową (bookmarklet, strona przeglądarki, plik)"
+ },
+ "leaveTitle": {
+  "message": "Odrzucić tę propozycję?"
+ },
+ "leaveBody": {
+  "message": "Zakładki nie zostały zmienione. Aby je uporządkować, trzeba będzie ponownie uruchomić analizę."
+ },
+ "leaveConfirm": {
+  "message": "Odrzuć"
+ },
+ "acceptAll": {
+  "message": "Umieść wszystkie zgodnie z sugestiami ({1})"
+ },
+ "acceptedAll": {
+  "message": "Umieszczone zgodnie z sugestiami: {1}"
+ },
+ "atTopOf": {
+  "message": "Bezpośrednio w folderze {1}"
+ },
+ "deleteFolder": {
+  "message": "Usuń"
+ },
+ "deleteFolderTitle": {
+  "message": "Usunąć „{1}”?"
+ },
+ "deleteFolderBody": {
+  "message": "Zawarte zakładki: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Zawarte zakładki: {1} · podfoldery: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Zachowaj zawartość"
+ },
+ "deleteKeepHint": {
+  "message": "Jego zakładki i podfoldery zostaną przeniesione wyżej, do folderu „{1}”."
+ },
+ "deleteWithContent": {
+  "message": "Usuń również zawartość"
+ },
+ "deleteWithContentHint": {
+  "message": "Jego zakładki nie zostaną odtworzone: pozostaną w kopii zapasowej."
+ },
+ "displayInBrowser": {
+  "message": "Wyświetlanie"
+ },
+ "dropAtTop": {
+  "message": "Upuść tutaj, na najwyższym poziomie"
+ },
+ "editUndone": {
+  "message": "Cofnięto zmianę"
+ },
+ "fileIn": {
+  "message": "Umieść w folderze {1}"
+ },
+ "foldFolder": {
+  "message": "Zwiń: {1}"
+ },
+ "unfoldFolder": {
+  "message": "Rozwiń: {1}"
+ },
+ "folderCreated": {
+  "message": "Utworzono folder „{1}”"
+ },
+ "folderDeleted": {
+  "message": "Usunięto „{1}”: zawartość przeniesiono wyżej"
+ },
+ "folderDeletedAll": {
+  "message": "Usunięto „{1}” wraz z zawartością"
+ },
+ "folderMoved": {
+  "message": "Przeniesiono „{1}” do: {2}"
+ },
+ "folderPlace": {
+  "message": "Lokalizacja"
+ },
+ "iconOnlyItem": {
+  "message": "Tylko ikona"
+ },
+ "keepDupe": {
+  "message": "Zachowaj tę kopię"
+ },
+ "looseHint": {
+  "message": "Zakładki bezpośrednio w folderze {1}, poza innymi folderami."
+ },
+ "moveFolder": {
+  "message": "Przenieś"
+ },
+ "moveFolderTo": {
+  "message": "Przenieś „{1}” do"
+ },
+ "moveToEllipsis": {
+  "message": "Przenieś do…"
+ },
+ "newShort": {
+  "message": "nowy"
+ },
+ "newSubfolder": {
+  "message": "Podfolder"
+ },
+ "nodeLoose": {
+  "message": "Bez folderu"
+ },
+ "nodeLooseMeta": {
+  "message": "Bezpośrednio w folderze głównym"
+ },
+ "nodeRemoved": {
+  "message": "Usunięte"
+ },
+ "nodeRemovedMeta": {
+  "message": "Nieodtworzone, zachowane w kopii zapasowej"
+ },
+ "openFolder": {
+  "message": "otwórz folder"
+ },
+ "openPage": {
+  "message": "Otwórz stronę"
+ },
+ "proposalRestored": {
+  "message": "Przywrócono propozycję"
+ },
+ "reanalyze": {
+  "message": "Analizuj ponownie"
+ },
+ "reanalyzeFailed": {
+  "message": "Ponowna analiza nie powiodła się: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "Ponownie przeanalizowano „{2}” · przeniesione: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "W „{1}” nie ma nic do ponownej analizy: zakładki zostały w nim umieszczone ręcznie."
+ },
+ "reanalyzedSame": {
+  "message": "Ponownie przeanalizowano „{1}”: bez zmian"
+ },
+ "reanalyzing": {
+  "message": "Ponowna analiza: „{1}”"
+ },
+ "reasonSameSite": {
+  "message": "Jak inne zakładki z {2} (liczba: {1})"
+ },
+ "removeBookmark": {
+  "message": "Usuń"
+ },
+ "removedHint": {
+  "message": "Te zakładki nie są odtwarzane. Zostają w kopii zapasowej: przywróć je tutaj lub przeciągnij na folder."
+ },
+ "removedOne": {
+  "message": "Zakładka „{1}” nie zostanie odtworzona (zostaje w kopii zapasowej)"
+ },
+ "rename": {
+  "message": "Zmień nazwę"
+ },
+ "renameLabel": {
+  "message": "Nowa nazwa dla: {1}"
+ },
+ "renamedTo": {
+  "message": "Zmieniono nazwę na „{1}”"
+ },
+ "restore": {
+  "message": "Przywróć"
+ },
+ "restoreAll": {
+  "message": "Przywróć wszystkie"
+ },
+ "restoredCount": {
+  "message": "Przywrócono: {1}"
+ },
+ "restoredOne": {
+  "message": "Przywrócono zakładkę"
+ },
+ "rowActions": {
+  "message": "Działania dla: {1}"
+ },
+ "subfolders": {
+  "message": "Podfoldery"
+ },
+ "suggestionsFor": {
+  "message": "Sugestie dla: {1}"
+ },
+ "undoEdit": {
+  "message": "Cofnij"
+ },
+ "undoEditHint": {
+  "message": "Cofnij ostatnią zmianę (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Już jest w zakładkach"
+ },
+ "existingFolderHint": {
+  "message": "Folder z poprzedniego porządkowania: nowe zakładki zostaną do niego dodane, a jego nazwa i miejsce się nie zmienią."
+ }
+}

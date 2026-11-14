@@ -1,5 +1,5 @@
 import type { Analysis, AnalysisPhase } from '../analyze';
-import type { Decisions, FolderStyle, Journal } from '../plan';
+import type { Decisions, FolderParent, FolderStyle, Journal } from '../plan';
 import type { Destination } from '../categorize';
 import type { BackupRecord, Settings } from '../storage';
 import type { Target } from '../types';
@@ -14,6 +14,8 @@ export interface ScopeFolder {
   count: number;
   depth: number;
   isRoot: boolean;
+  /** The bookmarks bar: its shortcuts come back first. */
+  isBar: boolean;
   /** Checked: its bookmarks are sorted. */
   included: boolean;
 }
@@ -44,6 +46,16 @@ export interface State {
   decisions: Decisions | null;
   /** Node open in the side sheet. */
   selected: string | null;
+  /** Folders folded on the canvas (node keys). */
+  collapsed: string[];
+  /** Bookmark whose name is being edited in the sheet. */
+  renaming: string | null;
+  /** A folder being analysed again: its name and the progress. */
+  busy: { name: string; phase: AnalysisPhase; done: number; total: number } | null;
+  /** What the last edit did, offered for undo. */
+  snack: { text: string; undo: boolean } | null;
+  /** Edits that can be undone. */
+  canUndo: boolean;
   /** Connectors get their entrance motion once per proposal. */
   wiresDrawn: boolean;
   changedDuringReview: boolean;
@@ -66,9 +78,23 @@ export interface Actions {
   move(id: string, target: Target): void;
   toggleTitle(id: string): void;
   toggleIconOnly(id: string): void;
-  setNewFolder(key: string, patch: Partial<{ name: string; emoji: string; accepted: boolean }>): void;
-  /** Creates a folder of the user's own; returns its node key. */
-  createFolder(name: string): string;
+  renameBookmark(id: string, title: string): void;
+  startRename(id: string | null): void;
+  removeBookmark(id: string): void;
+  restoreBookmarks(ids: string[]): void;
+  setNewFolder(key: string, patch: Partial<{ name: string; emoji: string; style: FolderStyle }>): void;
+  /** Creates a folder of the user's own (and files a bookmark in it); returns its folder key. */
+  createFolder(name: string, parent: FolderParent, moveId?: string): string;
+  moveFolder(key: string, parent: FolderParent): void;
+  /** Removes a folder: what it holds goes up to the folder above, or is not recreated either. */
+  deleteFolder(key: string, withContent: boolean): void;
+  toggleCollapsed(nodeKey: string): void;
+  acceptSuggestion(id: string, category: string): void;
+  acceptAllSuggestions(): void;
+  /** Analyses the bookmarks of a folder again, its subfolders included. */
+  reanalyze(nodeKey: string): void;
+  undoEdit(): void;
+  dismissSnack(): void;
   restoreProposal(): void;
   apply(): void;
   undo(): void;
@@ -79,7 +105,6 @@ export interface Actions {
   toggleMoreOptions(): void;
   setDestination(d: Destination): void;
   setOption(key: 'readSites' | 'checkDead' | 'removeDuplicates', on: boolean): void;
-  keepAllDuplicates(): void;
   deleteBackup(id: string): void;
   restoreNames(): void;
   clearCache(): void;

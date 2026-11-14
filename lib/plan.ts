@@ -1,4 +1,5 @@
-import type { Proposal, Target } from './types';
+import { isBackupTitle } from './taxonomy';
+import type { NewFolder, Proposal, Target } from './types';
 
 /** A bookmark or folder as returned by the bookmarks API. */
 export interface NodeView {
@@ -22,15 +23,31 @@ export interface BookmarksApi {
 
 export type FolderStyle = 'name' | 'emoji-name' | 'emoji';
 
+/** Where the user put a folder: inside another folder of the new tree, or at the top of a root folder. */
+export type FolderParent = { key: string } | { rootId: string };
+
+export interface FolderDecision {
+  /** False: the folder is not created; what it holds (bookmarks and subfolders) goes to the folder above it. */
+  accepted: boolean;
+  name: string;
+  emoji: string;
+  /** Moved by the user. */
+  parent?: FolderParent;
+  /** How the browser shows its name, instead of the style chosen for the whole sort. */
+  style?: FolderStyle;
+}
+
 export interface Decisions {
   moves: Record<string, { accepted: boolean; target: Target }>;
   titles: Record<string, { accepted: boolean; title: string }>;
-  newFolders: Record<string, { accepted: boolean; name: string; emoji: string }>;
+  newFolders: Record<string, FolderDecision>;
   folderEmojis: Record<string, { accepted: boolean; emoji: string }>;
   iconOnly: Record<string, boolean>;
-  /** Duplicates to remove (true) or keep. */
+  /** Bookmarks not recreated (duplicates, or removed by the user): they stay in the archive. */
   removes: Record<string, boolean>;
   folderStyle: FolderStyle;
+  /** Folders the user made during the review: created even when empty. */
+  userFolders: NewFolder[];
 }
 
 /** State a node must still have for an operation to apply: anything else means the user changed it meanwhile. */
@@ -77,47 +94,192 @@ export function defaultDecisions(p: Proposal, style: FolderStyle, iconOnlyIds: s
     iconOnly: Object.fromEntries(iconOnlyIds.map((id) => [id, true])),
     removes: Object.fromEntries(p.duplicates.map((x) => [x.bookmarkId, true])),
     folderStyle: style,
+    userFolders: [],
   };
 }
 
-/** Current state of the nodes, as known when the plan is built. */
-export interface Current {
-  node: (id: string) => Expected | undefined;
-  /** Root folders (bookmarks bar, other bookmarks): folders created there are top-level. */
-  roots?: Set<string>;
-  /**
-   * Where the sorted folders go. Only folders at its top take the "emoji only" style, side by side in the bar;
-   * anywhere else a folder keeps its name after the emoji.
-   */
-  destinationRoot?: string;
+/** A folder of the new tree, where it really goes once the user's changes are applied. */
+export interface TreeFolder {
+  key: string;
+  name: string;
+  emoji: string;
+  /** Folder above it; none at the top of a root folder. */
+  parentKey?: string;
+  /** Root folder it is in (bookmarks bar, Other bookmarks). */
+  rootId: string;
+  /** 1 at the top of the root folder. */
+  level: number;
+  /** Subfolders created, in order. */
+  children: string[];
+  /** Made by the user during the review. */
+  user: boolean;
+  /** How the browser shows its name. */
+  style: FolderStyle;
+  /** A folder of an earlier sort that receives the bookmarks: it is not created. */
+  existingId?: string;
+  source: NewFolder;
 }
 
-/** A new folder is created only if it is accepted and so is every new folder above it. */
-export function acceptedFolders(p: Proposal, d: Decisions): Set<string> {
-  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
-  const ok = new Set<string>();
-  const check = (key: string, depth = 0): boolean => {
-    const f = byKey.get(key);
-    if (!f || !d.newFolders[key]?.accepted || depth > 8) return false;
-    return !f.parentKey || check(f.parentKey, depth + 1);
-  };
-  for (const f of p.newFolders) if (check(f.key)) ok.add(f.key);
-  return ok;
+/** Where a bookmark goes: right in the bookmarks bar, in a new folder, right in an existing folder, or nowhere. */
+export type Place = { kind: 'bar' } | { kind: 'folder'; key: string } | { kind: 'existing'; folderId: string } | { kind: 'removed' };
+
+export interface NewTree {
+  /** Folders created, each after the folder above it, in the order of the browser. */
+  folders: TreeFolder[];
+  byKey: Map<string, TreeFolder>;
+  /** Folders at the top of each root folder, in order. */
+  tops: Map<string, string[]>;
+  /** Bookmarks right in the bookmarks bar: quick access, in its order. */
+  bar: string[];
+  /** Bookmarks right in each folder created. */
+  inFolder: Map<string, string[]>;
+  /** Bookmarks right in an existing folder: a root folder, when no folder above theirs is created. */
+  inExisting: Map<string, string[]>;
+  place: Map<string, Place>;
+  /** Every folder the proposal or the user made, created or not. */
+  known: Map<string, NewFolder>;
+  /** The folder that receives what is proposed for `key`: itself, or the nearest folder above it that is created. */
+  resolve(key: string): string | undefined;
+  /** Root folder a folder ends up in. */
+  rootOf(key: string): string;
+  /** Folders above a folder, nearest first, created or not. */
+  above(key: string): string[];
+}
+
+export interface TreeContext {
+  barId?: string;
+  /** Root folder of the folders whose place is unknown: Other bookmarks. */
+  defaultRoot: string;
 }
 
 /**
- * The folder that really receives the bookmarks proposed for a folder: a declined folder hands them to the nearest
- * folder above it that is created. Undefined when no folder above it is.
+ * The new tree as it will be created: the proposal with the user's changes. A folder that is not created hands its
+ * bookmarks and subfolders to the folder above it; a folder holding nothing is only created when the user made it.
  */
-export function folderResolver(p: Proposal, d: Decisions): (key: string) => string | undefined {
-  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
+export function newTree(p: Proposal, d: Decisions, ctx: TreeContext): NewTree {
+  const known = new Map<string, NewFolder>();
+  for (const f of [...p.newFolders, ...(d.userFolders ?? [])]) if (!known.has(f.key)) known.set(f.key, f);
+  const order = new Map([...known.keys()].map((k, i) => [k, i]));
+  const userKeys = new Set((d.userFolders ?? []).map((f) => f.key));
   const accepted = (key: string) => d.newFolders[key]?.accepted !== false;
-  const up = (key: string) => {
-    const out: string[] = [];
-    for (let k: string | undefined = key; k && out.length < 8; k = byKey.get(k)?.parentKey) out.push(k);
-    return out;
+  const proposed = (f: NewFolder): FolderParent => (f.parentKey ? { key: f.parentKey } : { rootId: f.parentId || ctx.defaultRoot });
+  const declared = new Map<string, FolderParent>();
+  for (const f of known.values()) declared.set(f.key, d.newFolders[f.key]?.parent ?? proposed(f));
+  const next = (key: string): string | undefined => {
+    const p = declared.get(key);
+    return p && 'key' in p && known.has(p.key) ? p.key : undefined;
   };
-  return (key) => up(key).find((k) => up(k).every(accepted));
+  // A folder moved below itself makes a loop: the folders of the loop go back where they were proposed.
+  for (let changed = true, guard = 0; changed && guard <= known.size; guard++) {
+    changed = false;
+    for (const key of known.keys()) {
+      const seen = new Set<string>();
+      let k: string | undefined = key;
+      while (k && !seen.has(k)) {
+        seen.add(k);
+        k = next(k);
+      }
+      if (!k) continue;
+      const loop: string[] = [];
+      for (let x: string | undefined = k; x && !loop.includes(x); x = next(x)) loop.push(x);
+      const moved = loop.filter((x) => d.newFolders[x]?.parent);
+      for (const x of moved) declared.set(x, proposed(known.get(x) as NewFolder));
+      if (!moved.length) declared.set(k, { rootId: ctx.defaultRoot });
+      changed = true;
+    }
+  }
+  const chains = new Map<string, { up: string[]; rootId: string }>();
+  // The folders above a folder, nearest first, up to its root folder.
+  const chain = (key: string): { up: string[]; rootId: string } => {
+    const hit = chains.get(key);
+    if (hit) return hit;
+    const up: string[] = [];
+    let k = key;
+    for (let parent = next(k); parent && up.length <= known.size; parent = next(k)) {
+      up.push(parent);
+      k = parent;
+    }
+    const p = declared.get(k);
+    const res = { up, rootId: (p && 'rootId' in p ? p.rootId : known.get(k)?.parentId) || ctx.defaultRoot };
+    chains.set(key, res);
+    return res;
+  };
+  const resolve = (key: string) => (known.has(key) ? [key, ...chain(key).up].find(accepted) : undefined);
+  const rootOf = (key: string) => chain(key).rootId;
+
+  const placement = new Map(p.placements.map((pl) => [pl.bookmarkId, pl.target]));
+  const place = new Map<string, Place>();
+  const bar: string[] = [];
+  const inFolder = new Map<string, string[]>();
+  const inExisting = new Map<string, string[]>();
+  const push = (m: Map<string, string[]>, k: string, id: string) => {
+    const list = m.get(k);
+    if (list) list.push(id);
+    else m.set(k, [id]);
+  };
+  const toFolder = (id: string, folderId: string) => {
+    if (folderId === ctx.barId) {
+      bar.push(id);
+      place.set(id, { kind: 'bar' });
+    } else {
+      push(inExisting, folderId, id);
+      place.set(id, { kind: 'existing', folderId });
+    }
+  };
+  for (const id of p.candidates) {
+    if (d.removes[id]) {
+      place.set(id, { kind: 'removed' });
+      continue;
+    }
+    const t = d.moves[id]?.target ?? placement.get(id);
+    if (t?.kind === 'bar') toFolder(id, ctx.barId ?? ctx.defaultRoot);
+    else if (t?.kind === 'existing') toFolder(id, t.folderId);
+    else if (t?.kind === 'new') {
+      const k = resolve(t.key);
+      if (k) {
+        push(inFolder, k, id);
+        place.set(id, { kind: 'folder', key: k });
+      } else toFolder(id, rootOf(t.key));
+    } else toFolder(id, ctx.defaultRoot);
+  }
+  const rank = new Map(p.quickAccess.map((id, i) => [id, i]));
+  bar.sort((a, b) => (rank.get(a) ?? 1e6) - (rank.get(b) ?? 1e6));
+
+  // Folders created: those holding bookmarks, those the user made, and every folder above them.
+  const used = new Set<string>();
+  const mark = (key: string) => {
+    for (const k of [key, ...chain(key).up]) if (accepted(k)) used.add(k);
+  };
+  for (const k of inFolder.keys()) mark(k);
+  for (const k of userKeys) if (accepted(k)) mark(k);
+  const sorted = [...used].sort((a, b) => (order.get(a) ?? 0) - (order.get(b) ?? 0));
+  const byKey = new Map<string, TreeFolder>();
+  for (const key of sorted) {
+    const f = known.get(key) as NewFolder;
+    const c = chain(key);
+    const above = c.up.filter(accepted);
+    const nf = d.newFolders[key];
+    const parentKey = above[0];
+    // "Emoji only" is for the folders side by side in the bookmarks bar; anywhere else a folder keeps its name.
+    const inBar = !parentKey && !!ctx.barId && c.rootId === ctx.barId;
+    byKey.set(key, { key, name: nf?.name ?? f.name, emoji: nf?.emoji ?? f.emoji, parentKey, rootId: c.rootId, level: above.length + 1, children: [], user: userKeys.has(key), style: nf?.style ?? (inBar ? d.folderStyle : nestedStyle(d.folderStyle)), existingId: f.existingId, source: f });
+  }
+  const tops = new Map<string, string[]>();
+  for (const key of sorted) {
+    const tf = byKey.get(key) as TreeFolder;
+    if (tf.parentKey) byKey.get(tf.parentKey)?.children.push(key);
+    else push(tops, tf.rootId, key);
+  }
+  const folders: TreeFolder[] = [];
+  const visit = (key: string) => {
+    const tf = byKey.get(key);
+    if (!tf) return;
+    folders.push(tf);
+    for (const c of tf.children) visit(c);
+  };
+  const rootRank = (id: string) => (id === ctx.barId ? 0 : id === ctx.defaultRoot ? 1 : 2);
+  for (const r of [...tops.keys()].sort((a, b) => rootRank(a) - rootRank(b))) for (const k of tops.get(r) ?? []) visit(k);
+  return { folders, byKey, tops, bar, inFolder, inExisting, place, known, resolve, rootOf, above: (key) => chain(key).up };
 }
 
 export interface ArchiveSource {
@@ -141,113 +303,34 @@ export interface RebuildContext {
  */
 export function buildRebuildPlan(p: Proposal, d: Decisions, ctx: RebuildContext): Op[] {
   const ops: Op[] = [];
-  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
-  const resolve = folderResolver(p, d);
-  const topOf = (key: string) => {
-    let f = byKey.get(key);
-    for (let i = 0; f?.parentKey && i < 8; i++) f = byKey.get(f.parentKey);
-    return f;
-  };
+  const tree = newTree(p, d, { barId: ctx.barId, defaultRoot: ctx.archive.parentId });
   const titleOf = (id: string) => {
     const t = d.titles[id];
     return t?.accepted ? t.title : (ctx.node(id)?.title ?? '');
   };
-  const placement = new Map(p.placements.map((pl) => [pl.bookmarkId, pl.target]));
-  const inFolder = new Map<string, string[]>();
-  const loose = new Map<string, string[]>();
-  const bar: string[] = [];
-  for (const id of p.candidates) {
-    if (d.removes[id]) continue;
-    const t = d.moves[id]?.target ?? placement.get(id);
-    if (t?.kind === 'bar') bar.push(id);
-    if (t?.kind !== 'new') continue;
-    const k = resolve(t.key);
-    if (k) inFolder.set(k, [...(inFolder.get(k) ?? []), id]);
-    else {
-      const root = topOf(t.key)?.parentId ?? ctx.archive.parentId;
-      loose.set(root, [...(loose.get(root) ?? []), id]);
-    }
-  }
-  const quickOrder = new Map(p.quickAccess.map((id, i) => [id, i]));
-  bar.sort((a, b) => (quickOrder.get(a) ?? 1e6) - (quickOrder.get(b) ?? 1e6));
-  const used = new Set<string>();
-  for (const k of inFolder.keys()) for (let x: string | undefined = k; x && !used.has(x); x = byKey.get(x)?.parentKey) used.add(x);
   const create = (id: string, where: { parentId?: string; parentKey?: string }, title: string) => {
     const url = ctx.node(id)?.url;
     if (url) ops.push({ type: 'createBookmark', key: `b:${id}`, source: id, ...where, title, url });
   };
   // Quick access first: created before the folders, the icons come first in the bar once the old tree is archived.
-  for (const id of bar) create(id, { parentId: ctx.barId }, d.iconOnly[id] ? '' : titleOf(id));
-  for (const f of p.newFolders) {
-    if (!used.has(f.key)) continue;
-    const nf = d.newFolders[f.key];
-    // "Emoji only" is for the folders side by side in the bookmarks bar; anywhere else a folder keeps its name.
-    const inBar = !f.parentKey && !!ctx.barId && f.parentId === ctx.barId;
-    ops.push({ type: 'createFolder', key: f.key, parentId: f.parentKey ? undefined : f.parentId, parentKey: f.parentKey, title: folderTitle(nf?.name ?? f.name, nf?.emoji ?? f.emoji, inBar ? d.folderStyle : nestedStyle(d.folderStyle)) });
+  // Only there can a bookmark show its icon alone: in a folder's menu, the browser shows the address instead.
+  for (const id of tree.bar) create(id, { parentId: ctx.barId }, d.iconOnly[id] ? '' : titleOf(id));
+  // A folder of an earlier sort is not created again: what goes in it is created right in it.
+  const inside = (key: string) => {
+    const existing = tree.byKey.get(key)?.existingId;
+    return existing ? { parentId: existing } : { parentKey: key };
+  };
+  for (const f of tree.folders) {
+    if (!f.existingId) ops.push({ type: 'createFolder', key: f.key, ...(f.parentKey ? inside(f.parentKey) : { parentId: f.rootId }), title: folderTitle(f.name, f.emoji, f.style) });
   }
   const byTitle = (a: string, b: string) => titleOf(a).localeCompare(titleOf(b));
-  for (const f of p.newFolders) for (const id of [...(inFolder.get(f.key) ?? [])].sort(byTitle)) create(id, { parentKey: f.key }, titleOf(id));
-  for (const [parentId, ids] of loose) for (const id of ids.sort(byTitle)) create(id, { parentId }, titleOf(id));
+  for (const f of tree.folders) for (const id of [...(tree.inFolder.get(f.key) ?? [])].sort(byTitle)) create(id, inside(f.key), titleOf(id));
+  for (const [parentId, ids] of tree.inExisting) for (const id of [...ids].sort(byTitle)) create(id, { parentId }, titleOf(id));
   const sources = ctx.archive.sources.filter((src) => src.items.length);
   if (sources.length) {
     ops.push({ type: 'createFolder', key: 'archive', parentId: ctx.archive.parentId, title: ctx.archive.title });
     for (const src of sources) ops.push({ type: 'createFolder', key: src.key, parentKey: 'archive', title: src.title });
     for (const src of sources) for (const it of [...src.items].reverse()) ops.push({ type: 'move', id: it.id, to: { newKey: src.key, index: 0 }, expect: it.expect });
-  }
-  return ops;
-}
-
-/** Ordered operations: back up, create folders, move bookmarks, remove duplicates, then rename. */
-export function buildPlan(p: Proposal, d: Decisions, current: Current, backup?: { parentId: string; title: string; sources: BackupSource[] }): Op[] {
-  const ops: Op[] = [];
-  const accepted = acceptedFolders(p, d);
-  const used = new Set<string>();
-  const byKey = new Map(p.newFolders.map((f) => [f.key, f]));
-  for (const m of Object.values(d.moves)) {
-    if (!m.accepted || m.target.kind !== 'new' || !accepted.has(m.target.key)) continue;
-    // A subfolder needs its group folder.
-    for (let k: string | undefined = m.target.key; k && !used.has(k); k = byKey.get(k)?.parentKey) used.add(k);
-  }
-  const moves: Op[] = [];
-  for (const [id, m] of Object.entries(d.moves)) {
-    if (!m.accepted || m.target.kind === 'stay' || m.target.kind === 'bar') continue;
-    if (m.target.kind === 'new' && !accepted.has(m.target.key)) continue;
-    const cur = current.node(id);
-    if (!cur) continue;
-    const to = m.target.kind === 'existing' ? { folderId: m.target.folderId } : { newKey: m.target.key };
-    if (to.folderId === cur.parentId) continue;
-    moves.push({ type: 'move', id, to, expect: cur });
-  }
-  const removes: Op[] = [];
-  for (const [id, on] of Object.entries(d.removes ?? {})) {
-    const cur = current.node(id);
-    if (on && cur && !d.moves[id]?.accepted) removes.push({ type: 'remove', id, expect: cur });
-  }
-  if (backup && (moves.length || used.size || removes.length)) ops.push({ type: 'backup', ...backup });
-  for (const f of p.newFolders) {
-    const nf = d.newFolders[f.key];
-    if (!nf || !used.has(f.key)) continue;
-    const nested = !!f.parentKey || (!!current.roots && !current.roots.has(f.parentId)) || (!!current.destinationRoot && f.parentId !== current.destinationRoot);
-    ops.push({ type: 'createFolder', key: f.key, parentId: f.parentKey ? undefined : f.parentId, parentKey: f.parentKey, title: folderTitle(nf.name, nf.emoji, nested ? nestedStyle(d.folderStyle) : d.folderStyle) });
-  }
-  ops.push(...moves, ...removes);
-  for (const [id, t] of Object.entries(d.titles)) {
-    const cur = current.node(id);
-    if (!t.accepted || !cur || d.iconOnly[id] || t.title === cur.title || d.removes?.[id]) continue;
-    ops.push({ type: 'rename', id, title: t.title, expect: cur });
-  }
-  for (const [id, on] of Object.entries(d.iconOnly)) {
-    const cur = current.node(id);
-    if (on && cur?.title) ops.push({ type: 'rename', id, title: '', expect: cur, iconOnly: true });
-  }
-  if (d.folderStyle !== 'name') {
-    for (const [id, fe] of Object.entries(d.folderEmojis)) {
-      const cur = current.node(id);
-      if (!fe.accepted || !cur?.title) continue;
-      // The user's own folders never lose their name: the emoji only goes in front of it.
-      const next = folderTitle(cur.title, fe.emoji, nestedStyle(d.folderStyle));
-      if (next !== cur.title) ops.push({ type: 'rename', id, title: next, expect: cur });
-    }
   }
   return ops;
 }
@@ -343,7 +426,6 @@ async function countTree(api: BookmarksApi, id: string): Promise<number> {
   return n;
 }
 
-export const isBackupFolderTitle = (title: string) => /^nidomark\b.*\b(sauvegarde|backup)\b/i.test(title);
 
 /** Applies the plan. Each change is journaled before it happens, so that an interruption can always be undone or kept. */
 export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStore, onProgress?: (done: number, total: number) => void): Promise<RunResult & { journal: Journal }> {
@@ -385,7 +467,7 @@ export async function applyPlan(api: BookmarksApi, ops: Op[], store: JournalStor
         let count = 0;
         for (const s of op.sources) {
           const folder = await api.create({ parentId: root.id, title: s.title });
-          count += 1 + (await copyTree(api, s.id, folder.id, (n) => n.id === root.id || (n.url === undefined && isBackupFolderTitle(n.title))));
+          count += 1 + (await copyTree(api, s.id, folder.id, (n) => n.id === root.id || (n.url === undefined && isBackupTitle(n.title))));
         }
         entry.after = { parentId: op.parentId, title: op.title, count };
         entry.status = 'done';

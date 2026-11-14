@@ -1,6 +1,7 @@
 /** Text normalisation, words and TF-IDF keyword similarity. */
+/** Lower case, Latin accents removed ("É" → "e"); other scripts are kept as they are, recomposed. */
 export function fold(s: string): string {
-  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC');
 }
 
 const STOPWORDS = new Set(
@@ -12,10 +13,10 @@ const STOPWORDS = new Set(
   ).split(' '),
 );
 
-/** Content words of a text, accents folded, stop words and numbers removed. */
+/** Content words of a text in any script, accents folded, stop words and numbers removed. */
 export function words(text: string): string[] {
   return fold(text)
-    .split(/[^a-z0-9]+/)
+    .split(/[^\p{L}\p{M}\p{N}]+/u)
     .filter((w) => w.length > 1 && !STOPWORDS.has(w) && !/^\d+$/.test(w));
 }
 

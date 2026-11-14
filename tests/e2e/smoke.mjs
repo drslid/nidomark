@@ -107,7 +107,21 @@ try {
   const initialApply = await applyText();
   assert(/47/.test(initialApply), `every page is filed once, duplicates aside (${initialApply})`);
 
-  const nodes = () => page.$$eval('.dests .node', (els) => els.map((n) => ({ key: n.dataset.key, name: n.querySelector('.name span')?.textContent ?? '', count: Number(n.dataset.count) })));
+  const nodes = () => page.$$eval('.dests .node-top', (els) => els.map((n) => ({ key: n.dataset.key, name: n.querySelector('.name')?.textContent ?? '', count: Number(n.dataset.count) })));
+  const allNodes = () => page.$$eval('.dests .node', (els) => els.map((n) => ({ key: n.dataset.key, name: n.querySelector('.name')?.textContent ?? '', count: Number(n.dataset.count) })));
+  const applyCount = async () => Number((await applyText()).replace(/\D/g, ''));
+  const menuClick = (re) => page.evaluate((src) => [...document.querySelectorAll('.menu button')].find((b) => new RegExp(src).test(b.textContent.trim()))?.click(), re.source);
+  const dragOnto = (fromSel, toSel) => page.evaluate((a, b) => {
+    const src = document.querySelector(a);
+    const dst = document.querySelector(b);
+    const dt = new DataTransfer();
+    src.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
+    const lit = document.querySelectorAll('.board.drag-active .dests .node.can-drop').length;
+    dst.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt }));
+    dst.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt }));
+    src.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
+    return lit;
+  }, fromSel, toSel);
   const initial = await nodes();
   console.log('nodes:', JSON.stringify(initial));
   const named = (list, re) => list.find((n) => re.test(n.name));
@@ -117,34 +131,40 @@ try {
   assert(initial.some((n) => n.key === 'review'), 'bookmarks without enough clues wait in To check');
   assert(initial.some((n) => n.key === 'dupes' && n.count === 3), 'the three duplicates are listed apart');
   assert(initial.every((n) => n.key !== 'stay'), 'nothing stays where it was');
-  const labels = await page.$$eval('.dests-label', (els) => els.map((e) => e.textContent));
+  const labels = await page.$$eval('.dests-label > span:first-child', (els) => els.map((e) => e.textContent));
   assert(labels.includes(LANG === 'fr' ? 'Barre de favoris' : 'Bookmarks bar') && labels.includes(LANG === 'fr' ? 'Autres favoris' : 'Other bookmarks'), `folders are shown where they will be created (${labels})`);
-  assert(await page.$$eval('.wires .wire', (w) => w.length) === initial.length, 'every node is wired to the source');
+  assert(await page.$$eval('.wires .wire', (w) => w.length) === initial.length, 'every folder at the top is wired to the source');
   const box = async (sel) => page.$eval(sel, (e) => { const r = e.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; });
   assert((await box('.dests > :last-child')).bottom <= (await box('.actionbar')).top || (await page.$eval('.canvas-wrap', (e) => e.scrollHeight > e.clientHeight)), 'the action bar never covers the canvas');
   const strip = await page.$$eval('.barstrip .items > *', (els) => els.map((e) => (e.classList.contains('chip-folder') ? `folder:${e.textContent}` : `icon:${e.getAttribute('aria-pressed')}`)));
   assert(strip.slice(0, 3).every((x) => x === 'icon:true') && strip.slice(3).every((x) => x.startsWith('folder:')), `the new bar is previewed: icons first, then folders (${strip})`);
 
-  // The Home folder and its subfolders.
+  // Subfolders sit under their folder on the canvas, each with its own sheet.
   const home = named(initial, /^(Maison|Home)$/);
-  await page.click(`.dests .node[data-key="${home.key}"]`);
-  await page.waitForSelector('.sheet .sec');
-  const sections = () => page.$$eval('.sheet .sec', (els) => els.map((x) => ({ name: x.getAttribute('aria-label'), off: x.classList.contains('off'), titles: [...x.querySelectorAll('.row .title')].map((t) => t.textContent) })));
-  const homeSections = await sections();
-  console.log('home:', JSON.stringify(homeSections.map((x) => [x.name, x.titles.length])));
-  assert(homeSections.length >= 3, 'the sheet shows the subfolders of a folder');
-  assert(homeSections.find((x) => x.name === 'Domotique')?.titles.some((t) => /Home Assistant/.test(t)), 'the Home Assistant video joins Domotique');
+  const homeKids = await page.$$eval(`.dests .node[data-key="${home.key}"] + .children > .branch > .node`, (els) => els.map((n) => n.querySelector('.name')?.textContent));
+  assert(homeKids.length >= 3 && homeKids.includes('Domotique'), `subfolders show on the canvas, under their folder (${homeKids})`);
+  const domo = named(await allNodes(), /^Domotique$/);
+  await page.click(`.dests .node[data-key="${domo.key}"]`);
+  await page.waitForSelector('.sheet .row');
+  assert((await page.$$eval('.sheet .row .title', (els) => els.map((e) => e.textContent))).some((x) => /Home Assistant/.test(x)), 'the Home Assistant video joins Domotique');
+  assert(/›/.test(await page.$eval('.sheet .sheet-path', (e) => e.textContent)), 'the sheet says where the folder is');
   await sleep(300);
   await storeShot('store-3-sheet');
-  // A subfolder the user does not want: its bookmarks go to the folder above, nothing is left out.
-  const recipes = homeSections.find((x) => /^(Recettes|Cooking)$/.test(x.name));
-  await page.evaluate((name) => document.querySelector(`.sheet .sec[aria-label="${name}"] [data-focus^="sec-dont-"]`).click(), recipes.name);
-  await sleep(150);
-  assert((await sections()).find((x) => x.name === recipes.name)?.off && (await page.$('.sheet .sec.off .sec-note')), 'a declined subfolder says where its bookmarks go');
-  assert((await applyText()) === initialApply, 'declining a subfolder files the same bookmarks');
-  await page.evaluate((name) => document.querySelector(`.sheet .sec[aria-label="${name}"] [data-focus^="sec-create-"]`).click(), recipes.name);
-  await sleep(150);
-  assert(!(await sections()).find((x) => x.name === recipes.name)?.off, 'the subfolder can be created again');
+
+  // Deleting a folder: its bookmarks move up to the folder above, nothing is left out, and it can be undone.
+  const recipes = named(await allNodes(), /^(Recettes|Cooking)$/);
+  await page.click(`.dests .node[data-key="${recipes.key}"]`);
+  await page.waitForSelector('[data-focus="tool-delete"]');
+  await page.click('[data-focus="tool-delete"]');
+  await page.waitForSelector('dialog[open] input[value="keep"]:checked');
+  await page.click('dialog[open] .btn-filled');
+  await sleep(200);
+  assert(!(await allNodes()).some((n) => n.key === recipes.key), 'a deleted folder leaves the canvas');
+  assert((await nodes()).find((n) => n.key === home.key)?.count === home.count, 'its bookmarks move up into the folder above');
+  assert((await applyText()) === initialApply, 'deleting a folder files the same bookmarks');
+  await page.click('.snackbar [data-focus="snack-undo"]');
+  await sleep(200);
+  assert((await allNodes()).some((n) => n.key === recipes.key), 'the snackbar undoes the deletion');
   await page.keyboard.press('Escape');
   await sleep(100);
 
@@ -154,49 +174,98 @@ try {
   await page.waitForSelector('.sheet .row');
   assert(await page.$eval('.sheet [data-focus="sheet-close"]', (b) => b === document.activeElement), 'focus moves into the side sheet');
   const firstRow = await page.$eval('.sheet .row', (r) => r.dataset.id);
-  await page.focus(`[data-focus="mv-${firstRow}"]`);
+  await page.focus(`[data-focus="more-${firstRow}"]`);
   await page.keyboard.press('Enter');
   await page.waitForSelector('.menu button');
-  const menuItems = await page.$$eval('.menu button', (b) => b.map((x) => ({ text: x.textContent, indent: x.className })));
-  assert(menuItems.some((x) => /Accès rapide|Quick access/.test(x.text)) && menuItems.some((x) => x.indent === 'indent-2'), 'the move menu follows the new tree, quick access included');
-  await page.evaluate(() => [...document.querySelectorAll('.menu button')].find((b) => /Accès rapide|Quick access/.test(b.textContent))?.click());
+  await menuClick(/^(Déplacer vers|Move to)…$/);
+  await page.waitForSelector('.menu button.nested');
+  const menuItems = await page.$$eval('.menu button', (b) => b.map((x) => x.textContent));
+  assert(menuItems.some((x) => /Accès rapide|Quick access/.test(x)) && menuItems.some((x) => /Domotique/.test(x)), 'the move menu follows the new tree, subfolders and quick access included');
+  await menuClick(/^(Accès rapide|Quick access)$/);
   await sleep(200);
   const afterMenu = await nodes();
   assert(afterMenu.find((n) => n.key === travel.key).count === travel.count - 1 && afterMenu.find((n) => n.key === 'bar').count === 4, 'moving with the menu updates the counts');
   assert(/déplacé|moved/.test(await page.$eval('#live', (e) => e.textContent ?? '')), 'the move is announced to screen readers');
 
-  // Drag the next bookmark of the sheet onto the Home folder.
+  // Rename a bookmark in place, then remove it: it waits in Removed, and comes back.
+  const renameId = await page.$eval('.sheet .row', (r) => r.dataset.id);
+  await page.click(`.sheet .row[data-id="${renameId}"] .title`, { clickCount: 2 });
+  await page.waitForSelector(`[data-focus="rename-${renameId}"]`);
+  await page.keyboard.type('Billets de train');
+  await page.keyboard.press('Enter');
+  await sleep(150);
+  assert((await page.$eval(`.sheet .row[data-id="${renameId}"] .title`, (e) => e.textContent)) === 'Billets de train', 'a bookmark is renamed in place');
+  const beforeRemove = await applyCount();
+  await page.click(`[data-focus="more-${renameId}"]`);
+  await page.waitForSelector('.menu button');
+  await menuClick(/^(Supprimer|Remove)$/);
+  await sleep(150);
+  assert((await nodes()).find((n) => n.key === 'removed')?.count === 1 && (await applyCount()) === beforeRemove - 1, 'a removed bookmark is not recreated and waits in Removed');
+  await page.click('.dests .node[data-key="removed"]');
+  await page.waitForSelector('[data-focus="sheet-restore-all"]');
+  await page.click('[data-focus="sheet-restore-all"]');
+  await sleep(150);
+  assert(!(await nodes()).some((n) => n.key === 'removed') && (await applyCount()) === beforeRemove, 'a removed bookmark can be restored');
+
+  // Drag a bookmark of the travel sheet onto the Home folder.
+  await page.click(`.dests .node[data-key="${travel.key}"]`);
+  await page.waitForSelector('.sheet .row');
   const dragId = await page.$eval('.sheet .row', (r) => r.dataset.id);
-  const lit = await page.evaluate((id, key) => {
-    const row = document.querySelector(`.sheet .row[data-id="${id}"]`);
-    const target = document.querySelector(`.dests .node[data-key="${key}"]`);
-    const dt = new DataTransfer();
-    row.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
-    const eligible = document.querySelectorAll('.board.drag-active .dests .node.droppable:not(.origin)').length;
-    target.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt }));
-    target.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt }));
-    row.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
-    return eligible;
-  }, dragId, home.key);
+  const lit = await dragOnto(`.sheet .row[data-id="${dragId}"]`, `.dests .node[data-key="${home.key}"]`);
   await sleep(200);
   assert(lit >= 3, `every folder that can take a dragged bookmark lights up (${lit})`);
-  assert(!(await page.$('.board.drag-active, .node.origin, .node.drop-target')), 'the drag highlight is cleared after the drop');
+  assert(!(await page.$('.board.drag-active, .drop-target, .can-drop')), 'the drag highlight is cleared after the drop');
   const afterDrop = await nodes();
   assert(afterDrop.find((n) => n.key === home.key).count === home.count + 1, 'dropping a bookmark on a folder moves it there');
   await page.keyboard.press('Escape');
   await sleep(100);
   assert(!(await page.$('.sheet')), 'Escape closes the side sheet');
 
-  // Bookmarks to check say why; a suggestion files one in a click.
+  // A folder of one's own, then a folder dragged into it; a folder never goes inside itself; Ctrl+Z undoes.
+  await page.click('[data-focus="add-folder"]');
+  await page.waitForSelector('dialog[open] #new-folder-name');
+  await page.type('#new-folder-name', 'Projets');
+  await page.select('#new-folder-place', 'root:2');
+  await page.click('dialog[open] .btn-filled');
+  await sleep(200);
+  const projets = named(await nodes(), /^Projets$/);
+  assert(projets && (await page.$eval('.sheet .name-field', (e) => e.value)) === 'Projets', 'a new folder shows on the canvas, its sheet open');
+  await dragOnto(`.dests .node[data-key="${travel.key}"]`, `.dests .node[data-key="${projets.key}"]`);
+  await sleep(200);
+  const inside = await page.$$eval(`.dests .node[data-key="${projets.key}"] + .children .node`, (els) => els.map((n) => n.dataset.key));
+  assert(inside.includes(travel.key) && !(await nodes()).some((n) => n.key === travel.key), 'a folder dragged onto another goes inside it');
+  await dragOnto(`.dests .node[data-key="${projets.key}"]`, `.dests .node[data-key="${travel.key}"]`);
+  await sleep(200);
+  assert((await nodes()).some((n) => n.key === projets.key), 'a folder never goes inside one of its subfolders');
+  await page.evaluate(() => document.activeElement?.blur());
+  await page.keyboard.down('Control');
+  await page.keyboard.press('z');
+  await page.keyboard.up('Control');
+  await sleep(200);
+  assert((await nodes()).some((n) => n.key === travel.key), 'Ctrl+Z undoes the last change');
+
+  // A folder can show its name instead of its emoji in the bar.
+  await page.click(`.dests .node[data-key="${home.key}"]`);
+  await page.waitForSelector('.sheet .sheet-display');
+  await page.click(`label:has([data-focus="style-${home.key.slice(2)}-name"])`);
+  await sleep(150);
+  assert((await page.$$eval('.barstrip .chip-folder', (els) => els.map((e) => e.textContent))).includes(home.name), 'a folder shows its own name in the bar when chosen');
+  await page.keyboard.press('Escape');
+  await sleep(100);
+
+  // Bookmarks to check say why and get suggestions; one click files one, another files them all.
   const review = afterDrop.find((n) => n.key === 'review');
   await page.click('.dests .node[data-key="review"]');
   await page.waitForSelector('.sheet .row');
   assert(await page.$$eval('.sheet .row', (rows) => rows.every((r) => r.querySelector('.why')?.textContent)), 'each bookmark to check says why');
-  if (await page.$('.sheet .suggest')) {
-    await page.click('.sheet .suggest');
-    await sleep(150);
-    assert(((await nodes()).find((n) => n.key === 'review')?.count ?? 0) === review.count - 1, 'a suggestion files the bookmark in one click');
-  }
+  assert(await page.$$eval('.sheet .row', (rows) => rows.every((r) => r.querySelector('.suggest'))), 'each bookmark to check gets suggestions');
+  await page.click('.sheet .suggest');
+  await sleep(150);
+  assert(((await nodes()).find((n) => n.key === 'review')?.count ?? 0) === review.count - 1, 'a suggestion files the bookmark in one click');
+  if (REVIEW) await page.screenshot({ path: path.join(REVIEW, `desktop-review-sheet${DARK ? '-dark' : ''}.png`) });
+  await page.click('[data-focus="tool-accept"]');
+  await sleep(150);
+  assert(!(await nodes()).some((n) => n.key === 'review'), 'all suggestions are accepted in one click');
   await page.keyboard.press('Escape');
   await sleep(100);
 
@@ -205,13 +274,14 @@ try {
   await sleep(150);
   assert((await applyText()) === initialApply, 'restoring the proposal brings every decision back');
   assert(JSON.stringify(await nodes()) === JSON.stringify(initial), 'restoring the proposal restores every folder');
+  await page.click('.snackbar .snack-close');
   await page.evaluate(() => document.activeElement?.blur());
 
   if (REVIEW) {
     await page.setViewport({ width: 1440, height: 900 });
     await sleep(300);
     await page.screenshot({ path: path.join(REVIEW, `desktop${DARK ? '-dark' : ''}.png`) });
-    await page.click(`.dests .node[data-key="${home.key}"]`);
+    await page.click(`.dests .node[data-key="${domo.key}"]`);
     await sleep(300);
     await page.screenshot({ path: path.join(REVIEW, `desktop-sheet${DARK ? '-dark' : ''}.png`) });
     // A bookmark held over the travel folder: every folder that can take it lights up.
@@ -226,9 +296,6 @@ try {
     await sleep(300);
     await page.screenshot({ path: path.join(REVIEW, `desktop-drag${DARK ? '-dark' : ''}.png`) });
     await page.evaluate(() => window.__endDrag());
-    await page.click('.dests .node[data-key="review"]');
-    await sleep(300);
-    await page.screenshot({ path: path.join(REVIEW, `desktop-review-sheet${DARK ? '-dark' : ''}.png`) });
     await page.keyboard.press('Escape');
     await page.setViewport({ width: 390, height: 844 });
     await sleep(300);

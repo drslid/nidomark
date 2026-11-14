@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Bookmarks ordenen"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Een kleine lokale AI ordent je bookmarks in overzichtelijke mappen, met emoji en een balk met alleen iconen. Privé, offline, gratis."
+ },
+ "actionTitle": {
+  "message": "Mijn bookmarks ordenen"
+ },
+ "tabSettings": {
+  "message": "Instellingen"
+ },
+ "startTitle": {
+  "message": "Orden je bookmarks"
+ },
+ "startLead": {
+  "message": "Een kleine AI op deze computer maakt al je bookmarks opnieuw aan in overzichtelijke mappen. Jij controleert het resultaat en bevestigt het daarna."
+ },
+ "optHistory": {
+  "message": "Meest bezochte sites eerst"
+ },
+ "optHistoryHint": {
+  "message": "Telt op deze computer de bezoeken per site en leest de titels die al zijn opgeslagen. Er wordt niets verzonden."
+ },
+ "optFolderStyle": {
+  "message": "Mapnamen"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + naam"
+ },
+ "styleName": {
+  "message": "Alleen naam"
+ },
+ "styleEmoji": {
+  "message": "Alleen emoji"
+ },
+ "optIconOnly": {
+  "message": "Bookmarkbalk als iconen"
+ },
+ "optIconOnlyHint": {
+  "message": "Standaard voorgesteld; namen kunnen weer worden getoond"
+ },
+ "analyze": {
+  "message": "Mijn bookmarks analyseren"
+ },
+ "lastRun": {
+  "message": "Laatste ordening: {1}"
+ },
+ "undoLast": {
+  "message": "Ongedaan maken"
+ },
+ "phaseReading": {
+  "message": "Je bookmarks worden gelezen"
+ },
+ "phaseLoading": {
+  "message": "Het model wordt geladen"
+ },
+ "phaseEmbedding": {
+  "message": "Elke bookmark wordt geïnterpreteerd"
+ },
+ "phaseGrouping": {
+  "message": "De mappen worden gemaakt"
+ },
+ "progressCount": {
+  "message": "{1} van {2}"
+ },
+ "moveTo": {
+  "message": "Verplaatsen naar"
+ },
+ "newFolderOption": {
+  "message": "Nieuwe map"
+ },
+ "folderName": {
+  "message": "Mapnaam"
+ },
+ "emojiLabel": {
+  "message": "Emoji voor {1}"
+ },
+ "customEmoji": {
+  "message": "Andere emoji"
+ },
+ "reviewHint": {
+  "message": "Getest, maar te weinig aanwijzingen. Open ze om ze te controleren en kies dan een suggestie of sleep ze naar een map. Anders komen ze in “Te controleren”, in de map Andere bookmarks."
+ },
+ "barTitle": {
+  "message": "Nieuwe balk"
+ },
+ "iconOnly": {
+  "message": "alleen icoon"
+ },
+ "applying": {
+  "message": "Wijzigingen worden toegepast"
+ },
+ "doneTitle": {
+  "message": "Je bookmarks zijn geordend"
+ },
+ "doneSummary": {
+  "message": "{1} bookmarks ingedeeld in {2} mappen."
+ },
+ "doneSkipped": {
+  "message": "Items overgeslagen omdat ze intussen zijn gewijzigd: {1}. Er gaat niets verloren: de originelen staan in de back-up."
+ },
+ "undone": {
+  "message": "De laatste ordening is ongedaan gemaakt."
+ },
+ "undoSkipped": {
+  "message": "Items gelaten zoals je ze hebt gewijzigd: {1}."
+ },
+ "changedBanner": {
+  "message": "Je bookmarks zijn tijdens de controle in de browser gewijzigd."
+ },
+ "refresh": {
+  "message": "Voorstel vernieuwen"
+ },
+ "errorTitle": {
+  "message": "Er is iets misgegaan"
+ },
+ "errorModel": {
+  "message": "Het model kan niet worden geladen. Als je de extensie zelf hebt gebouwd, voer je “pnpm fetch-model” uit en bouw je de extensie opnieuw."
+ },
+ "retry": {
+  "message": "Opnieuw proberen"
+ },
+ "emptyTitle": {
+  "message": "Niets te ordenen"
+ },
+ "emptyHint": {
+  "message": "Geen bookmarks in de gekozen mappen. Kies andere mappen."
+ },
+ "reasonHomeService": {
+  "message": "Thuis gehoste service (lokaal adres of eigen domein)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Handleiding over {1} (zelf hosten)"
+ },
+ "reasonNewGroup": {
+  "message": "Bookmarks over dit thema: {1}"
+ },
+ "reasonUser": {
+  "message": "Jouw keuze"
+ },
+ "reviewVague": {
+  "message": "Algemene titel en nietszeggend adres: onmogelijk te weten wat er op de pagina staat."
+ },
+ "settingsDefaults": {
+  "message": "Standaardinstellingen"
+ },
+ "settingsHistoryOn": {
+  "message": "Toegestaan"
+ },
+ "settingsHistoryOff": {
+  "message": "Niet toegestaan"
+ },
+ "settingsNames": {
+  "message": "Bookmarks met alleen een icoon"
+ },
+ "settingsNamesCount": {
+  "message": "Getoond als icoon: {1}"
+ },
+ "restoreNames": {
+  "message": "Alle namen weer tonen"
+ },
+ "namesRestored": {
+  "message": "Namen weer getoond: {1}."
+ },
+ "settingsData": {
+  "message": "Gegevens"
+ },
+ "clearCache": {
+  "message": "Analysecache"
+ },
+ "cacheCleared": {
+  "message": "Cache gewist."
+ },
+ "settingsAbout": {
+  "message": "Over"
+ },
+ "aboutModel": {
+  "message": "Model: {1}, draait lokaal."
+ },
+ "saved": {
+  "message": "Opgeslagen"
+ },
+ "unnamed": {
+  "message": "(geen naam)"
+ },
+ "barFolder": {
+  "message": "Bookmarkbalk"
+ },
+ "otherFolder": {
+  "message": "Andere bookmarks"
+ },
+ "lang": {
+  "message": "nl"
+ },
+ "interruptedTitle": {
+  "message": "De laatste ordening is onderbroken"
+ },
+ "interruptedHint": {
+  "message": "De browser is gesloten terwijl de wijzigingen werden toegepast. Maak ongedaan wat al is gedaan of laat het zoals het is."
+ },
+ "interruptedUndo": {
+  "message": "Wijzigingen ongedaan maken"
+ },
+ "interruptedKeep": {
+  "message": "Deze wijzigingen behouden"
+ },
+ "errorUnresolved": {
+  "message": "De laatste ordening is onderbroken. Maak deze ongedaan of behoud deze voordat je opnieuw gaat ordenen."
+ },
+ "changedBlocked": {
+  "message": "Vernieuw eerst het voorstel: je bookmarks zijn gewijzigd."
+ },
+ "startCountNone": {
+  "message": "Geen bookmarks om in te delen"
+ },
+ "finish": {
+  "message": "Klaar"
+ },
+ "sourceMeta": {
+  "message": "Bookmarks: {1}"
+ },
+ "destinations": {
+  "message": "Voorgestelde mappen"
+ },
+ "proposal": {
+  "message": "Voorstel"
+ },
+ "nodeReviewMeta": {
+  "message": "Te weinig aanwijzingen"
+ },
+ "countLabel": {
+  "message": "bookmarks: {1}"
+ },
+ "sheetClose": {
+  "message": "Sluiten"
+ },
+ "emptyFolder": {
+  "message": "Leeg. Sleep in het diagram bookmarks naar deze map."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Nieuwe map"
+ },
+ "create": {
+  "message": "Maken"
+ },
+ "cancel": {
+  "message": "Annuleren"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Oorspronkelijke titel behouden"
+ },
+ "useNewTitle": {
+  "message": "Opgeschoonde titel gebruiken"
+ },
+ "noEmoji": {
+  "message": "Geen emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Klik om alleen het icoon te tonen"
+ },
+ "showName": {
+  "message": "klik om de naam te tonen"
+ },
+ "nothingYet": {
+  "message": "Er is nog niets gewijzigd"
+ },
+ "restoreProposal": {
+  "message": "Voorstel herstellen"
+ },
+ "applyRegion": {
+  "message": "Wijzigingen toepassen"
+ },
+ "announceMoved": {
+  "message": "“{1}” verplaatst naar {2}"
+ },
+ "back": {
+  "message": "Terug"
+ },
+ "clear": {
+  "message": "Wissen"
+ },
+ "footerSync": {
+  "message": "Wijzigingen worden ook toegepast op je andere apparaten waarop je bent ingelogd."
+ },
+ "barHint": {
+  "message": "Klik op een bookmark om de naam te verbergen of te tonen"
+ },
+ "applyCount": {
+  "message": "{1} bookmarks indelen"
+ },
+ "applyOne": {
+  "message": "1 bookmark indelen"
+ },
+ "scopeLabel": {
+  "message": "Mappen om te ordenen"
+ },
+ "barScopeHint": {
+  "message": "Inclusief snelkoppelingen: de meestgebruikte komen weer vooraan"
+ },
+ "showSubfolders": {
+  "message": "Mappen in {1} tonen"
+ },
+ "destinationLabel": {
+  "message": "Ordenen in"
+ },
+ "moreOptions": {
+  "message": "Meer opties"
+ },
+ "sumReadSites": {
+  "message": "sites lezen"
+ },
+ "sumCheckDead": {
+  "message": "dode sites"
+ },
+ "sumHistory": {
+  "message": "geschiedenis"
+ },
+ "optReadSites": {
+  "message": "Sites lezen als de titel niet genoeg is"
+ },
+ "optReadSitesHint": {
+  "message": "Trager, maar nauwkeuriger. Chrome vraagt één keer om toegang tot sites."
+ },
+ "optCheckDead": {
+  "message": "Sites vinden die niet meer reageren"
+ },
+ "optCheckDeadHint": {
+  "message": "Ze worden apart gezet in “Onbereikbare sites”."
+ },
+ "optFolderStyleHint": {
+  "message": "Submappen houden hun naam."
+ },
+ "analyzeCount": {
+  "message": "{1} bookmarks analyseren"
+ },
+ "analyzeOne": {
+  "message": "1 bookmark analyseren"
+ },
+ "privacyTitle": {
+  "message": "Er verlaten geen gegevens deze computer"
+ },
+ "privacyBody": {
+  "message": "De AI draait hier, zonder account en zonder server. Om een site te begrijpen, opent Nidomark de pagina zoals je browser dat doet, zonder cookies, en verzendt verder niets."
+ },
+ "phaseSites": {
+  "message": "Sites worden gelezen"
+ },
+ "phasePages": {
+  "message": "Pagina’s worden geanalyseerd"
+ },
+ "sitesNote": {
+  "message": "Meerdere sites tegelijk. Er wordt niets verzonden, pagina’s worden alleen gelezen."
+ },
+ "sitesAllowed": {
+  "message": "Toegang tot sites verleend"
+ },
+ "sitesAsked": {
+  "message": "Chrome vraagt bij de volgende analyse om toegang tot sites"
+ },
+ "backupsTitle": {
+  "message": "Back-ups"
+ },
+ "backupsNone": {
+  "message": "Geen back-up"
+ },
+ "backupCount": {
+  "message": "Bookmarks: {1}"
+ },
+ "backupDelete": {
+  "message": "Verwijderen"
+ },
+ "backupDeleteTitle": {
+  "message": "Deze back-up verwijderen?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” en alles daarin worden definitief verwijderd. Je ingedeelde bookmarks blijven staan, maar de ordening waarbij deze back-up is gemaakt, kan niet meer ongedaan worden gemaakt."
+ },
+ "backupDeleted": {
+  "message": "Back-up verwijderd."
+ },
+ "backupTitle": {
+  "message": "Nidomark – back-up van {1}"
+ },
+ "clearCacheHint": {
+  "message": "De cache versnelt de volgende analyses en blijft op deze computer."
+ },
+ "sourceAll": {
+  "message": "Je bookmarks"
+ },
+ "reasonKnownSite": {
+  "message": "Bekende site ({1})"
+ },
+ "reasonPattern": {
+  "message": "Typisch adres ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Expliciete titel"
+ },
+ "reasonAdultPage": {
+  "message": "De pagina geeft aan dat de inhoud voor volwassenen is"
+ },
+ "reasonPage": {
+  "message": "Volgens de pagina: “{1}”"
+ },
+ "reasonModel": {
+  "message": "Lijkt op “{1}”"
+ },
+ "reasonPlatform": {
+  "message": "Gepubliceerd op {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Gaat over {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Je zet {1} in “{2}”"
+ },
+ "reasonKeptFolder": {
+  "message": "Je map “{1}”, ongewijzigd opnieuw gemaakt"
+ },
+ "reasonNewCategory": {
+  "message": "Bookmarks in deze categorie: {1}"
+ },
+ "deadNetwork": {
+  "message": "Reageert niet meer: site niet gevonden"
+ },
+ "deadTimeout": {
+  "message": "Reageert niet meer: time-out"
+ },
+ "deadGone": {
+  "message": "Pagina verwijderd ({1})"
+ },
+ "deadServer": {
+  "message": "Serverfout ({1})"
+ },
+ "deadParked": {
+  "message": "Domein verlaten of te koop"
+ },
+ "reviewUnclear": {
+  "message": "Geen duidelijk thema in titel en adres"
+ },
+ "reviewUnclearPage": {
+  "message": "Pagina gelezen, geen duidelijk thema"
+ },
+ "reviewBlocked": {
+  "message": "De site weigert toegang ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Vage titel; sta het lezen van sites toe voor meer informatie"
+ },
+ "nodeDupes": {
+  "message": "Duplicaten"
+ },
+ "nodeDupesMeta": {
+  "message": "Niet opnieuw gemaakt, bewaard in de back-up"
+ },
+ "dupesHint": {
+  "message": "Deze pagina’s bestaan al ergens anders: er wordt één exemplaar opnieuw gemaakt. Deze blijven in de back-up."
+ },
+ "keepAllDupes": {
+  "message": "Alles behouden"
+ },
+ "reasonDuplicate": {
+  "message": "Duplicaat van “{1}” ({2})"
+ },
+ "optDupes": {
+  "message": "Eén exemplaar van elke pagina"
+ },
+ "optDupesHint": {
+  "message": "Duplicaten worden niet opnieuw gemaakt; ze blijven in de back-up."
+ },
+ "sumDupes": {
+  "message": "duplicaten"
+ },
+ "openSite": {
+  "message": "{1} openen"
+ },
+ "reviewHintUntested": {
+  "message": "Te weinig aanwijzingen. “Opnieuw analyseren” test hun sites; je kunt ze ook openen om ze te controleren. Anders komen ze in “Te controleren”."
+ },
+ "archiveNote": {
+  "message": "Je huidige mappenstructuur wordt ongewijzigd bewaard in een gedateerde back-up in de map Andere bookmarks. Eén klik maakt de ordening ongedaan."
+ },
+ "barSheetHint": {
+  "message": "De sites die je het vaakst opent, als iconen aan het begin van de balk. Klik in het voorbeeld op een icoon om de naam te tonen."
+ },
+ "doneArchive": {
+  "message": "Je vorige mappenstructuur staat in “{1}”, in de map Andere bookmarks."
+ },
+ "nodeBar": {
+  "message": "Snelle toegang"
+ },
+ "nodeBarMeta": {
+  "message": "Iconen aan het begin van de balk"
+ },
+ "notRecreated": {
+  "message": "Niet opnieuw gemaakt"
+ },
+ "optQuickAccess": {
+  "message": "Snelle toegang"
+ },
+ "optQuickAccessHint": {
+  "message": "De meest bezochte sites, als iconen aan het begin van de balk"
+ },
+ "quickNone": {
+  "message": "Geen"
+ },
+ "reasonBarShortcut": {
+  "message": "Staat al in je bookmarkbalk"
+ },
+ "reasonBarTool": {
+  "message": "Tool in de balk (bookmarklet of browserpagina)"
+ },
+ "reasonFacet": {
+  "message": "{1} bookmarks van dezelfde site of over hetzelfde onderwerp"
+ },
+ "reasonLearned": {
+  "message": "Je hebt deze in “{1}” gezet"
+ },
+ "reasonMyFolders": {
+  "message": "Je mappen met verschillende onderwerpen"
+ },
+ "reasonQuickAccess": {
+  "message": "Een van de sites die je het vaakst opent"
+ },
+ "reasonReviewFolder": {
+  "message": "Te weinig aanwijzingen om ze in te delen"
+ },
+ "reasonSpecial": {
+  "message": "Een link die geen webpagina is (bookmarklet, browserpagina, bestand)"
+ },
+ "leaveTitle": {
+  "message": "Dit voorstel weggooien?"
+ },
+ "leaveBody": {
+  "message": "Je bookmarks zijn niet gewijzigd. Als je ze wilt ordenen, moet je de analyse opnieuw uitvoeren."
+ },
+ "leaveConfirm": {
+  "message": "Weggooien"
+ },
+ "acceptAll": {
+  "message": "Alles indelen zoals voorgesteld ({1})"
+ },
+ "acceptedAll": {
+  "message": "Ingedeeld zoals voorgesteld: {1}"
+ },
+ "atTopOf": {
+  "message": "Direct in {1}"
+ },
+ "deleteFolder": {
+  "message": "Verwijderen"
+ },
+ "deleteFolderTitle": {
+  "message": "“{1}” verwijderen?"
+ },
+ "deleteFolderBody": {
+  "message": "Bookmarks in deze map: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Bookmarks in deze map: {1} · submappen: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Inhoud behouden"
+ },
+ "deleteKeepHint": {
+  "message": "De bookmarks en submappen gaan een niveau omhoog naar “{1}”."
+ },
+ "deleteWithContent": {
+  "message": "Ook de inhoud verwijderen"
+ },
+ "deleteWithContentHint": {
+  "message": "De bookmarks worden niet opnieuw gemaakt: ze blijven in de back-up."
+ },
+ "displayInBrowser": {
+  "message": "Weergave"
+ },
+ "dropAtTop": {
+  "message": "Hier neerzetten, op het hoogste niveau"
+ },
+ "editUndone": {
+  "message": "Wijziging ongedaan gemaakt"
+ },
+ "fileIn": {
+  "message": "Indelen in {1}"
+ },
+ "foldFolder": {
+  "message": "{1} samenvouwen"
+ },
+ "unfoldFolder": {
+  "message": "{1} uitvouwen"
+ },
+ "folderCreated": {
+  "message": "Map “{1}” gemaakt"
+ },
+ "folderDeleted": {
+  "message": "“{1}” verwijderd: de inhoud is een niveau omhoog verplaatst"
+ },
+ "folderDeletedAll": {
+  "message": "“{1}” en de inhoud verwijderd"
+ },
+ "folderMoved": {
+  "message": "“{1}” verplaatst naar {2}"
+ },
+ "folderPlace": {
+  "message": "Locatie"
+ },
+ "iconOnlyItem": {
+  "message": "Alleen icoon"
+ },
+ "keepDupe": {
+  "message": "Dit exemplaar behouden"
+ },
+ "looseHint": {
+  "message": "Bookmarks direct in {1}, niet in een map."
+ },
+ "moveFolder": {
+  "message": "Verplaatsen"
+ },
+ "moveFolderTo": {
+  "message": "“{1}” verplaatsen naar"
+ },
+ "moveToEllipsis": {
+  "message": "Verplaatsen naar…"
+ },
+ "newShort": {
+  "message": "nieuw"
+ },
+ "newSubfolder": {
+  "message": "Submap"
+ },
+ "nodeLoose": {
+  "message": "Geen map"
+ },
+ "nodeLooseMeta": {
+  "message": "Direct in de hoofdmap"
+ },
+ "nodeRemoved": {
+  "message": "Verwijderd"
+ },
+ "nodeRemovedMeta": {
+  "message": "Niet opnieuw gemaakt, bewaard in de back-up"
+ },
+ "openFolder": {
+  "message": "map openen"
+ },
+ "openPage": {
+  "message": "Pagina openen"
+ },
+ "proposalRestored": {
+  "message": "Voorstel hersteld"
+ },
+ "reanalyze": {
+  "message": "Opnieuw analyseren"
+ },
+ "reanalyzeFailed": {
+  "message": "De nieuwe analyse is mislukt: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "“{2}” opnieuw geanalyseerd · verplaatst: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Niets opnieuw te analyseren in “{1}”: je hebt de bookmarks zelf geplaatst."
+ },
+ "reanalyzedSame": {
+  "message": "“{1}” opnieuw geanalyseerd: geen wijziging"
+ },
+ "reanalyzing": {
+  "message": "“{1}” wordt opnieuw geanalyseerd"
+ },
+ "reasonSameSite": {
+  "message": "Zoals {1} andere bookmarks van {2}"
+ },
+ "removeBookmark": {
+  "message": "Verwijderen"
+ },
+ "removedHint": {
+  "message": "Deze bookmarks worden niet opnieuw gemaakt. Ze blijven in de back-up: zet ze hier terug of sleep ze naar een map."
+ },
+ "removedOne": {
+  "message": "“{1}” wordt niet opnieuw gemaakt (blijft in de back-up)"
+ },
+ "rename": {
+  "message": "Naam wijzigen"
+ },
+ "renameLabel": {
+  "message": "Nieuwe naam voor {1}"
+ },
+ "renamedTo": {
+  "message": "Naam gewijzigd in “{1}”"
+ },
+ "restore": {
+  "message": "Herstellen"
+ },
+ "restoreAll": {
+  "message": "Alles herstellen"
+ },
+ "restoredCount": {
+  "message": "Hersteld: {1}"
+ },
+ "restoredOne": {
+  "message": "Bookmark hersteld"
+ },
+ "rowActions": {
+  "message": "Acties voor {1}"
+ },
+ "subfolders": {
+  "message": "Submappen"
+ },
+ "suggestionsFor": {
+  "message": "Suggesties voor {1}"
+ },
+ "undoEdit": {
+  "message": "Ongedaan maken"
+ },
+ "undoEditHint": {
+  "message": "Laatste wijziging ongedaan maken (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Staat al in je bookmarks"
+ },
+ "existingFolderHint": {
+  "message": "Map van een eerdere ordening: nieuwe bookmarks worden eraan toegevoegd, de naam en plaats blijven behouden."
+ }
+}

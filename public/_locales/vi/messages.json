@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Trình sắp xếp dấu trang"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "AI nhỏ chạy cục bộ sắp xếp dấu trang vào thư mục rõ ràng, kèm emoji và thanh chỉ có biểu tượng. Riêng tư, ngoại tuyến, miễn phí."
+ },
+ "actionTitle": {
+  "message": "Sắp xếp dấu trang của tôi"
+ },
+ "tabSettings": {
+  "message": "Cài đặt"
+ },
+ "startTitle": {
+  "message": "Sắp xếp dấu trang của bạn"
+ },
+ "startLead": {
+  "message": "Một AI nhỏ trên máy tính này tạo lại tất cả dấu trang của bạn trong các thư mục rõ ràng. Bạn kiểm tra rồi xác nhận."
+ },
+ "optHistory": {
+  "message": "Đưa các trang web hay truy cập nhất lên đầu"
+ },
+ "optHistoryHint": {
+  "message": "Đếm số lượt truy cập từng trang web và đọc các tiêu đề đã lưu sẵn, ngay trên máy tính này. Không có gì được gửi đi."
+ },
+ "optFolderStyle": {
+  "message": "Tên thư mục"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + tên"
+ },
+ "styleName": {
+  "message": "Chỉ tên"
+ },
+ "styleEmoji": {
+  "message": "Chỉ emoji"
+ },
+ "optIconOnly": {
+  "message": "Thanh dấu trang dạng biểu tượng"
+ },
+ "optIconOnlyHint": {
+  "message": "Được đề xuất theo mặc định; có thể hiện lại tên"
+ },
+ "analyze": {
+  "message": "Phân tích dấu trang của tôi"
+ },
+ "lastRun": {
+  "message": "Lần sắp xếp gần nhất: {1}"
+ },
+ "undoLast": {
+  "message": "Hoàn tác"
+ },
+ "phaseReading": {
+  "message": "Đang đọc dấu trang của bạn"
+ },
+ "phaseLoading": {
+  "message": "Đang tải mô hình"
+ },
+ "phaseEmbedding": {
+  "message": "Đang tìm hiểu từng dấu trang"
+ },
+ "phaseGrouping": {
+  "message": "Đang tạo thư mục"
+ },
+ "progressCount": {
+  "message": "{1} trên {2}"
+ },
+ "moveTo": {
+  "message": "Di chuyển tới"
+ },
+ "newFolderOption": {
+  "message": "Thư mục mới"
+ },
+ "folderName": {
+  "message": "Tên thư mục"
+ },
+ "emojiLabel": {
+  "message": "Emoji cho {1}"
+ },
+ "customEmoji": {
+  "message": "Emoji khác"
+ },
+ "reviewHint": {
+  "message": "Đã thử đọc trang web nhưng vẫn chưa đủ manh mối. Hãy mở để kiểm tra, rồi chọn một gợi ý hoặc kéo vào một thư mục. Nếu không, chúng sẽ được chuyển vào “Cần kiểm tra”, trong Dấu trang khác."
+ },
+ "barTitle": {
+  "message": "Thanh mới"
+ },
+ "iconOnly": {
+  "message": "chỉ biểu tượng"
+ },
+ "applying": {
+  "message": "Đang áp dụng thay đổi"
+ },
+ "doneTitle": {
+  "message": "Dấu trang của bạn đã được sắp xếp"
+ },
+ "doneSummary": {
+  "message": "Đã sắp xếp {1} dấu trang vào {2} thư mục."
+ },
+ "doneSkipped": {
+  "message": "Đã bỏ qua {1} mục vì chúng đã thay đổi trong lúc đó. Không có gì bị mất: bản gốc nằm trong bản sao lưu."
+ },
+ "undone": {
+  "message": "Lần sắp xếp gần nhất đã được hoàn tác."
+ },
+ "undoSkipped": {
+  "message": "{1} mục được giữ nguyên theo thay đổi của bạn."
+ },
+ "changedBanner": {
+  "message": "Dấu trang của bạn đã thay đổi trong trình duyệt khi bạn đang xem lại bản đề xuất."
+ },
+ "refresh": {
+  "message": "Làm mới bản đề xuất"
+ },
+ "errorTitle": {
+  "message": "Đã xảy ra lỗi"
+ },
+ "errorModel": {
+  "message": "Không tải được mô hình. Nếu bạn tự build tiện ích này, hãy chạy “pnpm fetch-model” rồi build lại."
+ },
+ "retry": {
+  "message": "Thử lại"
+ },
+ "emptyTitle": {
+  "message": "Không có gì để sắp xếp"
+ },
+ "emptyHint": {
+  "message": "Không có dấu trang nào trong các thư mục đã chọn. Hãy chọn thư mục khác."
+ },
+ "reasonHomeService": {
+  "message": "Dịch vụ tự host tại nhà (địa chỉ cục bộ hoặc tên miền riêng)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Hướng dẫn về {1} (tự host)"
+ },
+ "reasonNewGroup": {
+  "message": "{1} dấu trang về chủ đề này"
+ },
+ "reasonUser": {
+  "message": "Lựa chọn của bạn"
+ },
+ "reviewVague": {
+  "message": "Tiêu đề chung chung và địa chỉ không rõ ràng: không thể biết trang có nội dung gì."
+ },
+ "settingsDefaults": {
+  "message": "Lựa chọn mặc định"
+ },
+ "settingsHistoryOn": {
+  "message": "Được phép"
+ },
+ "settingsHistoryOff": {
+  "message": "Không được phép"
+ },
+ "settingsNames": {
+  "message": "Dấu trang chỉ hiện biểu tượng"
+ },
+ "settingsNamesCount": {
+  "message": "{1} dấu trang hiển thị dạng biểu tượng"
+ },
+ "restoreNames": {
+  "message": "Hiện lại tất cả tên"
+ },
+ "namesRestored": {
+  "message": "Đã hiện lại {1} tên."
+ },
+ "settingsData": {
+  "message": "Dữ liệu"
+ },
+ "clearCache": {
+  "message": "Bộ nhớ đệm phân tích"
+ },
+ "cacheCleared": {
+  "message": "Đã xoá bộ nhớ đệm."
+ },
+ "settingsAbout": {
+  "message": "Giới thiệu"
+ },
+ "aboutModel": {
+  "message": "Mô hình: {1}, chạy cục bộ."
+ },
+ "saved": {
+  "message": "Đã lưu"
+ },
+ "unnamed": {
+  "message": "(không có tên)"
+ },
+ "barFolder": {
+  "message": "Thanh dấu trang"
+ },
+ "otherFolder": {
+  "message": "Dấu trang khác"
+ },
+ "lang": {
+  "message": "vi"
+ },
+ "interruptedTitle": {
+  "message": "Lần sắp xếp gần nhất bị gián đoạn"
+ },
+ "interruptedHint": {
+  "message": "Trình duyệt đã đóng khi đang áp dụng thay đổi. Hãy hoàn tác những gì đã làm, hoặc giữ nguyên như hiện tại."
+ },
+ "interruptedUndo": {
+  "message": "Hoàn tác những gì đã làm"
+ },
+ "interruptedKeep": {
+  "message": "Giữ các thay đổi này"
+ },
+ "errorUnresolved": {
+  "message": "Lần sắp xếp gần nhất bị gián đoạn. Hãy hoàn tác hoặc giữ lại trước khi sắp xếp lần nữa."
+ },
+ "changedBlocked": {
+  "message": "Hãy làm mới bản đề xuất trước: dấu trang của bạn đã thay đổi."
+ },
+ "startCountNone": {
+  "message": "Không có dấu trang nào để sắp xếp"
+ },
+ "finish": {
+  "message": "Xong"
+ },
+ "sourceMeta": {
+  "message": "{1} dấu trang"
+ },
+ "destinations": {
+  "message": "Thư mục được đề xuất"
+ },
+ "proposal": {
+  "message": "Bản đề xuất"
+ },
+ "nodeReviewMeta": {
+  "message": "Chưa đủ manh mối"
+ },
+ "countLabel": {
+  "message": "{1} dấu trang"
+ },
+ "sheetClose": {
+  "message": "Đóng"
+ },
+ "emptyFolder": {
+  "message": "Trống. Hãy kéo dấu trang vào thư mục này trong sơ đồ."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Thư mục mới"
+ },
+ "create": {
+  "message": "Tạo"
+ },
+ "cancel": {
+  "message": "Huỷ"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Giữ tiêu đề gốc"
+ },
+ "useNewTitle": {
+  "message": "Dùng tiêu đề gọn hơn"
+ },
+ "noEmoji": {
+  "message": "Không có emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Nhấp để chỉ hiện biểu tượng"
+ },
+ "showName": {
+  "message": "nhấp để hiện tên"
+ },
+ "nothingYet": {
+  "message": "Chưa có gì thay đổi"
+ },
+ "restoreProposal": {
+  "message": "Khôi phục bản đề xuất"
+ },
+ "applyRegion": {
+  "message": "Áp dụng các thay đổi"
+ },
+ "announceMoved": {
+  "message": "Đã chuyển “{1}” tới {2}"
+ },
+ "back": {
+  "message": "Quay lại"
+ },
+ "clear": {
+  "message": "Xoá"
+ },
+ "footerSync": {
+  "message": "Các thay đổi cũng áp dụng cho những thiết bị khác mà bạn đã đăng nhập."
+ },
+ "barHint": {
+  "message": "Nhấp vào một dấu trang để ẩn hoặc hiện tên"
+ },
+ "applyCount": {
+  "message": "Sắp xếp {1} dấu trang"
+ },
+ "applyOne": {
+  "message": "Sắp xếp 1 dấu trang"
+ },
+ "scopeLabel": {
+  "message": "Thư mục cần sắp xếp"
+ },
+ "barScopeHint": {
+  "message": "Gồm cả lối tắt: những lối tắt dùng nhiều nhất sẽ quay lại trước"
+ },
+ "showSubfolders": {
+  "message": "Hiện các thư mục của {1}"
+ },
+ "destinationLabel": {
+  "message": "Sắp xếp vào"
+ },
+ "moreOptions": {
+  "message": "Tuỳ chọn khác"
+ },
+ "sumReadSites": {
+  "message": "đọc trang web"
+ },
+ "sumCheckDead": {
+  "message": "trang web chết"
+ },
+ "sumHistory": {
+  "message": "nhật ký duyệt web"
+ },
+ "optReadSites": {
+  "message": "Đọc trang web khi tiêu đề chưa đủ"
+ },
+ "optReadSitesHint": {
+  "message": "Chậm hơn nhưng chính xác hơn. Chrome sẽ hỏi quyền truy cập trang web một lần."
+ },
+ "optCheckDead": {
+  "message": "Tìm các trang web không còn phản hồi"
+ },
+ "optCheckDeadHint": {
+  "message": "Chúng được tách riêng vào “Trang web không truy cập được”."
+ },
+ "optFolderStyleHint": {
+  "message": "Thư mục con giữ nguyên tên."
+ },
+ "analyzeCount": {
+  "message": "Phân tích {1} dấu trang"
+ },
+ "analyzeOne": {
+  "message": "Phân tích 1 dấu trang"
+ },
+ "privacyTitle": {
+  "message": "Không có dữ liệu nào rời khỏi máy tính này"
+ },
+ "privacyBody": {
+  "message": "AI chạy ngay tại đây, không cần tài khoản hay máy chủ. Để hiểu một trang web, Nidomark mở trang đó như trình duyệt của bạn, không dùng cookie và không gửi gì khác."
+ },
+ "phaseSites": {
+  "message": "Đang đọc trang web"
+ },
+ "phasePages": {
+  "message": "Đang phân tích trang"
+ },
+ "sitesNote": {
+  "message": "Nhiều trang web cùng lúc. Không có gì được gửi đi, các trang chỉ được đọc."
+ },
+ "sitesAllowed": {
+  "message": "Đã cấp quyền truy cập trang web"
+ },
+ "sitesAsked": {
+  "message": "Chrome sẽ hỏi quyền truy cập trang web ở lần phân tích tới"
+ },
+ "backupsTitle": {
+  "message": "Bản sao lưu"
+ },
+ "backupsNone": {
+  "message": "Không có bản sao lưu"
+ },
+ "backupCount": {
+  "message": "{1} dấu trang"
+ },
+ "backupDelete": {
+  "message": "Xoá"
+ },
+ "backupDeleteTitle": {
+  "message": "Xoá bản sao lưu này?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” và mọi nội dung bên trong sẽ bị xoá vĩnh viễn. Các dấu trang đã sắp xếp của bạn không bị di chuyển, nhưng lần sắp xếp đã tạo ra bản sao lưu này sẽ không thể hoàn tác được nữa."
+ },
+ "backupDeleted": {
+  "message": "Đã xoá bản sao lưu."
+ },
+ "backupTitle": {
+  "message": "Nidomark – bản sao lưu lúc {1}"
+ },
+ "clearCacheHint": {
+  "message": "Bộ nhớ đệm giúp các lần phân tích sau nhanh hơn và chỉ nằm trên máy tính này."
+ },
+ "sourceAll": {
+  "message": "Dấu trang của bạn"
+ },
+ "reasonKnownSite": {
+  "message": "Trang web quen thuộc ({1})"
+ },
+ "reasonPattern": {
+  "message": "Địa chỉ đặc trưng ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Tiêu đề nhạy cảm"
+ },
+ "reasonAdultPage": {
+  "message": "Trang tự khai báo có nội dung người lớn"
+ },
+ "reasonPage": {
+  "message": "Theo trang: “{1}”"
+ },
+ "reasonModel": {
+  "message": "Giống “{1}”"
+ },
+ "reasonPlatform": {
+  "message": "Đăng trên {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Về {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Bạn thường xếp {1} vào “{2}”"
+ },
+ "reasonKeptFolder": {
+  "message": "Thư mục “{1}” của bạn, được tạo lại nguyên trạng"
+ },
+ "reasonNewCategory": {
+  "message": "{1} dấu trang thuộc danh mục này"
+ },
+ "deadNetwork": {
+  "message": "Không còn phản hồi: không tìm thấy trang web"
+ },
+ "deadTimeout": {
+  "message": "Không còn phản hồi: hết thời gian chờ"
+ },
+ "deadGone": {
+  "message": "Trang đã bị xoá ({1})"
+ },
+ "deadServer": {
+  "message": "Lỗi máy chủ ({1})"
+ },
+ "deadParked": {
+  "message": "Tên miền bị bỏ hoặc đang rao bán"
+ },
+ "reviewUnclear": {
+  "message": "Tiêu đề và địa chỉ không cho thấy chủ đề rõ ràng"
+ },
+ "reviewUnclearPage": {
+  "message": "Đã đọc trang, không có chủ đề rõ ràng"
+ },
+ "reviewBlocked": {
+  "message": "Trang web từ chối cho đọc ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Tiêu đề mơ hồ; hãy cho phép đọc trang web để biết thêm"
+ },
+ "nodeDupes": {
+  "message": "Trùng lặp"
+ },
+ "nodeDupesMeta": {
+  "message": "Không tạo lại, giữ trong bản sao lưu"
+ },
+ "dupesHint": {
+  "message": "Những trang này đã có ở nơi khác: chỉ một bản được tạo lại. Các bản này vẫn nằm trong bản sao lưu."
+ },
+ "keepAllDupes": {
+  "message": "Giữ tất cả"
+ },
+ "reasonDuplicate": {
+  "message": "Trùng với “{1}” ({2})"
+ },
+ "optDupes": {
+  "message": "Mỗi trang chỉ giữ một bản"
+ },
+ "optDupesHint": {
+  "message": "Dấu trang trùng lặp không được tạo lại; chúng vẫn nằm trong bản sao lưu."
+ },
+ "sumDupes": {
+  "message": "trùng lặp"
+ },
+ "openSite": {
+  "message": "Mở {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Chưa đủ manh mối. “Phân tích lại” sẽ kiểm tra trang web của chúng; bạn cũng có thể mở ra để kiểm tra. Nếu không, chúng sẽ được chuyển vào “Cần kiểm tra”."
+ },
+ "archiveNote": {
+  "message": "Cây thư mục hiện tại của bạn được giữ nguyên trong một bản sao lưu có ghi ngày, trong Dấu trang khác. Chỉ cần một lần nhấp để hoàn tác."
+ },
+ "barSheetHint": {
+  "message": "Những trang web bạn mở nhiều nhất, dạng biểu tượng ở đầu thanh. Trong bản xem trước, hãy nhấp vào một biểu tượng để hiện tên."
+ },
+ "doneArchive": {
+  "message": "Cây thư mục trước đây của bạn nằm trong “{1}”, trong Dấu trang khác."
+ },
+ "nodeBar": {
+  "message": "Truy cập nhanh"
+ },
+ "nodeBarMeta": {
+  "message": "Biểu tượng ở đầu thanh"
+ },
+ "notRecreated": {
+  "message": "Không tạo lại"
+ },
+ "optQuickAccess": {
+  "message": "Truy cập nhanh"
+ },
+ "optQuickAccessHint": {
+  "message": "Các trang web hay truy cập nhất, dạng biểu tượng ở đầu thanh"
+ },
+ "quickNone": {
+  "message": "Không có"
+ },
+ "reasonBarShortcut": {
+  "message": "Đã có trong thanh dấu trang của bạn"
+ },
+ "reasonBarTool": {
+  "message": "Công cụ trên thanh (bookmarklet hoặc trang của trình duyệt)"
+ },
+ "reasonFacet": {
+  "message": "{1} dấu trang từ cùng trang web hoặc cùng chủ đề"
+ },
+ "reasonLearned": {
+  "message": "Bạn đã xếp dấu trang này vào “{1}”"
+ },
+ "reasonMyFolders": {
+  "message": "Các thư mục của bạn có nhiều chủ đề lẫn lộn"
+ },
+ "reasonQuickAccess": {
+  "message": "Một trong những trang web bạn mở nhiều nhất"
+ },
+ "reasonReviewFolder": {
+  "message": "Chưa đủ manh mối để sắp xếp"
+ },
+ "reasonSpecial": {
+  "message": "Liên kết không phải trang web (bookmarklet, trang của trình duyệt, tệp)"
+ },
+ "leaveTitle": {
+  "message": "Bỏ bản đề xuất này?"
+ },
+ "leaveBody": {
+  "message": "Dấu trang của bạn chưa bị thay đổi. Để sắp xếp, bạn sẽ cần chạy lại bước phân tích."
+ },
+ "leaveConfirm": {
+  "message": "Bỏ bản đề xuất"
+ },
+ "acceptAll": {
+  "message": "Xếp tất cả theo gợi ý ({1})"
+ },
+ "acceptedAll": {
+  "message": "Đã xếp theo gợi ý: {1}"
+ },
+ "atTopOf": {
+  "message": "Ngay trong {1}"
+ },
+ "deleteFolder": {
+  "message": "Xoá"
+ },
+ "deleteFolderTitle": {
+  "message": "Xoá “{1}”?"
+ },
+ "deleteFolderBody": {
+  "message": "Dấu trang bên trong: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Dấu trang bên trong: {1} · thư mục con: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Giữ nội dung bên trong"
+ },
+ "deleteKeepHint": {
+  "message": "Dấu trang và thư mục con bên trong sẽ được chuyển lên “{1}”."
+ },
+ "deleteWithContent": {
+  "message": "Xoá cả nội dung bên trong"
+ },
+ "deleteWithContentHint": {
+  "message": "Các dấu trang bên trong không được tạo lại: chúng vẫn nằm trong bản sao lưu."
+ },
+ "displayInBrowser": {
+  "message": "Hiển thị"
+ },
+ "dropAtTop": {
+  "message": "Thả vào đây, ở cấp cao nhất"
+ },
+ "editUndone": {
+  "message": "Đã hoàn tác thay đổi"
+ },
+ "fileIn": {
+  "message": "Xếp vào {1}"
+ },
+ "foldFolder": {
+  "message": "Thu gọn {1}"
+ },
+ "unfoldFolder": {
+  "message": "Mở rộng {1}"
+ },
+ "folderCreated": {
+  "message": "Đã tạo thư mục “{1}”"
+ },
+ "folderDeleted": {
+  "message": "Đã xoá “{1}”: nội dung bên trong được chuyển lên trên"
+ },
+ "folderDeletedAll": {
+  "message": "Đã xoá “{1}” và toàn bộ nội dung bên trong"
+ },
+ "folderMoved": {
+  "message": "Đã chuyển “{1}” tới {2}"
+ },
+ "folderPlace": {
+  "message": "Vị trí"
+ },
+ "iconOnlyItem": {
+  "message": "Chỉ biểu tượng"
+ },
+ "keepDupe": {
+  "message": "Giữ bản này"
+ },
+ "looseHint": {
+  "message": "Dấu trang nằm ngay trong {1}, không thuộc thư mục nào."
+ },
+ "moveFolder": {
+  "message": "Di chuyển"
+ },
+ "moveFolderTo": {
+  "message": "Di chuyển “{1}” tới"
+ },
+ "moveToEllipsis": {
+  "message": "Di chuyển tới…"
+ },
+ "newShort": {
+  "message": "mới"
+ },
+ "newSubfolder": {
+  "message": "Thư mục con mới"
+ },
+ "nodeLoose": {
+  "message": "Ngoài thư mục"
+ },
+ "nodeLooseMeta": {
+  "message": "Ngay trong thư mục gốc"
+ },
+ "nodeRemoved": {
+  "message": "Đã loại bỏ"
+ },
+ "nodeRemovedMeta": {
+  "message": "Không tạo lại, giữ trong bản sao lưu"
+ },
+ "openFolder": {
+  "message": "mở thư mục"
+ },
+ "openPage": {
+  "message": "Mở trang"
+ },
+ "proposalRestored": {
+  "message": "Đã khôi phục bản đề xuất"
+ },
+ "reanalyze": {
+  "message": "Phân tích lại"
+ },
+ "reanalyzeFailed": {
+  "message": "Phân tích lại không thành công: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "Đã phân tích lại “{2}” · đã di chuyển: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Không có gì để phân tích lại trong “{1}”: bạn đã tự sắp xếp các dấu trang trong đó."
+ },
+ "reanalyzedSame": {
+  "message": "Đã phân tích lại “{1}”: không có thay đổi"
+ },
+ "reanalyzing": {
+  "message": "Đang phân tích lại “{1}”"
+ },
+ "reasonSameSite": {
+  "message": "Giống {1} dấu trang khác của {2}"
+ },
+ "removeBookmark": {
+  "message": "Loại bỏ"
+ },
+ "removedHint": {
+  "message": "Những dấu trang này không được tạo lại. Chúng vẫn nằm trong bản sao lưu: hãy khôi phục tại đây, hoặc kéo vào một thư mục."
+ },
+ "removedOne": {
+  "message": "“{1}” sẽ không được tạo lại (vẫn nằm trong bản sao lưu)"
+ },
+ "rename": {
+  "message": "Đổi tên"
+ },
+ "renameLabel": {
+  "message": "Tên mới cho {1}"
+ },
+ "renamedTo": {
+  "message": "Đã đổi tên thành “{1}”"
+ },
+ "restore": {
+  "message": "Khôi phục"
+ },
+ "restoreAll": {
+  "message": "Khôi phục tất cả"
+ },
+ "restoredCount": {
+  "message": "Đã khôi phục: {1}"
+ },
+ "restoredOne": {
+  "message": "Đã khôi phục dấu trang"
+ },
+ "rowActions": {
+  "message": "Thao tác cho {1}"
+ },
+ "subfolders": {
+  "message": "Thư mục con"
+ },
+ "suggestionsFor": {
+  "message": "Gợi ý cho {1}"
+ },
+ "undoEdit": {
+  "message": "Hoàn tác"
+ },
+ "undoEditHint": {
+  "message": "Hoàn tác thay đổi gần nhất (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Đã có trong dấu trang của bạn"
+ },
+ "existingFolderHint": {
+  "message": "Thư mục của một lần sắp xếp trước: dấu trang mới được thêm vào thư mục này, còn tên và vị trí vẫn giữ nguyên."
+ }
+}

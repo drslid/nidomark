@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Сортировка закладок"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Небольшой локальный ИИ раскладывает закладки по понятным папкам с эмодзи, на панели — только значки. Приватно, офлайн, бесплатно."
+ },
+ "actionTitle": {
+  "message": "Навести порядок в закладках"
+ },
+ "tabSettings": {
+  "message": "Настройки"
+ },
+ "startTitle": {
+  "message": "Наведите порядок в закладках"
+ },
+ "startLead": {
+  "message": "Небольшой ИИ на этом компьютере воссоздаёт все ваши закладки в понятных папках. Вы проверяете, а затем подтверждаете."
+ },
+ "optHistory": {
+  "message": "Ставить самые посещаемые сайты первыми"
+ },
+ "optHistoryHint": {
+  "message": "Подсчитывает посещения каждого сайта и читает уже сохранённые заголовки на этом компьютере. Ничего не отправляется."
+ },
+ "optFolderStyle": {
+  "message": "Названия папок"
+ },
+ "styleEmojiName": {
+  "message": "Эмодзи + название"
+ },
+ "styleName": {
+  "message": "Название"
+ },
+ "styleEmoji": {
+  "message": "Эмодзи"
+ },
+ "optIconOnly": {
+  "message": "Панель закладок в виде значков"
+ },
+ "optIconOnlyHint": {
+  "message": "Предлагается по умолчанию, названия можно снова показать"
+ },
+ "analyze": {
+  "message": "Проанализировать закладки"
+ },
+ "lastRun": {
+  "message": "Последняя сортировка: {1}"
+ },
+ "undoLast": {
+  "message": "Отменить"
+ },
+ "phaseReading": {
+  "message": "Чтение закладок"
+ },
+ "phaseLoading": {
+  "message": "Загрузка модели"
+ },
+ "phaseEmbedding": {
+  "message": "Изучение каждой закладки"
+ },
+ "phaseGrouping": {
+  "message": "Формирование папок"
+ },
+ "progressCount": {
+  "message": "{1} из {2}"
+ },
+ "moveTo": {
+  "message": "Переместить в"
+ },
+ "newFolderOption": {
+  "message": "Новая папка"
+ },
+ "folderName": {
+  "message": "Название папки"
+ },
+ "emojiLabel": {
+  "message": "Эмодзи для папки «{1}»"
+ },
+ "customEmoji": {
+  "message": "Другое эмодзи"
+ },
+ "reviewHint": {
+  "message": "Сайты проверены, но данных недостаточно. Откройте закладки и посмотрите сами, затем выберите предложенную папку или перетащите их на нужную папку. Иначе они окажутся в папке «Проверить» внутри папки «Другие закладки»."
+ },
+ "barTitle": {
+  "message": "Новая панель"
+ },
+ "iconOnly": {
+  "message": "только значок"
+ },
+ "applying": {
+  "message": "Применение изменений"
+ },
+ "doneTitle": {
+  "message": "Закладки разложены по папкам"
+ },
+ "doneSummary": {
+  "message": "Разложено закладок: {1}. Папок: {2}."
+ },
+ "doneSkipped": {
+  "message": "Пропущено элементов: {1}, так как за это время они изменились. Ничего не потеряно: оригиналы есть в резервной копии."
+ },
+ "undone": {
+  "message": "Последняя сортировка отменена."
+ },
+ "undoSkipped": {
+  "message": "Элементы, которые вы изменили, оставлены как есть: {1}."
+ },
+ "changedBanner": {
+  "message": "Во время проверки закладки в браузере изменились."
+ },
+ "refresh": {
+  "message": "Обновить предложение"
+ },
+ "errorTitle": {
+  "message": "Что-то пошло не так"
+ },
+ "errorModel": {
+  "message": "Не удалось загрузить модель. Если вы собрали расширение сами, выполните «pnpm fetch-model» и соберите его снова."
+ },
+ "retry": {
+  "message": "Повторить попытку"
+ },
+ "emptyTitle": {
+  "message": "Нечего сортировать"
+ },
+ "emptyHint": {
+  "message": "В выбранных папках нет закладок. Выберите другие папки."
+ },
+ "reasonHomeService": {
+  "message": "Сервис, размещённый дома (локальный адрес или личный домен)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Руководство по {1} (селфхостинг)"
+ },
+ "reasonNewGroup": {
+  "message": "Закладки на эту тему: {1}"
+ },
+ "reasonUser": {
+  "message": "Ваш выбор"
+ },
+ "reviewVague": {
+  "message": "Общий заголовок и неинформативный адрес: невозможно понять, что на странице."
+ },
+ "settingsDefaults": {
+  "message": "Параметры по умолчанию"
+ },
+ "settingsHistoryOn": {
+  "message": "Разрешено"
+ },
+ "settingsHistoryOff": {
+  "message": "Не разрешено"
+ },
+ "settingsNames": {
+  "message": "Закладки только со значком"
+ },
+ "settingsNamesCount": {
+  "message": "Закладки в виде значков: {1}"
+ },
+ "restoreNames": {
+  "message": "Снова показать все названия"
+ },
+ "namesRestored": {
+  "message": "Названия снова показаны: {1}."
+ },
+ "settingsData": {
+  "message": "Данные"
+ },
+ "clearCache": {
+  "message": "Кеш анализа"
+ },
+ "cacheCleared": {
+  "message": "Кеш очищен."
+ },
+ "settingsAbout": {
+  "message": "О расширении"
+ },
+ "aboutModel": {
+  "message": "Модель: {1}, работает локально."
+ },
+ "saved": {
+  "message": "Сохранено"
+ },
+ "unnamed": {
+  "message": "(без названия)"
+ },
+ "barFolder": {
+  "message": "Панель закладок"
+ },
+ "otherFolder": {
+  "message": "Другие закладки"
+ },
+ "lang": {
+  "message": "ru"
+ },
+ "interruptedTitle": {
+  "message": "Последняя сортировка прервана"
+ },
+ "interruptedHint": {
+  "message": "Браузер закрылся во время применения изменений. Отмените то, что уже сделано, или оставьте всё как есть."
+ },
+ "interruptedUndo": {
+  "message": "Отменить сделанное"
+ },
+ "interruptedKeep": {
+  "message": "Оставить изменения"
+ },
+ "errorUnresolved": {
+  "message": "Последняя сортировка прервана. Отмените её или оставьте как есть, прежде чем сортировать снова."
+ },
+ "changedBlocked": {
+  "message": "Сначала обновите предложение: закладки изменились."
+ },
+ "startCountNone": {
+  "message": "Нет закладок для сортировки"
+ },
+ "finish": {
+  "message": "Готово"
+ },
+ "sourceMeta": {
+  "message": "Закладки: {1}"
+ },
+ "destinations": {
+  "message": "Предлагаемые папки"
+ },
+ "proposal": {
+  "message": "Предложение"
+ },
+ "nodeReviewMeta": {
+  "message": "Недостаточно данных"
+ },
+ "countLabel": {
+  "message": "Закладки: {1}"
+ },
+ "sheetClose": {
+  "message": "Закрыть"
+ },
+ "emptyFolder": {
+  "message": "Пусто. Перетащите закладки на эту папку на схеме."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Новая папка"
+ },
+ "create": {
+  "message": "Создать"
+ },
+ "cancel": {
+  "message": "Отмена"
+ },
+ "ok": {
+  "message": "ОК"
+ },
+ "keepTitle": {
+  "message": "Оставить исходное название"
+ },
+ "useNewTitle": {
+  "message": "Использовать более понятное название"
+ },
+ "noEmoji": {
+  "message": "Без эмодзи"
+ },
+ "iconOnlyHint": {
+  "message": "Нажмите, чтобы оставить только значок"
+ },
+ "showName": {
+  "message": "нажмите, чтобы показать название"
+ },
+ "nothingYet": {
+  "message": "Пока ничего не изменено"
+ },
+ "restoreProposal": {
+  "message": "Восстановить предложение"
+ },
+ "applyRegion": {
+  "message": "Применить изменения"
+ },
+ "announceMoved": {
+  "message": "Закладка «{1}» перемещена в папку «{2}»"
+ },
+ "back": {
+  "message": "Назад"
+ },
+ "clear": {
+  "message": "Очистить"
+ },
+ "footerSync": {
+  "message": "Изменения также применятся на других ваших устройствах, где выполнен вход."
+ },
+ "barHint": {
+  "message": "Нажмите на закладку, чтобы скрыть или показать её название"
+ },
+ "applyCount": {
+  "message": "Разложить закладки ({1})"
+ },
+ "applyOne": {
+  "message": "Разложить 1 закладку"
+ },
+ "scopeLabel": {
+  "message": "Папки для сортировки"
+ },
+ "barScopeHint": {
+  "message": "Вместе с ярлыками: самые используемые снова окажутся в начале"
+ },
+ "showSubfolders": {
+  "message": "Показать вложенные папки: {1}"
+ },
+ "destinationLabel": {
+  "message": "Куда разложить"
+ },
+ "moreOptions": {
+  "message": "Дополнительные параметры"
+ },
+ "sumReadSites": {
+  "message": "чтение сайтов"
+ },
+ "sumCheckDead": {
+  "message": "нерабочие сайты"
+ },
+ "sumHistory": {
+  "message": "история"
+ },
+ "optReadSites": {
+  "message": "Читать сайты, если заголовка недостаточно"
+ },
+ "optReadSitesHint": {
+  "message": "Медленнее, но точнее. Chrome один раз запросит доступ к сайтам."
+ },
+ "optCheckDead": {
+  "message": "Находить сайты, которые больше не отвечают"
+ },
+ "optCheckDeadHint": {
+  "message": "Они попадут в отдельную папку «Недоступные сайты»."
+ },
+ "optFolderStyleHint": {
+  "message": "Вложенные папки сохраняют свои названия."
+ },
+ "analyzeCount": {
+  "message": "Проанализировать закладки ({1})"
+ },
+ "analyzeOne": {
+  "message": "Проанализировать 1 закладку"
+ },
+ "privacyTitle": {
+  "message": "Данные не покидают этот компьютер"
+ },
+ "privacyBody": {
+  "message": "ИИ работает здесь, без аккаунта и сервера. Чтобы понять, о чём сайт, Nidomark открывает его страницу так же, как ваш браузер, но без файлов cookie, и больше ничего не отправляет."
+ },
+ "phaseSites": {
+  "message": "Чтение сайтов"
+ },
+ "phasePages": {
+  "message": "Анализ страниц"
+ },
+ "sitesNote": {
+  "message": "Несколько сайтов одновременно. Ничего не отправляется, страницы только читаются."
+ },
+ "sitesAllowed": {
+  "message": "Доступ к сайтам предоставлен"
+ },
+ "sitesAsked": {
+  "message": "Chrome запросит доступ к сайтам при следующем анализе"
+ },
+ "backupsTitle": {
+  "message": "Резервные копии"
+ },
+ "backupsNone": {
+  "message": "Резервных копий нет"
+ },
+ "backupCount": {
+  "message": "Закладки: {1}"
+ },
+ "backupDelete": {
+  "message": "Удалить"
+ },
+ "backupDeleteTitle": {
+  "message": "Удалить эту резервную копию?"
+ },
+ "backupConfirm": {
+  "message": "Папка «{1}» и всё её содержимое будут удалены навсегда. Разложенные закладки останутся на месте, но сортировку, которая создала эту копию, больше нельзя будет отменить."
+ },
+ "backupDeleted": {
+  "message": "Резервная копия удалена."
+ },
+ "backupTitle": {
+  "message": "Nidomark – резервная копия от {1}"
+ },
+ "clearCacheHint": {
+  "message": "Кеш ускоряет следующие анализы и хранится только на этом компьютере."
+ },
+ "sourceAll": {
+  "message": "Ваши закладки"
+ },
+ "reasonKnownSite": {
+  "message": "Известный сайт ({1})"
+ },
+ "reasonPattern": {
+  "message": "Типичный адрес ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Откровенный заголовок"
+ },
+ "reasonAdultPage": {
+  "message": "Страница помечена как контент для взрослых"
+ },
+ "reasonPage": {
+  "message": "Со страницы: «{1}»"
+ },
+ "reasonModel": {
+  "message": "Похоже на «{1}»"
+ },
+ "reasonPlatform": {
+  "message": "Опубликовано на {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Тема: {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Вы помещаете {1} в папку «{2}»"
+ },
+ "reasonKeptFolder": {
+  "message": "Ваша папка «{1}», воссозданная как есть"
+ },
+ "reasonNewCategory": {
+  "message": "Закладки этой категории: {1}"
+ },
+ "deadNetwork": {
+  "message": "Не отвечает: сайт не найден"
+ },
+ "deadTimeout": {
+  "message": "Не отвечает: время ожидания истекло"
+ },
+ "deadGone": {
+  "message": "Страница удалена ({1})"
+ },
+ "deadServer": {
+  "message": "Ошибка сервера ({1})"
+ },
+ "deadParked": {
+  "message": "Домен заброшен или продаётся"
+ },
+ "reviewUnclear": {
+  "message": "По заголовку и адресу тема неясна"
+ },
+ "reviewUnclearPage": {
+  "message": "Страница прочитана, тема неясна"
+ },
+ "reviewBlocked": {
+  "message": "Сайт запрещает чтение ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Неясный заголовок. Разрешите чтение сайтов, чтобы узнать больше"
+ },
+ "nodeDupes": {
+  "message": "Дубликаты"
+ },
+ "nodeDupesMeta": {
+  "message": "Не воссоздаются, остаются в резервной копии"
+ },
+ "dupesHint": {
+  "message": "Эти страницы уже сохранены в другом месте, и для каждой воссоздаётся только одна закладка. Эти дубликаты остаются в резервной копии."
+ },
+ "keepAllDupes": {
+  "message": "Оставить все"
+ },
+ "reasonDuplicate": {
+  "message": "Дубликат закладки «{1}» ({2})"
+ },
+ "optDupes": {
+  "message": "Одна закладка на каждую страницу"
+ },
+ "optDupesHint": {
+  "message": "Дубликаты не воссоздаются и остаются в резервной копии."
+ },
+ "sumDupes": {
+  "message": "дубликаты"
+ },
+ "openSite": {
+  "message": "Открыть «{1}»"
+ },
+ "reviewHintUntested": {
+  "message": "Недостаточно данных. Кнопка «Повторить анализ» проверит их сайты, а ещё их можно открыть и посмотреть самим. Иначе они окажутся в папке «Проверить»."
+ },
+ "archiveNote": {
+  "message": "Текущая структура сохранится как есть в резервной копии с датой в папке «Другие закладки». Сортировку можно отменить одним нажатием."
+ },
+ "barSheetHint": {
+  "message": "Сайты, которые вы открываете чаще всего, в виде значков в начале панели. В предпросмотре нажмите на значок, чтобы показать его название."
+ },
+ "doneArchive": {
+  "message": "Прежняя структура находится в папке «{1}» внутри папки «Другие закладки»."
+ },
+ "nodeBar": {
+  "message": "Быстрый доступ"
+ },
+ "nodeBarMeta": {
+  "message": "Значки в начале панели"
+ },
+ "notRecreated": {
+  "message": "Не воссоздаются"
+ },
+ "optQuickAccess": {
+  "message": "Быстрый доступ"
+ },
+ "optQuickAccessHint": {
+  "message": "Самые посещаемые сайты в виде значков в начале панели"
+ },
+ "quickNone": {
+  "message": "Нет"
+ },
+ "reasonBarShortcut": {
+  "message": "Уже на панели закладок"
+ },
+ "reasonBarTool": {
+  "message": "Инструмент панели (букмарклет или страница браузера)"
+ },
+ "reasonFacet": {
+  "message": "Закладки с одного сайта или на одну тему: {1}"
+ },
+ "reasonLearned": {
+  "message": "Ранее вы поместили её в папку «{1}»"
+ },
+ "reasonMyFolders": {
+  "message": "Ваши папки, где смешано несколько тем"
+ },
+ "reasonQuickAccess": {
+  "message": "Один из сайтов, которые вы открываете чаще всего"
+ },
+ "reasonReviewFolder": {
+  "message": "Недостаточно данных, чтобы разложить их по папкам"
+ },
+ "reasonSpecial": {
+  "message": "Ссылка, которая не ведёт на веб-страницу (букмарклет, страница браузера, файл)"
+ },
+ "leaveTitle": {
+  "message": "Отказаться от этого предложения?"
+ },
+ "leaveBody": {
+  "message": "Ваши закладки не изменены. Чтобы разложить их, придётся снова запустить анализ."
+ },
+ "leaveConfirm": {
+  "message": "Отказаться"
+ },
+ "acceptAll": {
+  "message": "Разложить все как предложено ({1})"
+ },
+ "acceptedAll": {
+  "message": "Разложено как предложено: {1}"
+ },
+ "atTopOf": {
+  "message": "Прямо в папке «{1}»"
+ },
+ "deleteFolder": {
+  "message": "Удалить"
+ },
+ "deleteFolderTitle": {
+  "message": "Удалить папку «{1}»?"
+ },
+ "deleteFolderBody": {
+  "message": "Закладки внутри: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Закладки внутри: {1} · вложенные папки: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Сохранить содержимое"
+ },
+ "deleteKeepHint": {
+  "message": "Её закладки и вложенные папки переместятся на уровень выше, в папку «{1}»."
+ },
+ "deleteWithContent": {
+  "message": "Удалить вместе с содержимым"
+ },
+ "deleteWithContentHint": {
+  "message": "Её закладки не будут воссозданы и останутся в резервной копии."
+ },
+ "displayInBrowser": {
+  "message": "Отображение"
+ },
+ "dropAtTop": {
+  "message": "Перетащите сюда, на верхний уровень"
+ },
+ "editUndone": {
+  "message": "Изменение отменено"
+ },
+ "fileIn": {
+  "message": "Поместить в папку «{1}»"
+ },
+ "foldFolder": {
+  "message": "Свернуть «{1}»"
+ },
+ "unfoldFolder": {
+  "message": "Развернуть «{1}»"
+ },
+ "folderCreated": {
+  "message": "Папка «{1}» создана"
+ },
+ "folderDeleted": {
+  "message": "Папка «{1}» удалена, её содержимое перемещено на уровень выше"
+ },
+ "folderDeletedAll": {
+  "message": "Папка «{1}» удалена вместе с содержимым"
+ },
+ "folderMoved": {
+  "message": "Папка «{1}» перемещена в папку «{2}»"
+ },
+ "folderPlace": {
+  "message": "Расположение"
+ },
+ "iconOnlyItem": {
+  "message": "Только значок"
+ },
+ "keepDupe": {
+  "message": "Оставить этот дубликат"
+ },
+ "looseHint": {
+  "message": "Закладки прямо в папке «{1}», вне других папок."
+ },
+ "moveFolder": {
+  "message": "Переместить"
+ },
+ "moveFolderTo": {
+  "message": "Куда переместить папку «{1}»"
+ },
+ "moveToEllipsis": {
+  "message": "Переместить в…"
+ },
+ "newShort": {
+  "message": "новая"
+ },
+ "newSubfolder": {
+  "message": "Вложенная папка"
+ },
+ "nodeLoose": {
+  "message": "Без папки"
+ },
+ "nodeLooseMeta": {
+  "message": "Прямо в корневой папке"
+ },
+ "nodeRemoved": {
+  "message": "Удалённые"
+ },
+ "nodeRemovedMeta": {
+  "message": "Не воссоздаются, остаются в резервной копии"
+ },
+ "openFolder": {
+  "message": "открыть папку"
+ },
+ "openPage": {
+  "message": "Открыть страницу"
+ },
+ "proposalRestored": {
+  "message": "Предложение восстановлено"
+ },
+ "reanalyze": {
+  "message": "Повторить анализ"
+ },
+ "reanalyzeFailed": {
+  "message": "Не удалось повторить анализ: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "Папка «{2}» проанализирована повторно · перемещено: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "В папке «{1}» нечего анализировать повторно: вы сами разместили её закладки."
+ },
+ "reanalyzedSame": {
+  "message": "Папка «{1}» проанализирована повторно: без изменений"
+ },
+ "reanalyzing": {
+  "message": "Повторный анализ папки «{1}»"
+ },
+ "reasonSameSite": {
+  "message": "Как и другие закладки сайта {2} (ещё {1})"
+ },
+ "removeBookmark": {
+  "message": "Удалить"
+ },
+ "removedHint": {
+  "message": "Эти закладки не будут воссозданы. Они останутся в резервной копии: восстановите их здесь или перетащите на папку."
+ },
+ "removedOne": {
+  "message": "Закладка «{1}» не будет воссоздана (она останется в резервной копии)"
+ },
+ "rename": {
+  "message": "Переименовать"
+ },
+ "renameLabel": {
+  "message": "Новое название для «{1}»"
+ },
+ "renamedTo": {
+  "message": "Название изменено на «{1}»"
+ },
+ "restore": {
+  "message": "Восстановить"
+ },
+ "restoreAll": {
+  "message": "Восстановить все"
+ },
+ "restoredCount": {
+  "message": "Восстановлено: {1}"
+ },
+ "restoredOne": {
+  "message": "Закладка восстановлена"
+ },
+ "rowActions": {
+  "message": "Действия с закладкой «{1}»"
+ },
+ "subfolders": {
+  "message": "Вложенные папки"
+ },
+ "suggestionsFor": {
+  "message": "Предложенные папки для «{1}»"
+ },
+ "undoEdit": {
+  "message": "Отменить"
+ },
+ "undoEditHint": {
+  "message": "Отменить последнее изменение (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Уже есть в закладках"
+ },
+ "existingFolderHint": {
+  "message": "Папка из прошлой сортировки: новые закладки добавляются в неё, а её название и расположение не меняются."
+ }
+}

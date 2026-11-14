@@ -41,7 +41,8 @@ const SITES = {
   'ma-veille-mobile.example': { '/': [200, page('Accueil', 'Tests de smartphones Android et iPhone, actualité high-tech, comparatifs et bons plans tech.', '<h1>Les derniers tests</h1>')] },
   'vieux-blog.example': {},
   'domaine-a-vendre.example': { '/': [200, page('domaine-a-vendre.example', '', '<h1>This domain is for sale!</h1><p>Make an offer today.</p>')] },
-  'protege.example': { '/': [503, page('Just a moment...', '', '<h1>Checking your browser before accessing the site.</h1>')] },
+  // A site behind a bot check, on every page: only the user can tell what it is.
+  'protege.example': { '*': [503, page('Just a moment...', '', '<h1>Checking your browser before accessing the site.</h1>')] },
 };
 const BOOKMARKS = [
   { id: 'stream', title: 'Accueil', url: 'http://cinema-hub.example/' },
@@ -51,6 +52,7 @@ const BOOKMARKS = [
   { id: 'parked', title: 'Mon ancien site', url: 'http://domaine-a-vendre.example/' },
   { id: 'nowhere', title: 'Site disparu', url: 'http://nidomark-test-nulle-part.invalid/' },
   { id: 'protected', title: 'Accueil', url: 'http://protege.example/' },
+  { id: 'protected2', title: 'Accueil', url: 'http://protege.example/?page=2' },
 ];
 
 let active = 0;
@@ -63,7 +65,7 @@ const server = http.createServer((req, res) => {
   peak = Math.max(peak, active);
   setTimeout(() => {
     active--;
-    const [status, body] = SITES[host]?.[req.url] ?? [404, page('Page introuvable', '')];
+    const [status, body] = SITES[host]?.[req.url] ?? SITES[host]?.['*'] ?? [404, page('Page introuvable', '')];
     res.writeHead(status, { 'content-type': 'text/html; charset=utf-8' });
     res.end(body);
   }, 300);
@@ -102,16 +104,20 @@ try {
   await tab.waitForSelector('.actionbar [data-focus="apply"], .center[role="alert"]', { timeout: 300000 });
   if (await tab.$('.center[role="alert"]')) throw new Error(`analysis failed: ${await tab.$eval('.center[role="alert"]', (e) => e.textContent)}`);
 
-  // Where each bookmark goes: open every node and read its rows, under their subfolder when they have one.
-  const where = {};
-  for (const key of await tab.$$eval('.dests .node', (els) => els.map((n) => n.dataset.key))) {
-    await tab.click(`.dests .node[data-key="${key}"]`);
-    await tab.waitForSelector('.sheet');
-    const name = await tab.$eval(`.dests .node[data-key="${key}"] .name span`, (e) => e.textContent);
-    const rows = await tab.$$eval('.sheet .row', (els) => els.map((r) => ({ id: r.dataset.id, section: r.closest('.sec')?.getAttribute('aria-label') ?? null, why: r.querySelector('.why')?.textContent ?? '' })));
-    for (const row of rows) where[row.id] = { name: row.section ?? name, key, why: row.why };
-    await tab.keyboard.press('Escape');
-  }
+  // Where each bookmark goes: open every folder, subfolders included, and read its rows.
+  const locate = async () => {
+    const where = {};
+    for (const key of await tab.$$eval('.dests .node', (els) => els.map((n) => n.dataset.key))) {
+      await tab.click(`.dests .node[data-key="${key}"]`);
+      await tab.waitForSelector('.sheet');
+      const name = await tab.$eval(`.dests .node[data-key="${key}"] .name`, (e) => e.textContent);
+      const rows = await tab.$$eval('.sheet .row', (els) => els.map((r) => ({ id: r.dataset.id, why: r.querySelector('.why')?.textContent ?? '' })));
+      for (const row of rows) where[row.id] = { name, key, why: row.why };
+      await tab.keyboard.press('Escape');
+    }
+    return where;
+  };
+  let where = await locate();
   const at = (id) => where[ids[id]] ?? {};
   console.log(JSON.stringify(Object.fromEntries(BOOKMARKS.map((b) => [b.id, at(b.id)]))));
 
@@ -128,6 +134,26 @@ try {
   await tab.click('.dests .node[data-key="review"]');
   await tab.waitForSelector('.sheet .row a.icon-btn');
   assert((await tab.$eval('.sheet .row a.icon-btn', (a) => a.getAttribute('href'))) === 'http://protege.example/', 'a bookmark to check can be opened in a new tab');
+  assert(at('protected2').key === 'review', 'every page of a site behind a bot check waits in To check');
+
+  // The user files one page of that site; a new analysis of To check takes the other page of the site along.
+  const kitchen = await tab.$eval('.dests .node[data-key="n:c:cooking"]', (n) => n.dataset.key);
+  await tab.focus(`[data-focus="more-${ids.protected2}"]`);
+  await tab.keyboard.press('Enter');
+  await tab.waitForSelector('.menu button');
+  await tab.evaluate(() => [...document.querySelectorAll('.menu button')].find((b) => /^Déplacer vers…$/.test(b.textContent.trim()))?.click());
+  await tab.waitForSelector('.menu button.nested, .menu button');
+  await tab.evaluate(() => [...document.querySelectorAll('.menu button')].find((b) => /^\S*\s*Cuisine$/.test(b.textContent.trim()))?.click());
+  await tab.waitForFunction((id) => !document.querySelector(`.sheet .row[data-id="${id}"]`), {}, ids.protected2);
+  const requests = seen.length;
+  await tab.click('[data-focus="tool-reanalyze"]');
+  // Nothing is left to read here: the new analysis takes a moment, then says what it moved.
+  await tab.waitForFunction(() => !document.querySelector('.busy-strip') && /réanalysé/.test(document.querySelector('.snackbar')?.textContent ?? ''), { timeout: 300000 });
+  const snack = await tab.$eval('.snackbar', (e) => e.textContent);
+  console.log('after the new analysis:', snack);
+  where = await locate();
+  assert(at('protected').key === kitchen && /protege\.example/.test(at('protected').why), `a new analysis follows what the user taught during the review (${JSON.stringify(at('protected'))})`);
+  assert(seen.length === requests, 'pages already read are not read again');
   assert(errors.length === 0, `no page error (${errors.join(' | ')})`);
   console.log('SITES E2E OK');
 } finally {

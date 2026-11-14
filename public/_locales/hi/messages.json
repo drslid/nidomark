@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – बुकमार्क ऑर्गनाइज़र"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "छोटा लोकल एआई आपके बुकमार्क साफ़-सुथरे फ़ोल्डर में व्यवस्थित करता है, इमोजी और सिर्फ़ आइकॉन वाले बार के साथ. निजी, ऑफ़लाइन, मुफ़्त."
+ },
+ "actionTitle": {
+  "message": "मेरे बुकमार्क व्यवस्थित करें"
+ },
+ "tabSettings": {
+  "message": "सेटिंग"
+ },
+ "startTitle": {
+  "message": "अपने बुकमार्क व्यवस्थित करें"
+ },
+ "startLead": {
+  "message": "इस कंप्यूटर पर चलने वाला एक छोटा एआई आपके सभी बुकमार्क को साफ़-सुथरे फ़ोल्डर में फिर से बनाता है. आप जांच करते हैं, फिर पुष्टि करते हैं."
+ },
+ "optHistory": {
+  "message": "सबसे ज़्यादा देखी गई साइटें पहले रखें"
+ },
+ "optHistoryHint": {
+  "message": "हर साइट की विज़िट गिनता है और पहले से सेव किए गए टाइटल पढ़ता है, वह भी इसी कंप्यूटर पर. कुछ भी भेजा नहीं जाता."
+ },
+ "optFolderStyle": {
+  "message": "फ़ोल्डर के नाम"
+ },
+ "styleEmojiName": {
+  "message": "इमोजी + नाम"
+ },
+ "styleName": {
+  "message": "सिर्फ़ नाम"
+ },
+ "styleEmoji": {
+  "message": "सिर्फ़ इमोजी"
+ },
+ "optIconOnly": {
+  "message": "बुकमार्क बार में सिर्फ़ आइकॉन"
+ },
+ "optIconOnlyHint": {
+  "message": "डिफ़ॉल्ट रूप से प्रस्ताव में शामिल; नाम फिर से दिखाए जा सकते हैं"
+ },
+ "analyze": {
+  "message": "मेरे बुकमार्क का विश्लेषण करें"
+ },
+ "lastRun": {
+  "message": "पिछली बार व्यवस्थित किया गया: {1}"
+ },
+ "undoLast": {
+  "message": "पहले जैसा करें"
+ },
+ "phaseReading": {
+  "message": "आपके बुकमार्क पढ़े जा रहे हैं"
+ },
+ "phaseLoading": {
+  "message": "मॉडल लोड हो रहा है"
+ },
+ "phaseEmbedding": {
+  "message": "हर बुकमार्क को समझा जा रहा है"
+ },
+ "phaseGrouping": {
+  "message": "फ़ोल्डर बनाए जा रहे हैं"
+ },
+ "progressCount": {
+  "message": "{2} में से {1}"
+ },
+ "moveTo": {
+  "message": "इसमें ले जाएं"
+ },
+ "newFolderOption": {
+  "message": "नया फ़ोल्डर"
+ },
+ "folderName": {
+  "message": "फ़ोल्डर का नाम"
+ },
+ "emojiLabel": {
+  "message": "{1} के लिए इमोजी"
+ },
+ "customEmoji": {
+  "message": "दूसरा इमोजी"
+ },
+ "reviewHint": {
+  "message": "जांच की गई, लेकिन काफ़ी जानकारी नहीं मिली. इन्हें खोलकर देखें, फिर कोई सुझाव चुनें या इन्हें खींचकर किसी फ़ोल्डर पर छोड़ें. नहीं तो ये अन्य बुकमार्क के “जांच के लिए” फ़ोल्डर में चले जाएंगे."
+ },
+ "barTitle": {
+  "message": "नया बार"
+ },
+ "iconOnly": {
+  "message": "सिर्फ़ आइकॉन"
+ },
+ "applying": {
+  "message": "बदलाव लागू किए जा रहे हैं"
+ },
+ "doneTitle": {
+  "message": "आपके बुकमार्क व्यवस्थित हो गए हैं"
+ },
+ "doneSummary": {
+  "message": "{1} बुकमार्क को {2} फ़ोल्डर में व्यवस्थित किया गया."
+ },
+ "doneSkipped": {
+  "message": "इस बीच बदल जाने की वजह से {1} आइटम को छोड़ दिया गया. कुछ भी नहीं खोया है: मूल आइटम बैकअप में हैं."
+ },
+ "undone": {
+  "message": "आपके बुकमार्क पहले जैसे कर दिए गए हैं."
+ },
+ "undoSkipped": {
+  "message": "{1} आइटम को आपके किए गए बदलावों के साथ ही रहने दिया गया."
+ },
+ "changedBanner": {
+  "message": "समीक्षा के दौरान ब्राउज़र में आपके बुकमार्क बदल गए."
+ },
+ "refresh": {
+  "message": "प्रस्ताव रीफ़्रेश करें"
+ },
+ "errorTitle": {
+  "message": "कुछ गलत हुआ"
+ },
+ "errorModel": {
+  "message": "मॉडल लोड नहीं हो सका. अगर आपने एक्सटेंशन खुद बिल्ड किया है, तो “pnpm fetch-model” चलाएं और फिर से बिल्ड करें."
+ },
+ "retry": {
+  "message": "फिर से कोशिश करें"
+ },
+ "emptyTitle": {
+  "message": "व्यवस्थित करने के लिए कुछ नहीं है"
+ },
+ "emptyHint": {
+  "message": "चुने गए फ़ोल्डर में कोई बुकमार्क नहीं है. दूसरे फ़ोल्डर चुनें."
+ },
+ "reasonHomeService": {
+  "message": "घर पर होस्ट की गई सेवा (लोकल पता या निजी डोमेन)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "{1} के बारे में गाइड (सेल्फ़-होस्टिंग)"
+ },
+ "reasonNewGroup": {
+  "message": "इस विषय के {1} बुकमार्क"
+ },
+ "reasonUser": {
+  "message": "आपकी पसंद"
+ },
+ "reviewVague": {
+  "message": "सामान्य टाइटल और अस्पष्ट पता: यह जानना मुमकिन नहीं कि पेज में क्या है."
+ },
+ "settingsDefaults": {
+  "message": "डिफ़ॉल्ट विकल्प"
+ },
+ "settingsHistoryOn": {
+  "message": "अनुमति है"
+ },
+ "settingsHistoryOff": {
+  "message": "अनुमति नहीं है"
+ },
+ "settingsNames": {
+  "message": "सिर्फ़ आइकॉन वाले बुकमार्क"
+ },
+ "settingsNamesCount": {
+  "message": "आइकॉन के रूप में दिख रहे बुकमार्क: {1}"
+ },
+ "restoreNames": {
+  "message": "सभी नाम फिर से दिखाएं"
+ },
+ "namesRestored": {
+  "message": "फिर से दिखाए गए नाम: {1}"
+ },
+ "settingsData": {
+  "message": "डेटा"
+ },
+ "clearCache": {
+  "message": "विश्लेषण का कैश"
+ },
+ "cacheCleared": {
+  "message": "कैश साफ़ कर दिया गया."
+ },
+ "settingsAbout": {
+  "message": "इसके बारे में"
+ },
+ "aboutModel": {
+  "message": "मॉडल: {1}, जो इसी कंप्यूटर पर चलता है."
+ },
+ "saved": {
+  "message": "सेव हो गया"
+ },
+ "unnamed": {
+  "message": "(बिना नाम)"
+ },
+ "barFolder": {
+  "message": "बुकमार्क बार"
+ },
+ "otherFolder": {
+  "message": "अन्य बुकमार्क"
+ },
+ "lang": {
+  "message": "hi"
+ },
+ "interruptedTitle": {
+  "message": "पिछली बार व्यवस्थित करना बीच में रुक गया"
+ },
+ "interruptedHint": {
+  "message": "बदलाव लागू होते समय ब्राउज़र बंद हो गया. जो हो चुका है उसे पहले जैसा करें या जैसा है वैसा ही रहने दें."
+ },
+ "interruptedUndo": {
+  "message": "जो हुआ उसे पहले जैसा करें"
+ },
+ "interruptedKeep": {
+  "message": "ये बदलाव रखें"
+ },
+ "errorUnresolved": {
+  "message": "पिछली बार व्यवस्थित करना बीच में रुक गया था. फिर से व्यवस्थित करने से पहले उसे पहले जैसा करें या वैसा ही रहने दें."
+ },
+ "changedBlocked": {
+  "message": "पहले प्रस्ताव रीफ़्रेश करें: आपके बुकमार्क बदल गए हैं."
+ },
+ "startCountNone": {
+  "message": "व्यवस्थित करने के लिए कोई बुकमार्क नहीं"
+ },
+ "finish": {
+  "message": "हो गया"
+ },
+ "sourceMeta": {
+  "message": "{1} बुकमार्क"
+ },
+ "destinations": {
+  "message": "प्रस्तावित फ़ोल्डर"
+ },
+ "proposal": {
+  "message": "प्रस्ताव"
+ },
+ "nodeReviewMeta": {
+  "message": "काफ़ी जानकारी नहीं"
+ },
+ "countLabel": {
+  "message": "{1} बुकमार्क"
+ },
+ "sheetClose": {
+  "message": "बंद करें"
+ },
+ "emptyFolder": {
+  "message": "खाली है. डायग्राम में बुकमार्क को खींचकर इस फ़ोल्डर पर छोड़ें."
+ },
+ "dialogNewFolderTitle": {
+  "message": "नया फ़ोल्डर"
+ },
+ "create": {
+  "message": "बनाएं"
+ },
+ "cancel": {
+  "message": "रद्द करें"
+ },
+ "ok": {
+  "message": "ठीक है"
+ },
+ "keepTitle": {
+  "message": "मूल टाइटल रखें"
+ },
+ "useNewTitle": {
+  "message": "साफ़-सुथरा टाइटल इस्तेमाल करें"
+ },
+ "noEmoji": {
+  "message": "बिना इमोजी"
+ },
+ "iconOnlyHint": {
+  "message": "सिर्फ़ आइकॉन दिखाने के लिए क्लिक करें"
+ },
+ "showName": {
+  "message": "नाम दिखाने के लिए क्लिक करें"
+ },
+ "nothingYet": {
+  "message": "अभी तक कुछ नहीं बदला है"
+ },
+ "restoreProposal": {
+  "message": "प्रस्ताव वापस लाएं"
+ },
+ "applyRegion": {
+  "message": "बदलाव लागू करें"
+ },
+ "announceMoved": {
+  "message": "“{1}” को {2} में ले जाया गया"
+ },
+ "back": {
+  "message": "वापस जाएं"
+ },
+ "clear": {
+  "message": "साफ़ करें"
+ },
+ "footerSync": {
+  "message": "ये बदलाव उन दूसरे डिवाइसों पर भी लागू होंगे जिन पर आपने साइन इन किया है."
+ },
+ "barHint": {
+  "message": "किसी बुकमार्क का नाम छिपाने या दिखाने के लिए उस पर क्लिक करें"
+ },
+ "applyCount": {
+  "message": "{1} बुकमार्क व्यवस्थित करें"
+ },
+ "applyOne": {
+  "message": "1 बुकमार्क व्यवस्थित करें"
+ },
+ "scopeLabel": {
+  "message": "व्यवस्थित करने के लिए फ़ोल्डर"
+ },
+ "barScopeHint": {
+  "message": "शॉर्टकट भी शामिल हैं: सबसे ज़्यादा इस्तेमाल होने वाले सबसे पहले लौटते हैं"
+ },
+ "showSubfolders": {
+  "message": "{1} के फ़ोल्डर दिखाएं"
+ },
+ "destinationLabel": {
+  "message": "इसमें व्यवस्थित करें"
+ },
+ "moreOptions": {
+  "message": "ज़्यादा विकल्प"
+ },
+ "sumReadSites": {
+  "message": "साइटें पढ़ना"
+ },
+ "sumCheckDead": {
+  "message": "बंद साइटें"
+ },
+ "sumHistory": {
+  "message": "इतिहास"
+ },
+ "optReadSites": {
+  "message": "टाइटल काफ़ी न होने पर साइटें पढ़ें"
+ },
+ "optReadSitesHint": {
+  "message": "धीमा, लेकिन ज़्यादा सटीक. Chrome एक बार साइटों को ऐक्सेस करने की अनुमति मांगेगा."
+ },
+ "optCheckDead": {
+  "message": "वे साइटें ढूंढें जो अब नहीं खुलतीं"
+ },
+ "optCheckDeadHint": {
+  "message": "इन्हें अलग से “न खुलने वाली साइटें” फ़ोल्डर में रखा जाता है."
+ },
+ "optFolderStyleHint": {
+  "message": "सबफ़ोल्डर के नाम वैसे ही रहते हैं."
+ },
+ "analyzeCount": {
+  "message": "{1} बुकमार्क का विश्लेषण करें"
+ },
+ "analyzeOne": {
+  "message": "1 बुकमार्क का विश्लेषण करें"
+ },
+ "privacyTitle": {
+  "message": "कोई भी डेटा इस कंप्यूटर से बाहर नहीं जाता"
+ },
+ "privacyBody": {
+  "message": "एआई यहीं चलता है, बिना किसी खाते और सर्वर के. किसी साइट को समझने के लिए Nidomark आपके ब्राउज़र की तरह उसका पेज खोलता है, बिना कुकी के, और इसके अलावा कुछ नहीं भेजता."
+ },
+ "phaseSites": {
+  "message": "साइटें पढ़ी जा रही हैं"
+ },
+ "phasePages": {
+  "message": "पेज का विश्लेषण किया जा रहा है"
+ },
+ "sitesNote": {
+  "message": "एक साथ कई साइटें. कुछ भी भेजा नहीं जाता, पेज सिर्फ़ पढ़े जाते हैं."
+ },
+ "sitesAllowed": {
+  "message": "साइटों को ऐक्सेस करने की अनुमति है"
+ },
+ "sitesAsked": {
+  "message": "अगले विश्लेषण के समय Chrome साइटों को ऐक्सेस करने की अनुमति मांगेगा"
+ },
+ "backupsTitle": {
+  "message": "बैकअप"
+ },
+ "backupsNone": {
+  "message": "कोई बैकअप नहीं"
+ },
+ "backupCount": {
+  "message": "{1} बुकमार्क"
+ },
+ "backupDelete": {
+  "message": "मिटाएं"
+ },
+ "backupDeleteTitle": {
+  "message": "यह बैकअप मिटाएं?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” और उसमें मौजूद सब कुछ हमेशा के लिए मिट जाएगा. आपके व्यवस्थित किए गए बुकमार्क अपनी जगह पर रहेंगे, लेकिन जिन बदलावों से यह बैकअप बना था उन्हें फिर पहले जैसा नहीं किया जा सकेगा."
+ },
+ "backupDeleted": {
+  "message": "बैकअप मिटा दिया गया."
+ },
+ "backupTitle": {
+  "message": "Nidomark – बैकअप ({1})"
+ },
+ "clearCacheHint": {
+  "message": "कैश से अगले विश्लेषण तेज़ी से होते हैं; यह इसी कंप्यूटर पर रहता है."
+ },
+ "sourceAll": {
+  "message": "आपके बुकमार्क"
+ },
+ "reasonKnownSite": {
+  "message": "जानी-पहचानी साइट ({1})"
+ },
+ "reasonPattern": {
+  "message": "खास तरह का पता ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "अश्लील टाइटल"
+ },
+ "reasonAdultPage": {
+  "message": "पेज के मुताबिक इसमें वयस्क कॉन्टेंट है"
+ },
+ "reasonPage": {
+  "message": "पेज से: “{1}”"
+ },
+ "reasonModel": {
+  "message": "“{1}” जैसा लगता है"
+ },
+ "reasonPlatform": {
+  "message": "{1} पर पब्लिश किया गया"
+ },
+ "reasonAboutApp": {
+  "message": "{1} के बारे में"
+ },
+ "reasonLearnedSite": {
+  "message": "आप {1} को “{2}” में रखते हैं"
+ },
+ "reasonKeptFolder": {
+  "message": "आपका फ़ोल्डर “{1}”, जैसा था वैसा ही फिर से बनाया गया"
+ },
+ "reasonNewCategory": {
+  "message": "इस कैटगरी के {1} बुकमार्क"
+ },
+ "deadNetwork": {
+  "message": "अब नहीं खुलती: साइट नहीं मिली"
+ },
+ "deadTimeout": {
+  "message": "अब नहीं खुलती: समय खत्म हो गया"
+ },
+ "deadGone": {
+  "message": "पेज हटा दिया गया है ({1})"
+ },
+ "deadServer": {
+  "message": "सर्वर में गड़बड़ी ({1})"
+ },
+ "deadParked": {
+  "message": "डोमेन छोड़ दिया गया है या बिक्री के लिए है"
+ },
+ "reviewUnclear": {
+  "message": "टाइटल और पते में कोई साफ़ विषय नहीं"
+ },
+ "reviewUnclearPage": {
+  "message": "पेज पढ़ा गया, कोई साफ़ विषय नहीं"
+ },
+ "reviewBlocked": {
+  "message": "साइट पढ़ने नहीं देती ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "अस्पष्ट टाइटल; ज़्यादा जानने के लिए साइटें पढ़ने की अनुमति दें"
+ },
+ "nodeDupes": {
+  "message": "डुप्लीकेट"
+ },
+ "nodeDupesMeta": {
+  "message": "फिर से नहीं बनेंगे, बैकअप में रहेंगे"
+ },
+ "dupesHint": {
+  "message": "ये पेज कहीं और पहले से मौजूद हैं: इनकी एक कॉपी फिर से बनाई जाती है. ये वाले बैकअप में रहते हैं."
+ },
+ "keepAllDupes": {
+  "message": "सभी रखें"
+ },
+ "reasonDuplicate": {
+  "message": "“{1}” का डुप्लीकेट ({2})"
+ },
+ "optDupes": {
+  "message": "हर पेज की सिर्फ़ एक कॉपी"
+ },
+ "optDupesHint": {
+  "message": "डुप्लीकेट फिर से नहीं बनाए जाते; वे बैकअप में रहते हैं."
+ },
+ "sumDupes": {
+  "message": "डुप्लीकेट"
+ },
+ "openSite": {
+  "message": "{1} खोलें"
+ },
+ "reviewHintUntested": {
+  "message": "काफ़ी जानकारी नहीं मिली. “फिर से विश्लेषण करें” से इनकी साइटें जांची जाती हैं; आप इन्हें खोलकर भी देख सकते हैं. नहीं तो ये “जांच के लिए” फ़ोल्डर में चले जाएंगे."
+ },
+ "archiveNote": {
+  "message": "आपके बुकमार्क का मौजूदा ढांचा, जैसा है वैसा ही, अन्य बुकमार्क में तारीख वाले एक बैकअप में रखा जाता है. एक क्लिक से सब पहले जैसा हो जाता है."
+ },
+ "barSheetHint": {
+  "message": "आपकी सबसे ज़्यादा खोली जाने वाली साइटें, बार की शुरुआत में आइकॉन के रूप में. झलक में किसी आइकॉन का नाम दिखाने के लिए उस पर क्लिक करें."
+ },
+ "doneArchive": {
+  "message": "आपके बुकमार्क का पिछला ढांचा अन्य बुकमार्क के “{1}” फ़ोल्डर में है."
+ },
+ "nodeBar": {
+  "message": "फटाफट ऐक्सेस"
+ },
+ "nodeBarMeta": {
+  "message": "बार की शुरुआत में आइकॉन"
+ },
+ "notRecreated": {
+  "message": "फिर से नहीं बनेंगे"
+ },
+ "optQuickAccess": {
+  "message": "फटाफट ऐक्सेस"
+ },
+ "optQuickAccessHint": {
+  "message": "सबसे ज़्यादा देखी गई साइटें, बार की शुरुआत में आइकॉन के रूप में"
+ },
+ "quickNone": {
+  "message": "कोई नहीं"
+ },
+ "reasonBarShortcut": {
+  "message": "आपके बुकमार्क बार में पहले से है"
+ },
+ "reasonBarTool": {
+  "message": "बार का टूल (बुकमार्कलेट या ब्राउज़र पेज)"
+ },
+ "reasonFacet": {
+  "message": "एक ही साइट या एक ही विषय के {1} बुकमार्क"
+ },
+ "reasonLearned": {
+  "message": "आपने इसे “{1}” में रखा था"
+ },
+ "reasonMyFolders": {
+  "message": "आपके ऐसे फ़ोल्डर जिनमें कई विषय मिले-जुले हैं"
+ },
+ "reasonQuickAccess": {
+  "message": "आपकी सबसे ज़्यादा खोली जाने वाली साइटों में से एक"
+ },
+ "reasonReviewFolder": {
+  "message": "व्यवस्थित करने के लिए काफ़ी जानकारी नहीं"
+ },
+ "reasonSpecial": {
+  "message": "ऐसा लिंक जो वेब पेज नहीं है (बुकमार्कलेट, ब्राउज़र पेज, फ़ाइल)"
+ },
+ "leaveTitle": {
+  "message": "यह प्रस्ताव खारिज करें?"
+ },
+ "leaveBody": {
+  "message": "आपके बुकमार्क नहीं बदले गए हैं. उन्हें व्यवस्थित करने के लिए आपको फिर से विश्लेषण करना होगा."
+ },
+ "leaveConfirm": {
+  "message": "खारिज करें"
+ },
+ "acceptAll": {
+  "message": "सभी को सुझाए गए फ़ोल्डर में रखें ({1})"
+ },
+ "acceptedAll": {
+  "message": "सुझाए गए फ़ोल्डर में रखे गए: {1}"
+ },
+ "atTopOf": {
+  "message": "सीधे {1} में"
+ },
+ "deleteFolder": {
+  "message": "मिटाएं"
+ },
+ "deleteFolderTitle": {
+  "message": "“{1}” मिटाएं?"
+ },
+ "deleteFolderBody": {
+  "message": "अंदर मौजूद बुकमार्क: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "अंदर मौजूद बुकमार्क: {1} · सबफ़ोल्डर: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "अंदर का सब कुछ रखें"
+ },
+ "deleteKeepHint": {
+  "message": "इसके बुकमार्क और सबफ़ोल्डर ऊपर “{1}” में चले जाएंगे."
+ },
+ "deleteWithContent": {
+  "message": "अंदर का सब कुछ भी मिटाएं"
+ },
+ "deleteWithContentHint": {
+  "message": "इसके बुकमार्क फिर से नहीं बनाए जाएंगे: वे बैकअप में रहेंगे."
+ },
+ "displayInBrowser": {
+  "message": "दिखने का तरीका"
+ },
+ "dropAtTop": {
+  "message": "यहां छोड़ें, सबसे ऊपर के लेवल पर"
+ },
+ "editUndone": {
+  "message": "बदलाव पहले जैसा कर दिया गया"
+ },
+ "fileIn": {
+  "message": "{1} में रखें"
+ },
+ "foldFolder": {
+  "message": "{1} को छोटा करें"
+ },
+ "unfoldFolder": {
+  "message": "{1} को विस्तृत करें"
+ },
+ "folderCreated": {
+  "message": "“{1}” फ़ोल्डर बनाया गया"
+ },
+ "folderDeleted": {
+  "message": "“{1}” मिटा दिया गया: इसके अंदर का सब कुछ ऊपर ले जाया गया"
+ },
+ "folderDeletedAll": {
+  "message": "“{1}” और उसके अंदर का सब कुछ मिटा दिया गया"
+ },
+ "folderMoved": {
+  "message": "“{1}” को {2} में ले जाया गया"
+ },
+ "folderPlace": {
+  "message": "जगह"
+ },
+ "iconOnlyItem": {
+  "message": "सिर्फ़ आइकॉन"
+ },
+ "keepDupe": {
+  "message": "यह कॉपी रखें"
+ },
+ "looseHint": {
+  "message": "सीधे {1} में रखे गए बुकमार्क, किसी फ़ोल्डर में नहीं."
+ },
+ "moveFolder": {
+  "message": "ले जाएं"
+ },
+ "moveFolderTo": {
+  "message": "“{1}” को इसमें ले जाएं"
+ },
+ "moveToEllipsis": {
+  "message": "इसमें ले जाएं…"
+ },
+ "newShort": {
+  "message": "नया"
+ },
+ "newSubfolder": {
+  "message": "नया सबफ़ोल्डर"
+ },
+ "nodeLoose": {
+  "message": "बिना फ़ोल्डर"
+ },
+ "nodeLooseMeta": {
+  "message": "सीधे मुख्य फ़ोल्डर में"
+ },
+ "nodeRemoved": {
+  "message": "हटाए गए"
+ },
+ "nodeRemovedMeta": {
+  "message": "फिर से नहीं बनेंगे, बैकअप में रहेंगे"
+ },
+ "openFolder": {
+  "message": "फ़ोल्डर खोलें"
+ },
+ "openPage": {
+  "message": "पेज खोलें"
+ },
+ "proposalRestored": {
+  "message": "प्रस्ताव वापस लाया गया"
+ },
+ "reanalyze": {
+  "message": "फिर से विश्लेषण करें"
+ },
+ "reanalyzeFailed": {
+  "message": "नया विश्लेषण नहीं हो सका: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "“{2}” का फिर से विश्लेषण हुआ · जगह बदली: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "“{1}” में फिर से विश्लेषण करने के लिए कुछ नहीं है: इसके बुकमार्क आपने खुद रखे हैं."
+ },
+ "reanalyzedSame": {
+  "message": "“{1}” का फिर से विश्लेषण हुआ: कोई बदलाव नहीं"
+ },
+ "reanalyzing": {
+  "message": "“{1}” का फिर से विश्लेषण हो रहा है"
+ },
+ "reasonSameSite": {
+  "message": "{2} के {1} दूसरे बुकमार्क की तरह"
+ },
+ "removeBookmark": {
+  "message": "हटाएं"
+ },
+ "removedHint": {
+  "message": "ये बुकमार्क फिर से नहीं बनाए जाते. ये बैकअप में रहते हैं: इन्हें यहां से वापस लाएं या खींचकर किसी फ़ोल्डर पर छोड़ें."
+ },
+ "removedOne": {
+  "message": "“{1}” फिर से नहीं बनाया जाएगा (यह बैकअप में रहेगा)"
+ },
+ "rename": {
+  "message": "नाम बदलें"
+ },
+ "renameLabel": {
+  "message": "{1} का नया नाम"
+ },
+ "renamedTo": {
+  "message": "नाम बदलकर “{1}” किया गया"
+ },
+ "restore": {
+  "message": "वापस लाएं"
+ },
+ "restoreAll": {
+  "message": "सभी को वापस लाएं"
+ },
+ "restoredCount": {
+  "message": "वापस लाए गए: {1}"
+ },
+ "restoredOne": {
+  "message": "बुकमार्क वापस लाया गया"
+ },
+ "rowActions": {
+  "message": "{1} के लिए कार्रवाइयां"
+ },
+ "subfolders": {
+  "message": "सबफ़ोल्डर"
+ },
+ "suggestionsFor": {
+  "message": "{1} के लिए सुझाव"
+ },
+ "undoEdit": {
+  "message": "पहले जैसा करें"
+ },
+ "undoEditHint": {
+  "message": "पिछला बदलाव पहले जैसा करें (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "आपके बुकमार्क में पहले से है"
+ },
+ "existingFolderHint": {
+  "message": "पहले व्यवस्थित करते समय बना फ़ोल्डर: नए बुकमार्क इसमें जोड़े जाते हैं, और इसका नाम और जगह वही रहते हैं."
+ }
+}

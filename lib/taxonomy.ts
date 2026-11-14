@@ -1,3 +1,4 @@
+import { nameIn, namesInEveryLanguage } from './names';
 import { registrableDomain } from './psl';
 import { fold } from './text';
 
@@ -417,8 +418,9 @@ export function groupById(id: GroupId): Group {
   return GROUP_BY_ID.get(id) as Group;
 }
 
-export function localName(x: { fr: string; en: string }, lang: string): string {
-  return lang.startsWith('fr') ? x.fr : x.en;
+/** Name of a category or a group in the language of the interface. */
+export function localName(x: { id: string; fr: string; en: string }, lang: string): string {
+  return nameIn('group' in x ? x.id : `g:${x.id}`, x.fr, x.en, lang);
 }
 
 /** Text given to the model to describe a category. */
@@ -535,7 +537,7 @@ const KEYWORDS: KeywordIndex = (() => {
 
 /** Number of keywords of each category found in a text (folded words). */
 export function keywordHits(text: string): Map<string, number> {
-  const t = ` ${fold(text).replace(/[^a-z0-9+]+/g, ' ')} `;
+  const t = ` ${fold(text).replace(/[^\p{L}\p{M}\p{N}+]+/gu, ' ')} `;
   const hits = new Map<string, number>();
   const add = (id: string) => hits.set(id, (hits.get(id) ?? 0) + 1);
   for (const w of new Set(t.trim().split(' '))) for (const id of KEYWORDS.words.get(w) ?? []) add(id);
@@ -547,20 +549,31 @@ export function keywordHits(text: string): Map<string, number> {
 
 const normalizeTitle = (title: string) =>
   fold(title.replace(/^[\p{Extended_Pictographic}\p{Emoji_Component}\uFE0F\u200D\s]+/u, ''))
-    .replace(/[^a-z0-9+ ]+/g, ' ')
+    .replace(/[^\p{L}\p{M}\p{N}+ ]+/gu, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 
 const CATEGORY_ALIASES = new Map<string, string>();
-for (const c of CATEGORIES) for (const a of [fold(c.fr), fold(c.en), ...list(c.aliases)]) if (!CATEGORY_ALIASES.has(normalizeTitle(a))) CATEGORY_ALIASES.set(normalizeTitle(a), c.id);
 const GROUP_ALIASES = new Map<string, GroupId>();
-for (const g of GROUPS) for (const a of [fold(g.fr), fold(g.en), ...list(g.aliases)]) if (!GROUP_ALIASES.has(normalizeTitle(a))) GROUP_ALIASES.set(normalizeTitle(a), g.id);
+const alias = <T>(m: Map<string, T>, name: string, value: T) => {
+  const k = normalizeTitle(name);
+  if (k && !m.has(k)) m.set(k, value);
+};
+// The names and aliases written for each folder first: a name in another language never takes one of them.
+for (const c of CATEGORIES) for (const a of [c.fr, c.en, ...list(c.aliases)]) alias(CATEGORY_ALIASES, a, c.id);
+for (const g of GROUPS) for (const a of [g.fr, g.en, ...list(g.aliases)]) alias(GROUP_ALIASES, a, g.id);
+for (const c of CATEGORIES) for (const a of namesInEveryLanguage(c.id)) alias(CATEGORY_ALIASES, a, c.id);
+for (const g of GROUPS) for (const a of namesInEveryLanguage(`g:${g.id}`)) alias(GROUP_ALIASES, a, g.id);
 
 const CATCH_ALL = new Set(
   list(
-    'divers, diverses, autre, autres, misc, miscellaneous, other, others, utile, utiles, a voir plus tard, a trier, trier, a classer, classer, non classe, non classes, unsorted, unfiled, to sort, temp, tmp, temporaire, nouveau dossier, new folder, sans titre, untitled, vrac, en vrac, bazar, fourre tout, stuff, random, old, ancien, anciens, vieux, a verifier, to check, to review, favoris, mes favoris, bookmarks, my bookmarks, liens, links, mes liens, sites, sites web, web, internet, general, nouveaux, new, recents, recent',
+    'divers, diverses, autre, autres, misc, miscellaneous, other, others, utile, utiles, a voir plus tard, a trier, trier, a classer, classer, non classe, non classes, unsorted, unfiled, to sort, temp, tmp, temporaire, nouveau dossier, new folder, sans titre, untitled, vrac, en vrac, bazar, fourre tout, stuff, random, old, ancien, anciens, vieux, a verifier, to check, to review, favoris, mes favoris, bookmarks, my bookmarks, liens, links, mes liens, sites, sites web, web, internet, general, nouveaux, new, recents, recent, ' +
+      'varios, otros, nueva carpeta, marcadores, varie, altri, nuova cartella, segnalibri, sonstiges, verschiedenes, neuer ordner, lesezeichen, diversos, outros, nova pasta, favoritos, diversen, overig, nieuwe map, bladwijzers, różne, inne, nowy folder, zakładki, çeşitli, diğer, yeni klasör, yer imleri, ' +
+      'разное, другое, новая папка, закладки, різне, інше, нова папка, متفرقات, أخرى, مجلد جديد, विविध, अन्य, नया फ़ोल्डर, বিবিধ, অন্যান্য, lain-lain, lainnya, folder baru, khác, thư mục mới, その他, 新しいフォルダ, 기타, 새 폴더, 其他, 其它, 新建文件夹, 新增資料夾',
   ).map(normalizeTitle),
 );
+// "To check" and "Untitled" in every language: an earlier sort's folder of bookmarks to check is sorted again.
+for (const a of [...namesInEveryLanguage('review'), ...namesInEveryLanguage('untitled')]) CATCH_ALL.add(normalizeTitle(a));
 const CATCH_ALL_PATTERNS = [/^(importe|importes|imported|import)\b/, /^(nouveau dossier|new folder|dossier|folder)( \d+)?$/, /^(from|depuis) (firefox|safari|edge|chrome|opera|internet explorer|ie)$/];
 
 /** What an existing folder means, from its name. */
@@ -588,7 +601,7 @@ export function folderRole(title: string): FolderRole {
   return { kind: 'personal' };
 }
 
-/** Folders created by Nidomark to back up a tree before a sort; never sorted again. */
+/** Folders created by Nidomark to back up a tree before a sort, in any language ("Nidomark – …"); never sorted again. */
 export function isBackupTitle(title: string): boolean {
-  return /^nidomark\b.*\b(sauvegarde|backup)\b/i.test(title);
+  return /^nidomark\b/i.test(title) && (/\s[–-]\s/.test(title) || /\b(sauvegarde|backup)\b/i.test(title));
 }

@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – ブックマーク整理ツール"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "パソコン上で動く小さな AI が、ブックマークをわかりやすいフォルダに整理します。絵文字付きのフォルダや、アイコンだけのバー表示にも対応。プライバシー保護、オフライン動作、無料。"
+ },
+ "actionTitle": {
+  "message": "ブックマークを整理"
+ },
+ "tabSettings": {
+  "message": "設定"
+ },
+ "startTitle": {
+  "message": "ブックマークを整理しましょう"
+ },
+ "startLead": {
+  "message": "このパソコン上で動く小さな AI が、すべてのブックマークをわかりやすいフォルダに整理して再作成します。結果を確認して、問題がなければ確定してください。"
+ },
+ "optHistory": {
+  "message": "よくアクセスするサイトを先頭に配置"
+ },
+ "optHistoryHint": {
+  "message": "このパソコン上で、各サイトへのアクセス数を数え、保存済みのタイトルを読み取ります。何も送信されません。"
+ },
+ "optFolderStyle": {
+  "message": "フォルダ名"
+ },
+ "styleEmojiName": {
+  "message": "絵文字 + 名前"
+ },
+ "styleName": {
+  "message": "名前のみ"
+ },
+ "styleEmoji": {
+  "message": "絵文字のみ"
+ },
+ "optIconOnly": {
+  "message": "ブックマーク バーをアイコンで表示"
+ },
+ "optIconOnlyHint": {
+  "message": "デフォルトで提案され、名前はあとで再表示できます"
+ },
+ "analyze": {
+  "message": "ブックマークを分析"
+ },
+ "lastRun": {
+  "message": "前回の整理: {1}"
+ },
+ "undoLast": {
+  "message": "元に戻す"
+ },
+ "phaseReading": {
+  "message": "ブックマークを読み込んでいます"
+ },
+ "phaseLoading": {
+  "message": "モデルを読み込んでいます"
+ },
+ "phaseEmbedding": {
+  "message": "各ブックマークの内容を把握しています"
+ },
+ "phaseGrouping": {
+  "message": "フォルダを作成しています"
+ },
+ "progressCount": {
+  "message": "{2} 件中 {1} 件"
+ },
+ "moveTo": {
+  "message": "移動先"
+ },
+ "newFolderOption": {
+  "message": "新しいフォルダ"
+ },
+ "folderName": {
+  "message": "フォルダ名"
+ },
+ "emojiLabel": {
+  "message": "「{1}」の絵文字"
+ },
+ "customEmoji": {
+  "message": "その他の絵文字"
+ },
+ "reviewHint": {
+  "message": "サイトを調べましたが、手がかりが足りません。開いて確認してから、候補を選ぶかフォルダにドラッグしてください。何もしなければ、「その他のブックマーク」の「要確認」に入ります。"
+ },
+ "barTitle": {
+  "message": "新しいバー"
+ },
+ "iconOnly": {
+  "message": "アイコンのみ"
+ },
+ "applying": {
+  "message": "変更を適用しています"
+ },
+ "doneTitle": {
+  "message": "ブックマークを整理しました"
+ },
+ "doneSummary": {
+  "message": "{1} 件のブックマークを {2} 個のフォルダに整理しました。"
+ },
+ "doneSkipped": {
+  "message": "{1} 件の項目は途中で変更されたため、スキップしました。元の項目はバックアップにあるので、失われたものはありません。"
+ },
+ "undone": {
+  "message": "前回の整理を元に戻しました。"
+ },
+ "undoSkipped": {
+  "message": "{1} 件の項目は、変更後の状態のまま残しました。"
+ },
+ "changedBanner": {
+  "message": "確認中に、ブラウザでブックマークが変更されました。"
+ },
+ "refresh": {
+  "message": "提案を更新"
+ },
+ "errorTitle": {
+  "message": "問題が発生しました"
+ },
+ "errorModel": {
+  "message": "モデルを読み込めませんでした。拡張機能をご自身でビルドした場合は、「pnpm fetch-model」を実行してから、もう一度ビルドしてください。"
+ },
+ "retry": {
+  "message": "もう一度試す"
+ },
+ "emptyTitle": {
+  "message": "整理するものがありません"
+ },
+ "emptyHint": {
+  "message": "選択したフォルダにブックマークがありません。別のフォルダを選択してください。"
+ },
+ "reasonHomeService": {
+  "message": "自宅でホストされているサービス（ローカル アドレスまたは個人ドメイン）"
+ },
+ "reasonSelfHostGuide": {
+  "message": "{1} のガイド（セルフホスト）"
+ },
+ "reasonNewGroup": {
+  "message": "このテーマのブックマーク {1} 件"
+ },
+ "reasonUser": {
+  "message": "手動で選択"
+ },
+ "reviewVague": {
+  "message": "タイトルが一般的で、アドレスからも手がかりが得られないため、ページの内容がわかりません。"
+ },
+ "settingsDefaults": {
+  "message": "デフォルトの設定"
+ },
+ "settingsHistoryOn": {
+  "message": "許可されています"
+ },
+ "settingsHistoryOff": {
+  "message": "許可されていません"
+ },
+ "settingsNames": {
+  "message": "アイコンのみのブックマーク"
+ },
+ "settingsNamesCount": {
+  "message": "{1} 件のブックマークをアイコンで表示中"
+ },
+ "restoreNames": {
+  "message": "すべての名前を再表示"
+ },
+ "namesRestored": {
+  "message": "{1} 件の名前を再表示しました。"
+ },
+ "settingsData": {
+  "message": "データ"
+ },
+ "clearCache": {
+  "message": "分析キャッシュ"
+ },
+ "cacheCleared": {
+  "message": "キャッシュを削除しました。"
+ },
+ "settingsAbout": {
+  "message": "概要"
+ },
+ "aboutModel": {
+  "message": "モデル: {1}（ローカルで実行）"
+ },
+ "saved": {
+  "message": "保存しました"
+ },
+ "unnamed": {
+  "message": "（名前なし）"
+ },
+ "barFolder": {
+  "message": "ブックマーク バー"
+ },
+ "otherFolder": {
+  "message": "その他のブックマーク"
+ },
+ "lang": {
+  "message": "ja"
+ },
+ "interruptedTitle": {
+  "message": "前回の整理が中断されました"
+ },
+ "interruptedHint": {
+  "message": "変更の適用中にブラウザが閉じられました。適用済みの変更を元に戻すか、そのまま保持してください。"
+ },
+ "interruptedUndo": {
+  "message": "適用済みの変更を元に戻す"
+ },
+ "interruptedKeep": {
+  "message": "この変更を保持"
+ },
+ "errorUnresolved": {
+  "message": "前回の整理が中断されました。もう一度整理する前に、元に戻すか保持するかを選択してください。"
+ },
+ "changedBlocked": {
+  "message": "ブックマークが変更されたため、先に提案を更新してください。"
+ },
+ "startCountNone": {
+  "message": "整理するブックマークがありません"
+ },
+ "finish": {
+  "message": "完了"
+ },
+ "sourceMeta": {
+  "message": "{1} 件のブックマーク"
+ },
+ "destinations": {
+  "message": "提案されたフォルダ"
+ },
+ "proposal": {
+  "message": "提案"
+ },
+ "nodeReviewMeta": {
+  "message": "手がかり不足"
+ },
+ "countLabel": {
+  "message": "{1} 件のブックマーク"
+ },
+ "sheetClose": {
+  "message": "閉じる"
+ },
+ "emptyFolder": {
+  "message": "このフォルダは空です。図の中でブックマークをこのフォルダにドラッグしてください。"
+ },
+ "dialogNewFolderTitle": {
+  "message": "新しいフォルダ"
+ },
+ "create": {
+  "message": "作成"
+ },
+ "cancel": {
+  "message": "キャンセル"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "元のタイトルを使用"
+ },
+ "useNewTitle": {
+  "message": "整えたタイトルを使用"
+ },
+ "noEmoji": {
+  "message": "絵文字なし"
+ },
+ "iconOnlyHint": {
+  "message": "クリックするとアイコンのみの表示になります"
+ },
+ "showName": {
+  "message": "クリックすると名前を表示します"
+ },
+ "nothingYet": {
+  "message": "まだ何も変更されていません"
+ },
+ "restoreProposal": {
+  "message": "最初の提案に戻す"
+ },
+ "applyRegion": {
+  "message": "変更の適用"
+ },
+ "announceMoved": {
+  "message": "「{1}」を「{2}」に移動しました"
+ },
+ "back": {
+  "message": "戻る"
+ },
+ "clear": {
+  "message": "削除"
+ },
+ "footerSync": {
+  "message": "変更は、ログインしている他のデバイスにも反映されます。"
+ },
+ "barHint": {
+  "message": "ブックマークをクリックすると、名前を表示または非表示にできます"
+ },
+ "applyCount": {
+  "message": "{1} 件のブックマークを整理"
+ },
+ "applyOne": {
+  "message": "1 件のブックマークを整理"
+ },
+ "scopeLabel": {
+  "message": "整理するフォルダ"
+ },
+ "barScopeHint": {
+  "message": "ショートカットも対象: よく使うものは先頭に戻ります"
+ },
+ "showSubfolders": {
+  "message": "「{1}」のフォルダを表示"
+ },
+ "destinationLabel": {
+  "message": "整理先"
+ },
+ "moreOptions": {
+  "message": "その他のオプション"
+ },
+ "sumReadSites": {
+  "message": "サイトの読み取り"
+ },
+ "sumCheckDead": {
+  "message": "リンク切れ"
+ },
+ "sumHistory": {
+  "message": "履歴"
+ },
+ "optReadSites": {
+  "message": "タイトルだけでは不十分な場合にサイトを読み取る"
+ },
+ "optReadSitesHint": {
+  "message": "時間はかかりますが、より正確です。Chrome がサイトへのアクセス許可を一度だけ求めます。"
+ },
+ "optCheckDead": {
+  "message": "応答しなくなったサイトを見つける"
+ },
+ "optCheckDeadHint": {
+  "message": "該当するサイトは「アクセスできないサイト」に分けて入れます。"
+ },
+ "optFolderStyleHint": {
+  "message": "サブフォルダの名前はそのまま残ります。"
+ },
+ "analyzeCount": {
+  "message": "{1} 件のブックマークを分析"
+ },
+ "analyzeOne": {
+  "message": "1 件のブックマークを分析"
+ },
+ "privacyTitle": {
+  "message": "データがこのパソコンの外に出ることはありません"
+ },
+ "privacyBody": {
+  "message": "AI はこのパソコン上で動作し、アカウントもサーバーも使いません。サイトの内容を把握するときは、Nidomark がブラウザと同じようにページを開きます。Cookie は使わず、それ以外には何も送信しません。"
+ },
+ "phaseSites": {
+  "message": "サイトを読み取っています"
+ },
+ "phasePages": {
+  "message": "ページを分析しています"
+ },
+ "sitesNote": {
+  "message": "複数のサイトを同時に処理します。ページを読み取るだけで、何も送信しません。"
+ },
+ "sitesAllowed": {
+  "message": "サイトへのアクセスを許可済み"
+ },
+ "sitesAsked": {
+  "message": "次回の分析時に、Chrome がサイトへのアクセス許可を求めます"
+ },
+ "backupsTitle": {
+  "message": "バックアップ"
+ },
+ "backupsNone": {
+  "message": "バックアップはありません"
+ },
+ "backupCount": {
+  "message": "{1} 件のブックマーク"
+ },
+ "backupDelete": {
+  "message": "削除"
+ },
+ "backupDeleteTitle": {
+  "message": "このバックアップを削除しますか？"
+ },
+ "backupConfirm": {
+  "message": "「{1}」とその中身はすべて完全に削除されます。整理済みのブックマークはそのままですが、このバックアップを作成した整理は元に戻せなくなります。"
+ },
+ "backupDeleted": {
+  "message": "バックアップを削除しました。"
+ },
+ "backupTitle": {
+  "message": "Nidomark – バックアップ {1}"
+ },
+ "clearCacheHint": {
+  "message": "キャッシュを使うと、次回以降の分析が速くなります。キャッシュはこのパソコンに保存されます。"
+ },
+ "sourceAll": {
+  "message": "すべてのブックマーク"
+ },
+ "reasonKnownSite": {
+  "message": "既知のサイト（{1}）"
+ },
+ "reasonPattern": {
+  "message": "典型的なアドレス（{1}）"
+ },
+ "reasonAdultWords": {
+  "message": "露骨なタイトル"
+ },
+ "reasonAdultPage": {
+  "message": "ページ自体が成人向けと明示しています"
+ },
+ "reasonPage": {
+  "message": "ページの情報: 「{1}」"
+ },
+ "reasonModel": {
+  "message": "「{1}」に近い内容"
+ },
+ "reasonPlatform": {
+  "message": "{1} で公開"
+ },
+ "reasonAboutApp": {
+  "message": "{1} に関する内容"
+ },
+ "reasonLearnedSite": {
+  "message": "{1} はいつも「{2}」に整理されています"
+ },
+ "reasonKeptFolder": {
+  "message": "既存のフォルダ「{1}」をそのまま再作成"
+ },
+ "reasonNewCategory": {
+  "message": "このカテゴリのブックマーク {1} 件"
+ },
+ "deadNetwork": {
+  "message": "応答なし: サイトが見つかりません"
+ },
+ "deadTimeout": {
+  "message": "応答なし: タイムアウトしました"
+ },
+ "deadGone": {
+  "message": "ページが削除されています（{1}）"
+ },
+ "deadServer": {
+  "message": "サーバー エラー（{1}）"
+ },
+ "deadParked": {
+  "message": "ドメインが放棄されているか、売りに出されています"
+ },
+ "reviewUnclear": {
+  "message": "タイトルとアドレスから明確なテーマが読み取れません"
+ },
+ "reviewUnclearPage": {
+  "message": "ページを読み取りましたが、明確なテーマがありません"
+ },
+ "reviewBlocked": {
+  "message": "サイトが読み取りを拒否しています（{1}）"
+ },
+ "reviewNoAccess": {
+  "message": "タイトルがあいまいです。詳しく調べるには、サイトの読み取りを許可してください"
+ },
+ "nodeDupes": {
+  "message": "重複"
+ },
+ "nodeDupesMeta": {
+  "message": "再作成せず、バックアップに保管"
+ },
+ "dupesHint": {
+  "message": "これらのページは別の場所にもあるため、1 つだけ再作成されます。ここにあるものはバックアップに残ります。"
+ },
+ "keepAllDupes": {
+  "message": "すべて保持"
+ },
+ "reasonDuplicate": {
+  "message": "「{1}」の重複（{2}）"
+ },
+ "optDupes": {
+  "message": "各ページを 1 つだけ残す"
+ },
+ "optDupesHint": {
+  "message": "重複したブックマークは再作成されず、バックアップに残ります。"
+ },
+ "sumDupes": {
+  "message": "重複"
+ },
+ "openSite": {
+  "message": "「{1}」を開く"
+ },
+ "reviewHintUntested": {
+  "message": "手がかりが足りません。「再分析」でサイトをテストできます。開いて確認することもできます。何もしなければ「要確認」に入ります。"
+ },
+ "archiveNote": {
+  "message": "現在のフォルダ構成は、日付入りのバックアップとして「その他のブックマーク」にそのまま保存されます。ワンクリックで整理を元に戻せます。"
+ },
+ "barSheetHint": {
+  "message": "よく開くサイトを、バーの先頭にアイコンで表示します。プレビューでアイコンをクリックすると、名前が表示されます。"
+ },
+ "doneArchive": {
+  "message": "以前のフォルダ構成は「その他のブックマーク」の「{1}」にあります。"
+ },
+ "nodeBar": {
+  "message": "クイック アクセス"
+ },
+ "nodeBarMeta": {
+  "message": "バーの先頭のアイコン"
+ },
+ "notRecreated": {
+  "message": "再作成しない項目"
+ },
+ "optQuickAccess": {
+  "message": "クイック アクセス"
+ },
+ "optQuickAccessHint": {
+  "message": "よくアクセスするサイトを、バーの先頭にアイコンで表示"
+ },
+ "quickNone": {
+  "message": "なし"
+ },
+ "reasonBarShortcut": {
+  "message": "すでにブックマーク バーにあります"
+ },
+ "reasonBarTool": {
+  "message": "バー用のツール（ブックマークレットまたはブラウザのページ）"
+ },
+ "reasonFacet": {
+  "message": "同じサイトまたは同じテーマのブックマーク {1} 件"
+ },
+ "reasonLearned": {
+  "message": "以前「{1}」に整理されていました"
+ },
+ "reasonMyFolders": {
+  "message": "複数のテーマが混在する既存のフォルダ"
+ },
+ "reasonQuickAccess": {
+  "message": "よく開くサイトの 1 つ"
+ },
+ "reasonReviewFolder": {
+  "message": "整理するための手がかりが足りません"
+ },
+ "reasonSpecial": {
+  "message": "ウェブページではないリンク（ブックマークレット、ブラウザのページ、ファイル）"
+ },
+ "leaveTitle": {
+  "message": "この提案を破棄しますか？"
+ },
+ "leaveBody": {
+  "message": "ブックマークは変更されていません。整理するには、もう一度分析を行う必要があります。"
+ },
+ "leaveConfirm": {
+  "message": "破棄"
+ },
+ "acceptAll": {
+  "message": "すべて候補どおりに整理（{1}）"
+ },
+ "acceptedAll": {
+  "message": "候補どおりに整理しました: {1} 件"
+ },
+ "atTopOf": {
+  "message": "「{1}」の直下"
+ },
+ "deleteFolder": {
+  "message": "削除"
+ },
+ "deleteFolderTitle": {
+  "message": "「{1}」を削除しますか？"
+ },
+ "deleteFolderBody": {
+  "message": "含まれるブックマーク: {1} 件"
+ },
+ "deleteFolderBodySub": {
+  "message": "含まれるブックマーク: {1} 件 · サブフォルダ: {2} 個"
+ },
+ "deleteKeepContent": {
+  "message": "中身を残す"
+ },
+ "deleteKeepHint": {
+  "message": "中のブックマークとサブフォルダは、1 つ上の「{1}」に移動します。"
+ },
+ "deleteWithContent": {
+  "message": "中身もまとめて削除"
+ },
+ "deleteWithContentHint": {
+  "message": "中のブックマークは再作成されず、バックアップに残ります。"
+ },
+ "displayInBrowser": {
+  "message": "表示方法"
+ },
+ "dropAtTop": {
+  "message": "ここにドロップ（最上位）"
+ },
+ "editUndone": {
+  "message": "変更を元に戻しました"
+ },
+ "fileIn": {
+  "message": "「{1}」に整理"
+ },
+ "foldFolder": {
+  "message": "「{1}」を折りたたむ"
+ },
+ "unfoldFolder": {
+  "message": "「{1}」を展開"
+ },
+ "folderCreated": {
+  "message": "フォルダ「{1}」を作成しました"
+ },
+ "folderDeleted": {
+  "message": "「{1}」を削除しました。中身は 1 つ上の階層に移動しました"
+ },
+ "folderDeletedAll": {
+  "message": "「{1}」とその中身を削除しました"
+ },
+ "folderMoved": {
+  "message": "「{1}」を「{2}」に移動しました"
+ },
+ "folderPlace": {
+  "message": "場所"
+ },
+ "iconOnlyItem": {
+  "message": "アイコンのみ"
+ },
+ "keepDupe": {
+  "message": "このコピーを保持"
+ },
+ "looseHint": {
+  "message": "「{1}」の直下にあり、どのフォルダにも入っていないブックマークです。"
+ },
+ "moveFolder": {
+  "message": "移動"
+ },
+ "moveFolderTo": {
+  "message": "「{1}」の移動先"
+ },
+ "moveToEllipsis": {
+  "message": "移動先…"
+ },
+ "newShort": {
+  "message": "新規"
+ },
+ "newSubfolder": {
+  "message": "サブフォルダ"
+ },
+ "nodeLoose": {
+  "message": "フォルダなし"
+ },
+ "nodeLooseMeta": {
+  "message": "ルート フォルダの直下"
+ },
+ "nodeRemoved": {
+  "message": "削除済み"
+ },
+ "nodeRemovedMeta": {
+  "message": "再作成せず、バックアップに保管"
+ },
+ "openFolder": {
+  "message": "フォルダを開く"
+ },
+ "openPage": {
+  "message": "ページを開く"
+ },
+ "proposalRestored": {
+  "message": "最初の提案に戻しました"
+ },
+ "reanalyze": {
+  "message": "再分析"
+ },
+ "reanalyzeFailed": {
+  "message": "再分析に失敗しました: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "「{2}」を再分析しました · 移動: {1} 件"
+ },
+ "reanalyzedNothing": {
+  "message": "「{1}」には再分析するものがありません。ブックマークはすべて手動で配置されています。"
+ },
+ "reanalyzedSame": {
+  "message": "「{1}」を再分析しました: 変更なし"
+ },
+ "reanalyzing": {
+  "message": "「{1}」を再分析しています"
+ },
+ "reasonSameSite": {
+  "message": "{2} の他のブックマーク {1} 件と同じ"
+ },
+ "removeBookmark": {
+  "message": "削除"
+ },
+ "removedHint": {
+  "message": "これらのブックマークは再作成されず、バックアップに残ります。ここで復元するか、フォルダにドラッグしてください。"
+ },
+ "removedOne": {
+  "message": "「{1}」は再作成されません（バックアップに残ります）"
+ },
+ "rename": {
+  "message": "名前を変更"
+ },
+ "renameLabel": {
+  "message": "「{1}」の新しい名前"
+ },
+ "renamedTo": {
+  "message": "名前を「{1}」に変更しました"
+ },
+ "restore": {
+  "message": "復元"
+ },
+ "restoreAll": {
+  "message": "すべて復元"
+ },
+ "restoredCount": {
+  "message": "復元しました: {1} 件"
+ },
+ "restoredOne": {
+  "message": "ブックマークを復元しました"
+ },
+ "rowActions": {
+  "message": "「{1}」の操作"
+ },
+ "subfolders": {
+  "message": "サブフォルダ"
+ },
+ "suggestionsFor": {
+  "message": "「{1}」の候補"
+ },
+ "undoEdit": {
+  "message": "元に戻す"
+ },
+ "undoEditHint": {
+  "message": "最後の変更を元に戻す（Ctrl+Z）"
+ },
+ "existingFolderMeta": {
+  "message": "すでにブックマークにあります"
+ },
+ "existingFolderHint": {
+  "message": "以前の整理で作成されたフォルダです。新しいブックマークはこのフォルダに追加され、名前と場所は変わりません。"
+ }
+}

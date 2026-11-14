@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Organizador de marcadores"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Una pequeña IA local organiza tus marcadores en carpetas claras, con emojis y barra de iconos. Privado, sin conexión y gratis."
+ },
+ "actionTitle": {
+  "message": "Organizar mis marcadores"
+ },
+ "tabSettings": {
+  "message": "Configuración"
+ },
+ "startTitle": {
+  "message": "Organiza tus marcadores"
+ },
+ "startLead": {
+  "message": "Una pequeña IA, en este ordenador, recrea todos tus marcadores en carpetas claras. Tú lo revisas y luego lo confirmas."
+ },
+ "optHistory": {
+  "message": "Poner primero los sitios más visitados"
+ },
+ "optHistoryHint": {
+  "message": "Cuenta las visitas de cada sitio y lee los títulos ya guardados, en este ordenador. No se envía nada."
+ },
+ "optFolderStyle": {
+  "message": "Nombres de carpetas"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + nombre"
+ },
+ "styleName": {
+  "message": "Solo nombre"
+ },
+ "styleEmoji": {
+  "message": "Solo emoji"
+ },
+ "optIconOnly": {
+  "message": "Barra de marcadores solo con iconos"
+ },
+ "optIconOnlyHint": {
+  "message": "Se propone de forma predeterminada; puedes volver a mostrar los nombres"
+ },
+ "analyze": {
+  "message": "Analizar mis marcadores"
+ },
+ "lastRun": {
+  "message": "Última clasificación: {1}"
+ },
+ "undoLast": {
+  "message": "Deshacer"
+ },
+ "phaseReading": {
+  "message": "Leyendo tus marcadores"
+ },
+ "phaseLoading": {
+  "message": "Cargando el modelo"
+ },
+ "phaseEmbedding": {
+  "message": "Comprendiendo cada marcador"
+ },
+ "phaseGrouping": {
+  "message": "Creando las carpetas"
+ },
+ "progressCount": {
+  "message": "{1} de {2}"
+ },
+ "moveTo": {
+  "message": "Mover a"
+ },
+ "newFolderOption": {
+  "message": "Nueva carpeta"
+ },
+ "folderName": {
+  "message": "Nombre de la carpeta"
+ },
+ "emojiLabel": {
+  "message": "Emoji de {1}"
+ },
+ "customEmoji": {
+  "message": "Otro emoji"
+ },
+ "reviewHint": {
+  "message": "Probados, sin pistas suficientes. Ábrelos para comprobarlo y luego elige una sugerencia o arrástralos a una carpeta. Si no, irán a «Por revisar», en Otros marcadores."
+ },
+ "barTitle": {
+  "message": "Nueva barra"
+ },
+ "iconOnly": {
+  "message": "solo icono"
+ },
+ "applying": {
+  "message": "Aplicando los cambios"
+ },
+ "doneTitle": {
+  "message": "Tus marcadores están organizados"
+ },
+ "doneSummary": {
+  "message": "{1} marcadores clasificados en {2} carpetas."
+ },
+ "doneSkipped": {
+  "message": "{1} elementos omitidos porque cambiaron mientras tanto. No se ha perdido nada: los originales están en la copia de seguridad."
+ },
+ "undone": {
+  "message": "Se ha deshecho la última clasificación."
+ },
+ "undoSkipped": {
+  "message": "{1} elementos se han quedado tal como los modificaste."
+ },
+ "changedBanner": {
+  "message": "Tus marcadores han cambiado en el navegador durante la revisión."
+ },
+ "refresh": {
+  "message": "Actualizar la propuesta"
+ },
+ "errorTitle": {
+  "message": "Se ha producido un error"
+ },
+ "errorModel": {
+  "message": "No se ha podido cargar el modelo. Si has compilado tú la extensión, ejecuta «pnpm fetch-model» y vuelve a compilarla."
+ },
+ "retry": {
+  "message": "Reintentar"
+ },
+ "emptyTitle": {
+  "message": "Nada que organizar"
+ },
+ "emptyHint": {
+  "message": "No hay marcadores en las carpetas elegidas. Elige otras carpetas."
+ },
+ "reasonHomeService": {
+  "message": "Servicio alojado en casa (dirección local o dominio personal)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Guía sobre {1} (autoalojamiento)"
+ },
+ "reasonNewGroup": {
+  "message": "{1} marcadores sobre este tema"
+ },
+ "reasonUser": {
+  "message": "Tu elección"
+ },
+ "reviewVague": {
+  "message": "Título genérico y dirección poco informativa: imposible saber qué contiene la página."
+ },
+ "settingsDefaults": {
+  "message": "Opciones predeterminadas"
+ },
+ "settingsHistoryOn": {
+  "message": "Permitido"
+ },
+ "settingsHistoryOff": {
+  "message": "No permitido"
+ },
+ "settingsNames": {
+  "message": "Marcadores solo con icono"
+ },
+ "settingsNamesCount": {
+  "message": "{1} marcadores mostrados como iconos"
+ },
+ "restoreNames": {
+  "message": "Volver a mostrar todos los nombres"
+ },
+ "namesRestored": {
+  "message": "Se han vuelto a mostrar {1} nombres."
+ },
+ "settingsData": {
+  "message": "Datos"
+ },
+ "clearCache": {
+  "message": "Caché de análisis"
+ },
+ "cacheCleared": {
+  "message": "Caché borrada."
+ },
+ "settingsAbout": {
+  "message": "Información"
+ },
+ "aboutModel": {
+  "message": "Modelo: {1}, ejecutado localmente."
+ },
+ "saved": {
+  "message": "Guardado"
+ },
+ "unnamed": {
+  "message": "(sin nombre)"
+ },
+ "barFolder": {
+  "message": "Barra de marcadores"
+ },
+ "otherFolder": {
+  "message": "Otros marcadores"
+ },
+ "lang": {
+  "message": "es"
+ },
+ "interruptedTitle": {
+  "message": "La última clasificación se ha interrumpido"
+ },
+ "interruptedHint": {
+  "message": "El navegador se cerró mientras se aplicaban los cambios. Deshaz lo que se hizo o mantenlo como está."
+ },
+ "interruptedUndo": {
+  "message": "Deshacer lo que se hizo"
+ },
+ "interruptedKeep": {
+  "message": "Mantener estos cambios"
+ },
+ "errorUnresolved": {
+  "message": "La última clasificación se ha interrumpido. Deshazla o mantenla antes de volver a organizar."
+ },
+ "changedBlocked": {
+  "message": "Primero actualiza la propuesta: tus marcadores han cambiado."
+ },
+ "startCountNone": {
+  "message": "No hay marcadores que clasificar"
+ },
+ "finish": {
+  "message": "Hecho"
+ },
+ "sourceMeta": {
+  "message": "{1} marcadores"
+ },
+ "destinations": {
+  "message": "Carpetas propuestas"
+ },
+ "proposal": {
+  "message": "Propuesta"
+ },
+ "nodeReviewMeta": {
+  "message": "Sin pistas suficientes"
+ },
+ "countLabel": {
+  "message": "{1} marcadores"
+ },
+ "sheetClose": {
+  "message": "Cerrar"
+ },
+ "emptyFolder": {
+  "message": "Vacía. Arrastra marcadores a esta carpeta en el diagrama."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Nueva carpeta"
+ },
+ "create": {
+  "message": "Crear"
+ },
+ "cancel": {
+  "message": "Cancelar"
+ },
+ "ok": {
+  "message": "Aceptar"
+ },
+ "keepTitle": {
+  "message": "Mantener el título original"
+ },
+ "useNewTitle": {
+  "message": "Usar el título más limpio"
+ },
+ "noEmoji": {
+  "message": "Sin emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Haz clic para mostrar solo el icono"
+ },
+ "showName": {
+  "message": "haz clic para mostrar el nombre"
+ },
+ "nothingYet": {
+  "message": "Todavía no se ha cambiado nada"
+ },
+ "restoreProposal": {
+  "message": "Restaurar la propuesta"
+ },
+ "applyRegion": {
+  "message": "Aplicar los cambios"
+ },
+ "announceMoved": {
+  "message": "«{1}» se ha movido a {2}"
+ },
+ "back": {
+  "message": "Atrás"
+ },
+ "clear": {
+  "message": "Borrar"
+ },
+ "footerSync": {
+  "message": "Los cambios también se aplicarán en tus otros dispositivos sincronizados."
+ },
+ "barHint": {
+  "message": "Haz clic en un marcador para ocultar o mostrar su nombre"
+ },
+ "applyCount": {
+  "message": "Clasificar {1} marcadores"
+ },
+ "applyOne": {
+  "message": "Clasificar 1 marcador"
+ },
+ "scopeLabel": {
+  "message": "Carpetas que organizar"
+ },
+ "barScopeHint": {
+  "message": "Accesos directos incluidos: los más usados vuelven primero"
+ },
+ "showSubfolders": {
+  "message": "Mostrar las carpetas de {1}"
+ },
+ "destinationLabel": {
+  "message": "Organizar en"
+ },
+ "moreOptions": {
+  "message": "Más opciones"
+ },
+ "sumReadSites": {
+  "message": "lectura de sitios"
+ },
+ "sumCheckDead": {
+  "message": "sitios caídos"
+ },
+ "sumHistory": {
+  "message": "historial"
+ },
+ "optReadSites": {
+  "message": "Leer los sitios cuando el título no basta"
+ },
+ "optReadSitesHint": {
+  "message": "Más lento, más preciso. Chrome pide acceso a los sitios una sola vez."
+ },
+ "optCheckDead": {
+  "message": "Detectar los sitios que ya no responden"
+ },
+ "optCheckDeadHint": {
+  "message": "Se colocan aparte, en «Sitios inaccesibles»."
+ },
+ "optFolderStyleHint": {
+  "message": "Las subcarpetas conservan su nombre."
+ },
+ "analyzeCount": {
+  "message": "Analizar {1} marcadores"
+ },
+ "analyzeOne": {
+  "message": "Analizar 1 marcador"
+ },
+ "privacyTitle": {
+  "message": "Ningún dato sale de este ordenador"
+ },
+ "privacyBody": {
+  "message": "La IA funciona aquí, sin cuenta ni servidor. Para entender un sitio, Nidomark abre su página como lo haría tu navegador, sin cookies, y no envía nada más."
+ },
+ "phaseSites": {
+  "message": "Leyendo los sitios"
+ },
+ "phasePages": {
+  "message": "Analizando las páginas"
+ },
+ "sitesNote": {
+  "message": "Varios sitios a la vez. No se envía nada; solo se leen las páginas."
+ },
+ "sitesAllowed": {
+  "message": "Acceso a los sitios concedido"
+ },
+ "sitesAsked": {
+  "message": "Chrome pedirá acceso a los sitios en el próximo análisis"
+ },
+ "backupsTitle": {
+  "message": "Copias de seguridad"
+ },
+ "backupsNone": {
+  "message": "No hay copias de seguridad"
+ },
+ "backupCount": {
+  "message": "{1} marcadores"
+ },
+ "backupDelete": {
+  "message": "Eliminar"
+ },
+ "backupDeleteTitle": {
+  "message": "¿Eliminar esta copia de seguridad?"
+ },
+ "backupConfirm": {
+  "message": "«{1}» y todo su contenido se eliminarán definitivamente. Tus marcadores clasificados no se mueven, pero la clasificación que la creó ya no se podrá deshacer."
+ },
+ "backupDeleted": {
+  "message": "Copia de seguridad eliminada."
+ },
+ "backupTitle": {
+  "message": "Nidomark – copia de seguridad del {1}"
+ },
+ "clearCacheHint": {
+  "message": "La caché acelera los próximos análisis; se queda en este ordenador."
+ },
+ "sourceAll": {
+  "message": "Tus marcadores"
+ },
+ "reasonKnownSite": {
+  "message": "Sitio conocido ({1})"
+ },
+ "reasonPattern": {
+  "message": "Dirección típica ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Título explícito"
+ },
+ "reasonAdultPage": {
+  "message": "La página indica que su contenido es para adultos"
+ },
+ "reasonPage": {
+  "message": "Según la página: «{1}»"
+ },
+ "reasonModel": {
+  "message": "Se parece a «{1}»"
+ },
+ "reasonPlatform": {
+  "message": "Publicado en {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Trata sobre {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Sueles clasificar {1} en «{2}»"
+ },
+ "reasonKeptFolder": {
+  "message": "Tu carpeta «{1}», recreada tal cual"
+ },
+ "reasonNewCategory": {
+  "message": "{1} marcadores de esta categoría"
+ },
+ "deadNetwork": {
+  "message": "Ya no responde: sitio no encontrado"
+ },
+ "deadTimeout": {
+  "message": "Ya no responde: tiempo de espera agotado"
+ },
+ "deadGone": {
+  "message": "Página eliminada ({1})"
+ },
+ "deadServer": {
+  "message": "Error del servidor ({1})"
+ },
+ "deadParked": {
+  "message": "Dominio abandonado o en venta"
+ },
+ "reviewUnclear": {
+  "message": "Ningún tema claro en el título ni en la dirección"
+ },
+ "reviewUnclearPage": {
+  "message": "Página leída, sin un tema claro"
+ },
+ "reviewBlocked": {
+  "message": "El sitio no permite la lectura ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Título poco claro; permite leer los sitios para saber más"
+ },
+ "nodeDupes": {
+  "message": "Duplicados"
+ },
+ "nodeDupesMeta": {
+  "message": "No se recrean; se quedan en la copia de seguridad"
+ },
+ "dupesHint": {
+  "message": "Estas páginas ya existen en otro lugar: se recrea una sola copia. Estas se quedan en la copia de seguridad."
+ },
+ "keepAllDupes": {
+  "message": "Mantener todos"
+ },
+ "reasonDuplicate": {
+  "message": "Duplicado de «{1}» ({2})"
+ },
+ "optDupes": {
+  "message": "Una sola copia de cada página"
+ },
+ "optDupesHint": {
+  "message": "Los duplicados no se recrean; se quedan en la copia de seguridad."
+ },
+ "sumDupes": {
+  "message": "duplicados"
+ },
+ "openSite": {
+  "message": "Abrir {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Faltan pistas. «Volver a analizar» prueba sus sitios; también puedes abrirlos para comprobarlo. Si no, irán a «Por revisar»."
+ },
+ "archiveNote": {
+  "message": "La estructura actual de tus marcadores se guarda tal cual en una copia de seguridad con fecha, en Otros marcadores. Un clic deshace la clasificación."
+ },
+ "barSheetHint": {
+  "message": "Los sitios que más abres, como iconos al principio de la barra. En la vista previa, haz clic en un icono para mostrar su nombre."
+ },
+ "doneArchive": {
+  "message": "La estructura anterior está en «{1}», en Otros marcadores."
+ },
+ "nodeBar": {
+  "message": "Acceso rápido"
+ },
+ "nodeBarMeta": {
+  "message": "Iconos al principio de la barra"
+ },
+ "notRecreated": {
+  "message": "No se recrean"
+ },
+ "optQuickAccess": {
+  "message": "Acceso rápido"
+ },
+ "optQuickAccessHint": {
+  "message": "Los sitios más visitados, como iconos al principio de la barra"
+ },
+ "quickNone": {
+  "message": "Ninguno"
+ },
+ "reasonBarShortcut": {
+  "message": "Ya está en tu barra de marcadores"
+ },
+ "reasonBarTool": {
+  "message": "Herramienta de la barra (bookmarklet o página del navegador)"
+ },
+ "reasonFacet": {
+  "message": "{1} marcadores del mismo sitio o sobre el mismo tema"
+ },
+ "reasonLearned": {
+  "message": "Lo clasificaste en «{1}»"
+ },
+ "reasonMyFolders": {
+  "message": "Tus carpetas que mezclan varios temas"
+ },
+ "reasonQuickAccess": {
+  "message": "Uno de los sitios que más abres"
+ },
+ "reasonReviewFolder": {
+  "message": "Faltan pistas para clasificarlos"
+ },
+ "reasonSpecial": {
+  "message": "Un enlace que no es una página web (bookmarklet, página del navegador, archivo)"
+ },
+ "leaveTitle": {
+  "message": "¿Descartar esta propuesta?"
+ },
+ "leaveBody": {
+  "message": "Tus marcadores no se han modificado. Para clasificarlos, tendrás que volver a hacer el análisis."
+ },
+ "leaveConfirm": {
+  "message": "Descartar"
+ },
+ "acceptAll": {
+  "message": "Clasificar todo como se sugiere ({1})"
+ },
+ "acceptedAll": {
+  "message": "Clasificados como se sugería: {1}"
+ },
+ "atTopOf": {
+  "message": "Directamente en {1}"
+ },
+ "deleteFolder": {
+  "message": "Eliminar"
+ },
+ "deleteFolderTitle": {
+  "message": "¿Eliminar «{1}»?"
+ },
+ "deleteFolderBody": {
+  "message": "Marcadores que contiene: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Marcadores que contiene: {1} · subcarpetas: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Mantener su contenido"
+ },
+ "deleteKeepHint": {
+  "message": "Sus marcadores y subcarpetas suben a «{1}»."
+ },
+ "deleteWithContent": {
+  "message": "Eliminar también su contenido"
+ },
+ "deleteWithContentHint": {
+  "message": "Sus marcadores no se recrean: se quedan en la copia de seguridad."
+ },
+ "displayInBrowser": {
+  "message": "Visualización"
+ },
+ "dropAtTop": {
+  "message": "Suelta aquí, en el nivel superior"
+ },
+ "editUndone": {
+  "message": "Cambio deshecho"
+ },
+ "fileIn": {
+  "message": "Clasificar en {1}"
+ },
+ "foldFolder": {
+  "message": "Contraer {1}"
+ },
+ "unfoldFolder": {
+  "message": "Expandir {1}"
+ },
+ "folderCreated": {
+  "message": "Carpeta «{1}» creada"
+ },
+ "folderDeleted": {
+  "message": "Se ha eliminado «{1}»: su contenido ha subido un nivel"
+ },
+ "folderDeletedAll": {
+  "message": "Se han eliminado «{1}» y su contenido"
+ },
+ "folderMoved": {
+  "message": "«{1}» se ha movido a {2}"
+ },
+ "folderPlace": {
+  "message": "Ubicación"
+ },
+ "iconOnlyItem": {
+  "message": "Solo icono"
+ },
+ "keepDupe": {
+  "message": "Mantener esta copia"
+ },
+ "looseHint": {
+  "message": "Marcadores directamente en {1}, fuera de cualquier carpeta."
+ },
+ "moveFolder": {
+  "message": "Mover"
+ },
+ "moveFolderTo": {
+  "message": "Mover «{1}» a"
+ },
+ "moveToEllipsis": {
+  "message": "Mover a…"
+ },
+ "newShort": {
+  "message": "nueva"
+ },
+ "newSubfolder": {
+  "message": "Subcarpeta"
+ },
+ "nodeLoose": {
+  "message": "Sin carpeta"
+ },
+ "nodeLooseMeta": {
+  "message": "Directamente en la carpeta raíz"
+ },
+ "nodeRemoved": {
+  "message": "Quitados"
+ },
+ "nodeRemovedMeta": {
+  "message": "No se recrean; se quedan en la copia de seguridad"
+ },
+ "openFolder": {
+  "message": "abrir la carpeta"
+ },
+ "openPage": {
+  "message": "Abrir la página"
+ },
+ "proposalRestored": {
+  "message": "Propuesta restaurada"
+ },
+ "reanalyze": {
+  "message": "Volver a analizar"
+ },
+ "reanalyzeFailed": {
+  "message": "El nuevo análisis ha fallado: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "Nuevo análisis de «{2}» · movidos: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Nada que volver a analizar en «{1}»: sus marcadores los has colocado tú."
+ },
+ "reanalyzedSame": {
+  "message": "Nuevo análisis de «{1}»: sin cambios"
+ },
+ "reanalyzing": {
+  "message": "Volviendo a analizar «{1}»"
+ },
+ "reasonSameSite": {
+  "message": "Como otros {1} marcadores de {2}"
+ },
+ "removeBookmark": {
+  "message": "Quitar"
+ },
+ "removedHint": {
+  "message": "Estos marcadores no se recrean. Se quedan en la copia de seguridad: restáuralos aquí o arrástralos a una carpeta."
+ },
+ "removedOne": {
+  "message": "«{1}» no se recreará (se queda en la copia de seguridad)"
+ },
+ "rename": {
+  "message": "Cambiar nombre"
+ },
+ "renameLabel": {
+  "message": "Nuevo nombre de {1}"
+ },
+ "renamedTo": {
+  "message": "Nuevo nombre: «{1}»"
+ },
+ "restore": {
+  "message": "Restaurar"
+ },
+ "restoreAll": {
+  "message": "Restaurar todos"
+ },
+ "restoredCount": {
+  "message": "Restaurados: {1}"
+ },
+ "restoredOne": {
+  "message": "Marcador restaurado"
+ },
+ "rowActions": {
+  "message": "Acciones de {1}"
+ },
+ "subfolders": {
+  "message": "Subcarpetas"
+ },
+ "suggestionsFor": {
+  "message": "Sugerencias para {1}"
+ },
+ "undoEdit": {
+  "message": "Deshacer"
+ },
+ "undoEditHint": {
+  "message": "Deshacer el último cambio (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Ya está en tus marcadores"
+ },
+ "existingFolderHint": {
+  "message": "Carpeta de una clasificación anterior: recibe los nuevos marcadores y conserva su nombre y su ubicación."
+ }
+}

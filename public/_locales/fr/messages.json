@@ -84,7 +84,7 @@
   "message": "Autre emoji"
  },
  "reviewHint": {
-  "message": "Testés, sans indice suffisant. Ouvrez-les pour vérifier, puis acceptez la suggestion ou choisissez un dossier. Sinon, ils iront dans « À vérifier », dans Autres favoris."
+  "message": "Testés, sans indice suffisant. Ouvrez-les pour vérifier, puis choisissez une suggestion ou glissez-les sur un dossier. Sinon, ils iront dans « À vérifier », dans Autres favoris."
  },
  "barTitle": {
   "message": "Nouvelle barre"
@@ -231,26 +231,17 @@
  "proposal": {
   "message": "Proposition"
  },
- "nodeReview": {
-  "message": "À vérifier"
- },
  "nodeReviewMeta": {
   "message": "Pas assez d’indices"
  },
  "countLabel": {
   "message": "{1} favoris"
  },
- "createThisFolder": {
-  "message": "Créer ce dossier"
- },
- "dontCreate": {
-  "message": "Ne pas créer"
- },
  "sheetClose": {
   "message": "Fermer"
  },
  "emptyFolder": {
-  "message": "Glissez des favoris ici"
+  "message": "Vide. Glissez des favoris sur ce dossier dans le schéma."
  },
  "dialogNewFolderTitle": {
   "message": "Nouveau dossier"
@@ -402,9 +393,6 @@
  "clearCacheHint": {
   "message": "Le cache accélère les analyses suivantes ; il reste sur cet ordinateur."
  },
- "nodeNewIn": {
-  "message": "Sera créé dans {1}"
- },
  "sourceAll": {
   "message": "Vos favoris"
  },
@@ -480,9 +468,6 @@
  "keepAllDupes": {
   "message": "Tout garder"
  },
- "announceDupesKept": {
-  "message": "Les doublons sont gardés."
- },
  "reasonDuplicate": {
   "message": "Doublon de « {1} » ({2})"
  },
@@ -499,7 +484,7 @@
   "message": "Ouvrir {1}"
  },
  "reviewHintUntested": {
-  "message": "Pas assez d’indices. Autorisez la lecture des sites pour qu’ils soient testés, ou ouvrez-les pour vérifier. Sinon, ils iront dans « À vérifier »."
+  "message": "Pas assez d’indices. « Réanalyser » teste leurs sites ; vous pouvez aussi les ouvrir pour vérifier. Sinon, ils iront dans « À vérifier »."
  },
  "archiveNote": {
   "message": "Votre arborescence actuelle est gardée telle quelle dans une sauvegarde datée, dans Autres favoris. Un clic annule le tri."
@@ -552,12 +537,6 @@
  "reasonSpecial": {
   "message": "Lien qui n’est pas une page web (bookmarklet, page du navigateur, fichier)"
  },
- "sectionOff": {
-  "message": "Ce dossier ne sera pas créé : ses favoris iront dans « {1} »."
- },
- "suggestion": {
-  "message": "Suggestion : {1}"
- },
  "leaveTitle": {
   "message": "Abandonner cette proposition ?"
  },
@@ -566,5 +545,188 @@
  },
  "leaveConfirm": {
   "message": "Abandonner"
+ },
+ "acceptAll": {
+  "message": "Tout ranger comme suggéré ({1})"
+ },
+ "acceptedAll": {
+  "message": "Rangés comme suggéré : {1}"
+ },
+ "atTopOf": {
+  "message": "Directement dans {1}"
+ },
+ "deleteFolder": {
+  "message": "Supprimer"
+ },
+ "deleteFolderTitle": {
+  "message": "Supprimer « {1} » ?"
+ },
+ "deleteFolderBody": {
+  "message": "Favoris à l’intérieur : {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Favoris à l’intérieur : {1} · sous-dossiers : {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Garder son contenu"
+ },
+ "deleteKeepHint": {
+  "message": "Ses favoris et sous-dossiers remontent dans « {1} »."
+ },
+ "deleteWithContent": {
+  "message": "Supprimer aussi son contenu"
+ },
+ "deleteWithContentHint": {
+  "message": "Ses favoris ne sont pas recréés : ils restent dans la sauvegarde."
+ },
+ "displayInBrowser": {
+  "message": "Affichage"
+ },
+ "dropAtTop": {
+  "message": "Déposer ici, au premier niveau"
+ },
+ "editUndone": {
+  "message": "Modification annulée"
+ },
+ "fileIn": {
+  "message": "Ranger dans {1}"
+ },
+ "foldFolder": {
+  "message": "Replier {1}"
+ },
+ "unfoldFolder": {
+  "message": "Déplier {1}"
+ },
+ "folderCreated": {
+  "message": "Dossier « {1} » créé"
+ },
+ "folderDeleted": {
+  "message": "« {1} » supprimé : son contenu est remonté"
+ },
+ "folderDeletedAll": {
+  "message": "« {1} » et son contenu supprimés"
+ },
+ "folderMoved": {
+  "message": "« {1} » déplacé vers {2}"
+ },
+ "folderPlace": {
+  "message": "Emplacement"
+ },
+ "iconOnlyItem": {
+  "message": "Icône seule"
+ },
+ "keepDupe": {
+  "message": "Garder cette copie"
+ },
+ "looseHint": {
+  "message": "Favoris placés directement dans {1}, hors de tout dossier."
+ },
+ "moveFolder": {
+  "message": "Déplacer"
+ },
+ "moveFolderTo": {
+  "message": "Déplacer « {1} » vers"
+ },
+ "moveToEllipsis": {
+  "message": "Déplacer vers…"
+ },
+ "newShort": {
+  "message": "nouveau"
+ },
+ "newSubfolder": {
+  "message": "Sous-dossier"
+ },
+ "nodeLoose": {
+  "message": "Sans dossier"
+ },
+ "nodeLooseMeta": {
+  "message": "Directement à la racine"
+ },
+ "nodeRemoved": {
+  "message": "Supprimés"
+ },
+ "nodeRemovedMeta": {
+  "message": "Non recréés, gardés dans la sauvegarde"
+ },
+ "openFolder": {
+  "message": "ouvrir le dossier"
+ },
+ "openPage": {
+  "message": "Ouvrir la page"
+ },
+ "proposalRestored": {
+  "message": "Proposition rétablie"
+ },
+ "reanalyze": {
+  "message": "Réanalyser"
+ },
+ "reanalyzeFailed": {
+  "message": "La nouvelle analyse a échoué : {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "« {2} » réanalysé · déplacés : {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Rien à réanalyser dans « {1} » : vous avez placé ses favoris vous-même."
+ },
+ "reanalyzedSame": {
+  "message": "« {1} » réanalysé : aucun changement"
+ },
+ "reanalyzing": {
+  "message": "Nouvelle analyse de « {1} »"
+ },
+ "reasonSameSite": {
+  "message": "Comme {1} autres favoris de {2}"
+ },
+ "removeBookmark": {
+  "message": "Supprimer"
+ },
+ "removedHint": {
+  "message": "Ces favoris ne sont pas recréés. Ils restent dans la sauvegarde : restaurez-les ici, ou glissez-les sur un dossier."
+ },
+ "removedOne": {
+  "message": "« {1} » ne sera pas recréé (il reste dans la sauvegarde)"
+ },
+ "rename": {
+  "message": "Renommer"
+ },
+ "renameLabel": {
+  "message": "Nouveau nom de {1}"
+ },
+ "renamedTo": {
+  "message": "Renommé en « {1} »"
+ },
+ "restore": {
+  "message": "Restaurer"
+ },
+ "restoreAll": {
+  "message": "Tout restaurer"
+ },
+ "restoredCount": {
+  "message": "Restaurés : {1}"
+ },
+ "restoredOne": {
+  "message": "Favori restauré"
+ },
+ "rowActions": {
+  "message": "Actions pour {1}"
+ },
+ "subfolders": {
+  "message": "Sous-dossiers"
+ },
+ "suggestionsFor": {
+  "message": "Suggestions pour {1}"
+ },
+ "undoEdit": {
+  "message": "Annuler"
+ },
+ "undoEditHint": {
+  "message": "Annuler la dernière modification (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Déjà dans vos favoris"
+ },
+ "existingFolderHint": {
+  "message": "Dossier d’un tri précédent : les nouveaux favoris y sont ajoutés, et il garde son nom et sa place."
  }
 }

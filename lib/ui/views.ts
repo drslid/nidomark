@@ -46,7 +46,7 @@ function scopePicker(s: State, a: Actions): HTMLElement | null {
     const kids = children(f.id).filter((c) => c.count > 0);
     if (!f.count && !kids.length) continue;
     const open = s.expandedScope.includes(f.id);
-    const isBar = f.title === t('barFolder');
+    const isBar = f.isBar;
     rows.push(h('div', { class: 'scope-row' },
       h('label', { class: 'grow scope-label' },
         h('input', { type: 'checkbox', checked: f.included, 'data-focus': `scope-${f.id}`, onchange: (e: Event) => a.toggleScope(f.id, (e.target as HTMLInputElement).checked) }),
@@ -115,7 +115,7 @@ export function startView(s: State, a: Actions): HTMLElement {
       h('div', null, h('p', { class: 'privacy-title' }, t('privacyTitle')), h('p', { class: 'muted small' }, t('privacyBody')))));
 }
 
-const PHASE_LABEL: Record<string, string> = { reading: 'phaseReading', loading: 'phaseLoading', embedding: 'phaseEmbedding', sites: 'phaseSites', pages: 'phasePages', grouping: 'phaseGrouping', applying: 'applying' };
+export const PHASE_LABEL: Record<string, string> = { reading: 'phaseReading', loading: 'phaseLoading', embedding: 'phaseEmbedding', sites: 'phaseSites', pages: 'phasePages', grouping: 'phaseGrouping', applying: 'applying' };
 
 export function progressView(s: State): HTMLElement {
   const { phase, done, total } = s.progress;

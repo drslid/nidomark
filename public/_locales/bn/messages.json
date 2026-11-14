@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – বুকমার্ক সাজানোর টুল"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "একটি ছোট লোকাল AI আপনার বুকমার্ক পরিষ্কার ফোল্ডারে সাজিয়ে দেয়, সাথে ইমোজি আর শুধু আইকনের বার। ব্যক্তিগত, অফলাইন, বিনামূল্যে।"
+ },
+ "actionTitle": {
+  "message": "আমার বুকমার্ক সাজান"
+ },
+ "tabSettings": {
+  "message": "সেটিংস"
+ },
+ "startTitle": {
+  "message": "আপনার বুকমার্ক সাজান"
+ },
+ "startLead": {
+  "message": "এই কম্পিউটারে চলা একটি ছোট AI আপনার সব বুকমার্ক পরিষ্কার ফোল্ডারে নতুন করে তৈরি করে। আপনি যাচাই করেন, তারপর নিশ্চিত করেন।"
+ },
+ "optHistory": {
+  "message": "সবচেয়ে বেশি দেখা সাইটগুলি আগে রাখুন"
+ },
+ "optHistoryHint": {
+  "message": "এই কম্পিউটারেই প্রতিটি সাইটে কতবার গেছেন তা গোনে এবং আগে থেকে সেভ করা টাইটেল পড়ে। কিছুই পাঠানো হয় না।"
+ },
+ "optFolderStyle": {
+  "message": "ফোল্ডারের নাম"
+ },
+ "styleEmojiName": {
+  "message": "ইমোজি + নাম"
+ },
+ "styleName": {
+  "message": "শুধু নাম"
+ },
+ "styleEmoji": {
+  "message": "শুধু ইমোজি"
+ },
+ "optIconOnly": {
+  "message": "বুকমার্কস বারে শুধু আইকন"
+ },
+ "optIconOnlyHint": {
+  "message": "ডিফল্ট হিসেবে প্রস্তাব করা হয়; নাম আবার দেখানো যায়"
+ },
+ "analyze": {
+  "message": "আমার বুকমার্ক বিশ্লেষণ করুন"
+ },
+ "lastRun": {
+  "message": "শেষবার সাজানো হয়েছে: {1}"
+ },
+ "undoLast": {
+  "message": "পূর্বাবস্থায় ফেরান"
+ },
+ "phaseReading": {
+  "message": "আপনার বুকমার্ক পড়া হচ্ছে"
+ },
+ "phaseLoading": {
+  "message": "মডেল লোড হচ্ছে"
+ },
+ "phaseEmbedding": {
+  "message": "প্রতিটি বুকমার্ক বোঝা হচ্ছে"
+ },
+ "phaseGrouping": {
+  "message": "ফোল্ডার তৈরি হচ্ছে"
+ },
+ "progressCount": {
+  "message": "{2}টির মধ্যে {1}টি"
+ },
+ "moveTo": {
+  "message": "এতে সরান"
+ },
+ "newFolderOption": {
+  "message": "নতুন ফোল্ডার"
+ },
+ "folderName": {
+  "message": "ফোল্ডারের নাম"
+ },
+ "emojiLabel": {
+  "message": "{1}-এর ইমোজি"
+ },
+ "customEmoji": {
+  "message": "অন্য ইমোজি"
+ },
+ "reviewHint": {
+  "message": "পরীক্ষা করা হয়েছে, কিন্তু যথেষ্ট সূত্র নেই। যাচাই করতে এগুলি খুলুন, তারপর একটি সাজেশন বেছে নিন বা টেনে এনে কোনো ফোল্ডারে ছেড়ে দিন। নইলে এগুলি অন্য বুকমার্ক ফোল্ডারের ভেতরে “যাচাই করতে হবে” ফোল্ডারে চলে যাবে।"
+ },
+ "barTitle": {
+  "message": "নতুন বার"
+ },
+ "iconOnly": {
+  "message": "শুধু আইকন"
+ },
+ "applying": {
+  "message": "পরিবর্তনগুলি প্রয়োগ করা হচ্ছে"
+ },
+ "doneTitle": {
+  "message": "আপনার বুকমার্ক সাজানো হয়েছে"
+ },
+ "doneSummary": {
+  "message": "{1}টি বুকমার্ক {2}টি ফোল্ডারে সাজানো হয়েছে।"
+ },
+ "doneSkipped": {
+  "message": "এর মধ্যে বদলে যাওয়ায় {1}টি আইটেম বাদ দেওয়া হয়েছে। কিছুই হারায়নি: আসল আইটেমগুলি ব্যাকআপে আছে।"
+ },
+ "undone": {
+  "message": "আপনার বুকমার্ক আগের অবস্থায় ফিরিয়ে আনা হয়েছে।"
+ },
+ "undoSkipped": {
+  "message": "{1}টি আইটেম আপনার করা পরিবর্তনসহ যেমন ছিল তেমনই রাখা হয়েছে।"
+ },
+ "changedBanner": {
+  "message": "যাচাই করার সময় ব্রাউজারে আপনার বুকমার্ক বদলে গেছে।"
+ },
+ "refresh": {
+  "message": "প্রস্তাব রিফ্রেশ করুন"
+ },
+ "errorTitle": {
+  "message": "কিছু সমস্যা হয়েছে"
+ },
+ "errorModel": {
+  "message": "মডেল লোড করা যায়নি। আপনি নিজে এক্সটেনশনটি বিল্ড করে থাকলে “pnpm fetch-model” চালান, তারপর আবার বিল্ড করুন।"
+ },
+ "retry": {
+  "message": "আবার চেষ্টা করুন"
+ },
+ "emptyTitle": {
+  "message": "সাজানোর মতো কিছু নেই"
+ },
+ "emptyHint": {
+  "message": "বেছে নেওয়া ফোল্ডারে কোনো বুকমার্ক নেই। অন্য ফোল্ডার বেছে নিন।"
+ },
+ "reasonHomeService": {
+  "message": "বাড়িতে হোস্ট করা পরিষেবা (লোকাল ঠিকানা বা নিজস্ব ডোমেন)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "{1} নিয়ে গাইড (সেলফ-হোস্টিং)"
+ },
+ "reasonNewGroup": {
+  "message": "এই বিষয়ের {1}টি বুকমার্ক"
+ },
+ "reasonUser": {
+  "message": "আপনার পছন্দ"
+ },
+ "reviewVague": {
+  "message": "সাধারণ টাইটেল আর অস্পষ্ট ঠিকানা: পৃষ্ঠায় কী আছে তা বোঝার উপায় নেই।"
+ },
+ "settingsDefaults": {
+  "message": "ডিফল্ট বিকল্প"
+ },
+ "settingsHistoryOn": {
+  "message": "অনুমতি দেওয়া আছে"
+ },
+ "settingsHistoryOff": {
+  "message": "অনুমতি নেই"
+ },
+ "settingsNames": {
+  "message": "শুধু আইকন দেখানো বুকমার্ক"
+ },
+ "settingsNamesCount": {
+  "message": "{1}টি বুকমার্ক আইকন হিসেবে দেখানো হচ্ছে"
+ },
+ "restoreNames": {
+  "message": "সব নাম আবার দেখান"
+ },
+ "namesRestored": {
+  "message": "{1}টি নাম আবার দেখানো হয়েছে।"
+ },
+ "settingsData": {
+  "message": "ডেটা"
+ },
+ "clearCache": {
+  "message": "বিশ্লেষণের ক্যাশে"
+ },
+ "cacheCleared": {
+  "message": "ক্যাশে সাফ করা হয়েছে।"
+ },
+ "settingsAbout": {
+  "message": "সম্পর্কে"
+ },
+ "aboutModel": {
+  "message": "মডেল: {1}, এই কম্পিউটারেই চলে।"
+ },
+ "saved": {
+  "message": "সেভ করা হয়েছে"
+ },
+ "unnamed": {
+  "message": "(নাম নেই)"
+ },
+ "barFolder": {
+  "message": "বুকমার্কস বার"
+ },
+ "otherFolder": {
+  "message": "অন্য বুকমার্ক"
+ },
+ "lang": {
+  "message": "bn"
+ },
+ "interruptedTitle": {
+  "message": "শেষবারের সাজানো মাঝপথে থেমে গেছে"
+ },
+ "interruptedHint": {
+  "message": "পরিবর্তন প্রয়োগ করার সময় ব্রাউজার বন্ধ হয়ে গিয়েছিল। যা করা হয়েছে তা পূর্বাবস্থায় ফেরান, অথবা যেমন আছে তেমনই রাখুন।"
+ },
+ "interruptedUndo": {
+  "message": "যা করা হয়েছে তা পূর্বাবস্থায় ফেরান"
+ },
+ "interruptedKeep": {
+  "message": "এই পরিবর্তনগুলি রাখুন"
+ },
+ "errorUnresolved": {
+  "message": "শেষবারের সাজানো মাঝপথে থেমে গিয়েছিল। আবার সাজানোর আগে সেটি পূর্বাবস্থায় ফেরান বা রেখে দিন।"
+ },
+ "changedBlocked": {
+  "message": "আগে প্রস্তাবটি রিফ্রেশ করুন: আপনার বুকমার্ক বদলে গেছে।"
+ },
+ "startCountNone": {
+  "message": "সাজানোর মতো কোনো বুকমার্ক নেই"
+ },
+ "finish": {
+  "message": "হয়ে গেছে"
+ },
+ "sourceMeta": {
+  "message": "{1}টি বুকমার্ক"
+ },
+ "destinations": {
+  "message": "প্রস্তাবিত ফোল্ডার"
+ },
+ "proposal": {
+  "message": "প্রস্তাব"
+ },
+ "nodeReviewMeta": {
+  "message": "যথেষ্ট সূত্র নেই"
+ },
+ "countLabel": {
+  "message": "{1}টি বুকমার্ক"
+ },
+ "sheetClose": {
+  "message": "বন্ধ করুন"
+ },
+ "emptyFolder": {
+  "message": "খালি। ডায়াগ্রামে বুকমার্ক টেনে এনে এই ফোল্ডারে ছেড়ে দিন।"
+ },
+ "dialogNewFolderTitle": {
+  "message": "নতুন ফোল্ডার"
+ },
+ "create": {
+  "message": "তৈরি করুন"
+ },
+ "cancel": {
+  "message": "বাতিল করুন"
+ },
+ "ok": {
+  "message": "ঠিক আছে"
+ },
+ "keepTitle": {
+  "message": "আসল টাইটেল রাখুন"
+ },
+ "useNewTitle": {
+  "message": "আরও পরিষ্কার টাইটেল ব্যবহার করুন"
+ },
+ "noEmoji": {
+  "message": "ইমোজি ছাড়া"
+ },
+ "iconOnlyHint": {
+  "message": "শুধু আইকন দেখাতে ক্লিক করুন"
+ },
+ "showName": {
+  "message": "নাম দেখাতে ক্লিক করুন"
+ },
+ "nothingYet": {
+  "message": "এখনও কিছু বদলানো হয়নি"
+ },
+ "restoreProposal": {
+  "message": "প্রস্তাব ফিরিয়ে আনুন"
+ },
+ "applyRegion": {
+  "message": "পরিবর্তনগুলি প্রয়োগ করুন"
+ },
+ "announceMoved": {
+  "message": "“{1}” {2}-এ সরানো হয়েছে"
+ },
+ "back": {
+  "message": "ফিরে যান"
+ },
+ "clear": {
+  "message": "সাফ করুন"
+ },
+ "footerSync": {
+  "message": "সাইন-ইন করা আপনার অন্য ডিভাইসগুলিতেও এই পরিবর্তনগুলি প্রযোজ্য হবে।"
+ },
+ "barHint": {
+  "message": "কোনো বুকমার্কের নাম লুকাতে বা দেখাতে সেটিতে ক্লিক করুন"
+ },
+ "applyCount": {
+  "message": "{1}টি বুকমার্ক সাজান"
+ },
+ "applyOne": {
+  "message": "১টি বুকমার্ক সাজান"
+ },
+ "scopeLabel": {
+  "message": "যে ফোল্ডারগুলি সাজাবেন"
+ },
+ "barScopeHint": {
+  "message": "শর্টকাটও আছে: সবচেয়ে বেশি ব্যবহার করা শর্টকাটগুলি আগে ফিরে আসে"
+ },
+ "showSubfolders": {
+  "message": "{1}-এর ফোল্ডারগুলি দেখান"
+ },
+ "destinationLabel": {
+  "message": "কোথায় সাজাবেন"
+ },
+ "moreOptions": {
+  "message": "আরও বিকল্প"
+ },
+ "sumReadSites": {
+  "message": "সাইট পড়া"
+ },
+ "sumCheckDead": {
+  "message": "অচল সাইট"
+ },
+ "sumHistory": {
+  "message": "ইতিহাস"
+ },
+ "optReadSites": {
+  "message": "টাইটেল যথেষ্ট না হলে সাইট পড়ুন"
+ },
+ "optReadSitesHint": {
+  "message": "ধীর, তবে আরও সঠিক। Chrome একবার সাইট অ্যাক্সেস করার অনুমতি চাইবে।"
+ },
+ "optCheckDead": {
+  "message": "যেসব সাইট আর খোলে না সেগুলি খুঁজুন"
+ },
+ "optCheckDeadHint": {
+  "message": "এগুলি আলাদা করে “অচল সাইট” ফোল্ডারে রাখা হয়।"
+ },
+ "optFolderStyleHint": {
+  "message": "সাবফোল্ডারের নাম একই থাকে।"
+ },
+ "analyzeCount": {
+  "message": "{1}টি বুকমার্ক বিশ্লেষণ করুন"
+ },
+ "analyzeOne": {
+  "message": "১টি বুকমার্ক বিশ্লেষণ করুন"
+ },
+ "privacyTitle": {
+  "message": "কোনো ডেটা এই কম্পিউটারের বাইরে যায় না"
+ },
+ "privacyBody": {
+  "message": "AI এখানেই চলে, কোনো অ্যাকাউন্ট বা সার্ভার ছাড়া। কোনো সাইট বুঝতে Nidomark আপনার ব্রাউজারের মতো করে তার পৃষ্ঠা খোলে, কুকি ছাড়া, আর অন্য কিছু পাঠায় না।"
+ },
+ "phaseSites": {
+  "message": "সাইট পড়া হচ্ছে"
+ },
+ "phasePages": {
+  "message": "পৃষ্ঠা বিশ্লেষণ করা হচ্ছে"
+ },
+ "sitesNote": {
+  "message": "একসাথে কয়েকটি সাইট। কিছুই পাঠানো হয় না, পৃষ্ঠাগুলি শুধু পড়া হয়।"
+ },
+ "sitesAllowed": {
+  "message": "সাইট অ্যাক্সেস করার অনুমতি দেওয়া হয়েছে"
+ },
+ "sitesAsked": {
+  "message": "পরের বিশ্লেষণের সময় Chrome সাইট অ্যাক্সেস করার অনুমতি চাইবে"
+ },
+ "backupsTitle": {
+  "message": "ব্যাকআপ"
+ },
+ "backupsNone": {
+  "message": "কোনো ব্যাকআপ নেই"
+ },
+ "backupCount": {
+  "message": "{1}টি বুকমার্ক"
+ },
+ "backupDelete": {
+  "message": "মুছুন"
+ },
+ "backupDeleteTitle": {
+  "message": "এই ব্যাকআপ মুছবেন?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” এবং এর ভেতরের সবকিছু স্থায়ীভাবে মুছে যাবে। আপনার সাজানো বুকমার্ক যেখানে আছে সেখানেই থাকবে, কিন্তু যে সাজানো থেকে এটি তৈরি হয়েছিল তা আর পূর্বাবস্থায় ফেরানো যাবে না।"
+ },
+ "backupDeleted": {
+  "message": "ব্যাকআপ মুছে ফেলা হয়েছে।"
+ },
+ "backupTitle": {
+  "message": "Nidomark – ব্যাকআপ ({1})"
+ },
+ "clearCacheHint": {
+  "message": "ক্যাশে পরের বিশ্লেষণগুলি দ্রুত করে; এটি এই কম্পিউটারেই থাকে।"
+ },
+ "sourceAll": {
+  "message": "আপনার বুকমার্ক"
+ },
+ "reasonKnownSite": {
+  "message": "পরিচিত সাইট ({1})"
+ },
+ "reasonPattern": {
+  "message": "চেনা ধরনের ঠিকানা ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "অশ্লীল টাইটেল"
+ },
+ "reasonAdultPage": {
+  "message": "পৃষ্ঠাটি নিজেকে প্রাপ্তবয়স্কদের কন্টেন্ট বলে জানায়"
+ },
+ "reasonPage": {
+  "message": "পৃষ্ঠা থেকে: “{1}”"
+ },
+ "reasonModel": {
+  "message": "“{1}”-এর মতো মনে হচ্ছে"
+ },
+ "reasonPlatform": {
+  "message": "{1}-এ প্রকাশিত"
+ },
+ "reasonAboutApp": {
+  "message": "{1} সম্পর্কে"
+ },
+ "reasonLearnedSite": {
+  "message": "আপনি {1} “{2}”-এ রাখেন"
+ },
+ "reasonKeptFolder": {
+  "message": "আপনার ফোল্ডার “{1}”, যেমন ছিল তেমনই আবার তৈরি করা হয়েছে"
+ },
+ "reasonNewCategory": {
+  "message": "এই বিভাগের {1}টি বুকমার্ক"
+ },
+ "deadNetwork": {
+  "message": "আর খোলে না: সাইট পাওয়া যায়নি"
+ },
+ "deadTimeout": {
+  "message": "আর খোলে না: সময় পেরিয়ে গেছে"
+ },
+ "deadGone": {
+  "message": "পৃষ্ঠা সরিয়ে দেওয়া হয়েছে ({1})"
+ },
+ "deadServer": {
+  "message": "সার্ভারে সমস্যা ({1})"
+ },
+ "deadParked": {
+  "message": "ডোমেন পরিত্যক্ত বা বিক্রির জন্য"
+ },
+ "reviewUnclear": {
+  "message": "টাইটেল ও ঠিকানায় কোনো স্পষ্ট বিষয় নেই"
+ },
+ "reviewUnclearPage": {
+  "message": "পৃষ্ঠা পড়া হয়েছে, স্পষ্ট বিষয় নেই"
+ },
+ "reviewBlocked": {
+  "message": "সাইটটি পড়তে দিচ্ছে না ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "অস্পষ্ট টাইটেল; আরও জানতে সাইট পড়ার অনুমতি দিন"
+ },
+ "nodeDupes": {
+  "message": "ডুপ্লিকেট"
+ },
+ "nodeDupesMeta": {
+  "message": "আবার তৈরি হবে না, ব্যাকআপে থাকবে"
+ },
+ "dupesHint": {
+  "message": "এই পৃষ্ঠাগুলি আগে থেকেই অন্য জায়গায় আছে: একটি কপি আবার তৈরি করা হয়। এগুলি ব্যাকআপে থেকে যায়।"
+ },
+ "keepAllDupes": {
+  "message": "সব রাখুন"
+ },
+ "reasonDuplicate": {
+  "message": "“{1}”-এর ডুপ্লিকেট ({2})"
+ },
+ "optDupes": {
+  "message": "প্রতিটি পৃষ্ঠার একটি করে কপি"
+ },
+ "optDupesHint": {
+  "message": "ডুপ্লিকেট আবার তৈরি করা হয় না; সেগুলি ব্যাকআপে থাকে।"
+ },
+ "sumDupes": {
+  "message": "ডুপ্লিকেট"
+ },
+ "openSite": {
+  "message": "{1} খুলুন"
+ },
+ "reviewHintUntested": {
+  "message": "যথেষ্ট সূত্র নেই। “আবার বিশ্লেষণ করুন” এদের সাইট পরীক্ষা করে; যাচাই করতে আপনি এগুলি খুলেও দেখতে পারেন। নইলে এগুলি “যাচাই করতে হবে” ফোল্ডারে চলে যাবে।"
+ },
+ "archiveNote": {
+  "message": "আপনার বর্তমান ফোল্ডার-কাঠামো যেমন আছে তেমনই তারিখসহ একটি ব্যাকআপে রাখা হয়, অন্য বুকমার্ক ফোল্ডারে। এক ক্লিকেই সাজানো পূর্বাবস্থায় ফেরানো যায়।"
+ },
+ "barSheetHint": {
+  "message": "আপনি যে সাইটগুলি সবচেয়ে বেশি খোলেন, বারের শুরুতে আইকন হিসেবে। প্রিভিউতে কোনো আইকনের নাম দেখাতে সেটিতে ক্লিক করুন।"
+ },
+ "doneArchive": {
+  "message": "আপনার আগের ফোল্ডার-কাঠামো অন্য বুকমার্ক ফোল্ডারের “{1}”-এ আছে।"
+ },
+ "nodeBar": {
+  "message": "দ্রুত অ্যাক্সেস"
+ },
+ "nodeBarMeta": {
+  "message": "বারের শুরুতে আইকন"
+ },
+ "notRecreated": {
+  "message": "আবার তৈরি হবে না"
+ },
+ "optQuickAccess": {
+  "message": "দ্রুত অ্যাক্সেস"
+ },
+ "optQuickAccessHint": {
+  "message": "সবচেয়ে বেশি দেখা সাইট, বারের শুরুতে আইকন হিসেবে"
+ },
+ "quickNone": {
+  "message": "কিছু নেই"
+ },
+ "reasonBarShortcut": {
+  "message": "আগে থেকেই আপনার বুকমার্কস বারে আছে"
+ },
+ "reasonBarTool": {
+  "message": "বারের টুল (বুকমার্কলেট বা ব্রাউজারের পৃষ্ঠা)"
+ },
+ "reasonFacet": {
+  "message": "একই সাইট বা একই বিষয়ের {1}টি বুকমার্ক"
+ },
+ "reasonLearned": {
+  "message": "আপনি এটি “{1}”-এ রেখেছিলেন"
+ },
+ "reasonMyFolders": {
+  "message": "আপনার যে ফোল্ডারগুলিতে নানা বিষয় মেশানো আছে"
+ },
+ "reasonQuickAccess": {
+  "message": "আপনি সবচেয়ে বেশি খোলেন এমন সাইটগুলির একটি"
+ },
+ "reasonReviewFolder": {
+  "message": "সাজানোর মতো যথেষ্ট সূত্র নেই"
+ },
+ "reasonSpecial": {
+  "message": "এমন লিঙ্ক যা ওয়েব পৃষ্ঠা নয় (বুকমার্কলেট, ব্রাউজারের পৃষ্ঠা, ফাইল)"
+ },
+ "leaveTitle": {
+  "message": "এই প্রস্তাব বাদ দেবেন?"
+ },
+ "leaveBody": {
+  "message": "আপনার বুকমার্ক বদলানো হয়নি। সাজাতে চাইলে আবার বিশ্লেষণ চালাতে হবে।"
+ },
+ "leaveConfirm": {
+  "message": "বাদ দিন"
+ },
+ "acceptAll": {
+  "message": "সাজেশন অনুযায়ী সব রাখুন ({1})"
+ },
+ "acceptedAll": {
+  "message": "সাজেশন অনুযায়ী রাখা হয়েছে: {1}"
+ },
+ "atTopOf": {
+  "message": "সরাসরি {1}-এ"
+ },
+ "deleteFolder": {
+  "message": "মুছুন"
+ },
+ "deleteFolderTitle": {
+  "message": "“{1}” মুছবেন?"
+ },
+ "deleteFolderBody": {
+  "message": "ভেতরের বুকমার্ক: {1}।"
+ },
+ "deleteFolderBodySub": {
+  "message": "ভেতরের বুকমার্ক: {1} · সাবফোল্ডার: {2}।"
+ },
+ "deleteKeepContent": {
+  "message": "ভেতরের সবকিছু রাখুন"
+ },
+ "deleteKeepHint": {
+  "message": "এর বুকমার্ক ও সাবফোল্ডার উপরে “{1}”-এ চলে যাবে।"
+ },
+ "deleteWithContent": {
+  "message": "ভেতরের সবকিছুও মুছুন"
+ },
+ "deleteWithContentHint": {
+  "message": "এর বুকমার্ক আবার তৈরি করা হবে না: সেগুলি ব্যাকআপে থাকবে।"
+ },
+ "displayInBrowser": {
+  "message": "যেভাবে দেখাবে"
+ },
+ "dropAtTop": {
+  "message": "এখানে ছেড়ে দিন, একেবারে উপরের স্তরে"
+ },
+ "editUndone": {
+  "message": "পরিবর্তন পূর্বাবস্থায় ফেরানো হয়েছে"
+ },
+ "fileIn": {
+  "message": "{1}-এ রাখুন"
+ },
+ "foldFolder": {
+  "message": "{1} সঙ্কুচিত করুন"
+ },
+ "unfoldFolder": {
+  "message": "{1} প্রসারিত করুন"
+ },
+ "folderCreated": {
+  "message": "“{1}” ফোল্ডার তৈরি করা হয়েছে"
+ },
+ "folderDeleted": {
+  "message": "“{1}” মুছে ফেলা হয়েছে: ভেতরের সবকিছু উপরে সরানো হয়েছে"
+ },
+ "folderDeletedAll": {
+  "message": "“{1}” ও তার ভেতরের সবকিছু মুছে ফেলা হয়েছে"
+ },
+ "folderMoved": {
+  "message": "“{1}” {2}-এ সরানো হয়েছে"
+ },
+ "folderPlace": {
+  "message": "অবস্থান"
+ },
+ "iconOnlyItem": {
+  "message": "শুধু আইকন"
+ },
+ "keepDupe": {
+  "message": "এই কপি রাখুন"
+ },
+ "looseHint": {
+  "message": "সরাসরি {1}-এ থাকা বুকমার্ক, কোনো ফোল্ডারের মধ্যে নয়।"
+ },
+ "moveFolder": {
+  "message": "সরান"
+ },
+ "moveFolderTo": {
+  "message": "“{1}” এতে সরান"
+ },
+ "moveToEllipsis": {
+  "message": "এতে সরান…"
+ },
+ "newShort": {
+  "message": "নতুন"
+ },
+ "newSubfolder": {
+  "message": "নতুন সাবফোল্ডার"
+ },
+ "nodeLoose": {
+  "message": "ফোল্ডার ছাড়া"
+ },
+ "nodeLooseMeta": {
+  "message": "সরাসরি মূল ফোল্ডারে"
+ },
+ "nodeRemoved": {
+  "message": "বাদ দেওয়া"
+ },
+ "nodeRemovedMeta": {
+  "message": "আবার তৈরি হবে না, ব্যাকআপে থাকবে"
+ },
+ "openFolder": {
+  "message": "ফোল্ডার খুলুন"
+ },
+ "openPage": {
+  "message": "পৃষ্ঠা খুলুন"
+ },
+ "proposalRestored": {
+  "message": "প্রস্তাব ফিরিয়ে আনা হয়েছে"
+ },
+ "reanalyze": {
+  "message": "আবার বিশ্লেষণ করুন"
+ },
+ "reanalyzeFailed": {
+  "message": "নতুন বিশ্লেষণ করা যায়নি: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "“{2}” আবার বিশ্লেষণ করা হয়েছে · সরানো হয়েছে: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "“{1}”-এ আবার বিশ্লেষণ করার মতো কিছু নেই: এর বুকমার্ক আপনি নিজেই রেখেছেন।"
+ },
+ "reanalyzedSame": {
+  "message": "“{1}” আবার বিশ্লেষণ করা হয়েছে: কোনো পরিবর্তন নেই"
+ },
+ "reanalyzing": {
+  "message": "“{1}” আবার বিশ্লেষণ করা হচ্ছে"
+ },
+ "reasonSameSite": {
+  "message": "{2}-এর অন্য {1}টি বুকমার্কের মতো"
+ },
+ "removeBookmark": {
+  "message": "বাদ দিন"
+ },
+ "removedHint": {
+  "message": "এই বুকমার্কগুলি আবার তৈরি করা হবে না। এগুলি ব্যাকআপে থাকবে: এখানে ফিরিয়ে আনুন, বা টেনে এনে কোনো ফোল্ডারে ছেড়ে দিন।"
+ },
+ "removedOne": {
+  "message": "“{1}” আবার তৈরি করা হবে না (এটি ব্যাকআপে থাকবে)"
+ },
+ "rename": {
+  "message": "নাম পরিবর্তন করুন"
+ },
+ "renameLabel": {
+  "message": "{1}-এর নতুন নাম"
+ },
+ "renamedTo": {
+  "message": "নাম বদলে “{1}” রাখা হয়েছে"
+ },
+ "restore": {
+  "message": "ফিরিয়ে আনুন"
+ },
+ "restoreAll": {
+  "message": "সব ফিরিয়ে আনুন"
+ },
+ "restoredCount": {
+  "message": "ফিরিয়ে আনা হয়েছে: {1}"
+ },
+ "restoredOne": {
+  "message": "বুকমার্ক ফিরিয়ে আনা হয়েছে"
+ },
+ "rowActions": {
+  "message": "{1}-এর অ্যাকশন"
+ },
+ "subfolders": {
+  "message": "সাবফোল্ডার"
+ },
+ "suggestionsFor": {
+  "message": "{1}-এর জন্য সাজেশন"
+ },
+ "undoEdit": {
+  "message": "পূর্বাবস্থায় ফেরান"
+ },
+ "undoEditHint": {
+  "message": "শেষ পরিবর্তনটি পূর্বাবস্থায় ফেরান (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "আগে থেকেই আপনার বুকমার্কে আছে"
+ },
+ "existingFolderHint": {
+  "message": "আগে সাজানোর সময় তৈরি হওয়া ফোল্ডার: নতুন বুকমার্ক এতে যোগ করা হয়, আর এর নাম ও জায়গা একই থাকে।"
+ }
+}

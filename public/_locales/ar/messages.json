@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – منظّم الإشارات المرجعية"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "ذكاء اصطناعي صغير يعمل على جهازك ويرتّب إشاراتك المرجعية في مجلدات واضحة مع إيموجي، وشريط برموز فقط. خاص ومجاني ويعمل بلا إنترنت."
+ },
+ "actionTitle": {
+  "message": "ترتيب إشاراتي المرجعية"
+ },
+ "tabSettings": {
+  "message": "الإعدادات"
+ },
+ "startTitle": {
+  "message": "رتّب إشاراتك المرجعية"
+ },
+ "startLead": {
+  "message": "يعيد ذكاء اصطناعي صغير على هذا الكمبيوتر إنشاء كل إشاراتك المرجعية في مجلدات واضحة. أنت تراجع النتيجة ثم تؤكّدها."
+ },
+ "optHistory": {
+  "message": "عرض المواقع الأكثر زيارة أولًا"
+ },
+ "optHistoryHint": {
+  "message": "يحسب عدد زيارات كل موقع ويقرأ العناوين المحفوظة مسبقًا على هذا الكمبيوتر. لا يتم إرسال أي شيء."
+ },
+ "optFolderStyle": {
+  "message": "أسماء المجلدات"
+ },
+ "styleEmojiName": {
+  "message": "إيموجي + اسم"
+ },
+ "styleName": {
+  "message": "الاسم فقط"
+ },
+ "styleEmoji": {
+  "message": "إيموجي فقط"
+ },
+ "optIconOnly": {
+  "message": "عرض شريط الإشارات كرموز"
+ },
+ "optIconOnlyHint": {
+  "message": "مقترح تلقائيًا، ويمكن إظهار الأسماء مجددًا"
+ },
+ "analyze": {
+  "message": "تحليل إشاراتي المرجعية"
+ },
+ "lastRun": {
+  "message": "آخر ترتيب: {1}"
+ },
+ "undoLast": {
+  "message": "تراجع"
+ },
+ "phaseReading": {
+  "message": "جارٍ قراءة إشاراتك المرجعية"
+ },
+ "phaseLoading": {
+  "message": "جارٍ تحميل النموذج"
+ },
+ "phaseEmbedding": {
+  "message": "جارٍ فهم كل إشارة مرجعية"
+ },
+ "phaseGrouping": {
+  "message": "جارٍ إنشاء المجلدات"
+ },
+ "progressCount": {
+  "message": "{1} من {2}"
+ },
+ "moveTo": {
+  "message": "نقل إلى"
+ },
+ "newFolderOption": {
+  "message": "مجلد جديد"
+ },
+ "folderName": {
+  "message": "اسم المجلد"
+ },
+ "emojiLabel": {
+  "message": "إيموجي المجلد «{1}»"
+ },
+ "customEmoji": {
+  "message": "إيموجي آخر"
+ },
+ "reviewHint": {
+  "message": "تم فحص مواقعها، لكن المعلومات غير كافية. افتحها للتحقّق منها، ثم اختر أحد الاقتراحات أو اسحبها إلى مجلد. وإلا فستنتقل إلى مجلد «للمراجعة» ضمن «الإشارات المرجعية الأخرى»."
+ },
+ "barTitle": {
+  "message": "الشريط الجديد"
+ },
+ "iconOnly": {
+  "message": "الرمز فقط"
+ },
+ "applying": {
+  "message": "جارٍ تطبيق التغييرات"
+ },
+ "doneTitle": {
+  "message": "تم ترتيب إشاراتك المرجعية"
+ },
+ "doneSummary": {
+  "message": "عدد الإشارات المرجعية التي تم ترتيبها: {1}. عدد المجلدات: {2}."
+ },
+ "doneSkipped": {
+  "message": "عدد العناصر التي تم تخطّيها لأنها تغيّرت في هذه الأثناء: {1}. لم يُفقد أي شيء، فالنسخ الأصلية موجودة في النسخة الاحتياطية."
+ },
+ "undone": {
+  "message": "تم التراجع عن آخر ترتيب."
+ },
+ "undoSkipped": {
+  "message": "عدد العناصر التي تُركت كما عدّلتها: {1}."
+ },
+ "changedBanner": {
+  "message": "تغيّرت إشاراتك المرجعية في المتصفّح أثناء المراجعة."
+ },
+ "refresh": {
+  "message": "تحديث الترتيب المقترح"
+ },
+ "errorTitle": {
+  "message": "حدث خطأ"
+ },
+ "errorModel": {
+  "message": "تعذّر تحميل النموذج. إذا أنشأت الإضافة بنفسك، فشغّل «pnpm fetch-model» ثم أعِد إنشاءها."
+ },
+ "retry": {
+  "message": "إعادة المحاولة"
+ },
+ "emptyTitle": {
+  "message": "لا يوجد ما يمكن ترتيبه"
+ },
+ "emptyHint": {
+  "message": "لا توجد إشارات مرجعية في المجلدات المحدّدة. اختر مجلدات أخرى."
+ },
+ "reasonHomeService": {
+  "message": "خدمة مستضافة في المنزل (عنوان محلي أو نطاق شخصي)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "دليل حول {1} (الاستضافة الذاتية)"
+ },
+ "reasonNewGroup": {
+  "message": "الإشارات المرجعية حول هذا الموضوع: {1}"
+ },
+ "reasonUser": {
+  "message": "اختيارك"
+ },
+ "reviewVague": {
+  "message": "العنوان عام والرابط غير واضح، لذا يتعذّر معرفة محتوى الصفحة."
+ },
+ "settingsDefaults": {
+  "message": "الخيارات التلقائية"
+ },
+ "settingsHistoryOn": {
+  "message": "مسموح به"
+ },
+ "settingsHistoryOff": {
+  "message": "غير مسموح به"
+ },
+ "settingsNames": {
+  "message": "إشارات مرجعية بالرمز فقط"
+ },
+ "settingsNamesCount": {
+  "message": "الإشارات المرجعية المعروضة كرموز: {1}"
+ },
+ "restoreNames": {
+  "message": "إظهار كل الأسماء مجددًا"
+ },
+ "namesRestored": {
+  "message": "تمت إعادة إظهار الأسماء: {1}."
+ },
+ "settingsData": {
+  "message": "البيانات"
+ },
+ "clearCache": {
+  "message": "ذاكرة التخزين المؤقت للتحليل"
+ },
+ "cacheCleared": {
+  "message": "تم محو ذاكرة التخزين المؤقت."
+ },
+ "settingsAbout": {
+  "message": "حول الإضافة"
+ },
+ "aboutModel": {
+  "message": "النموذج: {1}، يعمل محليًا."
+ },
+ "saved": {
+  "message": "تم الحفظ"
+ },
+ "unnamed": {
+  "message": "(بلا اسم)"
+ },
+ "barFolder": {
+  "message": "شريط الإشارات"
+ },
+ "otherFolder": {
+  "message": "الإشارات المرجعية الأخرى"
+ },
+ "lang": {
+  "message": "ar"
+ },
+ "interruptedTitle": {
+  "message": "توقّف آخر ترتيب قبل اكتماله"
+ },
+ "interruptedHint": {
+  "message": "أُغلق المتصفّح أثناء تطبيق التغييرات. يمكنك التراجع عمّا تم تنفيذه أو إبقاؤه كما هو."
+ },
+ "interruptedUndo": {
+  "message": "التراجع عمّا تم تنفيذه"
+ },
+ "interruptedKeep": {
+  "message": "الاحتفاظ بهذه التغييرات"
+ },
+ "errorUnresolved": {
+  "message": "توقّف آخر ترتيب قبل اكتماله. تراجع عنه أو احتفظ به قبل الترتيب مرة أخرى."
+ },
+ "changedBlocked": {
+  "message": "حدِّث الترتيب المقترح أولًا، فقد تغيّرت إشاراتك المرجعية."
+ },
+ "startCountNone": {
+  "message": "لا توجد إشارات مرجعية لترتيبها"
+ },
+ "finish": {
+  "message": "تم"
+ },
+ "sourceMeta": {
+  "message": "الإشارات: {1}"
+ },
+ "destinations": {
+  "message": "المجلدات المقترحة"
+ },
+ "proposal": {
+  "message": "الترتيب المقترح"
+ },
+ "nodeReviewMeta": {
+  "message": "معلومات غير كافية"
+ },
+ "countLabel": {
+  "message": "الإشارات: {1}"
+ },
+ "sheetClose": {
+  "message": "إغلاق"
+ },
+ "emptyFolder": {
+  "message": "فارغ. اسحب إشارات مرجعية إلى هذا المجلد في المخطط."
+ },
+ "dialogNewFolderTitle": {
+  "message": "مجلد جديد"
+ },
+ "create": {
+  "message": "إنشاء"
+ },
+ "cancel": {
+  "message": "إلغاء"
+ },
+ "ok": {
+  "message": "حسنًا"
+ },
+ "keepTitle": {
+  "message": "الاحتفاظ بالعنوان الأصلي"
+ },
+ "useNewTitle": {
+  "message": "استخدام العنوان الأوضح"
+ },
+ "noEmoji": {
+  "message": "بلا إيموجي"
+ },
+ "iconOnlyHint": {
+  "message": "انقر لإظهار الرمز فقط"
+ },
+ "showName": {
+  "message": "انقر لإظهار الاسم"
+ },
+ "nothingYet": {
+  "message": "لم يتغيّر أي شيء بعد"
+ },
+ "restoreProposal": {
+  "message": "استعادة الترتيب المقترح"
+ },
+ "applyRegion": {
+  "message": "تطبيق التغييرات"
+ },
+ "announceMoved": {
+  "message": "تم نقل «{1}» إلى «{2}»"
+ },
+ "back": {
+  "message": "رجوع"
+ },
+ "clear": {
+  "message": "محو"
+ },
+ "footerSync": {
+  "message": "تنطبق التغييرات أيضًا على أجهزتك الأخرى التي سجّلت الدخول إليها."
+ },
+ "barHint": {
+  "message": "انقر على إشارة مرجعية لإخفاء اسمها أو إظهاره"
+ },
+ "applyCount": {
+  "message": "ترتيب الإشارات المرجعية ({1})"
+ },
+ "applyOne": {
+  "message": "ترتيب إشارة مرجعية واحدة"
+ },
+ "scopeLabel": {
+  "message": "المجلدات المطلوب ترتيبها"
+ },
+ "barScopeHint": {
+  "message": "بما في ذلك الاختصارات: الأكثر استخدامًا تعود إلى البداية"
+ },
+ "showSubfolders": {
+  "message": "عرض المجلدات داخل «{1}»"
+ },
+ "destinationLabel": {
+  "message": "الترتيب في"
+ },
+ "moreOptions": {
+  "message": "خيارات إضافية"
+ },
+ "sumReadSites": {
+  "message": "قراءة المواقع"
+ },
+ "sumCheckDead": {
+  "message": "المواقع المتوقّفة"
+ },
+ "sumHistory": {
+  "message": "السجلّ"
+ },
+ "optReadSites": {
+  "message": "قراءة المواقع عندما لا يكفي العنوان"
+ },
+ "optReadSitesHint": {
+  "message": "أبطأ ولكن أدق. سيطلب Chrome مرة واحدة إذن الوصول إلى المواقع."
+ },
+ "optCheckDead": {
+  "message": "العثور على المواقع التي لم تعد تستجيب"
+ },
+ "optCheckDeadHint": {
+  "message": "يتم وضعها جانبًا في مجلد «المواقع غير المتاحة»."
+ },
+ "optFolderStyleHint": {
+  "message": "تحتفظ المجلدات الفرعية بأسمائها."
+ },
+ "analyzeCount": {
+  "message": "تحليل الإشارات المرجعية ({1})"
+ },
+ "analyzeOne": {
+  "message": "تحليل إشارة مرجعية واحدة"
+ },
+ "privacyTitle": {
+  "message": "لا تغادر أي بيانات هذا الكمبيوتر"
+ },
+ "privacyBody": {
+  "message": "يعمل الذكاء الاصطناعي هنا، بلا حساب ولا خادم. ولفهم أي موقع، يفتح Nidomark صفحته كما يفعل متصفّحك، ولكن بدون ملفات تعريف الارتباط، ولا يرسل أي شيء آخر."
+ },
+ "phaseSites": {
+  "message": "جارٍ قراءة المواقع"
+ },
+ "phasePages": {
+  "message": "جارٍ تحليل الصفحات"
+ },
+ "sitesNote": {
+  "message": "عدة مواقع في وقت واحد. لا يتم إرسال أي شيء، بل تتم قراءة الصفحات فقط."
+ },
+ "sitesAllowed": {
+  "message": "تم منح إذن الوصول إلى المواقع"
+ },
+ "sitesAsked": {
+  "message": "سيطلب Chrome إذن الوصول إلى المواقع عند التحليل التالي"
+ },
+ "backupsTitle": {
+  "message": "النسخ الاحتياطية"
+ },
+ "backupsNone": {
+  "message": "لا توجد نسخ احتياطية"
+ },
+ "backupCount": {
+  "message": "الإشارات: {1}"
+ },
+ "backupDelete": {
+  "message": "حذف"
+ },
+ "backupDeleteTitle": {
+  "message": "هل تريد حذف هذه النسخة الاحتياطية؟"
+ },
+ "backupConfirm": {
+  "message": "سيتم حذف «{1}» وكل ما فيه نهائيًا. لن تتغيّر إشاراتك المرجعية المرتّبة، ولكن لن يعود بالإمكان التراجع عن الترتيب الذي أنشأ هذه النسخة."
+ },
+ "backupDeleted": {
+  "message": "تم حذف النسخة الاحتياطية."
+ },
+ "backupTitle": {
+  "message": "Nidomark – نسخة احتياطية بتاريخ {1}"
+ },
+ "clearCacheHint": {
+  "message": "تسرّع ذاكرة التخزين المؤقت التحليلات التالية، وتبقى على هذا الكمبيوتر."
+ },
+ "sourceAll": {
+  "message": "إشاراتك المرجعية"
+ },
+ "reasonKnownSite": {
+  "message": "موقع معروف ({1})"
+ },
+ "reasonPattern": {
+  "message": "رابط نموذجي ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "عنوان صريح"
+ },
+ "reasonAdultPage": {
+  "message": "تشير الصفحة إلى أن محتواها للبالغين"
+ },
+ "reasonPage": {
+  "message": "من الصفحة: «{1}»"
+ },
+ "reasonModel": {
+  "message": "أقرب إلى «{1}»"
+ },
+ "reasonPlatform": {
+  "message": "منشور على {1}"
+ },
+ "reasonAboutApp": {
+  "message": "حول {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "تضع {1} عادةً في «{2}»"
+ },
+ "reasonKeptFolder": {
+  "message": "مجلدك «{1}»، أُعيد إنشاؤه كما هو"
+ },
+ "reasonNewCategory": {
+  "message": "الإشارات المرجعية في هذه الفئة: {1}"
+ },
+ "deadNetwork": {
+  "message": "لم يعد يستجيب: لم يتم العثور على الموقع"
+ },
+ "deadTimeout": {
+  "message": "لم يعد يستجيب: انتهت المهلة"
+ },
+ "deadGone": {
+  "message": "تمت إزالة الصفحة ({1})"
+ },
+ "deadServer": {
+  "message": "خطأ في الخادم ({1})"
+ },
+ "deadParked": {
+  "message": "نطاق مهجور أو معروض للبيع"
+ },
+ "reviewUnclear": {
+  "message": "لا يوجد موضوع واضح في العنوان والرابط"
+ },
+ "reviewUnclearPage": {
+  "message": "تمت قراءة الصفحة، ولا يوجد موضوع واضح"
+ },
+ "reviewBlocked": {
+  "message": "يرفض الموقع السماح بقراءته ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "العنوان غير واضح؛ اسمح بقراءة المواقع لمعرفة المزيد"
+ },
+ "nodeDupes": {
+  "message": "الإشارات المكررة"
+ },
+ "nodeDupesMeta": {
+  "message": "لا يُعاد إنشاؤها، وتبقى في النسخة الاحتياطية"
+ },
+ "dupesHint": {
+  "message": "هذه الصفحات محفوظة في مكان آخر، ويُعاد إنشاء إشارة مرجعية واحدة فقط لكل منها. أما هذه فتبقى في النسخة الاحتياطية."
+ },
+ "keepAllDupes": {
+  "message": "الاحتفاظ بالكل"
+ },
+ "reasonDuplicate": {
+  "message": "نسخة مكررة من «{1}» ({2})"
+ },
+ "optDupes": {
+  "message": "إشارة مرجعية واحدة لكل صفحة"
+ },
+ "optDupesHint": {
+  "message": "لا يُعاد إنشاء الإشارات المكررة، بل تبقى في النسخة الاحتياطية."
+ },
+ "sumDupes": {
+  "message": "الإشارات المكررة"
+ },
+ "openSite": {
+  "message": "فتح «{1}»"
+ },
+ "reviewHintUntested": {
+  "message": "المعلومات غير كافية. يختبر زر «إعادة التحليل» مواقعها، ويمكنك أيضًا فتحها للتحقّق منها. وإلا فستنتقل إلى مجلد «للمراجعة»."
+ },
+ "archiveNote": {
+  "message": "تُحفظ بنية مجلداتك الحالية كما هي في نسخة احتياطية مؤرّخة ضمن «الإشارات المرجعية الأخرى». ويمكنك التراجع عن الترتيب بنقرة واحدة."
+ },
+ "barSheetHint": {
+  "message": "المواقع التي تفتحها أكثر من غيرها، كرموز في بداية الشريط. في المعاينة، انقر على رمز لإظهار اسمه."
+ },
+ "doneArchive": {
+  "message": "بنية مجلداتك السابقة محفوظة في «{1}» ضمن «الإشارات المرجعية الأخرى»."
+ },
+ "nodeBar": {
+  "message": "الوصول السريع"
+ },
+ "nodeBarMeta": {
+  "message": "رموز في بداية الشريط"
+ },
+ "notRecreated": {
+  "message": "لا يُعاد إنشاؤها"
+ },
+ "optQuickAccess": {
+  "message": "الوصول السريع"
+ },
+ "optQuickAccessHint": {
+  "message": "المواقع الأكثر زيارة، كرموز في بداية الشريط"
+ },
+ "quickNone": {
+  "message": "لا شيء"
+ },
+ "reasonBarShortcut": {
+  "message": "موجودة بالفعل في شريط الإشارات"
+ },
+ "reasonBarTool": {
+  "message": "أداة في الشريط (bookmarklet أو صفحة متصفّح)"
+ },
+ "reasonFacet": {
+  "message": "الإشارات المرجعية من الموقع نفسه أو حول الموضوع نفسه: {1}"
+ },
+ "reasonLearned": {
+  "message": "سبق أن وضعتها في «{1}»"
+ },
+ "reasonMyFolders": {
+  "message": "مجلداتك التي تجمع مواضيع متعددة"
+ },
+ "reasonQuickAccess": {
+  "message": "من المواقع التي تفتحها أكثر من غيرها"
+ },
+ "reasonReviewFolder": {
+  "message": "المعلومات غير كافية لترتيبها"
+ },
+ "reasonSpecial": {
+  "message": "رابط ليس صفحة ويب (bookmarklet أو صفحة متصفّح أو ملف)"
+ },
+ "leaveTitle": {
+  "message": "هل تريد تجاهل هذا الترتيب المقترح؟"
+ },
+ "leaveBody": {
+  "message": "لم يتم تغيير إشاراتك المرجعية. ولترتيبها، عليك إجراء التحليل مرة أخرى."
+ },
+ "leaveConfirm": {
+  "message": "تجاهل"
+ },
+ "acceptAll": {
+  "message": "ترتيب الكل حسب الاقتراحات ({1})"
+ },
+ "acceptedAll": {
+  "message": "تم الترتيب حسب الاقتراحات: {1}"
+ },
+ "atTopOf": {
+  "message": "مباشرةً في «{1}»"
+ },
+ "deleteFolder": {
+  "message": "حذف"
+ },
+ "deleteFolderTitle": {
+  "message": "هل تريد حذف «{1}»؟"
+ },
+ "deleteFolderBody": {
+  "message": "الإشارات المرجعية بداخله: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "الإشارات المرجعية بداخله: {1} · المجلدات الفرعية: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "الاحتفاظ بمحتواه"
+ },
+ "deleteKeepHint": {
+  "message": "تنتقل إشاراته المرجعية ومجلداته الفرعية إلى المستوى الأعلى في «{1}»."
+ },
+ "deleteWithContent": {
+  "message": "حذف محتواه أيضًا"
+ },
+ "deleteWithContentHint": {
+  "message": "لن تتم إعادة إنشاء إشاراته المرجعية، بل ستبقى في النسخة الاحتياطية."
+ },
+ "displayInBrowser": {
+  "message": "طريقة العرض"
+ },
+ "dropAtTop": {
+  "message": "أفلِت هنا، في المستوى الأعلى"
+ },
+ "editUndone": {
+  "message": "تم التراجع عن التغيير"
+ },
+ "fileIn": {
+  "message": "وضعها في «{1}»"
+ },
+ "foldFolder": {
+  "message": "تصغير «{1}»"
+ },
+ "unfoldFolder": {
+  "message": "توسيع «{1}»"
+ },
+ "folderCreated": {
+  "message": "تم إنشاء المجلد «{1}»"
+ },
+ "folderDeleted": {
+  "message": "تم حذف «{1}» ونُقل محتواه إلى المستوى الأعلى"
+ },
+ "folderDeletedAll": {
+  "message": "تم حذف «{1}» مع محتواه"
+ },
+ "folderMoved": {
+  "message": "تم نقل «{1}» إلى «{2}»"
+ },
+ "folderPlace": {
+  "message": "المكان"
+ },
+ "iconOnlyItem": {
+  "message": "الرمز فقط"
+ },
+ "keepDupe": {
+  "message": "الاحتفاظ بهذه النسخة المكررة"
+ },
+ "looseHint": {
+  "message": "إشارات مرجعية موجودة مباشرةً في «{1}»، خارج أي مجلد."
+ },
+ "moveFolder": {
+  "message": "نقل"
+ },
+ "moveFolderTo": {
+  "message": "نقل «{1}» إلى"
+ },
+ "moveToEllipsis": {
+  "message": "نقل إلى…"
+ },
+ "newShort": {
+  "message": "جديد"
+ },
+ "newSubfolder": {
+  "message": "مجلد فرعي"
+ },
+ "nodeLoose": {
+  "message": "بلا مجلد"
+ },
+ "nodeLooseMeta": {
+  "message": "مباشرةً في المجلد الجذر"
+ },
+ "nodeRemoved": {
+  "message": "الإشارات المُزالة"
+ },
+ "nodeRemovedMeta": {
+  "message": "لا يُعاد إنشاؤها، وتبقى في النسخة الاحتياطية"
+ },
+ "openFolder": {
+  "message": "فتح المجلد"
+ },
+ "openPage": {
+  "message": "فتح الصفحة"
+ },
+ "proposalRestored": {
+  "message": "تمت استعادة الترتيب المقترح"
+ },
+ "reanalyze": {
+  "message": "إعادة التحليل"
+ },
+ "reanalyzeFailed": {
+  "message": "تعذّرت إعادة التحليل: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "تمت إعادة تحليل «{2}» · العناصر المنقولة: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "لا يوجد ما يمكن إعادة تحليله في «{1}»، فقد وضعت إشاراته المرجعية بنفسك."
+ },
+ "reanalyzedSame": {
+  "message": "تمت إعادة تحليل «{1}»: لا تغيير"
+ },
+ "reanalyzing": {
+  "message": "جارٍ إعادة تحليل «{1}»"
+ },
+ "reasonSameSite": {
+  "message": "مثل الإشارات المرجعية الأخرى من {2} (عددها {1})"
+ },
+ "removeBookmark": {
+  "message": "إزالة"
+ },
+ "removedHint": {
+  "message": "لن تتم إعادة إنشاء هذه الإشارات المرجعية، بل ستبقى في النسخة الاحتياطية. يمكنك استعادتها من هنا أو سحبها إلى مجلد."
+ },
+ "removedOne": {
+  "message": "لن تتم إعادة إنشاء «{1}» (ستبقى في النسخة الاحتياطية)"
+ },
+ "rename": {
+  "message": "إعادة تسمية"
+ },
+ "renameLabel": {
+  "message": "اسم جديد لـ«{1}»"
+ },
+ "renamedTo": {
+  "message": "تمت إعادة التسمية إلى «{1}»"
+ },
+ "restore": {
+  "message": "استعادة"
+ },
+ "restoreAll": {
+  "message": "استعادة الكل"
+ },
+ "restoredCount": {
+  "message": "العناصر المستعادة: {1}"
+ },
+ "restoredOne": {
+  "message": "تمت استعادة الإشارة المرجعية"
+ },
+ "rowActions": {
+  "message": "إجراءات «{1}»"
+ },
+ "subfolders": {
+  "message": "المجلدات الفرعية"
+ },
+ "suggestionsFor": {
+  "message": "اقتراحات لـ«{1}»"
+ },
+ "undoEdit": {
+  "message": "تراجع"
+ },
+ "undoEditHint": {
+  "message": "التراجع عن آخر تغيير (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "موجود بالفعل في إشاراتك المرجعية"
+ },
+ "existingFolderHint": {
+  "message": "مجلد من ترتيب سابق: تُضاف إليه الإشارات المرجعية الجديدة، ويحتفظ باسمه ومكانه."
+ }
+}

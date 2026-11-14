@@ -23,12 +23,15 @@ export function h<K extends keyof HTMLElementTagNameMap>(tag: K, props: Props | 
   return el;
 }
 
+/** Icons that point somewhere: mirrored when the text runs right to left, as Material asks. */
+const MIRRORED = new Set(['arrow_back', 'chevron_right', 'subdirectory_arrow_right', 'undo', 'drive_file_move', 'open_in_new']);
+
 /** Material Symbols icon; decorative unless a label is given. */
 export function icon(name: string, label?: string, extraClass = ''): SVGSVGElement {
   const [viewBox, d] = ICONS[name] ?? ['0 0 24 24', ''];
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', viewBox);
-  svg.setAttribute('class', `icon ${extraClass}`.trim());
+  svg.setAttribute('class', `icon ${MIRRORED.has(name) ? 'mirror ' : ''}${extraClass}`.trim());
   if (label) {
     svg.setAttribute('role', 'img');
     svg.setAttribute('aria-label', label);
@@ -84,7 +87,7 @@ export function openMenu(anchor: HTMLElement, content: HTMLElement[], label: str
     }
   });
   menu.addEventListener('keydown', (e) => {
-    const items = [...menu.querySelectorAll<HTMLElement>('button, input')];
+    const items = [...menu.querySelectorAll<HTMLElement>('button, input, a[href]')];
     const i = items.indexOf(document.activeElement as HTMLElement);
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
@@ -96,7 +99,9 @@ export function openMenu(anchor: HTMLElement, content: HTMLElement[], label: str
   const m = menu.getBoundingClientRect();
   const below = r.bottom + 4 + m.height <= window.innerHeight;
   menu.style.top = `${Math.max(8, below ? r.bottom + 4 : r.top - 4 - m.height)}px`;
-  menu.style.left = `${Math.max(8, Math.min(r.right - m.width, window.innerWidth - m.width - 8))}px`;
+  // Under its anchor, aligned on the side where the line of text ends.
+  const x = getComputedStyle(anchor).direction === 'rtl' ? r.left : r.right - m.width;
+  menu.style.left = `${Math.max(8, Math.min(x, window.innerWidth - m.width - 8))}px`;
   (menu.querySelector<HTMLElement>('[aria-current="true"]') ?? menu.querySelector<HTMLElement>('button, input'))?.focus();
   return menu;
 }

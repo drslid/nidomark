@@ -60,6 +60,24 @@ export function pruneScope(snapshot: Snapshot, ids: string[]): string[] {
  * What a rebuild moves into the archive, root by root and in order: the bookmarks and folders at the top of each
  * chosen root, or a chosen folder itself. Earlier backups, managed bookmarks and folders left out stay where they are.
  */
+/** Folders a sort leaves as they are: outside the chosen folders, or left out of them. Backups aside. */
+export function remainingFolders(snapshot: Snapshot, include: string[], exclude: string[]): Set<string> {
+  const archived = new Set(archiveSources(snapshot, include, exclude, () => '').flatMap((s) => s.items.map((i) => i.id)));
+  const out = new Set<string>();
+  for (const f of snapshot.folders.values()) {
+    if (f.isRoot || f.unmodifiable) continue;
+    let moved = false;
+    for (let cur: typeof f | undefined = f; cur && !cur.isRoot; cur = snapshot.folders.get(cur.parentId ?? '')) {
+      if (archived.has(cur.id) || isBackupTitle(cur.title)) {
+        moved = true;
+        break;
+      }
+    }
+    if (!moved) out.add(f.id);
+  }
+  return out;
+}
+
 export function archiveSources(snapshot: Snapshot, include: string[], exclude: string[], title: (rootId: string) => string): ArchiveSource[] {
   const inc = new Set(include);
   const exc = new Set(exclude);

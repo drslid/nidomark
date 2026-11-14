@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Lesezeichen ordnen"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Eine kleine lokale KI sortiert Ihre Lesezeichen in klare Ordner, mit Emoji und Symbolen in der Leiste. Privat, offline, kostenlos."
+ },
+ "actionTitle": {
+  "message": "Meine Lesezeichen ordnen"
+ },
+ "tabSettings": {
+  "message": "Einstellungen"
+ },
+ "startTitle": {
+  "message": "Ordnen Sie Ihre Lesezeichen"
+ },
+ "startLead": {
+  "message": "Eine kleine KI auf diesem Computer legt alle Ihre Lesezeichen in übersichtlichen Ordnern neu an. Sie prüfen das Ergebnis und bestätigen es dann."
+ },
+ "optHistory": {
+  "message": "Meistbesuchte Websites zuerst"
+ },
+ "optHistoryHint": {
+  "message": "Zählt auf diesem Computer die Besuche jeder Website und liest die bereits gespeicherten Titel. Es wird nichts gesendet."
+ },
+ "optFolderStyle": {
+  "message": "Ordnernamen"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + Name"
+ },
+ "styleName": {
+  "message": "Nur Name"
+ },
+ "styleEmoji": {
+  "message": "Nur Emoji"
+ },
+ "optIconOnly": {
+  "message": "Lesezeichenleiste als Symbole"
+ },
+ "optIconOnlyHint": {
+  "message": "Standardmäßig vorgeschlagen; Namen können wieder eingeblendet werden"
+ },
+ "analyze": {
+  "message": "Meine Lesezeichen analysieren"
+ },
+ "lastRun": {
+  "message": "Letzte Sortierung: {1}"
+ },
+ "undoLast": {
+  "message": "Rückgängig machen"
+ },
+ "phaseReading": {
+  "message": "Ihre Lesezeichen werden gelesen"
+ },
+ "phaseLoading": {
+  "message": "Modell wird geladen"
+ },
+ "phaseEmbedding": {
+  "message": "Jedes Lesezeichen wird ausgewertet"
+ },
+ "phaseGrouping": {
+  "message": "Ordner werden erstellt"
+ },
+ "progressCount": {
+  "message": "{1} von {2}"
+ },
+ "moveTo": {
+  "message": "Verschieben nach"
+ },
+ "newFolderOption": {
+  "message": "Neuer Ordner"
+ },
+ "folderName": {
+  "message": "Ordnername"
+ },
+ "emojiLabel": {
+  "message": "Emoji für {1}"
+ },
+ "customEmoji": {
+  "message": "Anderes Emoji"
+ },
+ "reviewHint": {
+  "message": "Getestet, aber zu wenige Hinweise. Öffnen Sie sie zur Kontrolle und wählen Sie dann einen Ordnervorschlag aus oder ziehen Sie sie auf einen Ordner. Sonst kommen sie in „Zu prüfen“ im Ordner „Weitere Lesezeichen“."
+ },
+ "barTitle": {
+  "message": "Neue Leiste"
+ },
+ "iconOnly": {
+  "message": "nur Symbol"
+ },
+ "applying": {
+  "message": "Änderungen werden übernommen"
+ },
+ "doneTitle": {
+  "message": "Ihre Lesezeichen sind geordnet"
+ },
+ "doneSummary": {
+  "message": "{1} Lesezeichen in {2} Ordner eingeordnet."
+ },
+ "doneSkipped": {
+  "message": "Übersprungene Elemente (zwischenzeitlich geändert): {1}. Es geht nichts verloren: Die Originale sind in der Sicherung."
+ },
+ "undone": {
+  "message": "Die letzte Sortierung wurde rückgängig gemacht."
+ },
+ "undoSkipped": {
+  "message": "Von Ihnen geänderte Elemente wurden so belassen: {1}."
+ },
+ "changedBanner": {
+  "message": "Ihre Lesezeichen wurden während der Prüfung im Browser geändert."
+ },
+ "refresh": {
+  "message": "Vorschlag aktualisieren"
+ },
+ "errorTitle": {
+  "message": "Ein Fehler ist aufgetreten"
+ },
+ "errorModel": {
+  "message": "Das Modell konnte nicht geladen werden. Wenn Sie die Erweiterung selbst erstellt haben, führen Sie „pnpm fetch-model“ aus und erstellen Sie sie dann neu."
+ },
+ "retry": {
+  "message": "Noch einmal versuchen"
+ },
+ "emptyTitle": {
+  "message": "Nichts zu ordnen"
+ },
+ "emptyHint": {
+  "message": "Die ausgewählten Ordner enthalten keine Lesezeichen. Wählen Sie andere Ordner aus."
+ },
+ "reasonHomeService": {
+  "message": "Zu Hause gehosteter Dienst (lokale Adresse oder eigene Domain)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Anleitung zu {1} (Self-Hosting)"
+ },
+ "reasonNewGroup": {
+  "message": "{1} Lesezeichen zu diesem Thema"
+ },
+ "reasonUser": {
+  "message": "Ihre Wahl"
+ },
+ "reviewVague": {
+  "message": "Allgemeiner Titel und nichtssagende Adresse: Der Inhalt der Seite lässt sich nicht erkennen."
+ },
+ "settingsDefaults": {
+  "message": "Standardeinstellungen"
+ },
+ "settingsHistoryOn": {
+  "message": "Erlaubt"
+ },
+ "settingsHistoryOff": {
+  "message": "Nicht erlaubt"
+ },
+ "settingsNames": {
+  "message": "Lesezeichen nur als Symbol"
+ },
+ "settingsNamesCount": {
+  "message": "{1} Lesezeichen als Symbol angezeigt"
+ },
+ "restoreNames": {
+  "message": "Alle Namen wieder einblenden"
+ },
+ "namesRestored": {
+  "message": "Namen wieder eingeblendet: {1}."
+ },
+ "settingsData": {
+  "message": "Daten"
+ },
+ "clearCache": {
+  "message": "Analyse-Cache"
+ },
+ "cacheCleared": {
+  "message": "Cache geleert."
+ },
+ "settingsAbout": {
+  "message": "Info"
+ },
+ "aboutModel": {
+  "message": "Modell: {1}, läuft lokal."
+ },
+ "saved": {
+  "message": "Gespeichert"
+ },
+ "unnamed": {
+  "message": "(ohne Namen)"
+ },
+ "barFolder": {
+  "message": "Lesezeichenleiste"
+ },
+ "otherFolder": {
+  "message": "Weitere Lesezeichen"
+ },
+ "lang": {
+  "message": "de"
+ },
+ "interruptedTitle": {
+  "message": "Die letzte Sortierung wurde unterbrochen"
+ },
+ "interruptedHint": {
+  "message": "Der Browser wurde geschlossen, während Änderungen übernommen wurden. Machen Sie die bisherigen Änderungen rückgängig oder behalten Sie sie bei."
+ },
+ "interruptedUndo": {
+  "message": "Änderungen rückgängig machen"
+ },
+ "interruptedKeep": {
+  "message": "Diese Änderungen behalten"
+ },
+ "errorUnresolved": {
+  "message": "Die letzte Sortierung wurde unterbrochen. Machen Sie sie rückgängig oder behalten Sie sie bei, bevor Sie erneut ordnen."
+ },
+ "changedBlocked": {
+  "message": "Aktualisieren Sie zuerst den Vorschlag: Ihre Lesezeichen haben sich geändert."
+ },
+ "startCountNone": {
+  "message": "Keine Lesezeichen zum Einordnen"
+ },
+ "finish": {
+  "message": "Fertig"
+ },
+ "sourceMeta": {
+  "message": "{1} Lesezeichen"
+ },
+ "destinations": {
+  "message": "Vorgeschlagene Ordner"
+ },
+ "proposal": {
+  "message": "Vorschlag"
+ },
+ "nodeReviewMeta": {
+  "message": "Zu wenige Hinweise"
+ },
+ "countLabel": {
+  "message": "{1} Lesezeichen"
+ },
+ "sheetClose": {
+  "message": "Schließen"
+ },
+ "emptyFolder": {
+  "message": "Leer. Ziehen Sie im Diagramm Lesezeichen auf diesen Ordner."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Neuer Ordner"
+ },
+ "create": {
+  "message": "Erstellen"
+ },
+ "cancel": {
+  "message": "Abbrechen"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Ursprünglichen Titel behalten"
+ },
+ "useNewTitle": {
+  "message": "Bereinigten Titel verwenden"
+ },
+ "noEmoji": {
+  "message": "Kein Emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Klicken, um nur das Symbol anzuzeigen"
+ },
+ "showName": {
+  "message": "klicken, um den Namen anzuzeigen"
+ },
+ "nothingYet": {
+  "message": "Noch keine Änderungen"
+ },
+ "restoreProposal": {
+  "message": "Vorschlag wiederherstellen"
+ },
+ "applyRegion": {
+  "message": "Änderungen übernehmen"
+ },
+ "announceMoved": {
+  "message": "„{1}“ nach {2} verschoben"
+ },
+ "back": {
+  "message": "Zurück"
+ },
+ "clear": {
+  "message": "Leeren"
+ },
+ "footerSync": {
+  "message": "Änderungen werden auch auf Ihren anderen angemeldeten Geräten übernommen."
+ },
+ "barHint": {
+  "message": "Klicken Sie auf ein Lesezeichen, um seinen Namen aus- oder einzublenden"
+ },
+ "applyCount": {
+  "message": "{1} Lesezeichen einordnen"
+ },
+ "applyOne": {
+  "message": "1 Lesezeichen einordnen"
+ },
+ "scopeLabel": {
+  "message": "Zu ordnende Ordner"
+ },
+ "barScopeHint": {
+  "message": "Verknüpfungen inklusive: Die meistgenutzten kommen wieder nach vorne"
+ },
+ "showSubfolders": {
+  "message": "Ordner in „{1}“ anzeigen"
+ },
+ "destinationLabel": {
+  "message": "Einordnen in"
+ },
+ "moreOptions": {
+  "message": "Weitere Optionen"
+ },
+ "sumReadSites": {
+  "message": "Websites lesen"
+ },
+ "sumCheckDead": {
+  "message": "tote Websites"
+ },
+ "sumHistory": {
+  "message": "Verlauf"
+ },
+ "optReadSites": {
+  "message": "Websites lesen, wenn der Titel nicht ausreicht"
+ },
+ "optReadSitesHint": {
+  "message": "Langsamer, aber genauer. Chrome fragt einmalig nach Zugriff auf Websites."
+ },
+ "optCheckDead": {
+  "message": "Nicht mehr erreichbare Websites finden"
+ },
+ "optCheckDeadHint": {
+  "message": "Diese kommen separat in den Ordner „Nicht erreichbare Websites“."
+ },
+ "optFolderStyleHint": {
+  "message": "Unterordner behalten ihre Namen."
+ },
+ "analyzeCount": {
+  "message": "{1} Lesezeichen analysieren"
+ },
+ "analyzeOne": {
+  "message": "1 Lesezeichen analysieren"
+ },
+ "privacyTitle": {
+  "message": "Keine Daten verlassen diesen Computer"
+ },
+ "privacyBody": {
+  "message": "Die KI läuft hier, ohne Konto und ohne Server. Um eine Website zu verstehen, öffnet Nidomark die Seite wie Ihr Browser, ohne Cookies, und sendet sonst nichts."
+ },
+ "phaseSites": {
+  "message": "Websites werden gelesen"
+ },
+ "phasePages": {
+  "message": "Seiten werden analysiert"
+ },
+ "sitesNote": {
+  "message": "Mehrere Websites gleichzeitig. Es wird nichts gesendet, die Seiten werden nur gelesen."
+ },
+ "sitesAllowed": {
+  "message": "Zugriff auf Websites gewährt"
+ },
+ "sitesAsked": {
+  "message": "Chrome fragt bei der nächsten Analyse nach Zugriff auf Websites"
+ },
+ "backupsTitle": {
+  "message": "Sicherungen"
+ },
+ "backupsNone": {
+  "message": "Keine Sicherung"
+ },
+ "backupCount": {
+  "message": "{1} Lesezeichen"
+ },
+ "backupDelete": {
+  "message": "Löschen"
+ },
+ "backupDeleteTitle": {
+  "message": "Diese Sicherung löschen?"
+ },
+ "backupConfirm": {
+  "message": "„{1}“ und der gesamte Inhalt werden endgültig gelöscht. Ihre eingeordneten Lesezeichen bleiben, wo sie sind, aber die Sortierung, bei der diese Sicherung erstellt wurde, kann nicht mehr rückgängig gemacht werden."
+ },
+ "backupDeleted": {
+  "message": "Sicherung gelöscht."
+ },
+ "backupTitle": {
+  "message": "Nidomark – Sicherung vom {1}"
+ },
+ "clearCacheHint": {
+  "message": "Der Cache beschleunigt die nächsten Analysen und bleibt auf diesem Computer."
+ },
+ "sourceAll": {
+  "message": "Ihre Lesezeichen"
+ },
+ "reasonKnownSite": {
+  "message": "Bekannte Website ({1})"
+ },
+ "reasonPattern": {
+  "message": "Typische Adresse ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Expliziter Titel"
+ },
+ "reasonAdultPage": {
+  "message": "Die Seite ist als Inhalt für Erwachsene gekennzeichnet"
+ },
+ "reasonPage": {
+  "message": "Laut Seite: „{1}“"
+ },
+ "reasonModel": {
+  "message": "Ähnelt „{1}“"
+ },
+ "reasonPlatform": {
+  "message": "Veröffentlicht auf {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Handelt von {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Sie ordnen {1} in „{2}“ ein"
+ },
+ "reasonKeptFolder": {
+  "message": "Ihr Ordner „{1}“, unverändert neu angelegt"
+ },
+ "reasonNewCategory": {
+  "message": "{1} Lesezeichen dieser Kategorie"
+ },
+ "deadNetwork": {
+  "message": "Antwortet nicht mehr: Website nicht gefunden"
+ },
+ "deadTimeout": {
+  "message": "Antwortet nicht mehr: Zeitüberschreitung"
+ },
+ "deadGone": {
+  "message": "Seite entfernt ({1})"
+ },
+ "deadServer": {
+  "message": "Serverfehler ({1})"
+ },
+ "deadParked": {
+  "message": "Domain aufgegeben oder zu verkaufen"
+ },
+ "reviewUnclear": {
+  "message": "Kein klares Thema in Titel und Adresse"
+ },
+ "reviewUnclearPage": {
+  "message": "Seite gelesen, kein klares Thema"
+ },
+ "reviewBlocked": {
+  "message": "Die Website verweigert den Zugriff ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Vager Titel; erlauben Sie das Lesen von Websites, um mehr zu erfahren"
+ },
+ "nodeDupes": {
+  "message": "Duplikate"
+ },
+ "nodeDupesMeta": {
+  "message": "Nicht neu angelegt, in der Sicherung behalten"
+ },
+ "dupesHint": {
+  "message": "Diese Seiten gibt es bereits an anderer Stelle: Eine Kopie wird neu angelegt. Diese hier bleiben in der Sicherung."
+ },
+ "keepAllDupes": {
+  "message": "Alle behalten"
+ },
+ "reasonDuplicate": {
+  "message": "Duplikat von „{1}“ ({2})"
+ },
+ "optDupes": {
+  "message": "Nur eine Kopie jeder Seite"
+ },
+ "optDupesHint": {
+  "message": "Duplikate werden nicht neu angelegt, sondern bleiben in der Sicherung."
+ },
+ "sumDupes": {
+  "message": "Duplikate"
+ },
+ "openSite": {
+  "message": "{1} öffnen"
+ },
+ "reviewHintUntested": {
+  "message": "Zu wenige Hinweise. „Erneut analysieren“ testet ihre Websites; Sie können sie auch zur Kontrolle öffnen. Sonst kommen sie in „Zu prüfen“."
+ },
+ "archiveNote": {
+  "message": "Ihre aktuelle Ordnerstruktur wird unverändert in einer datierten Sicherung im Ordner „Weitere Lesezeichen“ aufbewahrt. Ein Klick macht die Sortierung rückgängig."
+ },
+ "barSheetHint": {
+  "message": "Die Websites, die Sie am häufigsten öffnen, als Symbole am Anfang der Leiste. Klicken Sie in der Vorschau auf ein Symbol, um seinen Namen anzuzeigen."
+ },
+ "doneArchive": {
+  "message": "Ihre bisherige Ordnerstruktur befindet sich in „{1}“ im Ordner „Weitere Lesezeichen“."
+ },
+ "nodeBar": {
+  "message": "Schnellzugriff"
+ },
+ "nodeBarMeta": {
+  "message": "Symbole am Anfang der Leiste"
+ },
+ "notRecreated": {
+  "message": "Nicht neu angelegt"
+ },
+ "optQuickAccess": {
+  "message": "Schnellzugriff"
+ },
+ "optQuickAccessHint": {
+  "message": "Die meistbesuchten Websites als Symbole am Anfang der Leiste"
+ },
+ "quickNone": {
+  "message": "Keine"
+ },
+ "reasonBarShortcut": {
+  "message": "Bereits in Ihrer Lesezeichenleiste"
+ },
+ "reasonBarTool": {
+  "message": "Tool in der Leiste (Bookmarklet oder Browserseite)"
+ },
+ "reasonFacet": {
+  "message": "{1} Lesezeichen von derselben Website oder zum selben Thema"
+ },
+ "reasonLearned": {
+  "message": "Sie hatten es in „{1}“ eingeordnet"
+ },
+ "reasonMyFolders": {
+  "message": "Ihre Ordner mit gemischten Themen"
+ },
+ "reasonQuickAccess": {
+  "message": "Eine der Websites, die Sie am häufigsten öffnen"
+ },
+ "reasonReviewFolder": {
+  "message": "Zu wenige Hinweise, um sie einzuordnen"
+ },
+ "reasonSpecial": {
+  "message": "Ein Link, der keine Webseite ist (Bookmarklet, Browserseite, Datei)"
+ },
+ "leaveTitle": {
+  "message": "Diesen Vorschlag verwerfen?"
+ },
+ "leaveBody": {
+  "message": "Ihre Lesezeichen wurden nicht geändert. Um sie zu sortieren, müssen Sie die Analyse erneut starten."
+ },
+ "leaveConfirm": {
+  "message": "Verwerfen"
+ },
+ "acceptAll": {
+  "message": "Alle wie vorgeschlagen einordnen ({1})"
+ },
+ "acceptedAll": {
+  "message": "Wie vorgeschlagen eingeordnet: {1}"
+ },
+ "atTopOf": {
+  "message": "Direkt in „{1}“"
+ },
+ "deleteFolder": {
+  "message": "Löschen"
+ },
+ "deleteFolderTitle": {
+  "message": "„{1}“ löschen?"
+ },
+ "deleteFolderBody": {
+  "message": "Enthaltene Lesezeichen: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Enthaltene Lesezeichen: {1} · Unterordner: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Inhalt behalten"
+ },
+ "deleteKeepHint": {
+  "message": "Die enthaltenen Lesezeichen und Unterordner werden eine Ebene höher nach „{1}“ verschoben."
+ },
+ "deleteWithContent": {
+  "message": "Auch den Inhalt löschen"
+ },
+ "deleteWithContentHint": {
+  "message": "Die enthaltenen Lesezeichen werden nicht neu angelegt und bleiben in der Sicherung."
+ },
+ "displayInBrowser": {
+  "message": "Anzeige"
+ },
+ "dropAtTop": {
+  "message": "Hier ablegen, auf oberster Ebene"
+ },
+ "editUndone": {
+  "message": "Änderung rückgängig gemacht"
+ },
+ "fileIn": {
+  "message": "In {1} einordnen"
+ },
+ "foldFolder": {
+  "message": "{1} einklappen"
+ },
+ "unfoldFolder": {
+  "message": "{1} ausklappen"
+ },
+ "folderCreated": {
+  "message": "Ordner „{1}“ erstellt"
+ },
+ "folderDeleted": {
+  "message": "„{1}“ gelöscht: Inhalt eine Ebene nach oben verschoben"
+ },
+ "folderDeletedAll": {
+  "message": "„{1}“ samt Inhalt gelöscht"
+ },
+ "folderMoved": {
+  "message": "„{1}“ nach {2} verschoben"
+ },
+ "folderPlace": {
+  "message": "Speicherort"
+ },
+ "iconOnlyItem": {
+  "message": "Nur Symbol"
+ },
+ "keepDupe": {
+  "message": "Diese Kopie behalten"
+ },
+ "looseHint": {
+  "message": "Lesezeichen direkt in „{1}“, außerhalb von Ordnern."
+ },
+ "moveFolder": {
+  "message": "Verschieben"
+ },
+ "moveFolderTo": {
+  "message": "„{1}“ verschieben nach"
+ },
+ "moveToEllipsis": {
+  "message": "Verschieben nach…"
+ },
+ "newShort": {
+  "message": "neu"
+ },
+ "newSubfolder": {
+  "message": "Unterordner"
+ },
+ "nodeLoose": {
+  "message": "Ohne Ordner"
+ },
+ "nodeLooseMeta": {
+  "message": "Direkt im Stammordner"
+ },
+ "nodeRemoved": {
+  "message": "Entfernt"
+ },
+ "nodeRemovedMeta": {
+  "message": "Nicht neu angelegt, in der Sicherung behalten"
+ },
+ "openFolder": {
+  "message": "Ordner öffnen"
+ },
+ "openPage": {
+  "message": "Seite öffnen"
+ },
+ "proposalRestored": {
+  "message": "Vorschlag wiederhergestellt"
+ },
+ "reanalyze": {
+  "message": "Erneut analysieren"
+ },
+ "reanalyzeFailed": {
+  "message": "Die erneute Analyse ist fehlgeschlagen: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "„{2}“ erneut analysiert · verschoben: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "In „{1}“ gibt es nichts erneut zu analysieren: Sie haben die Lesezeichen selbst platziert."
+ },
+ "reanalyzedSame": {
+  "message": "„{1}“ erneut analysiert: keine Änderung"
+ },
+ "reanalyzing": {
+  "message": "„{1}“ wird erneut analysiert"
+ },
+ "reasonSameSite": {
+  "message": "Wie {1} andere Lesezeichen von {2}"
+ },
+ "removeBookmark": {
+  "message": "Entfernen"
+ },
+ "removedHint": {
+  "message": "Diese Lesezeichen werden nicht neu angelegt, bleiben aber in der Sicherung: Stellen Sie sie hier wieder her oder ziehen Sie sie auf einen Ordner."
+ },
+ "removedOne": {
+  "message": "„{1}“ wird nicht neu angelegt (bleibt in der Sicherung)"
+ },
+ "rename": {
+  "message": "Umbenennen"
+ },
+ "renameLabel": {
+  "message": "Neuer Name für {1}"
+ },
+ "renamedTo": {
+  "message": "Umbenannt in „{1}“"
+ },
+ "restore": {
+  "message": "Wiederherstellen"
+ },
+ "restoreAll": {
+  "message": "Alle wiederherstellen"
+ },
+ "restoredCount": {
+  "message": "Wiederhergestellt: {1}"
+ },
+ "restoredOne": {
+  "message": "Lesezeichen wiederhergestellt"
+ },
+ "rowActions": {
+  "message": "Aktionen für {1}"
+ },
+ "subfolders": {
+  "message": "Unterordner"
+ },
+ "suggestionsFor": {
+  "message": "Ordnervorschläge für {1}"
+ },
+ "undoEdit": {
+  "message": "Rückgängig machen"
+ },
+ "undoEditHint": {
+  "message": "Letzte Änderung rückgängig machen (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Bereits in Ihren Lesezeichen"
+ },
+ "existingFolderHint": {
+  "message": "Ordner aus einer früheren Sortierung: Neue Lesezeichen werden hinzugefügt, Name und Speicherort bleiben gleich."
+ }
+}

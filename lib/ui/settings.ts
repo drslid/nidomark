@@ -4,7 +4,7 @@ import { MODEL_ID } from '../model';
 import type { FolderItem } from '../types';
 import { h } from './dom';
 import type { Actions, State } from './state';
-import { openConfirmDialog } from './sheet';
+import { openConfirmDialog } from './dialogs';
 import { quickAccessSwitch, segmented, styleSwitch } from './views';
 
 export interface SettingsData {

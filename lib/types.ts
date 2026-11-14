@@ -107,6 +107,8 @@ export interface NewFolder {
   /** 1 at the top of the bookmarks bar or of Other bookmarks, 3 at most. */
   level?: number;
   reason: Reason;
+  /** A folder of an earlier sort, left out of this one, takes its place: nothing is created, it receives the bookmarks. */
+  existingId?: string;
 }
 
 export interface ReviewItem {
@@ -129,6 +131,6 @@ export interface Proposal {
   folderEmojis: Record<string, string>;
   /** Bookmarks shown first in the bookmarks bar, as icons, in this order. */
   quickAccess: string[];
-  /** For bookmarks to check: the folder the model leans to. */
-  guesses: Record<string, string>;
+  /** For bookmarks to check: the categories that fit best, the most likely first. */
+  suggestions: Record<string, string[]>;
 }

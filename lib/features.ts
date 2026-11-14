@@ -5,10 +5,22 @@ import { isArticlePath, isPrivateHost, isRemoteAccessHost, parseUrl, pathWords }
 import { fold, words } from './text';
 import { knownAppIn } from './vocab';
 
+/** A title folded to its letters and digits, in any script. */
+const titleKey = (title: string) => fold(title).replace(/[^\p{L}\p{M}\p{N} ]+/gu, ' ').replace(/\s+/g, ' ').trim();
+
+/** Titles that say nothing about a page, in the languages of the interface. */
 const GENERIC_TITLES = new Set([
   'accueil', 'home', 'homepage', 'index', 'dashboard', 'tableau de bord', 'login', 'log in', 'connexion', 'se connecter',
   'sign in', 'untitled', 'sans titre', 'bienvenue', 'welcome', 'page', 'start', 'start page', 'nouvel onglet', 'new tab', 'default',
-]);
+  'inicio', 'página principal', 'página de inicio', 'iniciar sesión', 'bienvenido', 'bienvenida', 'panel', 'sin título',
+  'pagina iniziale', 'accedi', 'benvenuto', 'senza titolo', 'startseite', 'anmelden', 'willkommen', 'unbenannt', 'übersicht',
+  'página inicial', 'entrar', 'bem-vindo', 'sem título', 'painel', 'startpagina', 'inloggen', 'welkom', 'naamloos',
+  'strona główna', 'zaloguj', 'zaloguj się', 'witaj', 'ana sayfa', 'anasayfa', 'giriş', 'giriş yap', 'hoş geldiniz',
+  'главная', 'главная страница', 'вход', 'войти', 'добро пожаловать', 'без названия', 'головна', 'головна сторінка', 'увійти', 'вхід',
+  'الرئيسية', 'الصفحة الرئيسية', 'تسجيل الدخول', 'مرحبا', 'होम', 'मुखपृष्ठ', 'लॉग इन', 'হোম', 'লগইন', 'beranda', 'masuk',
+  'selamat datang', 'trang chủ', 'đăng nhập', 'ホーム', 'トップページ', 'トップ', 'ログイン', 'ようこそ', '無題', '홈', '로그인',
+  '首页', '主页', '登录', '首頁', '主頁', '登入', '欢迎', '歡迎',
+].map(titleKey));
 /** Platforms whose domain says nothing about the subject of a page. */
 const MULTI_TOPIC_SITES = new Set(['youtube.com', 'youtu.be', 'medium.com', 'reddit.com', 'github.com', 'wikipedia.org', 'lemonde.fr', 'x.com', 'twitter.com', 'facebook.com', 'instagram.com', 'linkedin.com', 'vimeo.com', 'dailymotion.com', 'substack.com', 'google.com']);
 
@@ -20,10 +32,10 @@ const APP_PATH = /\/(admin|apps?|web|lovelace|photos|d|ui|dashboard|login|auth)(
 const APP_HOST = /^(cloud|nas|jellyfin|ha|home|homeassistant|media|plex|photos|files|git|vault|grafana|proxmox|pve|router|admin)\./;
 
 function isVague(title: string, siteLabel: string, isRoot: boolean): boolean {
-  const t = fold(title).replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const t = titleKey(title);
   if (!t || GENERIC_TITLES.has(t)) return true;
   // A specific page titled with the site name only ("YouTube" for a video) says nothing about the page.
-  return !isRoot && !!siteLabel && t.replace(/\s/g, '') === siteLabel.replace(/[^a-z0-9]/g, '');
+  return !isRoot && !!siteLabel && t.replace(/\s/g, '') === siteLabel.replace(/[^\p{L}\p{M}\p{N}]/gu, '');
 }
 
 const SITE_WORDS = new Set(['recette', 'recettes', 'blog', 'site', 'officiel', 'official', 'magazine', 'journal', 'com', 'fr', 'org', 'net', 'la', 'le', 'les', 'de', 'du', 'the', 'of']);
@@ -34,11 +46,11 @@ export function cleanTitle(title: string, host: string, siteLabel: string): stri
   const parts = t.split(/\s+[-|–—·:]\s+/);
   if (parts.length > 1) {
     const last = parts[parts.length - 1] ?? '';
-    const lastAlnum = fold(last).replace(/[^a-z0-9]/g, '');
-    const label = siteLabel.replace(/[^a-z0-9]/g, '');
-    const hostAlnum = fold(host).replace(/[^a-z0-9]/g, '');
+    const lastAlnum = fold(last).replace(/[^\p{L}\p{M}\p{N}]/gu, '');
+    const label = siteLabel.replace(/[^\p{L}\p{M}\p{N}]/gu, '');
+    const hostAlnum = fold(host).replace(/[^\p{L}\p{M}\p{N}]/gu, '');
     const namesSite = (label.length >= 3 && lastAlnum.includes(label)) || lastAlnum === hostAlnum;
-    const rest = fold(last).split(/[^a-z0-9]+/).filter((w) => w && !SITE_WORDS.has(w) && !(label && label.includes(w)) && !hostAlnum.includes(w));
+    const rest = fold(last).split(/[^\p{L}\p{M}\p{N}]+/u).filter((w) => w && !SITE_WORDS.has(w) && !(label && label.includes(w)) && !hostAlnum.includes(w));
     const head = t.slice(0, t.length - last.length).replace(/\s+[-|–—·:]\s*$/, '').trim();
     if (namesSite && rest.length === 0 && head.length >= 6) t = head;
   }

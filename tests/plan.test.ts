@@ -1,18 +1,20 @@
 import { describe, expect, it } from 'vitest';
-import { type BookmarksApi, type Decisions, type FolderStyle, type Op, UnresolvedJournalError, applyPlan, buildRebuildPlan, defaultDecisions, folderTitle, keepInterrupted, undoLast } from '../lib/plan';
+import { bookmarksUnder, foldersUnder, userFolder } from '../lib/edit';
+import { type BookmarksApi, type Decisions, type FolderDecision, type FolderStyle, type Op, UnresolvedJournalError, applyPlan, buildRebuildPlan, defaultDecisions, folderTitle, keepInterrupted, newTree, undoLast } from '../lib/plan';
 import { archiveSources, pruneScope } from '../lib/pipeline';
 import { buildSnapshot, type TreeNode } from '../lib/snapshot';
+import type { Proposal } from '../lib/types';
 import { type InputOptions, buildTree, run } from './fixtures/collection';
 import { FakeBookmarks, MemoryJournal } from './fixtures/fake-bookmarks';
 
 const ARCHIVE = 'Nidomark – sauvegarde du 08/11/2026 14:10';
 const rootTitle = (id: string) => (id === '1' ? 'Barre de favoris' : 'Autres favoris');
 
-function setup(crashAfter = Infinity, o: { style?: FolderStyle; input?: InputOptions; edit?: (d: Decisions) => void } = {}) {
+function setup(crashAfter = Infinity, o: { style?: FolderStyle; input?: InputOptions; edit?: (d: Decisions, p: Proposal) => void } = {}) {
   const api = new FakeBookmarks(buildTree());
   const { proposal, snapshot } = run({ pages: true, ...o.input });
   const decisions = defaultDecisions(proposal, o.style ?? 'emoji', proposal.quickAccess);
-  o.edit?.(decisions);
+  o.edit?.(decisions, proposal);
   const node = (id: string) => {
     const n = api.nodes.get(id);
     return n ? { parentId: n.parentId, title: n.title, url: n.url } : undefined;
@@ -135,6 +137,107 @@ describe('rebuild', () => {
     const res = await applyPlan(broken, [{ type: 'move', id: 'u1', to: { folderId: 'f-domotique' }, expect: { parentId: '2', title: 'Jellyfin', url: 'https://jellyfin.maison-dupont.fr/web/#/home.html' } }], store);
     expect(res.done).toBe(0);
     expect(res.skipped[0]?.reason).toContain('root');
+  });
+});
+
+describe('edits in the review', () => {
+  const folder = (d: Decisions, key: string) => d.newFolders[key] as FolderDecision;
+  const urlOf = (api: FakeBookmarks, id: string) => api.nodes.get(id)?.url;
+
+  it('moves a folder into another one, with its subfolders and bookmarks', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => (folder(d, 'g:tech').parent = { key: 'mine' }) });
+    const url = urlOf(api, 'u12');
+    await applyPlan(api, ops, store);
+    const mine = folderNamed(api, '🗂️', '1')?.id as string;
+    const tech = folderNamed(api, '💻 Tech', mine)?.id as string;
+    expect(titles(api, tech).slice(0, 3)).toEqual(['📡 Actu tech', '🗄️ Auto-hébergement', '👨‍💻 Développement']);
+    expect(children(api, tech).some((n) => n?.url === url)).toBe(true);
+    expect(folderNamed(api, '💻', '1')).toBeUndefined();
+    expect(newTreeUrls(api)).toHaveLength(47);
+  });
+
+  it('cuts a loop made by moving a folder below itself: every bookmark is still recreated once', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => (folder(d, 'g:tech').parent = { key: 'c:dev' }) });
+    await applyPlan(api, ops, store);
+    expect(folderNamed(api, '💻', '1')).toBeDefined();
+    expect(newTreeUrls(api)).toHaveLength(47);
+    expect(new Set(newTreeUrls(api)).size).toBe(47);
+  });
+
+  it('creates the folders the user made, one inside the other, even empty', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => {
+      d.userFolders.push(userFolder('user-1', 'Projets', { rootId: '2' }), userFolder('user-2', 'Recettes de mamie', { key: 'user-1' }), userFolder('user-3', 'Plus tard', { key: 'user-1' }));
+      for (const f of d.userFolders) d.newFolders[f.key] = { accepted: true, name: f.name, emoji: f.emoji };
+      d.moves.u21 = { accepted: true, target: { kind: 'new', key: 'user-2' } };
+    } });
+    const url = urlOf(api, 'u21');
+    await applyPlan(api, ops, store);
+    const projets = folderNamed(api, '📁 Projets', '2')?.id as string;
+    expect(titles(api, projets)).toEqual(['🍳 Recettes de mamie', '📁 Plus tard']);
+    expect(children(api, folderNamed(api, '🍳 Recettes de mamie', projets)?.id as string).map((n) => n?.url)).toEqual([url]);
+    expect(newTreeUrls(api)).toHaveLength(47);
+  });
+
+  it('removes a folder: its subfolders and bookmarks go up to the folder above', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => (folder(d, 'g:tech').accepted = false) });
+    const url = urlOf(api, 'u12');
+    await applyPlan(api, ops, store);
+    expect(folderNamed(api, '💻', '1')).toBeUndefined();
+    // At the top of the bar, the subfolders show their emoji only; the folder's own bookmark goes to the start of the bar.
+    expect(titles(api, '1')).toEqual(expect.arrayContaining(['📡', '🗄️', '👨‍💻']));
+    expect(children(api, '1').some((n) => n?.url === url)).toBe(true);
+    expect(newTreeUrls(api)).toHaveLength(47);
+  });
+
+  it('removes a folder with what it holds: those bookmarks stay in the archive only', async () => {
+    let gone: string[] = [];
+    const { api, ops, store } = setup(Infinity, { edit: (d, p) => {
+      const tree = newTree(p, d, { barId: '1', defaultRoot: '2' });
+      const dupes = new Set(p.duplicates.map((x) => x.bookmarkId));
+      gone = bookmarksUnder(tree, 'g:tech').filter((id) => !dupes.has(id));
+      for (const id of gone) d.removes[id] = true;
+      for (const k of ['g:tech', ...foldersUnder(tree, 'g:tech')]) folder(d, k).accepted = false;
+    } });
+    const urls = gone.map((id) => urlOf(api, id));
+    await applyPlan(api, ops, store);
+    expect(gone.length).toBeGreaterThan(10);
+    expect(folderNamed(api, '💻', '1')).toBeUndefined();
+    expect(newTreeUrls(api).filter((u) => urls.includes(u))).toEqual([]);
+    expect(newTreeUrls(api)).toHaveLength(47 - gone.length);
+    const archive = folderNamed(api, ARCHIVE)?.id as string;
+    for (const id of gone) expect(api.nodes.get(id)?.parentId === archive || under(api, archive).includes(id)).toBe(true);
+  });
+
+  it('files a bookmark right in a root folder', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => (d.moves.u27 = { accepted: true, target: { kind: 'existing', folderId: '2' } }) });
+    const url = urlOf(api, 'u27');
+    await applyPlan(api, ops, store);
+    expect(children(api, '2').some((n) => n?.url === url)).toBe(true);
+    expect(newTreeUrls(api)).toHaveLength(47);
+  });
+
+  it('shows a bookmark as an icon alone only in the bar, and a folder in its own style', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (d) => {
+      d.iconOnly.u26 = true;
+      folder(d, 'g:tech').style = 'name';
+    } });
+    await applyPlan(api, ops, store);
+    const travel = folderNamed(api, '✈️', '1')?.id as string;
+    expect(children(api, travel).find((n) => n?.url === 'https://www.sncf-connect.com/')?.title).toBe('SNCF Connect');
+    expect(titles(api, '1')).toContain('Tech');
+  });
+});
+
+describe('a sort of part of the bookmarks', () => {
+  it('adds to a folder of an earlier sort instead of making it again', async () => {
+    const { api, ops, store } = setup(Infinity, { edit: (_d, p) => {
+      const travel = p.newFolders.find((f) => f.key === 'c:travel');
+      if (travel) travel.existingId = 'f-domotique';
+    } });
+    expect(ops.some((op) => op.type === 'createFolder' && op.key === 'c:travel')).toBe(false);
+    expect(ops.filter((op) => op.type === 'createBookmark' && op.parentId === 'f-domotique')).toHaveLength(3);
+    const res = await applyPlan(api, ops, store);
+    expect(res.skipped).toEqual([]);
   });
 });
 

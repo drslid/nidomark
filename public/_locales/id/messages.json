@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Pengatur bookmark"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "AI lokal kecil merapikan bookmark Anda ke folder yang jelas, dengan emoji dan bilah berisi ikon saja. Pribadi, offline, gratis."
+ },
+ "actionTitle": {
+  "message": "Rapikan bookmark saya"
+ },
+ "tabSettings": {
+  "message": "Setelan"
+ },
+ "startTitle": {
+  "message": "Rapikan bookmark Anda"
+ },
+ "startLead": {
+  "message": "AI kecil di komputer ini membuat ulang semua bookmark Anda di folder yang jelas. Anda memeriksanya, lalu mengonfirmasi."
+ },
+ "optHistory": {
+  "message": "Utamakan situs yang paling sering dikunjungi"
+ },
+ "optHistoryHint": {
+  "message": "Menghitung kunjungan ke setiap situs dan membaca judul yang sudah tersimpan, di komputer ini. Tidak ada yang dikirim."
+ },
+ "optFolderStyle": {
+  "message": "Nama folder"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + nama"
+ },
+ "styleName": {
+  "message": "Hanya nama"
+ },
+ "styleEmoji": {
+  "message": "Hanya emoji"
+ },
+ "optIconOnly": {
+  "message": "Bilah bookmark berupa ikon"
+ },
+ "optIconOnlyHint": {
+  "message": "Diusulkan secara default; nama bisa ditampilkan lagi"
+ },
+ "analyze": {
+  "message": "Analisis bookmark saya"
+ },
+ "lastRun": {
+  "message": "Terakhir dirapikan: {1}"
+ },
+ "undoLast": {
+  "message": "Urungkan"
+ },
+ "phaseReading": {
+  "message": "Membaca bookmark Anda"
+ },
+ "phaseLoading": {
+  "message": "Memuat model"
+ },
+ "phaseEmbedding": {
+  "message": "Memahami setiap bookmark"
+ },
+ "phaseGrouping": {
+  "message": "Menyusun folder"
+ },
+ "progressCount": {
+  "message": "{1} dari {2}"
+ },
+ "moveTo": {
+  "message": "Pindahkan ke"
+ },
+ "newFolderOption": {
+  "message": "Folder baru"
+ },
+ "folderName": {
+  "message": "Nama folder"
+ },
+ "emojiLabel": {
+  "message": "Emoji untuk {1}"
+ },
+ "customEmoji": {
+  "message": "Emoji lain"
+ },
+ "reviewHint": {
+  "message": "Sudah diuji, tetapi petunjuknya kurang. Buka untuk memeriksanya, lalu pilih saran atau tarik ke folder. Jika tidak, bookmark ini akan dipindahkan ke “Perlu diperiksa”, di Bookmark lain."
+ },
+ "barTitle": {
+  "message": "Bilah baru"
+ },
+ "iconOnly": {
+  "message": "hanya ikon"
+ },
+ "applying": {
+  "message": "Menerapkan perubahan"
+ },
+ "doneTitle": {
+  "message": "Bookmark Anda sudah rapi"
+ },
+ "doneSummary": {
+  "message": "{1} bookmark dirapikan ke {2} folder."
+ },
+ "doneSkipped": {
+  "message": "{1} item dilewati karena berubah selama proses. Tidak ada yang hilang: versi aslinya ada di cadangan."
+ },
+ "undone": {
+  "message": "Proses merapikan terakhir sudah diurungkan."
+ },
+ "undoSkipped": {
+  "message": "{1} item dibiarkan sesuai perubahan Anda."
+ },
+ "changedBanner": {
+  "message": "Bookmark Anda berubah di browser selama peninjauan."
+ },
+ "refresh": {
+  "message": "Perbarui usulan"
+ },
+ "errorTitle": {
+  "message": "Terjadi error"
+ },
+ "errorModel": {
+  "message": "Model tidak dapat dimuat. Jika Anda membuat build ekstensi ini sendiri, jalankan “pnpm fetch-model”, lalu build ulang."
+ },
+ "retry": {
+  "message": "Coba lagi"
+ },
+ "emptyTitle": {
+  "message": "Tidak ada yang perlu dirapikan"
+ },
+ "emptyHint": {
+  "message": "Tidak ada bookmark di folder yang dipilih. Pilih folder lain."
+ },
+ "reasonHomeService": {
+  "message": "Layanan yang di-host di rumah (alamat lokal atau domain pribadi)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Panduan tentang {1} (self-hosting)"
+ },
+ "reasonNewGroup": {
+  "message": "{1} bookmark dengan tema ini"
+ },
+ "reasonUser": {
+  "message": "Pilihan Anda"
+ },
+ "reviewVague": {
+  "message": "Judul umum dan alamat yang tidak informatif: isi halaman tidak dapat diketahui."
+ },
+ "settingsDefaults": {
+  "message": "Pilihan default"
+ },
+ "settingsHistoryOn": {
+  "message": "Diizinkan"
+ },
+ "settingsHistoryOff": {
+  "message": "Tidak diizinkan"
+ },
+ "settingsNames": {
+  "message": "Bookmark hanya ikon"
+ },
+ "settingsNamesCount": {
+  "message": "{1} bookmark ditampilkan sebagai ikon"
+ },
+ "restoreNames": {
+  "message": "Tampilkan lagi semua nama"
+ },
+ "namesRestored": {
+  "message": "{1} nama ditampilkan lagi."
+ },
+ "settingsData": {
+  "message": "Data"
+ },
+ "clearCache": {
+  "message": "Cache analisis"
+ },
+ "cacheCleared": {
+  "message": "Cache dikosongkan."
+ },
+ "settingsAbout": {
+  "message": "Tentang"
+ },
+ "aboutModel": {
+  "message": "Model: {1}, berjalan secara lokal."
+ },
+ "saved": {
+  "message": "Disimpan"
+ },
+ "unnamed": {
+  "message": "(tanpa nama)"
+ },
+ "barFolder": {
+  "message": "Bilah bookmark"
+ },
+ "otherFolder": {
+  "message": "Bookmark lain"
+ },
+ "lang": {
+  "message": "id"
+ },
+ "interruptedTitle": {
+  "message": "Proses merapikan terakhir terhenti"
+ },
+ "interruptedHint": {
+  "message": "Browser tertutup saat perubahan sedang diterapkan. Urungkan yang sudah dilakukan, atau biarkan seperti adanya."
+ },
+ "interruptedUndo": {
+  "message": "Urungkan yang sudah dilakukan"
+ },
+ "interruptedKeep": {
+  "message": "Pertahankan perubahan ini"
+ },
+ "errorUnresolved": {
+  "message": "Proses merapikan terakhir terhenti. Urungkan atau pertahankan hasilnya sebelum merapikan lagi."
+ },
+ "changedBlocked": {
+  "message": "Perbarui usulan terlebih dahulu: bookmark Anda telah berubah."
+ },
+ "startCountNone": {
+  "message": "Tidak ada bookmark untuk dirapikan"
+ },
+ "finish": {
+  "message": "Selesai"
+ },
+ "sourceMeta": {
+  "message": "{1} bookmark"
+ },
+ "destinations": {
+  "message": "Folder yang diusulkan"
+ },
+ "proposal": {
+  "message": "Usulan"
+ },
+ "nodeReviewMeta": {
+  "message": "Petunjuk tidak cukup"
+ },
+ "countLabel": {
+  "message": "{1} bookmark"
+ },
+ "sheetClose": {
+  "message": "Tutup"
+ },
+ "emptyFolder": {
+  "message": "Kosong. Tarik bookmark ke folder ini di diagram."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Folder baru"
+ },
+ "create": {
+  "message": "Buat"
+ },
+ "cancel": {
+  "message": "Batal"
+ },
+ "ok": {
+  "message": "Oke"
+ },
+ "keepTitle": {
+  "message": "Pertahankan judul asli"
+ },
+ "useNewTitle": {
+  "message": "Gunakan judul yang lebih rapi"
+ },
+ "noEmoji": {
+  "message": "Tanpa emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Klik untuk menampilkan ikonnya saja"
+ },
+ "showName": {
+  "message": "klik untuk menampilkan nama"
+ },
+ "nothingYet": {
+  "message": "Belum ada yang berubah"
+ },
+ "restoreProposal": {
+  "message": "Pulihkan usulan"
+ },
+ "applyRegion": {
+  "message": "Terapkan perubahan"
+ },
+ "announceMoved": {
+  "message": "“{1}” dipindahkan ke {2}"
+ },
+ "back": {
+  "message": "Kembali"
+ },
+ "clear": {
+  "message": "Kosongkan"
+ },
+ "footerSync": {
+  "message": "Perubahan juga berlaku di perangkat lain tempat Anda login."
+ },
+ "barHint": {
+  "message": "Klik bookmark untuk menyembunyikan atau menampilkan namanya"
+ },
+ "applyCount": {
+  "message": "Rapikan {1} bookmark"
+ },
+ "applyOne": {
+  "message": "Rapikan 1 bookmark"
+ },
+ "scopeLabel": {
+  "message": "Folder yang akan dirapikan"
+ },
+ "barScopeHint": {
+  "message": "Termasuk pintasan: yang paling sering digunakan akan kembali lebih dulu"
+ },
+ "showSubfolders": {
+  "message": "Tampilkan folder di {1}"
+ },
+ "destinationLabel": {
+  "message": "Rapikan ke"
+ },
+ "moreOptions": {
+  "message": "Opsi lainnya"
+ },
+ "sumReadSites": {
+  "message": "membaca situs"
+ },
+ "sumCheckDead": {
+  "message": "situs mati"
+ },
+ "sumHistory": {
+  "message": "histori"
+ },
+ "optReadSites": {
+  "message": "Baca situs jika judul tidak cukup"
+ },
+ "optReadSitesHint": {
+  "message": "Lebih lambat, lebih akurat. Chrome akan meminta akses ke situs satu kali."
+ },
+ "optCheckDead": {
+  "message": "Temukan situs yang tidak merespons lagi"
+ },
+ "optCheckDeadHint": {
+  "message": "Situs tersebut ditempatkan terpisah di “Situs tidak dapat diakses”."
+ },
+ "optFolderStyleHint": {
+  "message": "Nama subfolder tidak berubah."
+ },
+ "analyzeCount": {
+  "message": "Analisis {1} bookmark"
+ },
+ "analyzeOne": {
+  "message": "Analisis 1 bookmark"
+ },
+ "privacyTitle": {
+  "message": "Tidak ada data yang keluar dari komputer ini"
+ },
+ "privacyBody": {
+  "message": "AI berjalan di sini, tanpa akun dan tanpa server. Untuk memahami sebuah situs, Nidomark membuka halamannya seperti browser Anda, tanpa cookie, dan tidak mengirim apa pun selain itu."
+ },
+ "phaseSites": {
+  "message": "Membaca situs"
+ },
+ "phasePages": {
+  "message": "Menganalisis halaman"
+ },
+ "sitesNote": {
+  "message": "Beberapa situs sekaligus. Tidak ada yang dikirim, halaman hanya dibaca."
+ },
+ "sitesAllowed": {
+  "message": "Akses ke situs diizinkan"
+ },
+ "sitesAsked": {
+  "message": "Chrome akan meminta akses ke situs saat analisis berikutnya"
+ },
+ "backupsTitle": {
+  "message": "Cadangan"
+ },
+ "backupsNone": {
+  "message": "Tidak ada cadangan"
+ },
+ "backupCount": {
+  "message": "{1} bookmark"
+ },
+ "backupDelete": {
+  "message": "Hapus"
+ },
+ "backupDeleteTitle": {
+  "message": "Hapus cadangan ini?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” dan semua isinya akan dihapus secara permanen. Bookmark Anda yang sudah dirapikan tidak berpindah, tetapi proses merapikan yang membuatnya tidak dapat diurungkan lagi."
+ },
+ "backupDeleted": {
+  "message": "Cadangan dihapus."
+ },
+ "backupTitle": {
+  "message": "Nidomark – cadangan {1}"
+ },
+ "clearCacheHint": {
+  "message": "Cache mempercepat analisis berikutnya dan tetap tersimpan di komputer ini."
+ },
+ "sourceAll": {
+  "message": "Bookmark Anda"
+ },
+ "reasonKnownSite": {
+  "message": "Situs yang dikenal ({1})"
+ },
+ "reasonPattern": {
+  "message": "Alamat khas ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Judul eksplisit"
+ },
+ "reasonAdultPage": {
+  "message": "Halaman ini menyatakan berisi konten dewasa"
+ },
+ "reasonPage": {
+  "message": "Dari halaman: “{1}”"
+ },
+ "reasonModel": {
+  "message": "Mirip dengan “{1}”"
+ },
+ "reasonPlatform": {
+  "message": "Dipublikasikan di {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Tentang {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Anda biasa menyimpan {1} di “{2}”"
+ },
+ "reasonKeptFolder": {
+  "message": "Folder Anda “{1}”, dibuat ulang apa adanya"
+ },
+ "reasonNewCategory": {
+  "message": "{1} bookmark dari kategori ini"
+ },
+ "deadNetwork": {
+  "message": "Tidak merespons lagi: situs tidak ditemukan"
+ },
+ "deadTimeout": {
+  "message": "Tidak merespons lagi: waktu habis"
+ },
+ "deadGone": {
+  "message": "Halaman dihapus ({1})"
+ },
+ "deadServer": {
+  "message": "Error server ({1})"
+ },
+ "deadParked": {
+  "message": "Domain ditinggalkan atau dijual"
+ },
+ "reviewUnclear": {
+  "message": "Tidak ada tema yang jelas di judul dan alamat"
+ },
+ "reviewUnclearPage": {
+  "message": "Halaman sudah dibaca, tidak ada tema yang jelas"
+ },
+ "reviewBlocked": {
+  "message": "Situs menolak untuk dibaca ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Judul kurang jelas; izinkan membaca situs untuk mengetahui lebih lanjut"
+ },
+ "nodeDupes": {
+  "message": "Duplikat"
+ },
+ "nodeDupesMeta": {
+  "message": "Tidak dibuat ulang, tetap di cadangan"
+ },
+ "dupesHint": {
+  "message": "Halaman ini sudah ada di tempat lain: satu salinan dibuat ulang. Yang ini tetap ada di cadangan."
+ },
+ "keepAllDupes": {
+  "message": "Pertahankan semua"
+ },
+ "reasonDuplicate": {
+  "message": "Duplikat dari “{1}” ({2})"
+ },
+ "optDupes": {
+  "message": "Satu salinan untuk setiap halaman"
+ },
+ "optDupesHint": {
+  "message": "Duplikat tidak dibuat ulang; semuanya tetap ada di cadangan."
+ },
+ "sumDupes": {
+  "message": "duplikat"
+ },
+ "openSite": {
+  "message": "Buka {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Petunjuk tidak cukup. “Analisis ulang” akan menguji situsnya; Anda juga bisa membukanya untuk memeriksa. Jika tidak, bookmark ini akan dipindahkan ke “Perlu diperiksa”."
+ },
+ "archiveNote": {
+  "message": "Susunan folder Anda saat ini disimpan apa adanya dalam cadangan bertanggal, di Bookmark lain. Cukup satu klik untuk mengurungkannya."
+ },
+ "barSheetHint": {
+  "message": "Situs yang paling sering Anda buka, berupa ikon di awal bilah. Di pratinjau, klik ikon untuk menampilkan namanya."
+ },
+ "doneArchive": {
+  "message": "Susunan folder Anda sebelumnya ada di “{1}”, di Bookmark lain."
+ },
+ "nodeBar": {
+  "message": "Akses cepat"
+ },
+ "nodeBarMeta": {
+  "message": "Ikon di awal bilah"
+ },
+ "notRecreated": {
+  "message": "Tidak dibuat ulang"
+ },
+ "optQuickAccess": {
+  "message": "Akses cepat"
+ },
+ "optQuickAccessHint": {
+  "message": "Situs yang paling sering dikunjungi, berupa ikon di awal bilah"
+ },
+ "quickNone": {
+  "message": "Tidak ada"
+ },
+ "reasonBarShortcut": {
+  "message": "Sudah ada di bilah bookmark Anda"
+ },
+ "reasonBarTool": {
+  "message": "Alat bilah (bookmarklet atau halaman browser)"
+ },
+ "reasonFacet": {
+  "message": "{1} bookmark dari situs yang sama atau tentang topik yang sama"
+ },
+ "reasonLearned": {
+  "message": "Anda pernah menyimpannya di “{1}”"
+ },
+ "reasonMyFolders": {
+  "message": "Folder Anda yang mencampur beberapa topik"
+ },
+ "reasonQuickAccess": {
+  "message": "Salah satu situs yang paling sering Anda buka"
+ },
+ "reasonReviewFolder": {
+  "message": "Petunjuk tidak cukup untuk merapikannya"
+ },
+ "reasonSpecial": {
+  "message": "Link yang bukan halaman web (bookmarklet, halaman browser, file)"
+ },
+ "leaveTitle": {
+  "message": "Buang usulan ini?"
+ },
+ "leaveBody": {
+  "message": "Bookmark Anda belum diubah. Untuk merapikannya, Anda perlu menjalankan analisis lagi."
+ },
+ "leaveConfirm": {
+  "message": "Buang"
+ },
+ "acceptAll": {
+  "message": "Rapikan semua sesuai saran ({1})"
+ },
+ "acceptedAll": {
+  "message": "Dirapikan sesuai saran: {1}"
+ },
+ "atTopOf": {
+  "message": "Langsung di {1}"
+ },
+ "deleteFolder": {
+  "message": "Hapus"
+ },
+ "deleteFolderTitle": {
+  "message": "Hapus “{1}”?"
+ },
+ "deleteFolderBody": {
+  "message": "Bookmark di dalamnya: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Bookmark di dalamnya: {1} · subfolder: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Pertahankan isinya"
+ },
+ "deleteKeepHint": {
+  "message": "Bookmark dan subfolder di dalamnya akan naik ke “{1}”."
+ },
+ "deleteWithContent": {
+  "message": "Hapus juga isinya"
+ },
+ "deleteWithContentHint": {
+  "message": "Bookmark di dalamnya tidak dibuat ulang: semuanya tetap ada di cadangan."
+ },
+ "displayInBrowser": {
+  "message": "Tampilan"
+ },
+ "dropAtTop": {
+  "message": "Lepas di sini, di tingkat teratas"
+ },
+ "editUndone": {
+  "message": "Perubahan diurungkan"
+ },
+ "fileIn": {
+  "message": "Masukkan ke {1}"
+ },
+ "foldFolder": {
+  "message": "Ciutkan {1}"
+ },
+ "unfoldFolder": {
+  "message": "Luaskan {1}"
+ },
+ "folderCreated": {
+  "message": "Folder “{1}” dibuat"
+ },
+ "folderDeleted": {
+  "message": "“{1}” dihapus: isinya naik satu tingkat"
+ },
+ "folderDeletedAll": {
+  "message": "“{1}” dan isinya dihapus"
+ },
+ "folderMoved": {
+  "message": "“{1}” dipindahkan ke {2}"
+ },
+ "folderPlace": {
+  "message": "Lokasi"
+ },
+ "iconOnlyItem": {
+  "message": "Hanya ikon"
+ },
+ "keepDupe": {
+  "message": "Pertahankan salinan ini"
+ },
+ "looseHint": {
+  "message": "Bookmark yang langsung berada di {1}, di luar folder mana pun."
+ },
+ "moveFolder": {
+  "message": "Pindahkan"
+ },
+ "moveFolderTo": {
+  "message": "Pindahkan “{1}” ke"
+ },
+ "moveToEllipsis": {
+  "message": "Pindahkan ke…"
+ },
+ "newShort": {
+  "message": "baru"
+ },
+ "newSubfolder": {
+  "message": "Subfolder baru"
+ },
+ "nodeLoose": {
+  "message": "Tanpa folder"
+ },
+ "nodeLooseMeta": {
+  "message": "Langsung di folder utama"
+ },
+ "nodeRemoved": {
+  "message": "Dihapus"
+ },
+ "nodeRemovedMeta": {
+  "message": "Tidak dibuat ulang, tetap di cadangan"
+ },
+ "openFolder": {
+  "message": "buka folder"
+ },
+ "openPage": {
+  "message": "Buka halaman"
+ },
+ "proposalRestored": {
+  "message": "Usulan dipulihkan"
+ },
+ "reanalyze": {
+  "message": "Analisis ulang"
+ },
+ "reanalyzeFailed": {
+  "message": "Analisis ulang gagal: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "“{2}” dianalisis ulang · dipindahkan: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Tidak ada yang perlu dianalisis ulang di “{1}”: Anda sendiri yang menempatkan bookmark di dalamnya."
+ },
+ "reanalyzedSame": {
+  "message": "“{1}” dianalisis ulang: tidak ada perubahan"
+ },
+ "reanalyzing": {
+  "message": "Menganalisis ulang “{1}”"
+ },
+ "reasonSameSite": {
+  "message": "Seperti {1} bookmark lain dari {2}"
+ },
+ "removeBookmark": {
+  "message": "Hapus"
+ },
+ "removedHint": {
+  "message": "Bookmark ini tidak dibuat ulang. Semuanya tetap ada di cadangan: pulihkan di sini, atau tarik ke folder."
+ },
+ "removedOne": {
+  "message": "“{1}” tidak akan dibuat ulang (tetap ada di cadangan)"
+ },
+ "rename": {
+  "message": "Ganti nama"
+ },
+ "renameLabel": {
+  "message": "Nama baru untuk {1}"
+ },
+ "renamedTo": {
+  "message": "Nama diganti menjadi “{1}”"
+ },
+ "restore": {
+  "message": "Pulihkan"
+ },
+ "restoreAll": {
+  "message": "Pulihkan semua"
+ },
+ "restoredCount": {
+  "message": "Dipulihkan: {1}"
+ },
+ "restoredOne": {
+  "message": "Bookmark dipulihkan"
+ },
+ "rowActions": {
+  "message": "Tindakan untuk {1}"
+ },
+ "subfolders": {
+  "message": "Subfolder"
+ },
+ "suggestionsFor": {
+  "message": "Saran untuk {1}"
+ },
+ "undoEdit": {
+  "message": "Urungkan"
+ },
+ "undoEditHint": {
+  "message": "Urungkan perubahan terakhir (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Sudah ada di bookmark Anda"
+ },
+ "existingFolderHint": {
+  "message": "Folder dari proses merapikan sebelumnya: bookmark baru ditambahkan ke folder ini, dan nama serta lokasinya tetap."
+ }
+}

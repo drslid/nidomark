@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – 書籤整理工具"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "小巧的本機 AI 會將你的書籤整理到清楚的資料夾中，支援附表情符號的資料夾和僅顯示圖示的書籤列。重視隱私，離線運作，免費使用。"
+ },
+ "actionTitle": {
+  "message": "整理我的書籤"
+ },
+ "tabSettings": {
+  "message": "設定"
+ },
+ "startTitle": {
+  "message": "整理你的書籤"
+ },
+ "startLead": {
+  "message": "這台電腦上的小型 AI 會在清楚的資料夾中重新建立你的所有書籤。你先檢查，再確認即可。"
+ },
+ "optHistory": {
+  "message": "將最常造訪的網站排在前面"
+ },
+ "optHistoryHint": {
+  "message": "在這台電腦上計算每個網站的造訪次數，並讀取已儲存的標題。不會傳送任何資料。"
+ },
+ "optFolderStyle": {
+  "message": "資料夾名稱"
+ },
+ "styleEmojiName": {
+  "message": "表情符號 + 名稱"
+ },
+ "styleName": {
+  "message": "僅名稱"
+ },
+ "styleEmoji": {
+  "message": "僅表情符號"
+ },
+ "optIconOnly": {
+  "message": "書籤列僅顯示圖示"
+ },
+ "optIconOnlyHint": {
+  "message": "預設採用此方式；名稱可隨時重新顯示"
+ },
+ "analyze": {
+  "message": "分析我的書籤"
+ },
+ "lastRun": {
+  "message": "上次整理：{1}"
+ },
+ "undoLast": {
+  "message": "復原"
+ },
+ "phaseReading": {
+  "message": "正在讀取你的書籤"
+ },
+ "phaseLoading": {
+  "message": "正在載入模型"
+ },
+ "phaseEmbedding": {
+  "message": "正在理解每個書籤"
+ },
+ "phaseGrouping": {
+  "message": "正在建立資料夾"
+ },
+ "progressCount": {
+  "message": "{1} / {2}"
+ },
+ "moveTo": {
+  "message": "移到"
+ },
+ "newFolderOption": {
+  "message": "新增資料夾"
+ },
+ "folderName": {
+  "message": "資料夾名稱"
+ },
+ "emojiLabel": {
+  "message": "{1} 的表情符號"
+ },
+ "customEmoji": {
+  "message": "其他表情符號"
+ },
+ "reviewHint": {
+  "message": "已測試網站，但線索仍不足。請開啟查看，再選擇建議，或將它們拖曳到資料夾上。否則，它們會移到「其他書籤」中的「待確認」資料夾。"
+ },
+ "barTitle": {
+  "message": "新的書籤列"
+ },
+ "iconOnly": {
+  "message": "僅顯示圖示"
+ },
+ "applying": {
+  "message": "正在套用變更"
+ },
+ "doneTitle": {
+  "message": "你的書籤已整理完畢"
+ },
+ "doneSummary": {
+  "message": "已將 {1} 個書籤整理到 {2} 個資料夾中。"
+ },
+ "doneSkipped": {
+  "message": "有 {1} 個項目在這段期間有所變更，因此已略過。沒有遺失任何內容：原始項目都在備份中。"
+ },
+ "undone": {
+  "message": "已復原上次的整理。"
+ },
+ "undoSkipped": {
+  "message": "有 {1} 個項目維持你變更後的狀態。"
+ },
+ "changedBanner": {
+  "message": "檢查期間，瀏覽器中的書籤有所變更。"
+ },
+ "refresh": {
+  "message": "更新方案"
+ },
+ "errorTitle": {
+  "message": "發生錯誤"
+ },
+ "errorModel": {
+  "message": "無法載入模型。如果你自行建構了這個擴充功能，請執行「pnpm fetch-model」，然後重新建構。"
+ },
+ "retry": {
+  "message": "再試一次"
+ },
+ "emptyTitle": {
+  "message": "沒有需要整理的項目"
+ },
+ "emptyHint": {
+  "message": "所選資料夾中沒有書籤。請選擇其他資料夾。"
+ },
+ "reasonHomeService": {
+  "message": "在家中架設的服務 (本機位址或個人網域)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "{1} 相關指南 (自架服務)"
+ },
+ "reasonNewGroup": {
+  "message": "這個主題的 {1} 個書籤"
+ },
+ "reasonUser": {
+  "message": "你的選擇"
+ },
+ "reviewVague": {
+  "message": "標題太籠統，網址也看不出端倪：無法得知網頁的內容。"
+ },
+ "settingsDefaults": {
+  "message": "預設選項"
+ },
+ "settingsHistoryOn": {
+  "message": "已允許"
+ },
+ "settingsHistoryOff": {
+  "message": "未允許"
+ },
+ "settingsNames": {
+  "message": "僅顯示圖示的書籤"
+ },
+ "settingsNamesCount": {
+  "message": "{1} 個書籤僅顯示圖示"
+ },
+ "restoreNames": {
+  "message": "重新顯示所有名稱"
+ },
+ "namesRestored": {
+  "message": "已重新顯示 {1} 個名稱。"
+ },
+ "settingsData": {
+  "message": "資料"
+ },
+ "clearCache": {
+  "message": "分析快取"
+ },
+ "cacheCleared": {
+  "message": "已清除快取。"
+ },
+ "settingsAbout": {
+  "message": "關於"
+ },
+ "aboutModel": {
+  "message": "模型：{1}，在本機執行。"
+ },
+ "saved": {
+  "message": "已儲存"
+ },
+ "unnamed": {
+  "message": "(未命名)"
+ },
+ "barFolder": {
+  "message": "書籤列"
+ },
+ "otherFolder": {
+  "message": "其他書籤"
+ },
+ "lang": {
+  "message": "zh-TW"
+ },
+ "interruptedTitle": {
+  "message": "上次整理已中斷"
+ },
+ "interruptedHint": {
+  "message": "套用變更時瀏覽器已關閉。請復原已完成的變更，或維持現狀。"
+ },
+ "interruptedUndo": {
+  "message": "復原已完成的變更"
+ },
+ "interruptedKeep": {
+  "message": "保留這些變更"
+ },
+ "errorUnresolved": {
+  "message": "上次整理已中斷。請先復原或保留，再重新整理。"
+ },
+ "changedBlocked": {
+  "message": "請先更新方案：你的書籤已變更。"
+ },
+ "startCountNone": {
+  "message": "沒有需要整理的書籤"
+ },
+ "finish": {
+  "message": "完成"
+ },
+ "sourceMeta": {
+  "message": "{1} 個書籤"
+ },
+ "destinations": {
+  "message": "方案中的資料夾"
+ },
+ "proposal": {
+  "message": "整理方案"
+ },
+ "nodeReviewMeta": {
+  "message": "線索不足"
+ },
+ "countLabel": {
+  "message": "{1} 個書籤"
+ },
+ "sheetClose": {
+  "message": "關閉"
+ },
+ "emptyFolder": {
+  "message": "這個資料夾是空的。請在圖表中將書籤拖曳到這個資料夾。"
+ },
+ "dialogNewFolderTitle": {
+  "message": "新增資料夾"
+ },
+ "create": {
+  "message": "建立"
+ },
+ "cancel": {
+  "message": "取消"
+ },
+ "ok": {
+  "message": "確定"
+ },
+ "keepTitle": {
+  "message": "保留原始標題"
+ },
+ "useNewTitle": {
+  "message": "使用更簡潔的標題"
+ },
+ "noEmoji": {
+  "message": "不使用表情符號"
+ },
+ "iconOnlyHint": {
+  "message": "按一下即可僅顯示圖示"
+ },
+ "showName": {
+  "message": "按一下即可顯示名稱"
+ },
+ "nothingYet": {
+  "message": "尚未進行任何變更"
+ },
+ "restoreProposal": {
+  "message": "還原為原始方案"
+ },
+ "applyRegion": {
+  "message": "套用變更"
+ },
+ "announceMoved": {
+  "message": "已將「{1}」移到「{2}」"
+ },
+ "back": {
+  "message": "返回"
+ },
+ "clear": {
+  "message": "清除"
+ },
+ "footerSync": {
+  "message": "變更也會套用到你已登入的其他裝置。"
+ },
+ "barHint": {
+  "message": "按一下書籤即可隱藏或顯示名稱"
+ },
+ "applyCount": {
+  "message": "整理 {1} 個書籤"
+ },
+ "applyOne": {
+  "message": "整理 1 個書籤"
+ },
+ "scopeLabel": {
+  "message": "要整理的資料夾"
+ },
+ "barScopeHint": {
+  "message": "包含捷徑：最常用的會重新排在最前面"
+ },
+ "showSubfolders": {
+  "message": "顯示 {1} 中的資料夾"
+ },
+ "destinationLabel": {
+  "message": "整理到"
+ },
+ "moreOptions": {
+  "message": "更多選項"
+ },
+ "sumReadSites": {
+  "message": "讀取網站"
+ },
+ "sumCheckDead": {
+  "message": "失效網站"
+ },
+ "sumHistory": {
+  "message": "歷史記錄"
+ },
+ "optReadSites": {
+  "message": "標題不足以判斷時讀取網站"
+ },
+ "optReadSitesHint": {
+  "message": "速度較慢，但更準確。Chrome 會要求一次網站存取權。"
+ },
+ "optCheckDead": {
+  "message": "找出不再回應的網站"
+ },
+ "optCheckDeadHint": {
+  "message": "這些網站會另外放在「無法連上的網站」中。"
+ },
+ "optFolderStyleHint": {
+  "message": "子資料夾會保留原名稱。"
+ },
+ "analyzeCount": {
+  "message": "分析 {1} 個書籤"
+ },
+ "analyzeOne": {
+  "message": "分析 1 個書籤"
+ },
+ "privacyTitle": {
+  "message": "資料不會離開這台電腦"
+ },
+ "privacyBody": {
+  "message": "AI 在這台電腦上執行，不需要帳戶，也不使用伺服器。為了解網站內容，Nidomark 會像瀏覽器一樣開啟網頁，但不使用 Cookie，也不會傳送任何其他內容。"
+ },
+ "phaseSites": {
+  "message": "正在讀取網站"
+ },
+ "phasePages": {
+  "message": "正在分析網頁"
+ },
+ "sitesNote": {
+  "message": "同時處理多個網站。只會讀取網頁，不會傳送任何內容。"
+ },
+ "sitesAllowed": {
+  "message": "已授予網站存取權"
+ },
+ "sitesAsked": {
+  "message": "下次分析時，Chrome 會要求網站存取權"
+ },
+ "backupsTitle": {
+  "message": "備份"
+ },
+ "backupsNone": {
+  "message": "沒有備份"
+ },
+ "backupCount": {
+  "message": "{1} 個書籤"
+ },
+ "backupDelete": {
+  "message": "刪除"
+ },
+ "backupDeleteTitle": {
+  "message": "要刪除這個備份嗎？"
+ },
+ "backupConfirm": {
+  "message": "「{1}」及其中的所有內容都會永久刪除。已整理的書籤不會移動，但建立這個備份的那次整理將無法再復原。"
+ },
+ "backupDeleted": {
+  "message": "已刪除備份。"
+ },
+ "backupTitle": {
+  "message": "Nidomark – 備份 {1}"
+ },
+ "clearCacheHint": {
+  "message": "快取可加快後續分析，而且只會保存在這台電腦上。"
+ },
+ "sourceAll": {
+  "message": "你的書籤"
+ },
+ "reasonKnownSite": {
+  "message": "已知網站 ({1})"
+ },
+ "reasonPattern": {
+  "message": "典型網址 ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "露骨的標題"
+ },
+ "reasonAdultPage": {
+  "message": "這個網頁標示含有成人內容"
+ },
+ "reasonPage": {
+  "message": "來自網頁：「{1}」"
+ },
+ "reasonModel": {
+  "message": "看起來屬於「{1}」"
+ },
+ "reasonPlatform": {
+  "message": "發布於 {1}"
+ },
+ "reasonAboutApp": {
+  "message": "關於 {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "你通常將 {1} 整理到「{2}」中"
+ },
+ "reasonKeptFolder": {
+  "message": "你的資料夾「{1}」，依原樣重新建立"
+ },
+ "reasonNewCategory": {
+  "message": "這個類別的 {1} 個書籤"
+ },
+ "deadNetwork": {
+  "message": "已無回應：找不到網站"
+ },
+ "deadTimeout": {
+  "message": "已無回應：連線逾時"
+ },
+ "deadGone": {
+  "message": "網頁已移除 ({1})"
+ },
+ "deadServer": {
+  "message": "伺服器錯誤 ({1})"
+ },
+ "deadParked": {
+  "message": "網域已棄用或待售"
+ },
+ "reviewUnclear": {
+  "message": "標題和網址中沒有明確的主題"
+ },
+ "reviewUnclearPage": {
+  "message": "已讀取網頁，但沒有明確的主題"
+ },
+ "reviewBlocked": {
+  "message": "這個網站拒絕讀取 ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "標題含糊；允許讀取網站即可進一步瞭解"
+ },
+ "nodeDupes": {
+  "message": "重複項目"
+ },
+ "nodeDupesMeta": {
+  "message": "不重新建立，保留在備份中"
+ },
+ "dupesHint": {
+  "message": "這些網頁已存在於其他位置：只會重新建立一份。這裡的副本會保留在備份中。"
+ },
+ "keepAllDupes": {
+  "message": "全部保留"
+ },
+ "reasonDuplicate": {
+  "message": "與「{1}」重複 ({2})"
+ },
+ "optDupes": {
+  "message": "每個網頁只保留一份"
+ },
+ "optDupesHint": {
+  "message": "重複項目不會重新建立，而是保留在備份中。"
+ },
+ "sumDupes": {
+  "message": "重複項目"
+ },
+ "openSite": {
+  "message": "開啟 {1}"
+ },
+ "reviewHintUntested": {
+  "message": "線索不足。「重新分析」會測試這些書籤的網站；你也可以開啟查看。否則，它們會移到「待確認」資料夾。"
+ },
+ "archiveNote": {
+  "message": "你目前的書籤結構會原封不動地保存在「其他書籤」中一個附有日期的備份裡。只要按一下就能復原整理。"
+ },
+ "barSheetHint": {
+  "message": "你最常開啟的網站，會以圖示顯示在書籤列開頭。在預覽中按一下圖示即可顯示名稱。"
+ },
+ "doneArchive": {
+  "message": "你先前的書籤結構位於「其他書籤」中的「{1}」。"
+ },
+ "nodeBar": {
+  "message": "快速存取"
+ },
+ "nodeBarMeta": {
+  "message": "書籤列開頭的圖示"
+ },
+ "notRecreated": {
+  "message": "不重新建立的項目"
+ },
+ "optQuickAccess": {
+  "message": "快速存取"
+ },
+ "optQuickAccessHint": {
+  "message": "最常造訪的網站，以圖示顯示在書籤列開頭"
+ },
+ "quickNone": {
+  "message": "無"
+ },
+ "reasonBarShortcut": {
+  "message": "已在你的書籤列中"
+ },
+ "reasonBarTool": {
+  "message": "書籤列工具 (書籤小程式或瀏覽器頁面)"
+ },
+ "reasonFacet": {
+  "message": "來自同一網站或同一主題的 {1} 個書籤"
+ },
+ "reasonLearned": {
+  "message": "你曾將它整理到「{1}」中"
+ },
+ "reasonMyFolders": {
+  "message": "混合多個主題的個人資料夾"
+ },
+ "reasonQuickAccess": {
+  "message": "你最常開啟的網站之一"
+ },
+ "reasonReviewFolder": {
+  "message": "線索不足，無法整理"
+ },
+ "reasonSpecial": {
+  "message": "不是網頁的連結 (書籤小程式、瀏覽器頁面、檔案)"
+ },
+ "leaveTitle": {
+  "message": "要捨棄這個方案嗎？"
+ },
+ "leaveBody": {
+  "message": "你的書籤尚未變更。如要整理，必須重新執行分析。"
+ },
+ "leaveConfirm": {
+  "message": "捨棄"
+ },
+ "acceptAll": {
+  "message": "全部依建議整理 ({1})"
+ },
+ "acceptedAll": {
+  "message": "已依建議整理：{1} 個"
+ },
+ "atTopOf": {
+  "message": "直接放在 {1} 中"
+ },
+ "deleteFolder": {
+  "message": "刪除"
+ },
+ "deleteFolderTitle": {
+  "message": "要刪除「{1}」嗎？"
+ },
+ "deleteFolderBody": {
+  "message": "其中的書籤：{1} 個"
+ },
+ "deleteFolderBodySub": {
+  "message": "其中的書籤：{1} 個 · 子資料夾：{2} 個"
+ },
+ "deleteKeepContent": {
+  "message": "保留其中的內容"
+ },
+ "deleteKeepHint": {
+  "message": "其中的書籤和子資料夾會往上移到「{1}」中。"
+ },
+ "deleteWithContent": {
+  "message": "一併刪除其中的內容"
+ },
+ "deleteWithContentHint": {
+  "message": "其中的書籤不會重新建立，而是保留在備份中。"
+ },
+ "displayInBrowser": {
+  "message": "顯示方式"
+ },
+ "dropAtTop": {
+  "message": "拖放到這裡 (最上層)"
+ },
+ "editUndone": {
+  "message": "已復原變更"
+ },
+ "fileIn": {
+  "message": "整理到 {1}"
+ },
+ "foldFolder": {
+  "message": "收合 {1}"
+ },
+ "unfoldFolder": {
+  "message": "展開 {1}"
+ },
+ "folderCreated": {
+  "message": "已建立資料夾「{1}」"
+ },
+ "folderDeleted": {
+  "message": "已刪除「{1}」：其中的內容已往上移"
+ },
+ "folderDeletedAll": {
+  "message": "已刪除「{1}」及其中的內容"
+ },
+ "folderMoved": {
+  "message": "已將「{1}」移到「{2}」"
+ },
+ "folderPlace": {
+  "message": "位置"
+ },
+ "iconOnlyItem": {
+  "message": "僅顯示圖示"
+ },
+ "keepDupe": {
+  "message": "保留這個副本"
+ },
+ "looseHint": {
+  "message": "直接位於 {1} 中、不在任何資料夾內的書籤。"
+ },
+ "moveFolder": {
+  "message": "移動"
+ },
+ "moveFolderTo": {
+  "message": "將「{1}」移到"
+ },
+ "moveToEllipsis": {
+  "message": "移到…"
+ },
+ "newShort": {
+  "message": "新增"
+ },
+ "newSubfolder": {
+  "message": "子資料夾"
+ },
+ "nodeLoose": {
+  "message": "無資料夾"
+ },
+ "nodeLooseMeta": {
+  "message": "直接位於根資料夾中"
+ },
+ "nodeRemoved": {
+  "message": "已移除"
+ },
+ "nodeRemovedMeta": {
+  "message": "不重新建立，保留在備份中"
+ },
+ "openFolder": {
+  "message": "開啟資料夾"
+ },
+ "openPage": {
+  "message": "開啟網頁"
+ },
+ "proposalRestored": {
+  "message": "已還原為原始方案"
+ },
+ "reanalyze": {
+  "message": "重新分析"
+ },
+ "reanalyzeFailed": {
+  "message": "重新分析失敗：{1}"
+ },
+ "reanalyzedMoved": {
+  "message": "已重新分析「{2}」 · 已移動：{1} 個"
+ },
+ "reanalyzedNothing": {
+  "message": "「{1}」中沒有可重新分析的內容：其中的書籤都是你手動放置的。"
+ },
+ "reanalyzedSame": {
+  "message": "已重新分析「{1}」：沒有變更"
+ },
+ "reanalyzing": {
+  "message": "正在重新分析「{1}」"
+ },
+ "reasonSameSite": {
+  "message": "與 {2} 的其他 {1} 個書籤相同"
+ },
+ "removeBookmark": {
+  "message": "移除"
+ },
+ "removedHint": {
+  "message": "這些書籤不會重新建立，而是保留在備份中：你可以在這裡還原，或將它們拖曳到資料夾上。"
+ },
+ "removedOne": {
+  "message": "不會重新建立「{1}」，但仍會保留在備份中"
+ },
+ "rename": {
+  "message": "重新命名"
+ },
+ "renameLabel": {
+  "message": "{1} 的新名稱"
+ },
+ "renamedTo": {
+  "message": "已重新命名為「{1}」"
+ },
+ "restore": {
+  "message": "還原"
+ },
+ "restoreAll": {
+  "message": "全部還原"
+ },
+ "restoredCount": {
+  "message": "已還原：{1} 個"
+ },
+ "restoredOne": {
+  "message": "已還原書籤"
+ },
+ "rowActions": {
+  "message": "{1} 的動作"
+ },
+ "subfolders": {
+  "message": "子資料夾"
+ },
+ "suggestionsFor": {
+  "message": "{1} 的建議"
+ },
+ "undoEdit": {
+  "message": "復原"
+ },
+ "undoEditHint": {
+  "message": "復原上次變更 (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "已在你的書籤中"
+ },
+ "existingFolderHint": {
+  "message": "先前整理時建立的資料夾：新書籤會新增到其中，資料夾的名稱和位置維持不變。"
+ }
+}

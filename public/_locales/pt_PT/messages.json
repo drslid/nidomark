@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Organizador de marcadores"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Uma pequena IA local organiza os seus marcadores em pastas claras, com emojis e barra só com ícones. Privado, offline e gratuito."
+ },
+ "actionTitle": {
+  "message": "Organizar os meus marcadores"
+ },
+ "tabSettings": {
+  "message": "Definições"
+ },
+ "startTitle": {
+  "message": "Organize os seus marcadores"
+ },
+ "startLead": {
+  "message": "Uma pequena IA, neste computador, recria todos os seus marcadores em pastas claras. Depois, é só verificar e confirmar."
+ },
+ "optHistory": {
+  "message": "Colocar primeiro os sites mais visitados"
+ },
+ "optHistoryHint": {
+  "message": "Conta as visitas a cada site e lê os títulos já guardados, neste computador. Nada é enviado."
+ },
+ "optFolderStyle": {
+  "message": "Nomes das pastas"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + nome"
+ },
+ "styleName": {
+  "message": "Apenas nome"
+ },
+ "styleEmoji": {
+  "message": "Apenas emoji"
+ },
+ "optIconOnly": {
+  "message": "Barra de marcadores apenas com ícones"
+ },
+ "optIconOnlyHint": {
+  "message": "Proposto por predefinição; os nomes podem voltar a ser mostrados"
+ },
+ "analyze": {
+  "message": "Analisar os meus marcadores"
+ },
+ "lastRun": {
+  "message": "Última organização: {1}"
+ },
+ "undoLast": {
+  "message": "Anular"
+ },
+ "phaseReading": {
+  "message": "A ler os seus marcadores"
+ },
+ "phaseLoading": {
+  "message": "A carregar o modelo"
+ },
+ "phaseEmbedding": {
+  "message": "A compreender cada marcador"
+ },
+ "phaseGrouping": {
+  "message": "A criar as pastas"
+ },
+ "progressCount": {
+  "message": "{1} de {2}"
+ },
+ "moveTo": {
+  "message": "Mover para"
+ },
+ "newFolderOption": {
+  "message": "Nova pasta"
+ },
+ "folderName": {
+  "message": "Nome da pasta"
+ },
+ "emojiLabel": {
+  "message": "Emoji de {1}"
+ },
+ "customEmoji": {
+  "message": "Outro emoji"
+ },
+ "reviewHint": {
+  "message": "Testados, sem pistas suficientes. Abra-os para verificar e, depois, escolha uma sugestão ou arraste-os para uma pasta. Caso contrário, vão para «Por verificar», em Outros marcadores."
+ },
+ "barTitle": {
+  "message": "Nova barra"
+ },
+ "iconOnly": {
+  "message": "apenas o ícone"
+ },
+ "applying": {
+  "message": "A aplicar as alterações"
+ },
+ "doneTitle": {
+  "message": "Os seus marcadores estão organizados"
+ },
+ "doneSummary": {
+  "message": "{1} marcadores organizados em {2} pastas."
+ },
+ "doneSkipped": {
+  "message": "{1} itens ignorados porque mudaram entretanto. Nada se perdeu: os originais estão na cópia de segurança."
+ },
+ "undone": {
+  "message": "A última organização foi anulada."
+ },
+ "undoSkipped": {
+  "message": "{1} itens ficaram tal como os alterou."
+ },
+ "changedBanner": {
+  "message": "Os seus marcadores mudaram no navegador durante a revisão."
+ },
+ "refresh": {
+  "message": "Atualizar a proposta"
+ },
+ "errorTitle": {
+  "message": "Algo correu mal"
+ },
+ "errorModel": {
+  "message": "Não foi possível carregar o modelo. Se compilou a extensão por conta própria, execute «pnpm fetch-model» e volte a compilá-la."
+ },
+ "retry": {
+  "message": "Tentar novamente"
+ },
+ "emptyTitle": {
+  "message": "Nada para organizar"
+ },
+ "emptyHint": {
+  "message": "Nenhum marcador nas pastas escolhidas. Escolha outras pastas."
+ },
+ "reasonHomeService": {
+  "message": "Serviço alojado em casa (endereço local ou domínio pessoal)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "Guia sobre {1} (alojamento próprio)"
+ },
+ "reasonNewGroup": {
+  "message": "{1} marcadores sobre este tema"
+ },
+ "reasonUser": {
+  "message": "A sua escolha"
+ },
+ "reviewVague": {
+  "message": "Título genérico e endereço pouco informativo: impossível saber o que a página contém."
+ },
+ "settingsDefaults": {
+  "message": "Opções predefinidas"
+ },
+ "settingsHistoryOn": {
+  "message": "Permitido"
+ },
+ "settingsHistoryOff": {
+  "message": "Não permitido"
+ },
+ "settingsNames": {
+  "message": "Marcadores apenas com ícone"
+ },
+ "settingsNamesCount": {
+  "message": "{1} marcadores mostrados como ícones"
+ },
+ "restoreNames": {
+  "message": "Voltar a mostrar todos os nomes"
+ },
+ "namesRestored": {
+  "message": "{1} nomes voltaram a ser mostrados."
+ },
+ "settingsData": {
+  "message": "Dados"
+ },
+ "clearCache": {
+  "message": "Cache de análise"
+ },
+ "cacheCleared": {
+  "message": "Cache limpa."
+ },
+ "settingsAbout": {
+  "message": "Acerca de"
+ },
+ "aboutModel": {
+  "message": "Modelo: {1}, executado localmente."
+ },
+ "saved": {
+  "message": "Guardado"
+ },
+ "unnamed": {
+  "message": "(sem nome)"
+ },
+ "barFolder": {
+  "message": "Barra de marcadores"
+ },
+ "otherFolder": {
+  "message": "Outros marcadores"
+ },
+ "lang": {
+  "message": "pt-PT"
+ },
+ "interruptedTitle": {
+  "message": "A última organização foi interrompida"
+ },
+ "interruptedHint": {
+  "message": "O navegador fechou enquanto as alterações eram aplicadas. Anule o que foi feito ou mantenha tal como está."
+ },
+ "interruptedUndo": {
+  "message": "Anular o que foi feito"
+ },
+ "interruptedKeep": {
+  "message": "Manter estas alterações"
+ },
+ "errorUnresolved": {
+  "message": "A última organização foi interrompida. Anule-a ou mantenha-a antes de voltar a organizar."
+ },
+ "changedBlocked": {
+  "message": "Atualize primeiro a proposta: os seus marcadores mudaram."
+ },
+ "startCountNone": {
+  "message": "Nenhum marcador para organizar"
+ },
+ "finish": {
+  "message": "Concluído"
+ },
+ "sourceMeta": {
+  "message": "{1} marcadores"
+ },
+ "destinations": {
+  "message": "Pastas propostas"
+ },
+ "proposal": {
+  "message": "Proposta"
+ },
+ "nodeReviewMeta": {
+  "message": "Pistas insuficientes"
+ },
+ "countLabel": {
+  "message": "{1} marcadores"
+ },
+ "sheetClose": {
+  "message": "Fechar"
+ },
+ "emptyFolder": {
+  "message": "Vazia. Arraste marcadores para esta pasta no diagrama."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Nova pasta"
+ },
+ "create": {
+  "message": "Criar"
+ },
+ "cancel": {
+  "message": "Cancelar"
+ },
+ "ok": {
+  "message": "OK"
+ },
+ "keepTitle": {
+  "message": "Manter o título original"
+ },
+ "useNewTitle": {
+  "message": "Usar o título mais limpo"
+ },
+ "noEmoji": {
+  "message": "Sem emoji"
+ },
+ "iconOnlyHint": {
+  "message": "Clique para mostrar apenas o ícone"
+ },
+ "showName": {
+  "message": "clique para mostrar o nome"
+ },
+ "nothingYet": {
+  "message": "Ainda nada foi alterado"
+ },
+ "restoreProposal": {
+  "message": "Restaurar a proposta"
+ },
+ "applyRegion": {
+  "message": "Aplicar as alterações"
+ },
+ "announceMoved": {
+  "message": "«{1}» movido para {2}"
+ },
+ "back": {
+  "message": "Voltar"
+ },
+ "clear": {
+  "message": "Limpar"
+ },
+ "footerSync": {
+  "message": "As alterações também serão aplicadas aos seus outros dispositivos sincronizados."
+ },
+ "barHint": {
+  "message": "Clique num marcador para ocultar ou mostrar o nome"
+ },
+ "applyCount": {
+  "message": "Organizar {1} marcadores"
+ },
+ "applyOne": {
+  "message": "Organizar 1 marcador"
+ },
+ "scopeLabel": {
+  "message": "Pastas a organizar"
+ },
+ "barScopeHint": {
+  "message": "Atalhos incluídos: os mais utilizados voltam primeiro"
+ },
+ "showSubfolders": {
+  "message": "Mostrar as pastas de {1}"
+ },
+ "destinationLabel": {
+  "message": "Organizar em"
+ },
+ "moreOptions": {
+  "message": "Mais opções"
+ },
+ "sumReadSites": {
+  "message": "leitura dos sites"
+ },
+ "sumCheckDead": {
+  "message": "sites mortos"
+ },
+ "sumHistory": {
+  "message": "histórico"
+ },
+ "optReadSites": {
+  "message": "Ler os sites quando o título não chega"
+ },
+ "optReadSitesHint": {
+  "message": "Mais lento, mais preciso. O Chrome pede acesso aos sites uma única vez."
+ },
+ "optCheckDead": {
+  "message": "Detetar sites que já não respondem"
+ },
+ "optCheckDeadHint": {
+  "message": "Ficam à parte, em «Sites inacessíveis»."
+ },
+ "optFolderStyleHint": {
+  "message": "As subpastas mantêm os nomes."
+ },
+ "analyzeCount": {
+  "message": "Analisar {1} marcadores"
+ },
+ "analyzeOne": {
+  "message": "Analisar 1 marcador"
+ },
+ "privacyTitle": {
+  "message": "Nenhum dado sai deste computador"
+ },
+ "privacyBody": {
+  "message": "A IA funciona aqui, sem conta nem servidor. Para compreender um site, o Nidomark abre a página como o seu navegador faria, sem cookies, e não envia mais nada."
+ },
+ "phaseSites": {
+  "message": "A ler os sites"
+ },
+ "phasePages": {
+  "message": "A analisar as páginas"
+ },
+ "sitesNote": {
+  "message": "Vários sites de cada vez. Nada é enviado; as páginas são apenas lidas."
+ },
+ "sitesAllowed": {
+  "message": "Acesso aos sites concedido"
+ },
+ "sitesAsked": {
+  "message": "O Chrome vai pedir acesso aos sites na próxima análise"
+ },
+ "backupsTitle": {
+  "message": "Cópias de segurança"
+ },
+ "backupsNone": {
+  "message": "Nenhuma cópia de segurança"
+ },
+ "backupCount": {
+  "message": "{1} marcadores"
+ },
+ "backupDelete": {
+  "message": "Eliminar"
+ },
+ "backupDeleteTitle": {
+  "message": "Eliminar esta cópia de segurança?"
+ },
+ "backupConfirm": {
+  "message": "«{1}» e todo o respetivo conteúdo serão eliminados definitivamente. Os seus marcadores organizados não mudam de lugar, mas a organização que a criou deixará de poder ser anulada."
+ },
+ "backupDeleted": {
+  "message": "Cópia de segurança eliminada."
+ },
+ "backupTitle": {
+  "message": "Nidomark – cópia de segurança de {1}"
+ },
+ "clearCacheHint": {
+  "message": "A cache acelera as próximas análises e fica neste computador."
+ },
+ "sourceAll": {
+  "message": "Os seus marcadores"
+ },
+ "reasonKnownSite": {
+  "message": "Site conhecido ({1})"
+ },
+ "reasonPattern": {
+  "message": "Endereço típico ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Título explícito"
+ },
+ "reasonAdultPage": {
+  "message": "A página declara conteúdo para adultos"
+ },
+ "reasonPage": {
+  "message": "Segundo a página: «{1}»"
+ },
+ "reasonModel": {
+  "message": "Parece ser «{1}»"
+ },
+ "reasonPlatform": {
+  "message": "Publicado em {1}"
+ },
+ "reasonAboutApp": {
+  "message": "Fala sobre {1}"
+ },
+ "reasonLearnedSite": {
+  "message": "Costuma organizar {1} em «{2}»"
+ },
+ "reasonKeptFolder": {
+  "message": "A sua pasta «{1}», recriada tal como está"
+ },
+ "reasonNewCategory": {
+  "message": "{1} marcadores desta categoria"
+ },
+ "deadNetwork": {
+  "message": "Já não responde: site não encontrado"
+ },
+ "deadTimeout": {
+  "message": "Já não responde: tempo esgotado"
+ },
+ "deadGone": {
+  "message": "Página removida ({1})"
+ },
+ "deadServer": {
+  "message": "Erro do servidor ({1})"
+ },
+ "deadParked": {
+  "message": "Domínio abandonado ou à venda"
+ },
+ "reviewUnclear": {
+  "message": "Nenhum tema claro no título e no endereço"
+ },
+ "reviewUnclearPage": {
+  "message": "Página lida, sem tema claro"
+ },
+ "reviewBlocked": {
+  "message": "O site não permite a leitura ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Título vago; permita a leitura dos sites para saber mais"
+ },
+ "nodeDupes": {
+  "message": "Duplicados"
+ },
+ "nodeDupesMeta": {
+  "message": "Não recriados, guardados na cópia de segurança"
+ },
+ "dupesHint": {
+  "message": "Estas páginas já existem noutro lado: só é recriada uma cópia. Estas ficam na cópia de segurança."
+ },
+ "keepAllDupes": {
+  "message": "Manter todos"
+ },
+ "reasonDuplicate": {
+  "message": "Duplicado de «{1}» ({2})"
+ },
+ "optDupes": {
+  "message": "Uma só cópia de cada página"
+ },
+ "optDupesHint": {
+  "message": "Os duplicados não são recriados; ficam na cópia de segurança."
+ },
+ "sumDupes": {
+  "message": "duplicados"
+ },
+ "openSite": {
+  "message": "Abrir {1}"
+ },
+ "reviewHintUntested": {
+  "message": "Pistas insuficientes. «Analisar novamente» testa os respetivos sites; também os pode abrir para verificar. Caso contrário, vão para «Por verificar»."
+ },
+ "archiveNote": {
+  "message": "A estrutura atual dos seus marcadores é guardada tal como está numa cópia de segurança datada, em Outros marcadores. Um clique anula a organização."
+ },
+ "barSheetHint": {
+  "message": "Os sites que mais abre, como ícones no início da barra. Na pré-visualização, clique num ícone para mostrar o nome."
+ },
+ "doneArchive": {
+  "message": "A estrutura anterior está em «{1}», em Outros marcadores."
+ },
+ "nodeBar": {
+  "message": "Acesso rápido"
+ },
+ "nodeBarMeta": {
+  "message": "Ícones no início da barra"
+ },
+ "notRecreated": {
+  "message": "Não recriados"
+ },
+ "optQuickAccess": {
+  "message": "Acesso rápido"
+ },
+ "optQuickAccessHint": {
+  "message": "Os sites mais visitados, como ícones no início da barra"
+ },
+ "quickNone": {
+  "message": "Nenhum"
+ },
+ "reasonBarShortcut": {
+  "message": "Já está na sua barra de marcadores"
+ },
+ "reasonBarTool": {
+  "message": "Ferramenta da barra (bookmarklet ou página do navegador)"
+ },
+ "reasonFacet": {
+  "message": "{1} marcadores do mesmo site ou sobre o mesmo assunto"
+ },
+ "reasonLearned": {
+  "message": "Já o tinha organizado em «{1}»"
+ },
+ "reasonMyFolders": {
+  "message": "As suas pastas que misturam vários assuntos"
+ },
+ "reasonQuickAccess": {
+  "message": "Um dos sites que mais abre"
+ },
+ "reasonReviewFolder": {
+  "message": "Pistas insuficientes para os organizar"
+ },
+ "reasonSpecial": {
+  "message": "Um link que não é uma página web (bookmarklet, página do navegador, ficheiro)"
+ },
+ "leaveTitle": {
+  "message": "Rejeitar esta proposta?"
+ },
+ "leaveBody": {
+  "message": "Os seus marcadores não foram alterados. Para os organizar, terá de voltar a fazer a análise."
+ },
+ "leaveConfirm": {
+  "message": "Rejeitar"
+ },
+ "acceptAll": {
+  "message": "Organizar todos como sugerido ({1})"
+ },
+ "acceptedAll": {
+  "message": "Organizados como sugerido: {1}"
+ },
+ "atTopOf": {
+  "message": "Diretamente em {1}"
+ },
+ "deleteFolder": {
+  "message": "Eliminar"
+ },
+ "deleteFolderTitle": {
+  "message": "Eliminar «{1}»?"
+ },
+ "deleteFolderBody": {
+  "message": "Marcadores no interior: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Marcadores no interior: {1} · subpastas: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Manter o conteúdo"
+ },
+ "deleteKeepHint": {
+  "message": "Os respetivos marcadores e subpastas sobem para «{1}»."
+ },
+ "deleteWithContent": {
+  "message": "Eliminar também o conteúdo"
+ },
+ "deleteWithContentHint": {
+  "message": "Os respetivos marcadores não são recriados: ficam na cópia de segurança."
+ },
+ "displayInBrowser": {
+  "message": "Visualização"
+ },
+ "dropAtTop": {
+  "message": "Largue aqui, no nível superior"
+ },
+ "editUndone": {
+  "message": "Alteração anulada"
+ },
+ "fileIn": {
+  "message": "Organizar em {1}"
+ },
+ "foldFolder": {
+  "message": "Recolher {1}"
+ },
+ "unfoldFolder": {
+  "message": "Expandir {1}"
+ },
+ "folderCreated": {
+  "message": "Pasta «{1}» criada"
+ },
+ "folderDeleted": {
+  "message": "Pasta «{1}» eliminada: o conteúdo subiu um nível"
+ },
+ "folderDeletedAll": {
+  "message": "Pasta «{1}» eliminada com todo o conteúdo"
+ },
+ "folderMoved": {
+  "message": "Pasta «{1}» movida para {2}"
+ },
+ "folderPlace": {
+  "message": "Localização"
+ },
+ "iconOnlyItem": {
+  "message": "Apenas o ícone"
+ },
+ "keepDupe": {
+  "message": "Manter esta cópia"
+ },
+ "looseHint": {
+  "message": "Marcadores soltos em {1}, fora de qualquer pasta."
+ },
+ "moveFolder": {
+  "message": "Mover"
+ },
+ "moveFolderTo": {
+  "message": "Mover «{1}» para"
+ },
+ "moveToEllipsis": {
+  "message": "Mover para…"
+ },
+ "newShort": {
+  "message": "nova"
+ },
+ "newSubfolder": {
+  "message": "Subpasta"
+ },
+ "nodeLoose": {
+  "message": "Sem pasta"
+ },
+ "nodeLooseMeta": {
+  "message": "Diretamente na pasta raiz"
+ },
+ "nodeRemoved": {
+  "message": "Removidos"
+ },
+ "nodeRemovedMeta": {
+  "message": "Não recriados, guardados na cópia de segurança"
+ },
+ "openFolder": {
+  "message": "abrir a pasta"
+ },
+ "openPage": {
+  "message": "Abrir a página"
+ },
+ "proposalRestored": {
+  "message": "Proposta restaurada"
+ },
+ "reanalyze": {
+  "message": "Analisar novamente"
+ },
+ "reanalyzeFailed": {
+  "message": "A nova análise falhou: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "Nova análise de «{2}» · movidos: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Nada para analisar novamente em «{1}»: os marcadores desta pasta foram colocados por si."
+ },
+ "reanalyzedSame": {
+  "message": "Nova análise de «{1}»: sem alterações"
+ },
+ "reanalyzing": {
+  "message": "A analisar novamente «{1}»"
+ },
+ "reasonSameSite": {
+  "message": "Como outros {1} marcadores de {2}"
+ },
+ "removeBookmark": {
+  "message": "Remover"
+ },
+ "removedHint": {
+  "message": "Estes marcadores não são recriados. Ficam na cópia de segurança: restaure-os aqui ou arraste-os para uma pasta."
+ },
+ "removedOne": {
+  "message": "«{1}» não será recriado (fica na cópia de segurança)"
+ },
+ "rename": {
+  "message": "Mudar o nome"
+ },
+ "renameLabel": {
+  "message": "Novo nome para {1}"
+ },
+ "renamedTo": {
+  "message": "Nome alterado para «{1}»"
+ },
+ "restore": {
+  "message": "Restaurar"
+ },
+ "restoreAll": {
+  "message": "Restaurar todos"
+ },
+ "restoredCount": {
+  "message": "Restaurados: {1}"
+ },
+ "restoredOne": {
+  "message": "Marcador restaurado"
+ },
+ "rowActions": {
+  "message": "Ações para {1}"
+ },
+ "subfolders": {
+  "message": "Subpastas"
+ },
+ "suggestionsFor": {
+  "message": "Sugestões para {1}"
+ },
+ "undoEdit": {
+  "message": "Anular"
+ },
+ "undoEditHint": {
+  "message": "Anular a última alteração (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Já está nos seus marcadores"
+ },
+ "existingFolderHint": {
+  "message": "Pasta de uma organização anterior: recebe os novos marcadores e mantém o nome e a localização."
+ }
+}

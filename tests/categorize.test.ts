@@ -5,7 +5,7 @@ import { normalizeUrl } from '../lib/duplicates';
 import { prepare } from '../lib/pipeline';
 import type { SiteVerdict } from '../lib/site';
 import { buildSnapshot, type TreeNode } from '../lib/snapshot';
-import type { Usage } from '../lib/types';
+import { USAGES, type Usage } from '../lib/types';
 import { destinationsOf, run } from './fixtures/collection';
 import { EXPECTED_DEST } from './fixtures/tree';
 
@@ -77,25 +77,26 @@ describe('the fictitious collection', () => {
     expect(r.dest.g1).not.toBe('(barre)');
   });
 
-  it('never files on a guess: unclear bookmarks wait in "To check", out of the bar, with the model’s lean', () => {
+  it('never files on a guess: unclear bookmarks wait in "To check", out of the bar', () => {
     const { proposal } = run({});
     const reasons = new Map(proposal.review.map((r) => [r.bookmarkId, r.reason.key]));
     expect(reasons.get('v3')).toBe('reviewNoAccess');
     expect(proposal.placements.find((p) => p.bookmarkId === 'v1')?.reason.key).toBe('reasonKnownSite');
     expect(proposal.newFolders.find((f) => f.key === REVIEW_KEY)?.parentId).toBe('2');
-    const keys = new Set(proposal.newFolders.map((f) => f.key));
-    for (const [id, key] of Object.entries(proposal.guesses)) {
-      expect(reasons.has(id)).toBe(true);
-      expect(keys.has(key)).toBe(true);
-    }
   });
 
-  it('suggests a folder only with some evidence, never from a vague title alone', () => {
+  it('suggests up to three categories for every bookmark to check, the model’s lean first, never adult content', () => {
     const { proposal } = run({});
-    expect(proposal.guesses.u14).toBe('c:dev');
-    expect(proposal.guesses.u15).toBe('c:dev');
-    expect(proposal.guesses.v3).toBeUndefined();
-    expect(proposal.guesses.u12).toBeUndefined();
+    expect(proposal.review.length).toBeGreaterThan(0);
+    for (const r of proposal.review) {
+      const s = proposal.suggestions[r.bookmarkId] ?? [];
+      expect(s.length, r.bookmarkId).toBeGreaterThan(0);
+      expect(s.length).toBeLessThanOrEqual(3);
+      expect(s).not.toContain('adult');
+    }
+    expect(proposal.suggestions.u14?.[0]).toBe('dev');
+    expect(proposal.suggestions.u15?.[0]).toBe('dev');
+    expect(Object.keys(proposal.suggestions).every((id) => proposal.review.some((r) => r.bookmarkId === id))).toBe(true);
   });
 
   it('builds three levels at most', () => {
@@ -282,6 +283,45 @@ describe('rules', () => {
     expect(r.dest.s1).toBe('(barre)');
     expect(r.dest.s2).toBe('Liens du navigateur');
     expect(r.folder('special')?.parentId).toBe('2');
+  });
+
+  it('files an unclear page with the other bookmarks of its site when they agree, and reads the words of the address', () => {
+    // A tiny model: the first two pages look like cooking, the others say nothing.
+    const vec = (...x: number[]) => Float32Array.from([...x, 0, 0, 0, 0].slice(0, 4));
+    const usageVectors = Object.fromEntries(USAGES.map((u) => [u, vec()])) as Record<Usage, Float32Array>;
+    const vectors = new Map([['m1', vec(1)], ['m2', vec(1)], ['h1', vec()], ['q1', vec()]]);
+    const r = where(input([
+      { id: 'm1', title: 'Tarte aux pommes', url: 'https://mamie.example/tarte' },
+      { id: 'm2', title: 'Fondant', url: 'https://mamie.example/fondant' },
+      { id: 'm3', title: 'Accueil', url: 'https://mamie.example/' },
+      { id: 'h1', title: 'Accueil', url: 'https://recettes-faciles.example/' },
+      { id: 'q1', title: 'Accueil', url: 'https://www.inconnu.example/' },
+    ], { prototypes: new Map([['cooking', vec(1)]]), vectors, usageVectors }));
+    expect(r.dest.m1).toBe('Cuisine');
+    expect([r.dest.m2, r.dest.m3, r.dest.h1]).toEqual([r.dest.m1, r.dest.m1, r.dest.m1]);
+    expect(r.proposal.placements.find((p) => p.bookmarkId === 'm3')?.reason).toEqual({ key: 'reasonSameSite', subs: ['2', 'mamie.example'] });
+    expect(r.proposal.review.map((x) => x.bookmarkId)).toEqual(['q1']);
+  });
+
+  it('files a partial sort in the folders an earlier sort made, without a second folder of the same kind', () => {
+    const known = new Map([['f-tech', { group: 'tech' as const, name: 'Tech' }], ['f-stream', { category: 'streaming', name: 'Streaming' }], ['f-dev', { category: 'dev', name: 'Développement' }]]);
+    const i = input([
+      { id: 'n1', title: 'Netflix', url: 'https://www.netflix.com/' },
+      { id: 'g1', title: 'GitHub', url: 'https://github.com/' },
+      { id: 's1', title: 'Have I Been Pwned', url: 'https://haveibeenpwned.com/' },
+      { id: 's2', title: 'Mots de passe compromis', url: 'https://haveibeenpwned.com/Passwords' },
+    ], {
+      known, remaining: new Set(['f-tech', 'f-stream', 'f-dev']),
+    }, [{ id: 'f-tech', title: '💻', children: [{ id: 'f-dev', title: '👨‍💻 Développement', children: [] }] }, { id: 'f-stream', title: '📺', children: [] }]);
+    const r = where({ ...i, candidates: ['n1', 'g1', 's1', 's2'] });
+    expect(r.folder('c:streaming')?.existingId).toBe('f-stream');
+    expect(r.folder('g:tech')).toMatchObject({ existingId: 'f-tech', name: 'Tech', emoji: '💻' });
+    expect(r.folder('c:dev')?.existingId).toBe('f-dev');
+    // A category the earlier sort did not have goes inside its group folder, as a new folder.
+    expect(r.folder('c:security')).toMatchObject({ parentKey: 'g:tech' });
+    expect(r.folder('c:security')?.existingId).toBeUndefined();
+    // Folders the sort archives and recreates are not reused.
+    expect(where({ ...i, remaining: new Set() }).folder('c:streaming')?.existingId).toBeUndefined();
   });
 
   it('reads the page of an unclear bookmark when allowed, and says so otherwise', () => {

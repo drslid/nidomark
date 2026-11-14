@@ -1,0 +1,731 @@
+{
+ "extName": {
+  "message": "Nidomark – Yer işareti düzenleyici"
+ },
+ "extShortName": {
+  "message": "Nidomark"
+ },
+ "extDescription": {
+  "message": "Küçük bir yerel yapay zeka, yer işaretlerinizi emojili net klasörlere ve simgeli çubuğa yerleştirir. Gizli, çevrimdışı, ücretsiz."
+ },
+ "actionTitle": {
+  "message": "Yer işaretlerimi düzenle"
+ },
+ "tabSettings": {
+  "message": "Ayarlar"
+ },
+ "startTitle": {
+  "message": "Yer işaretlerinizi düzenleyin"
+ },
+ "startLead": {
+  "message": "Bu bilgisayardaki küçük bir yapay zeka, tüm yer işaretlerinizi net klasörlerde yeniden oluşturur. Siz kontrol eder, ardından onaylarsınız."
+ },
+ "optHistory": {
+  "message": "En çok ziyaret edilen siteleri öne al"
+ },
+ "optHistoryHint": {
+  "message": "Bu bilgisayarda her sitenin ziyaretlerini sayar ve kayıtlı başlıkları okur. Hiçbir şey gönderilmez."
+ },
+ "optFolderStyle": {
+  "message": "Klasör adları"
+ },
+ "styleEmojiName": {
+  "message": "Emoji + ad"
+ },
+ "styleName": {
+  "message": "Yalnızca ad"
+ },
+ "styleEmoji": {
+  "message": "Yalnızca emoji"
+ },
+ "optIconOnly": {
+  "message": "Yer işaretleri çubuğunda yalnızca simgeler"
+ },
+ "optIconOnlyHint": {
+  "message": "Varsayılan olarak önerilir; adlar yeniden gösterilebilir"
+ },
+ "analyze": {
+  "message": "Yer işaretlerimi analiz et"
+ },
+ "lastRun": {
+  "message": "Son düzenleme: {1}"
+ },
+ "undoLast": {
+  "message": "Geri al"
+ },
+ "phaseReading": {
+  "message": "Yer işaretleriniz okunuyor"
+ },
+ "phaseLoading": {
+  "message": "Model yükleniyor"
+ },
+ "phaseEmbedding": {
+  "message": "Her yer işareti yorumlanıyor"
+ },
+ "phaseGrouping": {
+  "message": "Klasörler oluşturuluyor"
+ },
+ "progressCount": {
+  "message": "{1} / {2}"
+ },
+ "moveTo": {
+  "message": "Şuraya taşı"
+ },
+ "newFolderOption": {
+  "message": "Yeni klasör"
+ },
+ "folderName": {
+  "message": "Klasör adı"
+ },
+ "emojiLabel": {
+  "message": "{1} için emoji"
+ },
+ "customEmoji": {
+  "message": "Başka bir emoji"
+ },
+ "reviewHint": {
+  "message": "Test edildi, yeterli ipucu yok. Kontrol etmek için açın, ardından bir klasör önerisi seçin veya bir klasöre sürükleyin. Aksi takdirde Diğer yer işaretleri klasöründeki “Kontrol edilecekler” klasörüne taşınırlar."
+ },
+ "barTitle": {
+  "message": "Yeni çubuk"
+ },
+ "iconOnly": {
+  "message": "yalnızca simge"
+ },
+ "applying": {
+  "message": "Değişiklikler uygulanıyor"
+ },
+ "doneTitle": {
+  "message": "Yer işaretleriniz düzenlendi"
+ },
+ "doneSummary": {
+  "message": "{1} yer işareti {2} klasöre yerleştirildi."
+ },
+ "doneSkipped": {
+  "message": "{1} öğe bu arada değiştiği için atlandı. Hiçbir şey kaybolmadı: orijinaller yedekte."
+ },
+ "undone": {
+  "message": "Son düzenleme geri alındı."
+ },
+ "undoSkipped": {
+  "message": "{1} öğe, değiştirdiğiniz hâliyle bırakıldı."
+ },
+ "changedBanner": {
+  "message": "İnceleme sırasında yer işaretleriniz tarayıcıda değişti."
+ },
+ "refresh": {
+  "message": "Öneriyi yenile"
+ },
+ "errorTitle": {
+  "message": "Bir sorun oluştu"
+ },
+ "errorModel": {
+  "message": "Model yüklenemedi. Uzantıyı kendiniz derlediyseniz “pnpm fetch-model” komutunu çalıştırın, ardından yeniden derleyin."
+ },
+ "retry": {
+  "message": "Tekrar dene"
+ },
+ "emptyTitle": {
+  "message": "Düzenlenecek bir şey yok"
+ },
+ "emptyHint": {
+  "message": "Seçilen klasörlerde yer işareti yok. Başka klasörler seçin."
+ },
+ "reasonHomeService": {
+  "message": "Evde barındırılan hizmet (yerel adres veya kişisel alan adı)"
+ },
+ "reasonSelfHostGuide": {
+  "message": "{1} hakkında rehber (kendi sunucunda barındırma)"
+ },
+ "reasonNewGroup": {
+  "message": "Bu temada {1} yer işareti"
+ },
+ "reasonUser": {
+  "message": "Sizin seçiminiz"
+ },
+ "reviewVague": {
+  "message": "Genel bir başlık ve bilgi vermeyen bir adres: sayfanın içeriğini bilmek mümkün değil."
+ },
+ "settingsDefaults": {
+  "message": "Varsayılan seçimler"
+ },
+ "settingsHistoryOn": {
+  "message": "İzin verildi"
+ },
+ "settingsHistoryOff": {
+  "message": "İzin verilmedi"
+ },
+ "settingsNames": {
+  "message": "Yalnızca simgesi görünen yer işaretleri"
+ },
+ "settingsNamesCount": {
+  "message": "{1} yer işareti simge olarak gösteriliyor"
+ },
+ "restoreNames": {
+  "message": "Tüm adları yeniden göster"
+ },
+ "namesRestored": {
+  "message": "{1} ad yeniden gösterildi."
+ },
+ "settingsData": {
+  "message": "Veriler"
+ },
+ "clearCache": {
+  "message": "Analiz önbelleği"
+ },
+ "cacheCleared": {
+  "message": "Önbellek temizlendi."
+ },
+ "settingsAbout": {
+  "message": "Hakkında"
+ },
+ "aboutModel": {
+  "message": "Model: {1}, yerel olarak çalışıyor."
+ },
+ "saved": {
+  "message": "Kaydedildi"
+ },
+ "unnamed": {
+  "message": "(adsız)"
+ },
+ "barFolder": {
+  "message": "Yer işaretleri çubuğu"
+ },
+ "otherFolder": {
+  "message": "Diğer yer işaretleri"
+ },
+ "lang": {
+  "message": "tr"
+ },
+ "interruptedTitle": {
+  "message": "Son düzenleme yarıda kaldı"
+ },
+ "interruptedHint": {
+  "message": "Değişiklikler uygulanırken tarayıcı kapandı. Yapılanları geri alın veya olduğu gibi bırakın."
+ },
+ "interruptedUndo": {
+  "message": "Yapılanları geri al"
+ },
+ "interruptedKeep": {
+  "message": "Bu değişiklikleri koru"
+ },
+ "errorUnresolved": {
+  "message": "Son düzenleme yarıda kaldı. Yeniden düzenlemeden önce bunu geri alın veya koruyun."
+ },
+ "changedBlocked": {
+  "message": "Önce öneriyi yenileyin: yer işaretleriniz değişti."
+ },
+ "startCountNone": {
+  "message": "Yerleştirilecek yer işareti yok"
+ },
+ "finish": {
+  "message": "Bitti"
+ },
+ "sourceMeta": {
+  "message": "{1} yer işareti"
+ },
+ "destinations": {
+  "message": "Önerilen klasörler"
+ },
+ "proposal": {
+  "message": "Öneri"
+ },
+ "nodeReviewMeta": {
+  "message": "Yeterli ipucu yok"
+ },
+ "countLabel": {
+  "message": "{1} yer işareti"
+ },
+ "sheetClose": {
+  "message": "Kapat"
+ },
+ "emptyFolder": {
+  "message": "Boş. Diyagramda yer işaretlerini bu klasörün üzerine sürükleyin."
+ },
+ "dialogNewFolderTitle": {
+  "message": "Yeni klasör"
+ },
+ "create": {
+  "message": "Oluştur"
+ },
+ "cancel": {
+  "message": "İptal"
+ },
+ "ok": {
+  "message": "Tamam"
+ },
+ "keepTitle": {
+  "message": "Orijinal başlığı koru"
+ },
+ "useNewTitle": {
+  "message": "Sadeleştirilmiş başlığı kullan"
+ },
+ "noEmoji": {
+  "message": "Emoji yok"
+ },
+ "iconOnlyHint": {
+  "message": "Yalnızca simgeyi göstermek için tıklayın"
+ },
+ "showName": {
+  "message": "adı göstermek için tıklayın"
+ },
+ "nothingYet": {
+  "message": "Henüz hiçbir şey değişmedi"
+ },
+ "restoreProposal": {
+  "message": "Öneriyi geri yükle"
+ },
+ "applyRegion": {
+  "message": "Değişiklikleri uygula"
+ },
+ "announceMoved": {
+  "message": "“{1}”, {2} konumuna taşındı"
+ },
+ "back": {
+  "message": "Geri"
+ },
+ "clear": {
+  "message": "Temizle"
+ },
+ "footerSync": {
+  "message": "Değişiklikler, oturum açtığınız diğer cihazlarınızda da geçerli olur."
+ },
+ "barHint": {
+  "message": "Adını gizlemek veya göstermek için bir yer işaretini tıklayın"
+ },
+ "applyCount": {
+  "message": "{1} yer işaretini yerleştir"
+ },
+ "applyOne": {
+  "message": "1 yer işaretini yerleştir"
+ },
+ "scopeLabel": {
+  "message": "Düzenlenecek klasörler"
+ },
+ "barScopeHint": {
+  "message": "Kısayollar dahil: en çok kullanılanlar yeniden başa gelir"
+ },
+ "showSubfolders": {
+  "message": "{1} içindeki klasörleri göster"
+ },
+ "destinationLabel": {
+  "message": "Hedef konum"
+ },
+ "moreOptions": {
+  "message": "Diğer seçenekler"
+ },
+ "sumReadSites": {
+  "message": "site okuma"
+ },
+ "sumCheckDead": {
+  "message": "ölü siteler"
+ },
+ "sumHistory": {
+  "message": "geçmiş"
+ },
+ "optReadSites": {
+  "message": "Başlık yetmediğinde siteleri oku"
+ },
+ "optReadSitesHint": {
+  "message": "Daha yavaş ama daha doğru. Chrome, sitelere erişim için bir kez izin ister."
+ },
+ "optCheckDead": {
+  "message": "Artık yanıt vermeyen siteleri bul"
+ },
+ "optCheckDeadHint": {
+  "message": "Bunlar ayrı olarak “Erişilemeyen siteler” klasörüne konur."
+ },
+ "optFolderStyleHint": {
+  "message": "Alt klasörler adlarını korur."
+ },
+ "analyzeCount": {
+  "message": "{1} yer işaretini analiz et"
+ },
+ "analyzeOne": {
+  "message": "1 yer işaretini analiz et"
+ },
+ "privacyTitle": {
+  "message": "Hiçbir veri bu bilgisayardan çıkmaz"
+ },
+ "privacyBody": {
+  "message": "Yapay zeka burada, hesap ve sunucu olmadan çalışır. Nidomark, bir siteyi anlamak için sayfasını tarayıcınız gibi, çerezler olmadan açar ve başka hiçbir şey göndermez."
+ },
+ "phaseSites": {
+  "message": "Siteler okunuyor"
+ },
+ "phasePages": {
+  "message": "Sayfalar analiz ediliyor"
+ },
+ "sitesNote": {
+  "message": "Aynı anda birkaç site. Hiçbir şey gönderilmez, sayfalar yalnızca okunur."
+ },
+ "sitesAllowed": {
+  "message": "Sitelere erişim izni verildi"
+ },
+ "sitesAsked": {
+  "message": "Chrome bir sonraki analizde sitelere erişim izni isteyecek"
+ },
+ "backupsTitle": {
+  "message": "Yedekler"
+ },
+ "backupsNone": {
+  "message": "Yedek yok"
+ },
+ "backupCount": {
+  "message": "{1} yer işareti"
+ },
+ "backupDelete": {
+  "message": "Sil"
+ },
+ "backupDeleteTitle": {
+  "message": "Bu yedek silinsin mi?"
+ },
+ "backupConfirm": {
+  "message": "“{1}” ve içindeki her şey kalıcı olarak silinecek. Yerleştirilmiş yer işaretleriniz yerinde kalır ancak bu yedeği oluşturan düzenleme artık geri alınamaz."
+ },
+ "backupDeleted": {
+  "message": "Yedek silindi."
+ },
+ "backupTitle": {
+  "message": "Nidomark – yedek ({1})"
+ },
+ "clearCacheHint": {
+  "message": "Önbellek sonraki analizleri hızlandırır ve bu bilgisayarda kalır."
+ },
+ "sourceAll": {
+  "message": "Yer işaretleriniz"
+ },
+ "reasonKnownSite": {
+  "message": "Bilinen site ({1})"
+ },
+ "reasonPattern": {
+  "message": "Tipik adres ({1})"
+ },
+ "reasonAdultWords": {
+  "message": "Müstehcen başlık"
+ },
+ "reasonAdultPage": {
+  "message": "Sayfa, yetişkinlere yönelik içerik olduğunu belirtiyor"
+ },
+ "reasonPage": {
+  "message": "Sayfaya göre: “{1}”"
+ },
+ "reasonModel": {
+  "message": "“{1}” kategorisine benziyor"
+ },
+ "reasonPlatform": {
+  "message": "{1} üzerinde yayınlandı"
+ },
+ "reasonAboutApp": {
+  "message": "{1} hakkında"
+ },
+ "reasonLearnedSite": {
+  "message": "{1} sitesini “{2}” klasörüne yerleştiriyorsunuz"
+ },
+ "reasonKeptFolder": {
+  "message": "“{1}” klasörünüz, olduğu gibi yeniden oluşturuldu"
+ },
+ "reasonNewCategory": {
+  "message": "Bu kategoride {1} yer işareti"
+ },
+ "deadNetwork": {
+  "message": "Artık yanıt vermiyor: site bulunamadı"
+ },
+ "deadTimeout": {
+  "message": "Artık yanıt vermiyor: zaman aşımı"
+ },
+ "deadGone": {
+  "message": "Sayfa kaldırılmış ({1})"
+ },
+ "deadServer": {
+  "message": "Sunucu hatası ({1})"
+ },
+ "deadParked": {
+  "message": "Alan adı terk edilmiş veya satılık"
+ },
+ "reviewUnclear": {
+  "message": "Başlıkta ve adreste net bir konu yok"
+ },
+ "reviewUnclearPage": {
+  "message": "Sayfa okundu, net bir konu yok"
+ },
+ "reviewBlocked": {
+  "message": "Site, erişimi reddediyor ({1})"
+ },
+ "reviewNoAccess": {
+  "message": "Belirsiz başlık; daha fazla bilgi için sitelerin okunmasına izin verin"
+ },
+ "nodeDupes": {
+  "message": "Yinelenenler"
+ },
+ "nodeDupesMeta": {
+  "message": "Yeniden oluşturulmadı, yedekte tutuluyor"
+ },
+ "dupesHint": {
+  "message": "Bu sayfalar başka bir yerde zaten var: bir kopya yeniden oluşturulur. Bunlar yedekte kalır."
+ },
+ "keepAllDupes": {
+  "message": "Tümünü koru"
+ },
+ "reasonDuplicate": {
+  "message": "“{1}” öğesinin kopyası ({2})"
+ },
+ "optDupes": {
+  "message": "Her sayfanın tek bir kopyası"
+ },
+ "optDupesHint": {
+  "message": "Yinelenenler yeniden oluşturulmaz; yedekte kalır."
+ },
+ "sumDupes": {
+  "message": "yinelenenler"
+ },
+ "openSite": {
+  "message": "{1} öğesini aç"
+ },
+ "reviewHintUntested": {
+  "message": "Yeterli ipucu yok. “Yeniden analiz et” sitelerini test eder; kontrol etmek için onları açabilirsiniz de. Aksi takdirde “Kontrol edilecekler” klasörüne taşınırlar."
+ },
+ "archiveNote": {
+  "message": "Mevcut klasör yapınız, Diğer yer işaretleri klasöründe tarihli bir yedekte olduğu gibi saklanır. Tek tıklamayla düzenleme geri alınır."
+ },
+ "barSheetHint": {
+  "message": "En sık açtığınız siteler, çubuğun başında simge olarak. Önizlemede adını göstermek için bir simgeyi tıklayın."
+ },
+ "doneArchive": {
+  "message": "Önceki klasör yapınız, Diğer yer işaretleri klasöründeki “{1}” klasöründe."
+ },
+ "nodeBar": {
+  "message": "Hızlı erişim"
+ },
+ "nodeBarMeta": {
+  "message": "Çubuğun başındaki simgeler"
+ },
+ "notRecreated": {
+  "message": "Yeniden oluşturulmadı"
+ },
+ "optQuickAccess": {
+  "message": "Hızlı erişim"
+ },
+ "optQuickAccessHint": {
+  "message": "En çok ziyaret edilen siteler, çubuğun başında simge olarak"
+ },
+ "quickNone": {
+  "message": "Yok"
+ },
+ "reasonBarShortcut": {
+  "message": "Zaten yer işaretleri çubuğunuzda"
+ },
+ "reasonBarTool": {
+  "message": "Çubuk aracı (bookmarklet veya tarayıcı sayfası)"
+ },
+ "reasonFacet": {
+  "message": "Aynı siteden veya aynı konuda {1} yer işareti"
+ },
+ "reasonLearned": {
+  "message": "Bunu “{1}” klasörüne yerleştirmiştiniz"
+ },
+ "reasonMyFolders": {
+  "message": "Birkaç konuyu bir arada barındıran klasörleriniz"
+ },
+ "reasonQuickAccess": {
+  "message": "En sık açtığınız sitelerden biri"
+ },
+ "reasonReviewFolder": {
+  "message": "Yerleştirmek için yeterli ipucu yok"
+ },
+ "reasonSpecial": {
+  "message": "Web sayfası olmayan bir bağlantı (bookmarklet, tarayıcı sayfası, dosya)"
+ },
+ "leaveTitle": {
+  "message": "Bu öneri silinsin mi?"
+ },
+ "leaveBody": {
+  "message": "Yer işaretleriniz değiştirilmedi. Onları düzenlemek için analizi yeniden çalıştırmanız gerekecek."
+ },
+ "leaveConfirm": {
+  "message": "Sil"
+ },
+ "acceptAll": {
+  "message": "Tümünü önerildiği gibi yerleştir ({1})"
+ },
+ "acceptedAll": {
+  "message": "Önerildiği gibi yerleştirildi: {1}"
+ },
+ "atTopOf": {
+  "message": "Doğrudan {1} klasöründe"
+ },
+ "deleteFolder": {
+  "message": "Sil"
+ },
+ "deleteFolderTitle": {
+  "message": "“{1}” silinsin mi?"
+ },
+ "deleteFolderBody": {
+  "message": "İçindeki yer işaretleri: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "İçindeki yer işaretleri: {1} · alt klasörler: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "İçeriğini koru"
+ },
+ "deleteKeepHint": {
+  "message": "Yer işaretleri ve alt klasörleri bir üst düzeye, “{1}” klasörüne taşınır."
+ },
+ "deleteWithContent": {
+  "message": "İçeriğini de sil"
+ },
+ "deleteWithContentHint": {
+  "message": "Yer işaretleri yeniden oluşturulmaz: yedekte kalırlar."
+ },
+ "displayInBrowser": {
+  "message": "Görünüm"
+ },
+ "dropAtTop": {
+  "message": "Buraya, en üst düzeye bırakın"
+ },
+ "editUndone": {
+  "message": "Değişiklik geri alındı"
+ },
+ "fileIn": {
+  "message": "{1} klasörüne yerleştir"
+ },
+ "foldFolder": {
+  "message": "{1} klasörünü daralt"
+ },
+ "unfoldFolder": {
+  "message": "{1} klasörünü genişlet"
+ },
+ "folderCreated": {
+  "message": "“{1}” klasörü oluşturuldu"
+ },
+ "folderDeleted": {
+  "message": "“{1}” silindi: içeriği bir üst düzeye taşındı"
+ },
+ "folderDeletedAll": {
+  "message": "“{1}” ve içeriği silindi"
+ },
+ "folderMoved": {
+  "message": "“{1}”, {2} konumuna taşındı"
+ },
+ "folderPlace": {
+  "message": "Konum"
+ },
+ "iconOnlyItem": {
+  "message": "Yalnızca simge"
+ },
+ "keepDupe": {
+  "message": "Bu kopyayı koru"
+ },
+ "looseHint": {
+  "message": "Hiçbir klasörde değil, doğrudan {1} klasöründe duran yer işaretleri."
+ },
+ "moveFolder": {
+  "message": "Taşı"
+ },
+ "moveFolderTo": {
+  "message": "“{1}” klasörünü şuraya taşı"
+ },
+ "moveToEllipsis": {
+  "message": "Şuraya taşı…"
+ },
+ "newShort": {
+  "message": "yeni"
+ },
+ "newSubfolder": {
+  "message": "Alt klasör"
+ },
+ "nodeLoose": {
+  "message": "Klasörsüz"
+ },
+ "nodeLooseMeta": {
+  "message": "Doğrudan kök klasörde"
+ },
+ "nodeRemoved": {
+  "message": "Kaldırılanlar"
+ },
+ "nodeRemovedMeta": {
+  "message": "Yeniden oluşturulmadı, yedekte tutuluyor"
+ },
+ "openFolder": {
+  "message": "klasörü aç"
+ },
+ "openPage": {
+  "message": "Sayfayı aç"
+ },
+ "proposalRestored": {
+  "message": "Öneri geri yüklendi"
+ },
+ "reanalyze": {
+  "message": "Yeniden analiz et"
+ },
+ "reanalyzeFailed": {
+  "message": "Yeni analiz başarısız oldu: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "“{2}” yeniden analiz edildi · taşınan: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "“{1}” içinde yeniden analiz edilecek bir şey yok: yer işaretlerini kendiniz yerleştirdiniz."
+ },
+ "reanalyzedSame": {
+  "message": "“{1}” yeniden analiz edildi: değişiklik yok"
+ },
+ "reanalyzing": {
+  "message": "“{1}” yeniden analiz ediliyor"
+ },
+ "reasonSameSite": {
+  "message": "{2} sitesindeki diğer {1} yer işareti gibi"
+ },
+ "removeBookmark": {
+  "message": "Kaldır"
+ },
+ "removedHint": {
+  "message": "Bu yer işaretleri yeniden oluşturulmaz. Yedekte kalırlar: onları buradan geri yükleyin veya bir klasöre sürükleyin."
+ },
+ "removedOne": {
+  "message": "“{1}” yeniden oluşturulmayacak (yedekte kalır)"
+ },
+ "rename": {
+  "message": "Yeniden adlandır"
+ },
+ "renameLabel": {
+  "message": "{1} için yeni ad"
+ },
+ "renamedTo": {
+  "message": "“{1}” olarak yeniden adlandırıldı"
+ },
+ "restore": {
+  "message": "Geri yükle"
+ },
+ "restoreAll": {
+  "message": "Tümünü geri yükle"
+ },
+ "restoredCount": {
+  "message": "Geri yüklenen: {1}"
+ },
+ "restoredOne": {
+  "message": "Yer işareti geri yüklendi"
+ },
+ "rowActions": {
+  "message": "{1} için işlemler"
+ },
+ "subfolders": {
+  "message": "Alt klasörler"
+ },
+ "suggestionsFor": {
+  "message": "{1} için klasör önerileri"
+ },
+ "undoEdit": {
+  "message": "Geri al"
+ },
+ "undoEditHint": {
+  "message": "Son değişikliği geri al (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Zaten yer işaretlerinizde"
+ },
+ "existingFolderHint": {
+  "message": "Önceki bir düzenlemeden kalan klasör: yeni yer işaretleri buna eklenir, adı ve yeri korunur."
+ }
+}

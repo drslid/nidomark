@@ -84,7 +84,7 @@
   "message": "Other emoji"
  },
  "reviewHint": {
-  "message": "Tested, not enough clues. Open them to check, then accept the suggestion or choose a folder. Otherwise they go to “To check”, in Other bookmarks."
+  "message": "Tested, not enough clues. Open them to check, then pick a suggestion or drag them onto a folder. Otherwise they go to “To check”, in Other bookmarks."
  },
  "barTitle": {
   "message": "New bar"
@@ -231,26 +231,17 @@
  "proposal": {
   "message": "Proposal"
  },
- "nodeReview": {
-  "message": "To check"
- },
  "nodeReviewMeta": {
   "message": "Not enough clues"
  },
  "countLabel": {
   "message": "{1} bookmarks"
  },
- "createThisFolder": {
-  "message": "Create this folder"
- },
- "dontCreate": {
-  "message": "Don’t create"
- },
  "sheetClose": {
   "message": "Close"
  },
  "emptyFolder": {
-  "message": "Drag bookmarks here"
+  "message": "Empty. Drag bookmarks onto this folder in the diagram."
  },
  "dialogNewFolderTitle": {
   "message": "New folder"
@@ -402,9 +393,6 @@
  "clearCacheHint": {
   "message": "The cache speeds up the next analyses; it stays on this computer."
  },
- "nodeNewIn": {
-  "message": "Will be created in {1}"
- },
  "sourceAll": {
   "message": "Your bookmarks"
  },
@@ -480,9 +468,6 @@
  "keepAllDupes": {
   "message": "Keep all"
  },
- "announceDupesKept": {
-  "message": "Duplicates are kept."
- },
  "reasonDuplicate": {
   "message": "Duplicate of “{1}” ({2})"
  },
@@ -499,7 +484,7 @@
   "message": "Open {1}"
  },
  "reviewHintUntested": {
-  "message": "Not enough clues. Allow reading sites so that they are tested, or open them to check. Otherwise they go to “To check”."
+  "message": "Not enough clues. “Analyze again” tests their sites; you can also open them to check. Otherwise they go to “To check”."
  },
  "archiveNote": {
   "message": "Your current tree is kept as it is in a dated backup, in Other bookmarks. One click undoes the sort."
@@ -552,12 +537,6 @@
  "reasonSpecial": {
   "message": "A link that is not a web page (bookmarklet, browser page, file)"
  },
- "sectionOff": {
-  "message": "This folder will not be created: its bookmarks go to “{1}”."
- },
- "suggestion": {
-  "message": "Suggestion: {1}"
- },
  "leaveTitle": {
   "message": "Discard this proposal?"
  },
@@ -566,5 +545,188 @@
  },
  "leaveConfirm": {
   "message": "Discard"
+ },
+ "acceptAll": {
+  "message": "File all as suggested ({1})"
+ },
+ "acceptedAll": {
+  "message": "Filed as suggested: {1}"
+ },
+ "atTopOf": {
+  "message": "Directly in {1}"
+ },
+ "deleteFolder": {
+  "message": "Delete"
+ },
+ "deleteFolderTitle": {
+  "message": "Delete “{1}”?"
+ },
+ "deleteFolderBody": {
+  "message": "Bookmarks inside: {1}."
+ },
+ "deleteFolderBodySub": {
+  "message": "Bookmarks inside: {1} · subfolders: {2}."
+ },
+ "deleteKeepContent": {
+  "message": "Keep what it holds"
+ },
+ "deleteKeepHint": {
+  "message": "Its bookmarks and subfolders move up into “{1}”."
+ },
+ "deleteWithContent": {
+  "message": "Delete what it holds too"
+ },
+ "deleteWithContentHint": {
+  "message": "Its bookmarks are not recreated: they stay in the backup."
+ },
+ "displayInBrowser": {
+  "message": "Display"
+ },
+ "dropAtTop": {
+  "message": "Drop here, at the top"
+ },
+ "editUndone": {
+  "message": "Change undone"
+ },
+ "fileIn": {
+  "message": "File in {1}"
+ },
+ "foldFolder": {
+  "message": "Fold {1}"
+ },
+ "unfoldFolder": {
+  "message": "Unfold {1}"
+ },
+ "folderCreated": {
+  "message": "Folder “{1}” created"
+ },
+ "folderDeleted": {
+  "message": "“{1}” deleted: what it held moved up"
+ },
+ "folderDeletedAll": {
+  "message": "“{1}” and what it held deleted"
+ },
+ "folderMoved": {
+  "message": "“{1}” moved to {2}"
+ },
+ "folderPlace": {
+  "message": "Location"
+ },
+ "iconOnlyItem": {
+  "message": "Icon only"
+ },
+ "keepDupe": {
+  "message": "Keep this copy"
+ },
+ "looseHint": {
+  "message": "Bookmarks right in {1}, outside any folder."
+ },
+ "moveFolder": {
+  "message": "Move"
+ },
+ "moveFolderTo": {
+  "message": "Move “{1}” to"
+ },
+ "moveToEllipsis": {
+  "message": "Move to…"
+ },
+ "newShort": {
+  "message": "new"
+ },
+ "newSubfolder": {
+  "message": "Subfolder"
+ },
+ "nodeLoose": {
+  "message": "No folder"
+ },
+ "nodeLooseMeta": {
+  "message": "Right in the root folder"
+ },
+ "nodeRemoved": {
+  "message": "Removed"
+ },
+ "nodeRemovedMeta": {
+  "message": "Not recreated, kept in the backup"
+ },
+ "openFolder": {
+  "message": "open the folder"
+ },
+ "openPage": {
+  "message": "Open the page"
+ },
+ "proposalRestored": {
+  "message": "Proposal restored"
+ },
+ "reanalyze": {
+  "message": "Analyze again"
+ },
+ "reanalyzeFailed": {
+  "message": "The new analysis failed: {1}"
+ },
+ "reanalyzedMoved": {
+  "message": "“{2}” analyzed again · moved: {1}"
+ },
+ "reanalyzedNothing": {
+  "message": "Nothing to analyze again in “{1}”: you placed its bookmarks yourself."
+ },
+ "reanalyzedSame": {
+  "message": "“{1}” analyzed again: no change"
+ },
+ "reanalyzing": {
+  "message": "Analyzing “{1}” again"
+ },
+ "reasonSameSite": {
+  "message": "Like {1} other bookmarks of {2}"
+ },
+ "removeBookmark": {
+  "message": "Remove"
+ },
+ "removedHint": {
+  "message": "These bookmarks are not recreated. They stay in the backup: restore them here, or drag them onto a folder."
+ },
+ "removedOne": {
+  "message": "“{1}” will not be recreated (it stays in the backup)"
+ },
+ "rename": {
+  "message": "Rename"
+ },
+ "renameLabel": {
+  "message": "New name for {1}"
+ },
+ "renamedTo": {
+  "message": "Renamed “{1}”"
+ },
+ "restore": {
+  "message": "Restore"
+ },
+ "restoreAll": {
+  "message": "Restore all"
+ },
+ "restoredCount": {
+  "message": "Restored: {1}"
+ },
+ "restoredOne": {
+  "message": "Bookmark restored"
+ },
+ "rowActions": {
+  "message": "Actions for {1}"
+ },
+ "subfolders": {
+  "message": "Subfolders"
+ },
+ "suggestionsFor": {
+  "message": "Suggestions for {1}"
+ },
+ "undoEdit": {
+  "message": "Undo"
+ },
+ "undoEditHint": {
+  "message": "Undo the last change (Ctrl+Z)"
+ },
+ "existingFolderMeta": {
+  "message": "Already in your bookmarks"
+ },
+ "existingFolderHint": {
+  "message": "A folder of an earlier sort: new bookmarks are added to it, and it keeps its name and place."
  }
 }

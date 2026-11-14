@@ -108,6 +108,8 @@ export async function removeHistoryPermission(): Promise<void> {
 export interface KnownFolder {
   group?: GroupId;
   category?: string;
+  /** A special folder of a sort: bookmarks to check, browser links, the user's own folders. */
+  role?: 'review' | 'special' | 'mine';
   name?: string;
 }
 export type KnownFolders = Map<string, KnownFolder>;
