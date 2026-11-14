@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/drslid/nidomark/actions/workflows/ci.yml"><img src="https://github.com/drslid/nidomark/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://drslid.github.io/nidomark/"><img src="https://img.shields.io/badge/docs-drslid.github.io%2Fnidomark-0f766e" alt="Documentation"></a>
+  <a href="https://github.com/drslid/Nidomark/actions/workflows/ci.yml"><img src="https://github.com/drslid/Nidomark/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://drslid.github.io/Nidomark/"><img src="https://img.shields.io/badge/docs-drslid.github.io%2FNidomark-0f766e" alt="Documentation"></a>
   <img src="https://img.shields.io/badge/status-alpha-f59e0b" alt="Alpha status">
   <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-0f766e?logo=googlechrome&logoColor=white" alt="Chrome Manifest V3">
   <img src="https://img.shields.io/badge/AI-local%20%7C%20offline-17314a" alt="Local and offline AI">
@@ -30,14 +30,14 @@ You need:
 
 Load the extension in developer mode:
 
-1. Download `nidomark-<version>-chrome.zip` from the [Releases page](https://github.com/drslid/nidomark/releases) and unzip it.
+1. Download `nidomark-<version>-chrome.zip` from the [Releases page](https://github.com/drslid/Nidomark/releases) and unzip it.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select the unzipped folder.
 4. Click the extension's toolbar button, then **Analyze my bookmarks**.
 
 The first analysis loads the model, which takes a few seconds. Each bookmark then takes about 60 ms on one CPU core, and later analyses reuse a local cache.
 
-**Build it yourself:** see [Development](#development). **Chrome Web Store:** coming after the alpha. **Documentation:** [drslid.github.io/nidomark](https://drslid.github.io/nidomark/).
+**Build it yourself:** see [Development](#development). **Chrome Web Store:** coming after the alpha. **Documentation:** [drslid.github.io/Nidomark](https://drslid.github.io/Nidomark/).
 
 ## What Nidomark is
 
@@ -110,7 +110,7 @@ The model ([`Xenova/multilingual-e5-small`](https://huggingface.co/Xenova/multil
 
 ## Documentation
 
-- [Website](https://drslid.github.io/nidomark/): guides for your first sort, the review, quick access, the backup and the settings.
+- [Website](https://drslid.github.io/Nidomark/): guides for your first sort, the review, quick access, the backup and the settings.
 - [Development](docs/DEVELOPMENT.md): build, test and project layout.
 - [Privacy](docs/PRIVACY.md): what is read, what is stored, what is never sent.
 - [Publishing](docs/PUBLISHING.md): Chrome Web Store checklist, then Firefox and Edge.

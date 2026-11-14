@@ -5,7 +5,7 @@
 ### One-time setup
 
 1. Register a developer account in the [Chrome Web Store developer dashboard](https://chrome.google.com/webstore/devconsole): accept the developer agreement and pay the one-time registration fee ([documentation](https://developer.chrome.com/docs/webstore/register)). Use an email address you check often; it cannot be changed later.
-2. Use the privacy policy published at <https://drslid.github.io/nidomark/reference/privacy/> (source: [PRIVACY.md](PRIVACY.md)).
+2. Use the privacy policy published at <https://drslid.github.io/Nidomark/reference/privacy/> (source: [PRIVACY.md](PRIVACY.md)).
 
 ### Each release
 

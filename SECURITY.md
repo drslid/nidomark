@@ -4,7 +4,7 @@ Nidomark runs entirely in the browser and handles your bookmarks, so security re
 
 ## Reporting a vulnerability
 
-Please report vulnerabilities privately through [GitHub security advisories](https://github.com/drslid/nidomark/security/advisories/new) rather than in a public issue. Include the browser version, the extension version and the steps to reproduce.
+Please report vulnerabilities privately through [GitHub security advisories](https://github.com/drslid/Nidomark/security/advisories/new) rather than in a public issue. Include the browser version, the extension version and the steps to reproduce.
 
 ## Scope
 

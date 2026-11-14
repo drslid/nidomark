@@ -6,9 +6,9 @@ import { defineConfig } from 'astro/config';
 
 import { baseLinks } from './src/plugins/base-links.mjs';
 
-const repositoryUrl = 'https://github.com/drslid/nidomark';
+const repositoryUrl = 'https://github.com/drslid/Nidomark';
 const site = 'https://drslid.github.io';
-const base = '/nidomark';
+const base = '/Nidomark';
 const repo = (dir) => fileURLToPath(new URL(`../${dir}`, import.meta.url));
 
 export default defineConfig({

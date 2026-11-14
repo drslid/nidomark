@@ -1,6 +1,6 @@
 # Nidomark documentation site
 
-The site published at <https://drslid.github.io/nidomark/>, built with [Astro Starlight](https://starlight.astro.build).
+The site published at <https://drslid.github.io/Nidomark/>, built with [Astro Starlight](https://starlight.astro.build).
 
 It reuses the extension's own files, so that it stays in step with the code:
 
@@ -11,9 +11,9 @@ It reuses the extension's own files, so that it stays in step with the code:
 ```bash
 corepack enable
 pnpm install
-pnpm dev       # http://localhost:4321/nidomark/
+pnpm dev       # http://localhost:4321/Nidomark/
 pnpm build     # static site in dist/
-pnpm preview   # serves dist/ at http://localhost:4321/nidomark/
+pnpm preview   # serves dist/ at http://localhost:4321/Nidomark/
 ```
 
 The social card (`public/images/social-card.png`) is rendered by `node scripts/social-card.mjs` at the root of the repository.

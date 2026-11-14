@@ -8,8 +8,8 @@ description: Build the extension and this documentation site from the repository
 You need Node.js 22 or later and pnpm; `corepack enable` installs the version pinned in the repository.
 
 ```bash
-git clone https://github.com/drslid/nidomark.git
-cd nidomark
+git clone https://github.com/drslid/Nidomark.git
+cd Nidomark
 corepack enable
 pnpm install
 pnpm fetch-model   # downloads the pinned model (135 MB) and checks its hashes
@@ -27,7 +27,7 @@ Load `.output/chrome-mv3` from `chrome://extensions` with **Developer mode** →
 | `pnpm eval`    | Where each bookmark of the test collection goes, and why               |
 | `pnpm zip`     | The zip published in the releases                                       |
 
-The [development guide](https://github.com/drslid/nidomark/blob/main/docs/DEVELOPMENT.md) describes the project layout, the sorting pipeline and the conventions.
+The [development guide](https://github.com/drslid/Nidomark/blob/main/docs/DEVELOPMENT.md) describes the project layout, the sorting pipeline and the conventions.
 
 ## This site
 
@@ -36,7 +36,7 @@ The documentation is an [Astro Starlight](https://starlight.astro.build) site in
 ```bash
 cd website
 pnpm install
-pnpm dev     # http://localhost:4321/nidomark/
+pnpm dev     # http://localhost:4321/Nidomark/
 pnpm build   # static site in website/dist
 ```
 

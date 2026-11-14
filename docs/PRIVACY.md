@@ -43,4 +43,4 @@ Nothing. The model and its runtime are packaged with the extension and run offli
 
 ## Contact
 
-Open an issue on [GitHub](https://github.com/drslid/nidomark/issues).
+Open an issue on [GitHub](https://github.com/drslid/Nidomark/issues).

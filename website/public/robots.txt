@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://drslid.github.io/nidomark/sitemap-index.xml
+Sitemap: https://drslid.github.io/Nidomark/sitemap-index.xml
