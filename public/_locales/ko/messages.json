@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "{2}의 다른 북마크 {1}개와 같음"
  },
+ "reasonFolder": {
+  "message": "기존 “{1}” 폴더에서"
+ },
  "removeBookmark": {
   "message": "삭제"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "북마크 복원됨"
+ },
+ "selectAll": {
+  "message": "모두 선택"
+ },
+ "selectedCount": {
+  "message": "선택됨: {1}개"
+ },
+ "selectBookmark": {
+  "message": "“{1}” 선택"
+ },
+ "clearSelection": {
+  "message": "선택 해제"
+ },
+ "movedCount": {
+  "message": "“{2}” 위치로 이동됨: {1}개"
+ },
+ "removedCount": {
+  "message": "다시 만들지 않음: {1}개(백업에 남음)"
  },
  "rowActions": {
   "message": "{1} 작업"

@@ -1,9 +1,11 @@
-import { EXAMPLE_CATEGORIES, EXAMPLE_SCALES, EXAMPLE_VECTORS } from './data/example-vectors';
+import { EXAMPLE_CATEGORIES, EXAMPLE_SCALES, EXAMPLE_SITES, EXAMPLE_VECTORS } from './data/example-vectors';
 import { MODEL_DIMS } from './model';
 
 export interface LabeledVector {
   category: string;
   vector: Float32Array;
+  /** The site of the example ("youtube.com"): a page of the same platform looks like it whatever its subject. */
+  site?: string;
 }
 
 let cache: LabeledVector[] | null = null;
@@ -23,7 +25,7 @@ export function exampleVectors(): LabeledVector[] {
     }
     norm = Math.sqrt(norm) || 1;
     for (let k = 0; k < MODEL_DIMS; k++) v[k] = (v[k] as number) / norm;
-    return { category, vector: v };
+    return { category, vector: v, site: EXAMPLE_SITES[i] };
   });
   return cache;
 }

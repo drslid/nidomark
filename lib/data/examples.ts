@@ -26,8 +26,6 @@ export const EXAMPLES: Record<string, string[]> = {
   ],
   video: [
     'Ma chaîne YouTube préférée – nouvelles vidéos — youtube.com',
-    'Vlog : une semaine au Japon — youtube.com',
-    'Clip officiel du nouveau single — youtube.com',
     'Documentary: the history of the internet — vimeo.com',
     'Vidéo drôle compilation — dailymotion.com',
     'YouTube Shorts tendances — youtube.com',
@@ -43,6 +41,7 @@ export const EXAMPLES: Record<string, string[]> = {
     'New album release, stream now — bandcamp.com',
     'Concert setlist and tour dates — setlist.example',
     'Partition piano gratuite — partitions.example',
+    'Clip officiel du nouveau single — youtube.com',
   ],
   gaming: [
     'Soluce complète et guide des boss — jeux.example',
@@ -298,6 +297,7 @@ export const EXAMPLES: Record<string, string[]> = {
     'Consommation de gaz du mois — gaz.example',
   ],
   travel: [
+    'Vlog : une semaine au Japon — youtube.com',
     'Billets de train pas chers — train.example',
     'Hôtel à Rome : réservation — booking.com',
     'Que voir à Barcelone en 3 jours — voyage.example',

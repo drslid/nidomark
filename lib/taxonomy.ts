@@ -1,6 +1,6 @@
 import { nameIn, namesInEveryLanguage } from './names';
 import { registrableDomain } from './psl';
-import { fold } from './text';
+import { fold, nameKey } from './text';
 
 /** Top-level folders. Few on purpose: the precise categories live inside them. */
 export type GroupId = 'leisure' | 'news' | 'tech' | 'home' | 'shopping' | 'money' | 'life' | 'travel' | 'social' | 'learning' | 'tools' | 'adult' | 'dead';
@@ -56,7 +56,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'streaming', group: 'leisure', emoji: '📺', fr: 'Streaming', en: 'Streaming', own: true,
     desc: 'Streaming : regarder des films, des séries, des animés ou la télévision en ligne, replay et directs. Watch movies, TV shows and anime online.',
-    keywords: 'porn, porno, xxx, nsfw, hentai, milf, camgirl, webcam sexe, erotique, erotic, escort',
+    keywords: 'streaming, vf, vostfr, film complet, films complets, serie complete, episode, episodes, saison, voir film, voir serie, regarder film, regarder serie, film en ligne, films en ligne, serie en ligne, en direct, chaine tv, chaines tv, watch online, full movie, full episode',
     aliases: 'streaming, films, film, series, serie, films et series, series et films, movies, tv, tele, television, vod, replay, anime, animes, mangas animes, netflix, a regarder, watchlist',
     sites: 'netflix.com primevideo.com disneyplus.com canalplus.com mycanal.fr max.com hbomax.com paramountplus.com tv.apple.com crunchyroll.com animationdigitalnetwork.fr animationdigitalnetwork.com adn.fr molotov.tv france.tv tf1.fr tf1plus.fr 6play.fr m6.fr m6plus.fr arte.tv twitch.tv kick.com pluto.tv rakuten.tv mubi.com hulu.com peacocktv.com tubi.tv filmo.tv universcine.com auvio.rtbf.be play.rts.ch oqee.tv salto.fr amazon.com/gp/video amazon.fr/gp/video watch.plex.tv',
   },
@@ -70,7 +70,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'video', group: 'leisure', emoji: '▶️', fr: 'Vidéos', en: 'Videos',
     desc: 'Vidéos en ligne : chaînes YouTube, vidéastes, clips et courtes vidéos. Online videos and YouTube channels.',
-    keywords: 'video, videos, youtube, youtubeur, chaine youtube, vlog, clip, shorts',
+    keywords: 'video, videos, youtube, youtubeur, chaine youtube, vlog, shorts',
     aliases: 'videos, video, youtube, youtubeurs, chaines youtube, chaines, a voir, watch later',
     sites: 'vimeo.com dailymotion.com odysee.com rumble.com bilibili.com nebula.tv peertube.fr framatube.org',
     platforms: 'youtube.com youtu.be m.youtube.com',
@@ -78,14 +78,14 @@ export const CATEGORIES: Category[] = [
   {
     id: 'music', group: 'leisure', emoji: '🎵', fr: 'Musique', en: 'Music',
     desc: 'Musique, radio et podcasts : écouter, playlists, albums, artistes, paroles, partitions. Music, radio and podcasts.',
-    keywords: 'musique, music, album, albums, artiste, playlist, concert, chanson, chansons, song, songs, lyrics, paroles, radio, podcast, podcasts, partition, tablature, accords, guitare, piano',
+    keywords: 'musique, music, album, albums, artiste, playlist, concert, chanson, chansons, song, songs, lyrics, paroles, radio, podcast, podcasts, partition, tablature, accords, guitare, piano, clip, clip officiel, official video, official music video, music video, official audio, lofi',
     aliases: 'musique, music, zik, son, sons, podcasts, podcast, radio, radios, musiques',
     sites: 'spotify.com open.spotify.com deezer.com soundcloud.com bandcamp.com music.apple.com podcasts.apple.com music.youtube.com music.amazon.fr music.amazon.com qobuz.com tidal.com last.fm genius.com radiofrance.fr franceinter.fr nrj.fr funradio.fr skyrock.com rtl2.fr cheriefm.fr nostalgie.fr fip.fr radio.garden tunein.com songsterr.com ultimate-guitar.com setlist.fm discogs.com musicbrainz.org ausha.co podbean.com musescore.com boiteachansons.net',
   },
   {
     id: 'gaming', group: 'leisure', emoji: '🎮', fr: 'Jeux vidéo', en: 'Video games',
     desc: 'Jeux vidéo : boutiques de jeux, actualité du jeu vidéo, guides, mods, communautés de joueurs. Video games, gaming news and guides.',
-    keywords: 'jeu video, jeux video, game, games, gaming, gamer, steam, ps5, playstation, xbox, nintendo, speedrun, soluce, walkthrough, esport, jeux pc',
+    keywords: 'jeu video, jeux video, game, games, gaming, gamer, steam, ps5, playstation, xbox, nintendo, speedrun, soluce, walkthrough, esport, jeux pc, jeux en ligne, jeux gratuits, jeu en ligne, zelda, minecraft, elden ring',
     aliases: 'jeux, jeux video, jeu video, games, gaming, jv, jeu, gamer',
     sites: 'steampowered.com store.steampowered.com steamcommunity.com epicgames.com gog.com jeuxvideo.com gamekult.com ign.com gamespot.com itch.io nintendo.com nintendo.fr playstation.com xbox.com battle.net blizzard.com riotgames.com leagueoflegends.com chess.com lichess.org roblox.com minecraft.net ea.com ubisoft.com rockstargames.com millenium.org gamergen.com nexusmods.com curseforge.com speedrun.com howlongtobeat.com protondb.com isthereanydeal.com instant-gaming.com humblebundle.com fandom.com gameblog.fr jeuxactu.com',
   },
@@ -120,7 +120,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'events', group: 'leisure', emoji: '🎟️', fr: 'Sorties', en: 'Going out',
     desc: 'Sorties et spectacles : billetterie, concerts, théâtre, festivals, expositions, restaurants. Tickets, shows, festivals and outings.',
-    keywords: 'billetterie, concert, concerts, spectacle, spectacles, theatre, festival, festivals, exposition, restaurant, restaurants',
+    keywords: 'billetterie, concert, concerts, spectacle, spectacles, theatre, festival, festivals, exposition, restaurant, restaurants, resto, restos, bar, bars, brunch',
     aliases: 'sorties, sortir, spectacles, concerts, restos, restaurants, festivals, evenements, events',
     sites: 'ticketmaster.fr ticketmaster.com fnacspectacles.com seetickets.com billetreduc.com shotgun.live dice.fm thefork.fr lafourchette.com sortiraparis.com timeout.fr eventbrite.fr eventbrite.com',
   },
@@ -157,7 +157,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'dev', group: 'tech', emoji: '👨‍💻', fr: 'Développement', en: 'Development',
     desc: 'Développement logiciel et programmation : code, documentation technique, API, frameworks, dépôts Git, questions de développeurs. Programming, code and developer documentation.',
-    keywords: 'dev, developpement, developpeur, programmation, programming, developer, api, sdk, framework, javascript, typescript, python, java, rust, golang, php, css, html, sql, git, docker, kubernetes, devops, npm, regex, backend, frontend, debug, open source',
+    keywords: 'dev, developpement, developpeur, programmation, programming, developer, api, sdk, framework, javascript, typescript, python, java, rust, golang, php, css, html, sql, git, docker, dockerfile, kubernetes, devops, npm, regex, backend, frontend, debug, open source',
     aliases: 'dev, developpement, code, programmation, programming, development, web dev, webdev, devops, docs, documentation, github, coding, informatique dev',
     sites: 'gitlab.com bitbucket.org stackoverflow.com stackexchange.com superuser.com serverfault.com askubuntu.com developer.mozilla.org npmjs.com pypi.org crates.io packagist.org rubygems.org nuget.org hub.docker.com dev.to hashnode.com freecodecamp.org w3schools.com css-tricks.com smashingmagazine.com codepen.io jsfiddle.net codesandbox.io replit.com leetcode.com readthedocs.io docs.python.org python.org nodejs.org react.dev reactjs.org vuejs.org angular.dev angular.io svelte.dev typescriptlang.org rust-lang.org go.dev kotlinlang.org developer.android.com developer.apple.com learn.microsoft.com devdocs.io caniuse.com sourceforge.net codeberg.org jetbrains.com code.visualstudio.com developpez.com developpez.net postman.com swagger.io regex101.com vercel.com/docs tailwindcss.com getbootstrap.com php.net laravel.com symfony.com djangoproject.com spring.io kubernetes.io docs.docker.com',
     platforms: 'github.com gist.github.com',
@@ -165,7 +165,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'ai', group: 'tech', emoji: '🤖', fr: 'IA', en: 'AI',
     desc: 'Intelligence artificielle : assistants conversationnels, modèles de langage, génération d’images et de voix, apprentissage automatique. Artificial intelligence tools and models.',
-    keywords: 'ia, intelligence artificielle, artificial intelligence, llm, gpt, chatgpt, chatbot, machine learning, deep learning, prompt, prompts, generative ai, ia generative, stable diffusion, midjourney, modele de langage',
+    keywords: 'ia, intelligence artificielle, artificial intelligence, llm, llms, gpt, chatgpt, chatbot, machine learning, deep learning, prompt, prompts, generative ai, ia generative, stable diffusion, midjourney, modele de langage, llama, ollama, mistral ai, hugging face, huggingface, deepseek, reseau de neurones, neural network, transformers, attention is all you need',
     aliases: 'ia, ai, intelligence artificielle, chatgpt, llm, prompts, ia generative',
     sites: 'chatgpt.com chat.openai.com openai.com claude.ai anthropic.com gemini.google.com mistral.ai chat.mistral.ai perplexity.ai huggingface.co midjourney.com copilot.microsoft.com poe.com character.ai stability.ai runwayml.com elevenlabs.io suno.com ollama.com lmstudio.ai groq.com deepseek.com phind.com kaggle.com replicate.com civitai.com leonardo.ai ideogram.ai notebooklm.google.com grok.com x.ai lmarena.ai',
   },
@@ -179,7 +179,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'security', group: 'tech', emoji: '🔐', fr: 'Sécurité', en: 'Security',
     desc: 'Sécurité informatique et vie privée : mots de passe, VPN, antivirus, cybersécurité, fuites de données. Security, privacy, passwords and VPN.',
-    keywords: 'securite, security, cybersecurite, cybersecurity, mot de passe, mots de passe, password, passwords, vpn, antivirus, malware, hacking, pentest, chiffrement, encryption, vie privee, privacy, 2fa, phishing, ctf',
+    keywords: 'securite, security, cybersecurite, cybersecurity, mot de passe, mots de passe, password, passwords, vpn, antivirus, malware, hacking, pentest, chiffrement, encryption, vie privee, privacy, 2fa, phishing, ctf, ransomware, rancongiciel, faille, failles, vulnerabilite, vulnerabilites, vulnerability, cve, backdoor, porte derobee, hameconnage, piratage, cyberattaque, cyberattack, fuite de donnees, data breach, passkey, passkeys',
     aliases: 'securite, security, cybersecurite, hacking, vpn, privacy, vie privee, mots de passe',
     sites: 'haveibeenpwned.com bitwarden.com 1password.com keepass.info nordvpn.com expressvpn.com mullvad.net protonvpn.com virustotal.com malwarebytes.com cybermalveillance.gouv.fr cert.ssi.gouv.fr ssi.gouv.fr ssllabs.com shodan.io owasp.org hackthebox.com tryhackme.com root-me.org exploit-db.com krebsonsecurity.com zataz.com privacyguides.org',
   },
@@ -288,7 +288,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'car', group: 'life', emoji: '🚗', fr: 'Auto & moto', en: 'Cars & bikes',
     desc: 'Auto et moto : acheter une voiture, essais, entretien, pièces détachées, recharge électrique. Cars, motorbikes and maintenance.',
-    keywords: 'voiture, voitures, automobile, moto, motos, scooter, garage, entretien auto, pieces auto, pneus, carburant, borne de recharge, vehicule',
+    keywords: 'voiture, voitures, automobile, moto, motos, scooter, garage, entretien auto, pieces auto, pneus, carburant, borne de recharge, vehicule, frein, freins, plaquettes de frein, vidange, embrayage, controle technique, carrosserie, voiture electrique, renault, peugeot, citroen, dacia',
     aliases: 'auto, voiture, voitures, moto, motos, automobile, cars, vehicules',
     sites: 'lacentrale.fr autoplus.fr caradisiac.com largus.fr aramisauto.com oscaro.com mister-auto.com norauto.fr feuvert.fr moto-station.com autoscout24.fr tesla.com renault.fr peugeot.fr citroen.fr toyota.fr fiches-auto.fr chargemap.com',
   },
@@ -378,7 +378,7 @@ export const CATEGORIES: Category[] = [
   {
     id: 'productivity', group: 'tools', emoji: '📝', fr: 'Productivité', en: 'Productivity',
     desc: 'Productivité et bureautique : notes, tâches, agenda, documents partagés, stockage en ligne, gestion de projet. Notes, tasks, calendars, documents and cloud storage.',
-    keywords: 'productivite, productivity, taches, todo, to-do, agenda, calendrier, calendar, stockage en ligne, cloud storage, partage de fichiers, kanban, bureautique, tableur',
+    keywords: 'productivite, productivity, taches, todo, to-do, agenda, calendrier, calendar, stockage en ligne, cloud storage, partage de fichiers, kanban, bureautique, tableur, excel, tableau croise dynamique, powerpoint, google sheets, spreadsheet',
     aliases: 'productivite, productivity, organisation, notes, agenda, bureautique, documents, office, gestion de projet, todo',
     sites: 'notion.so notion.site trello.com asana.com todoist.com ticktick.com evernote.com onenote.com docs.google.com drive.google.com sheets.google.com slides.google.com calendar.google.com keep.google.com dropbox.com onedrive.live.com office.com microsoft365.com icloud.com airtable.com monday.com clickup.com miro.com obsidian.md logseq.com zotero.org mega.nz pcloud.com atlassian.net linear.app basecamp.com calendly.com docusign.com yousign.com',
   },
@@ -449,6 +449,41 @@ for (const c of CATEGORIES) {
   }
 }
 
+/**
+ * Categories of a format rather than a subject: a video, a course, a post, a news article or a product about cooking
+ * belongs with cooking, so that each subject has one place; they keep what has no subject of its own.
+ */
+export const FORMAT_CATEGORIES = new Set(['video', 'courses', 'reference', 'shopping', 'social', 'technews']);
+
+/**
+ * The known-site entry for an address, where a site of a format (a store, a tech news site, a course platform) counts
+ * as a platform past its home page: like a YouTube video, an Amazon product or a Korben article has its own subject.
+ */
+export function knownSiteFor(url: string): SiteMatch | null {
+  const k = knownSite(url);
+  if (!k || k.platform || !FORMAT_CATEGORIES.has(k.category)) return k;
+  try {
+    const u = new URL(url);
+    return u.pathname.replace(/\/+$/, '') || u.search ? { ...k, platform: true } : k;
+  } catch {
+    return k;
+  }
+}
+
+/** Names of the known sites ("netflix", "youtube", "github"): a folder named after one site never names a category. */
+/** The name of a site's domain, its subdomains aside: "photos.google.com" is Google, "impots.gouv.fr" is "impots". */
+function domainLabel(site: string): string {
+  const labels = (site.split('/')[0] ?? '').split('.');
+  const n = labels.length;
+  const secondLevel = n >= 3 && (labels[n - 1]?.length ?? 0) === 2 && /^(co|com|net|org|gov|gouv|ac|edu|ne|or)$/.test(labels[n - 2] ?? '');
+  return (secondLevel ? labels[n - 3] : (labels[n - 2] ?? labels[0])) ?? '';
+}
+const SITE_NAMES = new Set([...SITE_INDEX.keys()].map(domainLabel).filter((label) => label.length >= 3));
+export function isSiteName(title: string): boolean {
+  return SITE_NAMES.has(fold(title).replace(/[^\p{L}\p{M}\p{N}]+/gu, ''));
+}
+
+
 /** The known-site entry for an address, from the most precise key ("host/path") to the brand ("amazon.*"). */
 export function knownSite(url: string): SiteMatch | null {
   let u: URL;
@@ -487,7 +522,7 @@ export function knownSite(url: string): SiteMatch | null {
 const PATTERNS: [RegExp, string, string][] = [
   // Adult content: dedicated top-level domains and unambiguous words in the host name.
   [/\.(xxx|porn|sex|adult|sexy)$/, 'adult', '.xxx'],
-  [/(porn(?!ic)|xxx|hentai|nsfw|xvideo|xnxx|xhamster|camgirl|onlyfans|fansly|jacquieetmichel|dorcel|tukif|redtube|youporn)/, 'adult', 'porn'],
+  [/(porn(?!ic)|xxx|hentai|nsfw|(?<![a-z])xvideo|xnxx|xhamster|camgirl|onlyfans|fansly|jacquieetmichel|dorcel|tukif|redtube|youporn)/, 'adult', 'porn'],
   [/(^|[.-])sex(e|y)?([.-]|cam|tube|chat|toy|shop|story)/, 'adult', 'sex'],
   // Streaming and download sites change domains often but keep their names.
   [/(french-?stream|wiflix|papadustream|voir-?films?|streamcomplet|coflix|empire-?stream|anime-?sama|voiranime|vostfree|franime|streamonsport|sport-?stream|film-?streaming|serie-?streaming|streaming-?(vf|film|serie)|filmstreaming|vfstream|stream-?vf)/, 'streaming', 'streaming'],
@@ -569,12 +604,35 @@ const CATCH_ALL = new Set(
   list(
     'divers, diverses, autre, autres, misc, miscellaneous, other, others, utile, utiles, a voir plus tard, a trier, trier, a classer, classer, non classe, non classes, unsorted, unfiled, to sort, temp, tmp, temporaire, nouveau dossier, new folder, sans titre, untitled, vrac, en vrac, bazar, fourre tout, stuff, random, old, ancien, anciens, vieux, a verifier, to check, to review, favoris, mes favoris, bookmarks, my bookmarks, liens, links, mes liens, sites, sites web, web, internet, general, nouveaux, new, recents, recent, ' +
       'varios, otros, nueva carpeta, marcadores, varie, altri, nuova cartella, segnalibri, sonstiges, verschiedenes, neuer ordner, lesezeichen, diversos, outros, nova pasta, favoritos, diversen, overig, nieuwe map, bladwijzers, różne, inne, nowy folder, zakładki, çeşitli, diğer, yeni klasör, yer imleri, ' +
+      // Root folders of browsers, imported as plain folders (Firefox, Edge, Opera, an older Chrome).
+      'menu des marque pages, barre personnelle, barre d outils personnelle, barre des marque pages, barre d outils des marque pages, marque pages, marque pages non classes, autres marque pages, marque pages mobiles, ' +
+      'bookmarks menu, bookmarks toolbar, bookmarks bar, personal toolbar, personal toolbar folder, unsorted bookmarks, other bookmarks, mobile bookmarks, favorites bar, favourites bar, other favorites, other favourites, speed dial, ' +
+      'barre de favoris, barre des favoris, autres favoris, favoris mobiles, menu de marcadores, barra de marcadores, otros marcadores, marcadores sin clasificar, lesezeichen menu, lesezeichen symbolleiste, weitere lesezeichen, ' +
+      'menu segnalibri, barra dei segnalibri, altri segnalibri, menu de favoritos, barra de favoritos, outros favoritos, ' +
       'разное, другое, новая папка, закладки, різне, інше, нова папка, متفرقات, أخرى, مجلد جديد, विविध, अन्य, नया फ़ोल्डर, বিবিধ, অন্যান্য, lain-lain, lainnya, folder baru, khác, thư mục mới, その他, 新しいフォルダ, 기타, 새 폴더, 其他, 其它, 新建文件夹, 新增資料夾',
   ).map(normalizeTitle),
 );
 // "To check" and "Untitled" in every language: an earlier sort's folder of bookmarks to check is sorted again.
 for (const a of [...namesInEveryLanguage('review'), ...namesInEveryLanguage('untitled')]) CATCH_ALL.add(normalizeTitle(a));
 const CATCH_ALL_PATTERNS = [/^(importe|importes|imported|import)\b/, /^(nouveau dossier|new folder|dossier|folder)( \d+)?$/, /^(from|depuis) (firefox|safari|edge|chrome|opera|internet explorer|ie)$/];
+
+/** Names that tell a category without naming it: a system, a product, a part of the subject ("Linux" is software). */
+const NARROW_NAMES = new Set(
+  list('netflix, youtube, github, chatgpt, webtoon, webtoons, office, linux, windows, mac, macos, home assistant, vpn, podcast, podcasts, radio, radios, mots de passe, hacking, docs, documentation').map(normalizeTitle),
+);
+
+/** The names of the categories and groups, in every language: always a right name for a folder ("Photos", "Météo"). */
+const OWN_NAMES = new Set(
+  [...CATEGORIES.flatMap((c) => [c.fr, c.en, ...namesInEveryLanguage(c.id)]), ...GROUPS.flatMap((g) => [g.fr, g.en, ...namesInEveryLanguage(`g:${g.id}`)])].map(nameKey),
+);
+
+/** Whether a folder of the user may give its name to the category it stands for: never one site nor one product. */
+export function namesCategory(title: string): boolean {
+  const t = normalizeTitle(title);
+  if (NARROW_NAMES.has(t)) return false;
+  // A word that means the category ("Dev", "Actu", "Déco") names it, even when a site has the same name (dev.to).
+  return OWN_NAMES.has(nameKey(title)) || CATEGORY_ALIASES.has(t) || GROUP_ALIASES.has(t) || !isSiteName(title);
+}
 
 /** What an existing folder means, from its name. */
 export type FolderRole = { kind: 'category'; category: string } | { kind: 'group'; group: GroupId } | { kind: 'catch-all' } | { kind: 'personal' };
@@ -587,16 +645,21 @@ export function folderRole(title: string): FolderRole {
   if (category) return { kind: 'category', category };
   const group = GROUP_ALIASES.get(t);
   if (group) return { kind: 'group', group };
-  // A short name that contains a category ("Développement web", "Recettes de mamie"); group names only match
-  // exactly, or "Projet maison" would read as a home folder.
+  // A short name that contains a category ("Développement web", "Recettes de mamie"), its subject before its format
+  // ("Achats domotique" is about home automation); group names only match exactly, or "Projet maison" would read as a
+  // home folder.
   const words = t.split(' ');
   if (words.length <= 4) {
+    let format: string | null = null;
     for (let len = Math.min(3, words.length - 1); len >= 1; len--) {
       for (let i = 0; i + len <= words.length; i++) {
         const hit = CATEGORY_ALIASES.get(words.slice(i, i + len).join(' '));
-        if (hit && words.slice(i, i + len).join('').length >= 3) return { kind: 'category', category: hit };
+        if (!hit || words.slice(i, i + len).join('').length < 3) continue;
+        if (!FORMAT_CATEGORIES.has(hit)) return { kind: 'category', category: hit };
+        format ??= hit;
       }
     }
+    if (format) return { kind: 'category', category: format };
   }
   return { kind: 'personal' };
 }

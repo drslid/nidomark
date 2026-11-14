@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "مثل الإشارات المرجعية الأخرى من {2} (عددها {1})"
  },
+ "reasonFolder": {
+  "message": "من مجلدك «{1}»"
+ },
  "removeBookmark": {
   "message": "إزالة"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "تمت استعادة الإشارة المرجعية"
+ },
+ "selectAll": {
+  "message": "تحديد الكل"
+ },
+ "selectedCount": {
+  "message": "العناصر المحددة: {1}"
+ },
+ "selectBookmark": {
+  "message": "تحديد «{1}»"
+ },
+ "clearSelection": {
+  "message": "إلغاء التحديد"
+ },
+ "movedCount": {
+  "message": "تم النقل إلى «{2}»: {1}"
+ },
+ "removedCount": {
+  "message": "لن تتم إعادة إنشائها: {1} (ستبقى في النسخة الاحتياطية)"
  },
  "rowActions": {
   "message": "إجراءات «{1}»"

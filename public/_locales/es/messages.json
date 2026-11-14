@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Como otros {1} marcadores de {2}"
  },
+ "reasonFolder": {
+  "message": "Venía de tu carpeta «{1}»"
+ },
  "removeBookmark": {
   "message": "Quitar"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Marcador restaurado"
+ },
+ "selectAll": {
+  "message": "Seleccionar todo"
+ },
+ "selectedCount": {
+  "message": "Seleccionados: {1}"
+ },
+ "selectBookmark": {
+  "message": "Seleccionar «{1}»"
+ },
+ "clearSelection": {
+  "message": "Borrar selección"
+ },
+ "movedCount": {
+  "message": "Movidos a {2}: {1}"
+ },
+ "removedCount": {
+  "message": "No se recrearán: {1} (se quedan en la copia de seguridad)"
  },
  "rowActions": {
   "message": "Acciones de {1}"

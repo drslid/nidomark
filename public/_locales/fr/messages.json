@@ -678,6 +678,9 @@
  "reasonSameSite": {
   "message": "Comme {1} autres favoris de {2}"
  },
+ "reasonFolder": {
+  "message": "Venait de votre dossier « {1} »"
+ },
  "removeBookmark": {
   "message": "Supprimer"
  },
@@ -707,6 +710,24 @@
  },
  "restoredOne": {
   "message": "Favori restauré"
+ },
+ "selectAll": {
+  "message": "Tout sélectionner"
+ },
+ "selectedCount": {
+  "message": "Sélectionnés : {1}"
+ },
+ "selectBookmark": {
+  "message": "Sélectionner « {1} »"
+ },
+ "clearSelection": {
+  "message": "Tout désélectionner"
+ },
+ "movedCount": {
+  "message": "Déplacés vers {2} : {1}"
+ },
+ "removedCount": {
+  "message": "Non recréés : {1} (ils restent dans la sauvegarde)"
  },
  "rowActions": {
   "message": "Actions pour {1}"

@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Zoals {1} andere bookmarks van {2}"
  },
+ "reasonFolder": {
+  "message": "Kwam uit je map “{1}”"
+ },
  "removeBookmark": {
   "message": "Verwijderen"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Bookmark hersteld"
+ },
+ "selectAll": {
+  "message": "Alles selecteren"
+ },
+ "selectedCount": {
+  "message": "Geselecteerd: {1}"
+ },
+ "selectBookmark": {
+  "message": "“{1}” selecteren"
+ },
+ "clearSelection": {
+  "message": "Selectie wissen"
+ },
+ "movedCount": {
+  "message": "Verplaatst naar {2}: {1}"
+ },
+ "removedCount": {
+  "message": "Worden niet opnieuw gemaakt: {1} (blijven in de back-up)"
  },
  "rowActions": {
   "message": "Acties voor {1}"

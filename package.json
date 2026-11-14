@@ -1,7 +1,7 @@
 {
   "name": "nidomark",
   "description": "Local AI that tidies your browser bookmarks into clear folders. Private, offline, free.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -25,7 +25,8 @@
     "icons": "node scripts/make-icons.mjs",
     "fixtures": "jiti scripts/fixture-vectors.ts",
     "examples": "jiti scripts/example-vectors.ts",
-    "eval": "jiti scripts/eval.ts"
+    "eval": "jiti scripts/eval.ts",
+    "eval:big": "jiti scripts/eval-big.ts"
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.2"

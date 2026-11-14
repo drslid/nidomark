@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Jak inne zakładki z {2} (liczba: {1})"
  },
+ "reasonFolder": {
+  "message": "Pochodzi z Twojego folderu „{1}”"
+ },
  "removeBookmark": {
   "message": "Usuń"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Przywrócono zakładkę"
+ },
+ "selectAll": {
+  "message": "Zaznacz wszystko"
+ },
+ "selectedCount": {
+  "message": "Zaznaczono: {1}"
+ },
+ "selectBookmark": {
+  "message": "Zaznacz „{1}”"
+ },
+ "clearSelection": {
+  "message": "Wyczyść zaznaczenie"
+ },
+ "movedCount": {
+  "message": "Przeniesiono do: {2} ({1})"
+ },
+ "removedCount": {
+  "message": "Nie zostaną odtworzone: {1} (zostają w kopii zapasowej)"
  },
  "rowActions": {
   "message": "Działania dla: {1}"

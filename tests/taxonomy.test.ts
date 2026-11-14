@@ -1,6 +1,6 @@
 import './fixtures/psl';
 import { describe, expect, it } from 'vitest';
-import { CATEGORIES, GROUPS, addressPattern, adultTitle, folderRole, isBackupTitle, keywordHits, knownSite } from '../lib/taxonomy';
+import { CATEGORIES, GROUPS, addressPattern, adultTitle, folderRole, isBackupTitle, keywordHits, knownSite, knownSiteFor, namesCategory } from '../lib/taxonomy';
 
 describe('known sites', () => {
   it.each([
@@ -20,6 +20,11 @@ describe('known sites', () => {
     ['https://www.e.leclerc/fp/123', 'shopping'],
   ])('%s → %s', (url, category) => {
     expect(knownSite(url)?.category).toBe(category);
+  });
+
+  it('counts the pages of a store, a tech news site or a course platform as a platform, never their home page', () => {
+    expect([knownSiteFor('https://www.amazon.fr/Cookeo/dp/B000')?.platform, knownSiteFor('https://korben.info/un-article.html')?.platform]).toEqual([true, true]);
+    expect([knownSiteFor('https://www.amazon.fr/')?.platform, knownSiteFor('https://www.netflix.com/browse')?.platform]).toEqual([false, false]);
   });
 
   it('marks multi-topic platforms', () => {
@@ -53,12 +58,13 @@ describe('address patterns', () => {
     ['french-stream.pink', 'streaming'],
     ['something.xxx', 'adult'],
     ['hot-sexcam-live.com', 'adult'],
+    ['fr.xvideos.com', 'adult'],
   ])('%s → %s', (host, category) => {
     expect(addressPattern(host)?.category).toBe(category);
   });
 
   it('does not mistake towns or words for adult sites', () => {
-    for (const host of ['www.pornic.fr', 'ville-pornichet.fr', 'essex.ac.uk', 'sextant-voile.fr', 'middlesex.gov.uk']) expect(addressPattern(host)?.category).not.toBe('adult');
+    for (const host of ['www.pornic.fr', 'ville-pornichet.fr', 'essex.ac.uk', 'sextant-voile.fr', 'middlesex.gov.uk', 'www.jeuxvideo.com']) expect(addressPattern(host)?.category).not.toBe('adult');
   });
 
   it('recognises explicit titles', () => {
@@ -92,8 +98,16 @@ describe('folder roles', () => {
     ['Importés depuis Firefox', { kind: 'catch-all' }],
     ['Nouveau dossier (2)', { kind: 'catch-all' }],
     ['Mariage 2025', { kind: 'personal' }],
+    ['Achats domotique', { kind: 'category', category: 'home-automation' }],
+    ['Menu des marque-pages', { kind: 'catch-all' }],
+    ['Bookmarks Toolbar', { kind: 'catch-all' }],
   ])('%s', (title, role) => {
     expect(folderRole(title)).toEqual(role);
+  });
+
+  it('lets a folder name a category, never after one site or one product', () => {
+    expect(['Recettes', 'Photos', 'Cloud', 'Code', 'Météo', 'Dev', 'Actu', 'Déco', 'Impôts'].map(namesCategory)).toEqual(Array(9).fill(true));
+    expect(['Netflix', 'YouTube', 'GitHub', 'Linux', 'Home Assistant'].map(namesCategory)).toEqual(Array(5).fill(false));
   });
 
   it('recognises its own backups', () => {

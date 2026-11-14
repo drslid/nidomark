@@ -6,7 +6,7 @@ import type { Placement } from '../types';
 import { openDeleteFolderDialog, openNewFolderDialog } from './dialogs';
 import { draggable } from './dnd';
 import { favicon, h, icon } from './dom';
-import { openEmojiMenu, openFolderMoveMenu, openRowMenu } from './menus';
+import { openEmojiMenu, openFolderMoveMenu, openMoveMenu, openRowMenu } from './menus';
 import { bookmarkTitle, host, nodePath, nodeTitle, ownEmoji, reasonText, rootTitle, suggestionLabel, suggestionsFor } from './shared';
 import type { Actions, State } from './state';
 import { segmented } from './views';
@@ -116,6 +116,27 @@ export function sheetView(s: State, a: Actions, an: Analysis, d: Decisions, node
 
   // Bookmarks to check and dead sites can be opened right away, to see for oneself.
   const openable = node.kind === 'review' || key === 'c:dead';
+  // Bookmarks checked to move or remove together; from two bookmarks in the folder.
+  const selectable = node.ids.length >= 2;
+  const checked = new Set(selectable ? s.checked.filter((id) => node.ids.includes(id)) : []);
+  const picked = node.ids.filter((id) => checked.has(id));
+  const all = selectable && picked.length === node.ids.length;
+  const selectBar = selectable
+    ? h('div', { class: `select-bar${picked.length ? ' active' : ''}`, role: 'toolbar', 'aria-label': t('selectAll') },
+      h('button', { class: 'select-all', type: 'button', role: 'checkbox', 'aria-checked': all ? 'true' : picked.length ? 'mixed' : 'false', 'data-focus': 'select-all', onclick: () => a.setChecked(all ? [] : node.ids) },
+        icon(all ? 'check_box' : picked.length ? 'indeterminate_check_box' : 'check_box_outline_blank'),
+        h('span', null, picked.length ? t('selectedCount', picked.length.toLocaleString()) : t('selectAll'))),
+      picked.length ? h('button', { class: 'icon-btn', type: 'button', 'aria-label': t('clearSelection'), title: t('clearSelection'), 'data-focus': 'sel-clear', onclick: () => a.setChecked([]) }, icon('close')) : null,
+      picked.length
+        ? h('div', { class: 'select-actions' },
+          node.kind === 'dupes' || node.kind === 'removed'
+            ? chip('restore', node.kind === 'dupes' ? t('keepDupe') : t('restore'), 'sel-restore', () => a.restoreBookmarks(picked))
+            : [
+              chip('drive_file_move', t('moveToEllipsis'), 'sel-move', (e) => openMoveMenu(e.currentTarget as HTMLElement, an, d, a, lay, picked)),
+              chip('delete', t('removeBookmark'), 'sel-remove', () => a.removeMany(picked)),
+            ])
+        : null)
+    : null;
   const row = (id: string): HTMLElement => {
     const b = an.snapshot.bookmarks.get(id);
     const name = bookmarkTitle(an, d, id) || t('unnamed');
@@ -124,8 +145,14 @@ export function sheetView(s: State, a: Actions, an: Analysis, d: Decisions, node
     const suggestions = node.kind === 'review' ? suggestionsFor(an, lay, id) : [];
     const renaming = s.renaming === id;
     const iconOnly = node.kind === 'bar' && !!d.iconOnly[id];
-    const li = h('li', { class: 'row', 'data-id': id },
-      favicon(b?.url ?? '', 20),
+    const on = checked.has(id);
+    // The site's icon turns into a checkbox under the pointer, or as soon as something is checked.
+    const lead = selectable
+      ? h('button', { class: `pick${on ? ' on' : ''}`, type: 'button', role: 'checkbox', 'aria-checked': String(on), 'aria-label': t('selectBookmark', name), 'data-focus': `pick-${id}`, onclick: (e: Event) => a.toggleChecked(id, (e as MouseEvent).shiftKey) },
+        favicon(b?.url ?? '', 20), icon(on ? 'check_box' : 'check_box_outline_blank', undefined, 'pick-box'))
+      : favicon(b?.url ?? '', 20);
+    const li = h('li', { class: `row${on ? ' checked' : ''}`, 'data-id': id },
+      lead,
       h('div', { class: 'row-text' },
         // A title takes its own direction: a French title stays readable, and cut at its end, in an Arabic interface.
         renaming ? renameField(a, id, bookmarkTitle(an, d, id)) : h('span', { class: 'title', dir: 'auto', title: name, ondblclick: () => a.startRename(id) }, name),
@@ -139,7 +166,9 @@ export function sheetView(s: State, a: Actions, an: Analysis, d: Decisions, node
       h('span', { class: 'row-actions' },
         openable && /^https?:/i.test(b?.url ?? '') ? h('a', { class: 'icon-btn', href: b?.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': t('openSite', name), title: t('openSite', name), 'data-focus': `open-${id}` }, icon('open_in_new')) : null,
         h('button', { class: 'icon-btn', type: 'button', 'aria-label': t('rowActions', name), title: t('rowActions', name), 'aria-describedby': why ? `why-${id}` : undefined, 'aria-haspopup': 'menu', 'data-focus': `more-${id}`, onclick: (e: Event) => openRowMenu(e.currentTarget as HTMLElement, { an, d, a, lay, node, id, suggestions }) }, icon('more_vert'))));
-    return renaming ? li : draggable(li, () => ({ kind: 'bookmark', id }), () => name);
+    // A checked bookmark carries the others checked with it.
+    const group = on && picked.length > 1;
+    return renaming ? li : draggable(li, () => (group ? { kind: 'bookmarks', ids: picked } : { kind: 'bookmark', id }), () => (group ? t('countLabel', picked.length.toLocaleString()) : name));
   };
 
   const subfolders = node.children.length
@@ -162,6 +191,7 @@ export function sheetView(s: State, a: Actions, an: Analysis, d: Decisions, node
     empty
       ? h('div', { class: 'empty-drop' }, t('emptyFolder'))
       : h('div', { class: 'sheet-list', 'data-scroll': `sheet-${node.key}` },
-        node.ids.length ? h('ul', { class: 'rows', 'aria-label': title }, node.ids.map(row)) : null,
+        selectBar,
+        node.ids.length ? h('ul', { class: `rows${picked.length ? ' selecting' : ''}`, 'aria-label': title }, node.ids.map(row)) : null,
         subfolders));
 }

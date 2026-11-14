@@ -17,14 +17,18 @@ import {
   adultTitle,
   categoryById,
   folderRole,
+  FORMAT_CATEGORIES,
   isBackupTitle,
   keywordHits,
   knownSite,
+  knownSiteFor,
   localName,
+  namesCategory,
 } from './taxonomy';
 import type { Features, FolderItem, NewFolder, Placement, Proposal, Reason, ReviewItem, Snapshot, Target, Usage } from './types';
 import { USAGES } from './types';
-import { fold, words } from './text';
+import { MULTI_TOPIC_SITES } from './features';
+import { fold, nameKey, words } from './text';
 import { specialName } from './names';
 import { siteKey } from './url';
 import { allKnownAppsIn, leadingEmoji, stripEmoji, usageOfFolderTitle } from './vocab';
@@ -64,6 +68,18 @@ export interface CategorizeOptions {
   suggestions: number;
   /** Bookmarks of a site that must agree on a category for an unclear page of the site to follow them. */
   siteConsensus: number;
+  /** Weight of the subject a folder's name gives the bookmarks inside it ("Recettes", "Domotique"). */
+  folderNameWeight: number;
+  /** Weight of the subject most bookmarks of a folder share, for the others inside it. */
+  folderVoteWeight: number;
+  /** Lead over the others a personal folder name needs, in standard deviations, to stand for a category. */
+  folderZ: number;
+  /** Handicap of the categories of a format (videos, courses, references, shopping) next to a subject. */
+  formatPenalty: number;
+  /** Weight of the nearest examples once their votes are shares (0: raw votes, as many as the neighbours agree). */
+  knnWeight: number;
+  /** The bookmarks of the collection recognised for sure serve as examples for the others. */
+  collectionExamples: boolean;
 }
 
 export const DEFAULT_CATEGORIZE: CategorizeOptions = {
@@ -84,6 +100,12 @@ export const DEFAULT_CATEGORIZE: CategorizeOptions = {
   maxFacets: 6,
   suggestions: 3,
   siteConsensus: 2,
+  folderNameWeight: 0.6,
+  folderVoteWeight: 0.5,
+  folderZ: 2.5,
+  formatPenalty: 0.25,
+  knnWeight: 1.5,
+  collectionExamples: true,
 };
 
 /** The new tree has three levels at most: group › category › site or subject. */
@@ -122,6 +144,9 @@ function pathDepth(url: string): number {
     return 99;
   }
 }
+
+/** A word without its plural: "recettes" and "recette", "jeux" and "jeu" make one subfolder. */
+const stem = (w: string): string => (w.length > 4 ? w.replace(/[sx]$/, '') : w);
 
 export type Destination = 'bar' | 'other';
 
@@ -183,6 +208,7 @@ const BIG_PLATFORMS = /(^|\.)(google|microsoft|live|office|amazon|apple|icloud|g
 export const MODEL_CATEGORIES = CATEGORIES.filter((c) => c.id !== 'dead' && c.id !== 'home-services');
 /** Moved even out of the user's own folders. */
 const STRONG = new Set(['adult', 'dead']);
+const FORMATS = FORMAT_CATEGORIES;
 
 function dot(a: Float32Array, b: Float32Array): number {
   let s = 0;
@@ -253,13 +279,21 @@ export function categorize(input: CategorizeInput): CategorizeResult {
   };
   const homeApps = new Set(input.candidates.filter((id) => features.has(id) && isHome(id)).flatMap((id) => allKnownAppsIn((features.get(id) as Features).bestTitle)));
 
+  // Folders named with an emoji only ("🎬", "📺") are recognised by it; a group's emoji means the group.
+  const emojiRole = new Map<string, { group?: GroupId; category?: string }>();
+  for (const c of CATEGORIES) emojiRole.set(c.emoji, { category: c.id });
+  for (const g of GROUPS) {
+    const own = CATEGORIES.filter((x) => x.group === g.id);
+    emojiRole.set(g.emoji, own.length > 1 ? { group: g.id } : { category: own[0]?.id });
+  }
+
   /** Decisions that need no model: dead sites, home services, adult content, known sites and addresses. */
   function ruleAssess(id: string): Assessment | null {
     const b = bookmark(id);
     const f = features.get(id);
     if (!b || !f) return { category: null, confidence: 'none', reason: { key: 'reviewUnclear' }, unclear: false };
     const verdict = input.sites.get(id);
-    const known = knownSite(b.url);
+    const known = knownSiteFor(b.url);
     const page = verdict?.kind === 'ok' ? verdict.page : undefined;
 
     // 1. Services hosted at home: a home server that is switched off is not a dead site.
@@ -268,7 +302,9 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     //    proxy or a captive portal looks the same.
     if (verdict?.kind === 'dead') {
       const transient = verdict.reason === 'network' || verdict.reason === 'timeout';
-      if (!(transient && known && !known.platform)) {
+      // Any page of a well-known site, a Facebook group or an Amazon product included.
+      const site = knownSite(b.url);
+      if (!(transient && site && !site.platform)) {
         const detail = verdict.status ? `${verdict.status}` : '';
         return { category: 'dead', confidence: 'evident', reason: { key: DEAD_KEYS[verdict.reason] ?? 'deadNetwork', subs: detail ? [detail] : [] }, unclear: false };
       }
@@ -305,15 +341,22 @@ export function categorize(input: CategorizeInput): CategorizeResult {
   const labeled: LabeledVector[] = [...input.labeled];
   for (const [id, a] of ruled) {
     const v = input.vectors.get(id);
-    if (v && a?.category && a.category !== 'home-services' && a.category !== 'dead') labeled.push({ category: a.category, vector: v });
+    const f = features.get(id);
+    // A video or a post looks like its platform more than like its subject: it would teach the platform.
+    const platform = !!f && (MULTI_TOPIC_SITES.has(f.registrable) || !!knownSiteFor(bookmark(id)?.url ?? '')?.platform);
+    if (o.collectionExamples && v && a?.category && a.category !== 'home-services' && a.category !== 'dead' && !platform) labeled.push({ category: a.category, vector: v, site: f?.registrable });
   }
   const scoredIds = new Set(MODEL_CATEGORIES.map((c) => c.id));
 
-  /** Votes of the nearest labelled bookmarks, weighted by how close each is compared with the nearest one. */
-  function knn(v: Float32Array): Map<string, number> {
+  /**
+   * Votes of the nearest labelled bookmarks, weighted by how close each is compared with the nearest one. A page of a
+   * platform is not compared with the examples of the same platform: "— youtube.com" would weigh more than its subject.
+   */
+  function knn(v: Float32Array, platform?: string): Map<string, number> {
     const top: { c: string; s: number }[] = [];
     for (const l of labeled) {
       if (!scoredIds.has(l.category)) continue;
+      if (platform && l.site && (l.site === platform || l.site.endsWith(`.${platform}`))) continue;
       const s = dot(v, l.vector);
       if (top.length < o.knnK) top.push({ c: l.category, s });
       else if (s > (top[top.length - 1] as { s: number }).s) top[top.length - 1] = { c: l.category, s };
@@ -323,39 +366,55 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     const best = top[0]?.s ?? 0;
     const votes = new Map<string, number>();
     for (const x of top) votes.set(x.c, (votes.get(x.c) ?? 0) + Math.exp((x.s - best) / o.knnTau));
+    if (o.knnWeight > 0) {
+      const total = [...votes.values()].reduce((a, b) => a + b, 0) || 1;
+      for (const [c, x] of votes) votes.set(c, (o.knnWeight * x) / total);
+    }
     return votes;
   }
 
-  function modelScores(v: Float32Array): Map<string, number> {
-    const votes = knn(v);
+  function modelScores(v: Float32Array, platform?: string): Map<string, number> {
+    const votes = knn(v, platform);
     const z = zScores(v, input.prototypes);
     return new Map(MODEL_CATEGORIES.map((c) => [c.id, (votes.get(c.id) ?? 0) + o.protoWeight * (z.get(c.id) ?? 0)]));
   }
 
-  function assess(id: string): Assessment {
+  const modelCache = new Map<string, { st: Map<string, number> | null; sp: Map<string, number> | null }>();
+  /** `context` adds, category by category, what the folders the bookmark was in say about it. */
+  function assess(id: string, context?: Map<string, number>): Assessment {
     const ruledOut = ruled.get(id);
     if (ruledOut) return ruledOut;
     const b = bookmark(id) as { url: string };
     const f = features.get(id) as Features;
     const verdict = input.sites.get(id);
-    const known = knownSite(b.url);
+    const known = knownSiteFor(b.url);
     const read = verdict?.kind === 'ok' ? verdict.page : undefined;
     // A page that says almost nothing (a login form, an empty shell) is no evidence: its site's home page will be.
     const page = read && pageText(read).length >= MIN_PAGE_TEXT ? read : undefined;
+    // A platform page that says nothing about itself ("YouTube") belongs to the platform's own category.
+    if (known?.platform && f.vagueTitle && !page && !context?.size) return { category: known.category, confidence: 'model', reason: { key: 'reasonPlatform', subs: [known.site] }, unclear: true };
     // 6. The model, on the title and address, and on the page when it was read.
     const v = input.vectors.get(id);
     const pv = page ? input.pageVectors.get(id) : undefined;
-    const st = v ? modelScores(v) : null;
-    const sp = pv ? modelScores(pv) : null;
+    const platform = known?.platform || MULTI_TOPIC_SITES.has(f.registrable) ? f.registrable : undefined;
+    // The model's scores do not change with the context: the second look at a bookmark reuses them.
+    const cached = modelCache.get(id) ?? { st: v ? modelScores(v, platform) : null, sp: pv ? modelScores(pv, platform) : null };
+    modelCache.set(id, cached);
+    const { st, sp } = cached;
     // The words of the address help when the page could not be read; a page that was read says more.
-    const titleHits = keywordHits(`${f.bestTitle} ${f.pathWords} ${read ? '' : hostWords(f)}`);
+    const titleHits = keywordHits(`${f.bestTitle} ${f.pathWords} ${read || platform ? '' : hostWords(f)}`);
+    // "- YouTube" at the end of a title is the platform's name, not a subject: the platform's lean says it already.
+    if (known?.platform) titleHits.delete(known.category);
     const pageHits = page ? keywordHits(`${page.title} ${page.description} ${page.keywords} ${page.headings.join(' ')}`) : new Map<string, number>();
     const rank = (weights: { title: number; page: number }) => {
       const scores = new Map<string, number>();
       for (const c of MODEL_CATEGORIES) {
         let x = (st?.get(c.id) ?? 0) * weights.title + (sp?.get(c.id) ?? 0) * weights.page;
         x += o.keywordWeight * Math.min((weights.title ? (titleHits.get(c.id) ?? 0) : 0) + (weights.page ? (pageHits.get(c.id) ?? 0) : 0), 2);
-        if (known?.platform && known.category === c.id) x += o.platformPrior;
+        // The platform's lean only when the words say no subject: "LLM inference" on GitHub is about AI.
+        if (known?.platform && known.category === c.id && !titleHits.size) x += o.platformPrior;
+        if (FORMATS.has(c.id)) x -= o.formatPenalty;
+        x += context?.get(c.id) ?? 0;
         scores.set(c.id, x);
       }
       const order = [...scores.entries()].sort((a, b2) => b2[1] - a[1]);
@@ -374,6 +433,8 @@ export function categorize(input: CategorizeInput): CategorizeResult {
           : fromPage && fromPage.lead >= o.margin
             ? { ...fromPage, from: 'page' as const }
             : null;
+    // Between two formats, the site's own wins: a phone on a store is shopping, not tech news.
+    if (choice?.category && known?.platform && choice.category !== known.category && FORMATS.has(choice.category) && FORMATS.has(known.category)) choice.category = known.category;
     if (choice?.category) {
       const c = categoryById(choice.category) as Category;
       const reason: Reason = choice.from === 'page' && page ? { key: 'reasonPage', subs: [(page.description || page.title).slice(0, 90)] } : { key: 'reasonModel', subs: [localName(c, lang)] };
@@ -398,6 +459,111 @@ export function categorize(input: CategorizeInput): CategorizeResult {
 
   const assessments = new Map(input.candidates.map((id) => [id, assess(id)]));
 
+  // --- Context: the folders the user had put each bookmark in ------------------------------------------------
+  // A folder named after a subject ("Recettes", "Domotique", "Zigbee"), or whose bookmarks share one, tells what an
+  // unclear bookmark inside it is about and settles close calls: what the user kept together stays together. Clear
+  // evidence still wins (an adult site leaves any folder), and folders without a subject ("Divers") say nothing.
+  type Meaning = { category?: string; group?: GroupId; weak: boolean } | null;
+  const meanings = new Map<string, Meaning>();
+  const meaningOf = (fid: string): Meaning => {
+    if (meanings.has(fid)) return meanings.get(fid) ?? null;
+    const f = snapshot.folders.get(fid);
+    const known = input.known.get(fid);
+    let m: Meaning = null;
+    if (!f || known?.role) m = null;
+    else if (known?.category || known?.group) m = { category: known.category, group: known.group, weak: false };
+    else {
+      const title = f.title.trim();
+      const byEmoji = title && leadingEmoji(title) === title ? emojiRole.get(title) : undefined;
+      const role = byEmoji ? null : folderRole(title);
+      if (byEmoji) m = { ...byEmoji, weak: false };
+      else if (role?.kind === 'category') m = { category: role.category, weak: false };
+      else if (role?.kind === 'group') m = { group: role.group, weak: false };
+      else if (role?.kind === 'personal' && !usageOfFolderTitle(title)) {
+        // A name the taxonomy does not know ("Zigbee", "Japon 2023"): its words, else the model, may still tell.
+        const hit = [...keywordHits(title).entries()].sort((a, b) => b[1] - a[1])[0];
+        const fv = input.folderVectors.get(fid);
+        const z = fv ? [...zScores(fv, input.prototypes).entries()].sort((a, b) => b[1] - a[1]) : [];
+        if (hit) m = { category: hit[0], weak: true };
+        else if (z[0] && z[1] && z[0][1] >= o.folderZ && z[0][1] - z[1][1] >= 0.5) m = { category: z[0][0], weak: true };
+      }
+    }
+    if (m?.category && (STRONG.has(m.category) || !scoredIds.has(m.category))) m = null;
+    meanings.set(fid, m);
+    return m;
+  };
+  /** The folders a bookmark is in, nearest first, up to the root; folders without a subject are skipped. */
+  const contextOf = (id: string): string[] => {
+    const out: string[] = [];
+    for (let fid = bookmark(id)?.parentId, i = 0; fid && i < 6; fid = snapshot.folders.get(fid)?.parentId, i++) {
+      const f = snapshot.folders.get(fid);
+      if (!f || f.isRoot || f.unmodifiable) break;
+      const known = input.known.get(fid);
+      // "To check" of an earlier sort holds whatever could not be placed: no subject to lend.
+      if (known?.role) continue;
+      if (known || (folderRole(f.title).kind !== 'catch-all' && usageOfFolderTitle(f.title) !== 'read')) out.push(fid);
+    }
+    return out;
+  };
+  const voteOf = (id: string): string | null => {
+    const a = assessments.get(id);
+    return a?.category && a.confidence !== 'none' && !STRONG.has(a.category) && a.category !== 'home-services' ? a.category : null;
+  };
+  const votes = new Map<string, Map<string, number>>();
+  for (const id of input.candidates) {
+    const c = voteOf(id);
+    const fid = bookmark(id)?.parentId;
+    if (!c || !fid) continue;
+    const v = votes.get(fid) ?? new Map<string, number>();
+    v.set(c, (v.get(c) ?? 0) + 1);
+    votes.set(fid, v);
+  }
+  /** What the folders of a bookmark say, category by category, and which folder says it most. */
+  const contextFor = (id: string): { bonus: Map<string, number>; from: Map<string, string> } => {
+    const bonus = new Map<string, number>();
+    const from = new Map<string, string>();
+    const strongest = new Map<string, number>();
+    const mine = voteOf(id);
+    let w = 1;
+    for (const fid of contextOf(id)) {
+      const add = (c: string, y: number) => {
+        if (y <= 0 || STRONG.has(c) || !scoredIds.has(c)) return;
+        // A folder of a format ("Tutos", "YouTube videos") keeps what has no clear subject, not a Docker guide.
+        const x = FORMATS.has(c) ? y / 2 : y;
+        bonus.set(c, (bonus.get(c) ?? 0) + x);
+        if (x > (strongest.get(c) ?? 0)) {
+          strongest.set(c, x);
+          from.set(c, fid);
+        }
+      };
+      const m = meaningOf(fid);
+      if (m?.category) add(m.category, w * o.folderNameWeight * (m.weak ? 0.6 : 1));
+      else if (m?.group) for (const c of CATEGORIES) if (c.group === m.group) add(c.id, w * o.folderNameWeight * 0.4);
+      // The other bookmarks of the folder, without this one's own vote.
+      const v = votes.get(fid);
+      if (v) {
+        // The bookmark's own vote counts in its own folder only.
+        const self = fid === bookmark(id)?.parentId ? mine : null;
+        const n = [...v.values()].reduce((a, b) => a + b, 0) - (self && v.has(self) ? 1 : 0);
+        if (n >= 2) for (const [c, k] of v) add(c, w * o.folderVoteWeight * ((k - (c === self ? 1 : 0)) / n) * Math.min(1, n / 4));
+      }
+      w *= 0.5;
+    }
+    return { bonus, from };
+  };
+  const folderReason = (fid: string): Reason => ({ key: 'reasonFolder', subs: [stripEmoji(snapshot.folders.get(fid)?.title ?? '') || (snapshot.folders.get(fid)?.title ?? '')] });
+  for (const id of input.candidates) {
+    const a = assessments.get(id);
+    if (!a || a.confidence === 'evident') continue;
+    const { bonus, from } = contextFor(id);
+    if (!bonus.size) continue;
+    const b = assess(id, bonus);
+    if (b.category && b.category !== a.category) {
+      const fid = from.get(b.category);
+      assessments.set(id, fid ? { ...b, reason: folderReason(fid) } : b);
+    } else if (!b.category && !a.category) assessments.set(id, { ...a, suggestions: b.suggestions ?? a.suggestions });
+  }
+
   // The pages of one site usually share its subject: a page the model could not place follows the other bookmarks
   // of its site when they agree (the unclear posts of a tech blog go with its other posts). Sites that publish on
   // every subject, home addresses and links of the user's own domains are left out.
@@ -405,7 +571,7 @@ export function categorize(input: CategorizeInput): CategorizeResult {
   const siteOf = (id: string): string => {
     const f = features.get(id);
     const b = bookmark(id);
-    if (!f?.registrable || !b || f.privateHost || isHome(id) || knownSite(b.url)?.platform || BIG_PLATFORMS.test(`.${f.registrable}`)) return '';
+    if (!f?.registrable || !b || f.privateHost || isHome(id) || knownSiteFor(b.url)?.platform || BIG_PLATFORMS.test(`.${f.registrable}`)) return '';
     return f.registrable;
   };
   for (const [id, a] of assessments) {
@@ -426,6 +592,25 @@ export function categorize(input: CategorizeInput): CategorizeResult {
       assessments.set(id, { category: best, confidence: 'model', reason: { key: 'reasonSameSite', subs: [String(n), site] }, unclear: false });
     } else a.suggestions = [best, ...(a.suggestions ?? []).filter((c) => c !== best)].slice(0, o.suggestions);
   }
+  // A bookmark still unclear (a vague title, a page that could not be read) follows the subject of its folder: its
+  // name when it names one, else the subject most of its other bookmarks share.
+  for (const [id, a] of assessments) {
+    if (a.category) continue;
+    for (const fid of contextOf(id)) {
+      const m = meaningOf(fid);
+      let category = m?.category && !m.weak ? m.category : null;
+      if (!category) {
+        const v = votes.get(fid);
+        const total = v ? [...v.values()].reduce((x, y) => x + y, 0) : 0;
+        const top = v ? [...v.entries()].sort((x, y) => y[1] - x[1])[0] : undefined;
+        if (top && top[1] >= 2 && top[1] / total >= 0.6) category = top[0];
+      }
+      if (category) {
+        assessments.set(id, { category, confidence: 'model', reason: folderReason(fid), unclear: a.unclear });
+        break;
+      }
+    }
+  }
 
   // --- Folders ------------------------------------------------------------------------------------------
   const backup = new Set<string>();
@@ -438,13 +623,6 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     }
     return false;
   };
-  // Folders named with an emoji only ("🎬", "📺") are recognised by it; a group's emoji means the group.
-  const emojiRole = new Map<string, { group?: GroupId; category?: string }>();
-  for (const c of CATEGORIES) emojiRole.set(c.emoji, { category: c.id });
-  for (const g of GROUPS) {
-    const own = CATEGORIES.filter((x) => x.group === g.id);
-    emojiRole.set(g.emoji, own.length > 1 ? { group: g.id } : { category: own[0]?.id });
-  }
 
   interface FolderInfo {
     f: FolderItem;
@@ -483,7 +661,8 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     const role = emojiOnly ? ({ kind: 'personal' } as const) : folderRole(f.title);
     if (role.kind === 'category') folderInfo.set(f.id, { f, kind: 'category', category: role.category, coherent: true, usage });
     else if (role.kind === 'group') folderInfo.set(f.id, { f, kind: 'group', group: role.group, coherent: true, usage });
-    else if (role.kind === 'catch-all' && !usage) folderInfo.set(f.id, { f, kind: 'catch-all', coherent: false });
+    // A reading list holds every subject: its bookmarks join theirs, so that each subject has one place.
+    else if ((role.kind === 'catch-all' && !usage) || usage === 'read') folderInfo.set(f.id, { f, kind: 'catch-all', coherent: false });
     else folderInfo.set(f.id, { f, kind: 'personal', coherent: !!usage, usage });
   }
 
@@ -645,7 +824,8 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     const id = info.kind === 'category' ? info.category : info.kind === 'group' ? `g:${info.group}` : undefined;
     // A folder of an earlier sort may be named with its emoji only: its name was kept aside.
     const name = stripEmoji(info.f.title) || input.known.get(info.f.id)?.name || '';
-    if (!id || !name || info.f.isRoot) continue;
+    // "Netflix" or "Linux" says what the folder holds, but would be a wrong name for Prime Video or VLC.
+    if (!id || !name || info.f.isRoot || !namesCategory(name)) continue;
     const size = memberIds(info.f).length;
     if ((userName.get(id)?.size ?? -1) < size) userName.set(id, { name, size });
   }
@@ -705,7 +885,7 @@ export function categorize(input: CategorizeInput): CategorizeResult {
   function buildFacets(ids: string[], cid: string): { slug: string; name: string; ids: string[] }[] {
     if (ids.length < o.facetFolderMin) return [];
     const c = categoryById(cid) as Category;
-    const ignore = new Set([...c.keywords.split(','), ...c.aliases.split(','), c.fr, c.en].flatMap((w) => words(w)));
+    const ignore = new Set([...c.keywords.split(','), ...c.aliases.split(','), c.fr, c.en].flatMap((w) => words(w)).map(stem));
     const pool = new Set(ids);
     const out: { slug: string; name: string; ids: string[] }[] = [];
     while (out.length < o.maxFacets) {
@@ -713,15 +893,20 @@ export function categorize(input: CategorizeInput): CategorizeResult {
       const terms = new Map<string, string[]>();
       for (const id of pool) {
         const f = features.get(id) as Features;
-        if (f.registrable && !f.privateHost) sites.set(f.registrable, [...(sites.get(f.registrable) ?? []), id]);
-        for (const w of new Set(words(stripEmoji(f.bestTitle)))) {
-          if (w.length < 3 || ignore.has(w) || f.registrable.startsWith(`${w}.`)) continue;
+        // A platform that publishes on every subject (YouTube, GitHub) is no subject: its pages are split by what
+        // they are about, so that no "YouTube" folder comes back under every category.
+        if (f.registrable && !f.privateHost && !MULTI_TOPIC_SITES.has(f.registrable) && !knownSiteFor(bookmark(id)?.url ?? '')?.platform) sites.set(f.registrable, [...(sites.get(f.registrable) ?? []), id]);
+        // The title without the site's name at its end ("… - Stack Overflow"), or "Overflow" would make a subfolder.
+        for (const w of new Set(words(stripEmoji(f.cleanTitle ?? f.bestTitle)).filter((x) => x.length >= 3 && !f.registrable.startsWith(`${x}.`)).map(stem))) {
+          // The name of a category or a group is the place of its bookmarks, not a subfolder of another category.
+          if (ignore.has(w) || folderRole(w).kind === 'category' || folderRole(w).kind === 'group') continue;
           terms.set(w, [...(terms.get(w) ?? []), id]);
         }
       }
+      const siteNames = new Set([...sites.keys()].map((d) => nameKey(siteName(d))));
       const best = [
         ...[...sites.entries()].map(([d, m]) => ({ slug: `site-${d}`, name: siteName(d), ids: m })),
-        ...[...terms.entries()].map(([w, m]) => ({ slug: `term-${w}`, name: displayWord(w, m), ids: m })),
+        ...[...terms.entries()].filter(([w]) => !siteNames.has(w)).map(([w, m]) => ({ slug: `term-${w}`, name: displayWord(w, m), ids: m })),
       ]
         .filter((x) => x.ids.length >= o.facetMin && x.ids.length < pool.size)
         .sort((a, b) => b.ids.length - a.ids.length || a.name.localeCompare(b.name))[0];
@@ -731,11 +916,13 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     }
     return out.sort((a, b) => a.name.localeCompare(b.name, lang));
   }
+  /** The most frequent spelling of a word in the titles, singular or plural ("Recettes" and "recette" are one). */
   function displayWord(w: string, ids: string[]): string {
     const forms = new Map<string, number>();
     for (const id of ids) {
-      for (const token of (features.get(id) as Features).bestTitle.split(/[^\p{L}\p{M}\p{N}+#.-]+/u)) {
-        if (token && fold(token) === w) forms.set(token, (forms.get(token) ?? 0) + 1);
+      const f = features.get(id) as Features;
+      for (const token of (f.cleanTitle ?? f.bestTitle).split(/[^\p{L}\p{M}\p{N}+#.-]+/u)) {
+        if (token && stem(fold(token)) === w) forms.set(token, (forms.get(token) ?? 0) + 1);
       }
     }
     const form = [...forms.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? w;
@@ -772,9 +959,18 @@ export function categorize(input: CategorizeInput): CategorizeResult {
       return;
     }
     const total = entries.reduce((n, [, ids]) => n + ids.length, 0);
-    const gkey = add({ key: `g:${g.id}`, vocabId: null, groupId: g.id, name: groupName(g), emoji: g.emoji, parentId, level: 1, reason: { key: 'reasonNewGroup', subs: [String(total)] } });
+    const gfolder: NewFolder = { key: `g:${g.id}`, vocabId: null, groupId: g.id, name: groupName(g), emoji: g.emoji, parentId, level: 1, reason: { key: 'reasonNewGroup', subs: [String(total)] } };
+    const gkey = add(gfolder);
     for (const [cid, ids] of entries) {
       const c = categoryById(cid) as Category;
+      // A category named like its group ("Travel" among "Travel") files its bookmarks in the group folder itself:
+      // never "Travel › Travel".
+      if (nameKey(catName(c)) === nameKey(groupName(g))) {
+        // It stands for the category too: what the user files there teaches it.
+        gfolder.vocabId = cid;
+        fill(gkey, cid, ids, 1);
+        continue;
+      }
       const hasKept = [...kept.values()].some((k) => k.category === cid);
       if (c.own || ids.length >= o.subfolderMin || hasKept || outside.has(`c:${cid}`)) fill(add({ key: `c:${cid}`, vocabId: cid, groupId: g.id, name: catName(c), emoji: c.emoji, parentId: '', parentKey: gkey, level: 2, reason: { key: 'reasonNewCategory', subs: [String(ids.length)] } }), cid, ids, 2);
       else put(ids, gkey);
@@ -808,6 +1004,39 @@ export function categorize(input: CategorizeInput): CategorizeResult {
     add({ key: 'special', vocabId: null, name: specialName('special', lang), emoji: '🧩', parentId: otherRoot, level: 1, reason: { key: 'reasonSpecial' } });
     put(special, 'special');
   }
+  // No folder twice under one parent, nor inside a folder of the same name: their bookmarks and subfolders are put
+  // together, in the user's own folder first, then a category, a group, a subfolder.
+  const keepFirst = (key: string) => (key.startsWith('k:') ? 0 : key.startsWith('c:') ? 1 : key.startsWith('g:') ? 2 : 3);
+  const mergeInto = (from: NewFolder, to: NewFolder) => {
+    for (const [id, t] of targets) if (t.kind === 'new' && t.key === from.key) targets.set(id, { kind: 'new', key: to.key });
+    for (const f of newFolders) if (f.parentKey === from.key) f.parentKey = to.key;
+    newFolders.splice(newFolders.indexOf(from), 1);
+  };
+  for (let again = true, guard = 0; again && guard < 100; guard++) {
+    again = false;
+    const index = new Map(newFolders.map((f) => [f.key, f]));
+    const seen = new Map<string, NewFolder>();
+    for (const f of newFolders) {
+      const parent = f.parentKey ? index.get(f.parentKey) : undefined;
+      if (parent && nameKey(parent.name) === nameKey(f.name)) {
+        mergeInto(f, parent);
+        again = true;
+        break;
+      }
+      const slot = `${f.parentKey ?? `root:${f.parentId}`}|${nameKey(f.name)}`;
+      const twin = seen.get(slot);
+      if (!twin) {
+        seen.set(slot, f);
+        continue;
+      }
+      const [keep, drop] = keepFirst(f.key) < keepFirst(twin.key) ? [f, twin] : [twin, f];
+      mergeInto(drop, keep);
+      again = true;
+      break;
+    }
+  }
+  const levelOf = (f: NewFolder, depth = 0): number => (f.parentKey && depth < 16 ? levelOf(newFolders.find((x) => x.key === f.parentKey) ?? f, depth + 1) + 1 : 1);
+  for (const f of newFolders) f.level = levelOf(f);
   // Folders an earlier sort made, left out of this one, take what belongs to them: sorting only "To check", or only
   // the bookmarks added since, files them in the folders already there instead of making a second "Tech". Only where
   // the folder above is the same, so that the tree shown is the tree created.

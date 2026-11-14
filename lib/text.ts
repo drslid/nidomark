@@ -4,6 +4,12 @@ export function fold(s: string): string {
   return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC');
 }
 
+/** A folder name as one reads it: case, accents, emoji, punctuation and a final plural "s" or "x" aside ("Recettes" is "recette"). */
+export function nameKey(name: string): string {
+  // A name made of an emoji only ("🦄") is its own key: two such folders are not the same.
+  return fold(name).replace(/[^\p{L}\p{M}\p{N}]+/gu, ' ').trim().replace(/(?<=\p{L}{3})[sx]\b/gu, '') || name.trim();
+}
+
 const STOPWORDS = new Set(
   (
     'le la les un une des de du d l et ou en au aux a pour par sur avec dans ce ces cette son sa ses vos votre nos notre mon ma mes je j vous nous il elle on qui que quoi est sont ete etre ' +

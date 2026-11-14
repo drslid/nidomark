@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Wie {1} andere Lesezeichen von {2}"
  },
+ "reasonFolder": {
+  "message": "Stammt aus Ihrem Ordner „{1}“"
+ },
  "removeBookmark": {
   "message": "Entfernen"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Lesezeichen wiederhergestellt"
+ },
+ "selectAll": {
+  "message": "Alle auswählen"
+ },
+ "selectedCount": {
+  "message": "Ausgewählt: {1}"
+ },
+ "selectBookmark": {
+  "message": "„{1}“ auswählen"
+ },
+ "clearSelection": {
+  "message": "Auswahl aufheben"
+ },
+ "movedCount": {
+  "message": "Nach {2} verschoben: {1}"
+ },
+ "removedCount": {
+  "message": "Werden nicht neu angelegt: {1} (bleiben in der Sicherung)"
  },
  "rowActions": {
   "message": "Aktionen für {1}"

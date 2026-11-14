@@ -217,6 +217,60 @@ try {
   assert(!(await page.$('.board.drag-active, .drop-target, .can-drop')), 'the drag highlight is cleared after the drop');
   const afterDrop = await nodes();
   assert(afterDrop.find((n) => n.key === home.key).count === home.count + 1, 'dropping a bookmark on a folder moves it there');
+
+  // Select all in a folder, move the selection at once, undo it in one go; then drag a selection.
+  const services = named(await allNodes(), /^(Services maison|Home services)$/);
+  await page.click(`.dests .node[data-key="${services.key}"]`);
+  await page.waitForSelector('[data-focus="select-all"]');
+  const inServices = await page.$$eval('.sheet .row', (r) => r.length);
+  const travelBefore = afterDrop.find((n) => n.key === travel.key).count;
+  const checkState = () => page.$eval('[data-focus="select-all"]', (b) => b.getAttribute('aria-checked'));
+  await page.click('[data-focus="select-all"]');
+  await sleep(150);
+  assert(inServices >= 4 && (await page.$$eval('.sheet .row.checked', (r) => r.length)) === inServices && (await checkState()) === 'true', `Select all checks every bookmark of the folder (${inServices})`);
+  const firstPick = await page.$eval('.sheet .row', (r) => r.dataset.id);
+  await page.click(`[data-focus="pick-${firstPick}"]`);
+  await sleep(150);
+  assert((await checkState()) === 'mixed' && (await page.$$eval('.sheet .row.checked', (r) => r.length)) === inServices - 1, 'unchecking one bookmark leaves Select all half-checked');
+  if (REVIEW) {
+    // A clean picture for the guide: no message of the previous change, no pointer over a row.
+    await page.evaluate(() => document.querySelector('.snackbar .snack-close')?.click());
+    await page.mouse.move(2, 790);
+    await sleep(250);
+    await page.screenshot({ path: path.join(REVIEW, `desktop-select${DARK ? '-dark' : ''}.png`) });
+  }
+  await page.click('[data-focus="sel-move"]');
+  await page.waitForSelector('.menu button.nested');
+  await menuClick(/(Voyages|Travel)$/);
+  await sleep(200);
+  assert((await nodes()).find((n) => n.key === travel.key).count === travelBefore + inServices - 1 && (await page.$$eval('.sheet .row', (r) => r.length)) === 1, 'the checked bookmarks move together');
+  assert(/déplacés|moved/i.test(await page.$eval('.snackbar', (e) => e.textContent ?? '')), 'the group move is confirmed once');
+  await page.click('.snackbar [data-focus="snack-undo"]');
+  await sleep(200);
+  assert((await nodes()).find((n) => n.key === travel.key).count === travelBefore && (await page.$$eval('.sheet .row', (r) => r.length)) === inServices, 'one undo brings the whole group back');
+  const [pickA, pickB] = await page.$$eval('.sheet .row', (rows) => rows.slice(0, 2).map((r) => r.dataset.id));
+  await page.click(`[data-focus="pick-${pickA}"]`);
+  await page.click(`[data-focus="pick-${pickB}"]`);
+  await sleep(150);
+  await dragOnto(`.sheet .row[data-id="${pickB}"]`, `.dests .node[data-key="${travel.key}"]`);
+  await sleep(200);
+  assert((await nodes()).find((n) => n.key === travel.key).count === travelBefore + 2, 'dragging a checked bookmark carries the others checked');
+  await page.click('.snackbar [data-focus="snack-undo"]');
+  await sleep(200);
+  assert((await nodes()).find((n) => n.key === travel.key).count === travelBefore && !(await page.$('.sheet .row.checked')), 'undo restores the group and clears the selection');
+  // A selection serves one change: moving another bookmark from its own menu clears it.
+  const [pickC, pickD, third] = await page.$$eval('.sheet .row', (rows) => rows.slice(0, 3).map((r) => r.dataset.id));
+  await page.click(`[data-focus="pick-${pickC}"]`);
+  await page.click(`[data-focus="pick-${pickD}"]`);
+  await page.click(`[data-focus="more-${third}"]`);
+  await page.waitForSelector('.menu button');
+  await menuClick(/^(Déplacer vers|Move to)…$/);
+  await page.waitForSelector('.menu button.nested');
+  await menuClick(/(Voyages|Travel)$/);
+  await sleep(200);
+  assert(!(await page.$('.sheet .row.checked')) && (await checkState()) === 'false', 'any other change clears the selection');
+  await page.click('.snackbar [data-focus="snack-undo"]');
+  await sleep(200);
   await page.keyboard.press('Escape');
   await sleep(100);
   assert(!(await page.$('.sheet')), 'Escape closes the side sheet');

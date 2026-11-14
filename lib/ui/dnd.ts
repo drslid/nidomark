@@ -3,7 +3,10 @@
 export const BOOKMARK_TYPE = 'application/x-nidomark-bookmark';
 export const FOLDER_TYPE = 'application/x-nidomark-folder';
 
-export type Dragged = { kind: 'bookmark'; id: string } | { kind: 'folder'; key: string };
+export type Dragged = { kind: 'bookmark'; id: string } | { kind: 'bookmarks'; ids: string[] } | { kind: 'folder'; key: string };
+
+/** The bookmarks being dragged: one, or the bookmarks checked in the sheet. */
+export const draggedIds = (d: Dragged): string[] => (d.kind === 'bookmark' ? [d.id] : d.kind === 'bookmarks' ? d.ids : []);
 
 let dragged: Dragged | null = null;
 const targets = new WeakMap<HTMLElement, (d: Dragged) => boolean>();
@@ -13,7 +16,7 @@ export function startDrag(e: DragEvent, what: Dragged, label: string): void {
   dragged = what;
   const dt = e.dataTransfer;
   if (dt) {
-    dt.setData(what.kind === 'bookmark' ? BOOKMARK_TYPE : FOLDER_TYPE, what.kind === 'bookmark' ? what.id : what.key);
+    dt.setData(what.kind === 'folder' ? FOLDER_TYPE : BOOKMARK_TYPE, what.kind === 'folder' ? what.key : draggedIds(what).join(' '));
     dt.setData('text/plain', label);
     dt.effectAllowed = 'move';
   }

@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Как и другие закладки сайта {2} (ещё {1})"
  },
+ "reasonFolder": {
+  "message": "Из вашей папки «{1}»"
+ },
  "removeBookmark": {
   "message": "Удалить"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Закладка восстановлена"
+ },
+ "selectAll": {
+  "message": "Выбрать все"
+ },
+ "selectedCount": {
+  "message": "Выбрано: {1}"
+ },
+ "selectBookmark": {
+  "message": "Выбрать «{1}»"
+ },
+ "clearSelection": {
+  "message": "Снять выделение"
+ },
+ "movedCount": {
+  "message": "Перемещено в папку «{2}»: {1}"
+ },
+ "removedCount": {
+  "message": "Не будут воссозданы: {1} (останутся в резервной копии)"
  },
  "rowActions": {
   "message": "Действия с закладкой «{1}»"

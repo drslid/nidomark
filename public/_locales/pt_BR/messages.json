@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Como outros {1} favoritos de {2}"
  },
+ "reasonFolder": {
+  "message": "Veio da sua pasta “{1}”"
+ },
  "removeBookmark": {
   "message": "Remover"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Favorito restaurado"
+ },
+ "selectAll": {
+  "message": "Selecionar tudo"
+ },
+ "selectedCount": {
+  "message": "Selecionados: {1}"
+ },
+ "selectBookmark": {
+  "message": "Selecionar “{1}”"
+ },
+ "clearSelection": {
+  "message": "Limpar seleção"
+ },
+ "movedCount": {
+  "message": "Movidos para {2}: {1}"
+ },
+ "removedCount": {
+  "message": "Não serão recriados: {1} (ficam no backup)"
  },
  "rowActions": {
   "message": "Ações para {1}"

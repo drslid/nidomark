@@ -58,13 +58,19 @@ function rootsOf(an: Analysis, lay: Layout): { rootId: string; nodes: DestNode[]
   return [...out, ...lay.roots.filter((r) => !ids.includes(r.rootId))];
 }
 
-/** Moves a bookmark: the suggestions first, then quick access and every folder of the new tree, as a tree. */
-export function openMoveMenu(anchor: HTMLElement, an: Analysis, d: Decisions, a: Actions, lay: Layout, id: string, suggestions: SuggestionTarget[] = []): void {
-  const now = lay.where.get(id);
-  const go = (target: Target) => a.move(id, target);
+/** Moves bookmarks: the suggestions first (for one), then quick access and every folder of the new tree, as a tree. */
+export function openMoveMenu(anchor: HTMLElement, an: Analysis, d: Decisions, a: Actions, lay: Layout, ids: string[], suggestions: SuggestionTarget[] = []): void {
+  const [first] = ids;
+  if (!first) return;
+  const id = first;
+  const one = ids.length === 1;
+  // The folder they all are in, marked in the list.
+  const now = ids.every((x) => lay.where.get(x) === lay.where.get(id)) ? lay.where.get(id) : undefined;
+  const go = (target: Target) => a.moveMany(ids, target);
   const items: HTMLElement[] = [h('div', { class: 'menu-label' }, t('moveTo'))];
-  for (const s of suggestions) items.push(item(icon('auto_awesome'), `${s.emoji} ${s.name}`, () => a.acceptSuggestion(id, s.category), { title: suggestionLabel(s) }));
-  if (suggestions.length) items.push(h('hr'));
+  const shown = one ? suggestions : [];
+  for (const s of shown) items.push(item(icon('auto_awesome'), `${s.emoji} ${s.name}`, () => a.acceptSuggestion(id, s.category), { title: suggestionLabel(s) }));
+  if (shown.length) items.push(h('hr'));
   for (const root of rootsOf(an, lay)) {
     items.push(h('div', { class: 'menu-label' }, rootTitle(an, root.rootId)));
     if (root.rootId === an.snapshot.barId && !root.nodes.some((n) => n.kind === 'bar')) items.push(item(icon('bolt'), t('nodeBar'), () => go({ kind: 'bar' })));
@@ -76,9 +82,9 @@ export function openMoveMenu(anchor: HTMLElement, an: Analysis, d: Decisions, a:
   }
   items.push(h('hr'), item(icon('create_new_folder'), t('newFolderOption'), () => {
     const at = now ? lay.byKey.get(now) : undefined;
-    openNewFolderDialog(an, lay, at?.folder ? { key: at.folder } : null, (name, parent) => a.createFolder(name, parent, id));
+    openNewFolderDialog(an, lay, at?.folder ? { key: at.folder } : null, (name, parent) => a.createFolder(name, parent, ids));
   }));
-  openMenu(anchor, items, `${t('moveTo')} : ${bookmarkTitle(an, d, id)}`);
+  openMenu(anchor, items, `${t('moveTo')} : ${one ? bookmarkTitle(an, d, id) : t('countLabel', ids.length.toLocaleString())}`);
 }
 
 /** Moves a folder: to the top of a root folder or into another folder, never into itself. */
@@ -115,7 +121,7 @@ export function openRowMenu(anchor: HTMLElement, m: RowMenu): void {
   const items: HTMLElement[] = [];
   if (out) items.push(item(icon('restore'), node.kind === 'dupes' ? t('keepDupe') : t('restore'), () => a.restoreBookmarks([id])));
   else {
-    items.push(h('button', { type: 'button', role: 'menuitem', 'aria-haspopup': 'menu', onclick: () => openMoveMenu(anchor, an, d, a, m.lay, id, m.suggestions) }, icon('drive_file_move'), h('span', null, t('moveToEllipsis'))));
+    items.push(h('button', { type: 'button', role: 'menuitem', 'aria-haspopup': 'menu', onclick: () => openMoveMenu(anchor, an, d, a, m.lay, [id], m.suggestions) }, icon('drive_file_move'), h('span', null, t('moveToEllipsis'))));
     items.push(item(icon('edit'), t('rename'), () => a.startRename(id)));
     // Only right in the bookmarks bar can a bookmark show its icon alone: in a folder, the browser shows the address.
     if (node.kind === 'bar') {

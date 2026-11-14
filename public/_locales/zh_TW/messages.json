@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "與 {2} 的其他 {1} 個書籤相同"
  },
+ "reasonFolder": {
+  "message": "來自你的資料夾「{1}」"
+ },
  "removeBookmark": {
   "message": "移除"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "已還原書籤"
+ },
+ "selectAll": {
+  "message": "全選"
+ },
+ "selectedCount": {
+  "message": "已選取：{1} 個"
+ },
+ "selectBookmark": {
+  "message": "選取「{1}」"
+ },
+ "clearSelection": {
+  "message": "取消選取"
+ },
+ "movedCount": {
+  "message": "已移到「{2}」：{1} 個"
+ },
+ "removedCount": {
+  "message": "不會重新建立：{1} 個，但仍會保留在備份中"
  },
  "rowActions": {
   "message": "{1} 的動作"

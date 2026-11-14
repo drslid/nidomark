@@ -8,7 +8,7 @@ import { rootFolderName, t, uiDirection, uiLanguage } from '../i18n';
 import { clearVectors } from '../idb';
 import { type BookmarksApi, type Decisions, type FolderParent, type FolderStyle, type Journal, UnresolvedJournalError, applyPlan, defaultDecisions, keepInterrupted, undoLast } from '../plan';
 import { defaultScope, pruneScope } from '../pipeline';
-import { isBackupTitle, knownSite, localName } from '../taxonomy';
+import { isBackupTitle, knownSiteFor, localName } from '../taxonomy';
 import { buildSnapshot, type TreeNode } from '../snapshot';
 import * as store from '../storage';
 import type { Proposal, Target } from '../types';
@@ -44,13 +44,15 @@ export class App implements Actions {
   private snackTimer = 0;
   /** The proposal as the analysis made it, before any folder was analysed again. */
   private original: Proposal | null = null;
+  /** The bookmark checked last in the sheet: Shift+click checks everything from it. */
+  private anchor: string | null = null;
   /** The new analysis of a folder under way: stopped when the review is left or analysed again from scratch. */
   private reanalysis: { controller: AbortController; embedder: Embedder } | null = null;
 
   constructor(private root: HTMLElement) {
     this.state = {
       tab: 'organize', view: 'start', settings: store.DEFAULT_SETTINGS, historyAllowed: false, sitesAllowed: false, backups: [], expandedScope: [], moreOptions: false, preview: null, progress: { phase: 'reading', done: 0, total: 0 },
-      analysis: null, decisions: null, selected: null, collapsed: [], renaming: null, busy: null, snack: null, canUndo: false,
+      analysis: null, decisions: null, selected: null, collapsed: [], renaming: null, checked: [], busy: null, snack: null, canUndo: false,
       wiresDrawn: false, changedDuringReview: false, result: null, error: null, lastJournal: null, iconOnlyCount: 0, status: '',
     };
   }
@@ -71,6 +73,10 @@ export class App implements Actions {
     for (const ev of [browser.bookmarks.onCreated, browser.bookmarks.onRemoved, browser.bookmarks.onChanged, browser.bookmarks.onMoved]) ev.addListener(onChange);
     document.addEventListener('keydown', (e) => {
       const layer = document.querySelector('.menu:popover-open, dialog[open]');
+      if (e.key === 'Escape' && !layer && this.state.checked.some((id) => this.sheetIds().includes(id))) {
+        this.setChecked([]);
+        return;
+      }
       if (e.key === 'Escape' && this.state.selected && !layer) {
         this.select(null);
         return;
@@ -81,6 +87,14 @@ export class App implements Actions {
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'z' && this.state.view === 'review' && !typing && !layer && this.history.length) {
         e.preventDefault();
         this.undoEdit();
+      }
+      // Ctrl+A (Cmd+A) in the side sheet checks all its bookmarks.
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'a' && this.state.view === 'review' && !typing && !layer && el?.closest('.sheet')) {
+        const ids = this.sheetIds();
+        if (ids.length >= 2) {
+          e.preventDefault();
+          this.setChecked(ids);
+        }
       }
     });
     void document.fonts?.ready.then(() => this.render());
@@ -328,7 +342,7 @@ export class App implements Actions {
       this.focusNext = 'apply';
       this.history = [];
       this.original = analysis.proposal;
-      this.set({ analysis, decisions, view: empty ? 'empty' : 'review', wiresDrawn: false, collapsed: [], renaming: null, snack: null, canUndo: false });
+      this.set({ analysis, decisions, view: empty ? 'empty' : 'review', wiresDrawn: false, collapsed: [], renaming: null, checked: [], snack: null, canUndo: false });
     } catch (e) {
       this.embedder.dispose();
       const msg = e instanceof Error ? e.message : String(e);
@@ -339,7 +353,8 @@ export class App implements Actions {
   select(key: string | null): void {
     const previous = this.state.selected;
     this.focusNext = key ? 'sheet-close' : previous ? `node-${previous}` : null;
-    this.set({ selected: key, renaming: null });
+    this.anchor = null;
+    this.set({ selected: key, renaming: null, checked: key === previous ? this.state.checked : [] });
   }
 
   /** Keeps the state before an edit, to undo it. */
@@ -350,6 +365,9 @@ export class App implements Actions {
     this.history.push({ proposal: an.proposal, decisions: structuredClone(d) });
     if (this.history.length > HISTORY_MAX) this.history.shift();
     this.state.canUndo = true;
+    // A selection serves one change: what was checked may be elsewhere now.
+    this.state.checked = [];
+    this.anchor = null;
   }
 
   /** Says what an edit did, with an undo for a few seconds. */
@@ -381,7 +399,7 @@ export class App implements Actions {
     const lay = layout(an, last.decisions);
     this.state.decisions = last.decisions;
     announce(t('editUndone'));
-    this.set({ snack: null, renaming: null, canUndo: this.history.length > 0, selected: this.state.selected && lay.byKey.has(this.state.selected) ? this.state.selected : null });
+    this.set({ snack: null, renaming: null, checked: [], canUndo: this.history.length > 0, selected: this.state.selected && lay.byKey.has(this.state.selected) ? this.state.selected : null });
   }
 
   dismissSnack(): void {
@@ -411,6 +429,66 @@ export class App implements Actions {
     d.removes[id] = false;
     d.moves[id] = { accepted: true, target };
     this.edited(t('announceMoved', bookmarkTitle(an, d, id) || t('unnamed'), this.placeName(layout(an, d), target)));
+  }
+
+  /** Bookmarks of the folder open in the sheet, in the order shown. */
+  private sheetIds(): string[] {
+    const an = this.state.analysis;
+    const d = this.state.decisions;
+    if (!an || !d || !this.state.selected) return [];
+    return layout(an, d).byKey.get(this.state.selected)?.ids ?? [];
+  }
+
+  toggleChecked(id: string, range: boolean): void {
+    const ids = this.sheetIds();
+    const checked = new Set(this.state.checked.filter((x) => ids.includes(x)));
+    const from = this.anchor ? ids.indexOf(this.anchor) : -1;
+    const to = ids.indexOf(id);
+    if (range && from >= 0 && to >= 0) for (const x of ids.slice(Math.min(from, to), Math.max(from, to) + 1)) checked.add(x);
+    else if (checked.has(id)) checked.delete(id);
+    else checked.add(id);
+    this.anchor = id;
+    this.focusNext = `pick-${id}`;
+    this.set({ checked: ids.filter((x) => checked.has(x)) });
+  }
+
+  setChecked(ids: string[]): void {
+    if (!ids.length) this.anchor = null;
+    this.focusNext = ids.length ? null : 'select-all';
+    this.set({ checked: ids });
+  }
+
+  moveMany(ids: string[], target: Target): void {
+    const an = this.state.analysis;
+    const d = this.state.decisions;
+    if (!an || !d || !ids.length) return;
+    this.state.checked = [];
+    if (ids.length === 1) {
+      this.move(ids[0] as string, target);
+      return;
+    }
+    this.commit();
+    for (const id of ids) {
+      d.removes[id] = false;
+      d.moves[id] = { accepted: true, target };
+    }
+    this.focusNext = 'select-all';
+    this.edited(t('movedCount', ids.length.toLocaleString(), this.placeName(layout(an, d), target)));
+  }
+
+  removeMany(ids: string[]): void {
+    const an = this.state.analysis;
+    const d = this.state.decisions;
+    if (!an || !d || !ids.length) return;
+    this.state.checked = [];
+    if (ids.length === 1) {
+      this.removeBookmark(ids[0] as string);
+      return;
+    }
+    this.commit();
+    for (const id of ids) d.removes[id] = true;
+    this.focusNext = 'select-all';
+    this.edited(t('removedCount', ids.length.toLocaleString()));
   }
 
   toggleTitle(id: string): void {
@@ -457,6 +535,7 @@ export class App implements Actions {
   restoreBookmarks(ids: string[]): void {
     const d = this.state.decisions;
     if (!d || !ids.length) return;
+    this.state.checked = [];
     this.commit();
     for (const id of ids) d.removes[id] = false;
     this.edited(ids.length === 1 ? t('restoredOne') : t('restoredCount', ids.length.toLocaleString()));
@@ -474,7 +553,7 @@ export class App implements Actions {
     this.render();
   }
 
-  createFolder(name: string, parent: FolderParent, moveId?: string): string {
+  createFolder(name: string, parent: FolderParent, moveIds: string[] = []): string {
     const an = this.state.analysis;
     const d = this.state.decisions;
     if (!an || !d) return '';
@@ -483,12 +562,17 @@ export class App implements Actions {
     const f = userFolder(key, name, parent);
     d.userFolders.push(f);
     d.newFolders[key] = { accepted: true, name, emoji: f.emoji };
-    if (moveId) {
-      d.removes[moveId] = false;
-      d.moves[moveId] = { accepted: true, target: { kind: 'new', key } };
+    for (const id of moveIds) {
+      d.removes[id] = false;
+      d.moves[id] = { accepted: true, target: { kind: 'new', key } };
     }
+    if (moveIds.length) this.state.checked = [];
     if ('key' in parent) this.state.collapsed = this.state.collapsed.filter((k) => k !== nodeKeyOf(parent.key));
-    this.edited(moveId ? t('announceMoved', bookmarkTitle(an, d, moveId) || t('unnamed'), name) : t('folderCreated', name));
+    const [one] = moveIds;
+    this.edited(
+      moveIds.length > 1 ? t('movedCount', moveIds.length.toLocaleString(), name)
+        : one ? t('announceMoved', bookmarkTitle(an, d, one) || t('unnamed'), name)
+          : t('folderCreated', name));
     return key;
   }
 
@@ -761,7 +845,7 @@ export class App implements Actions {
       learned.urls[normalizeUrl(b.url) ?? b.url] = choice;
       // The whole site follows, unless it publishes on every subject or only exists at home.
       const f = an.features.get(id);
-      if (f?.registrable && !f.privateHost && !knownSite(b.url)?.platform) learned.domains[f.registrable] = choice;
+      if (f?.registrable && !f.privateHost && !knownSiteFor(b.url)?.platform) learned.domains[f.registrable] = choice;
     }
     await Promise.all([store.saveKnownFolders(known), store.saveBackups(backups), store.saveLearned(learned)]);
     this.state.backups = await this.liveBackups();
@@ -820,7 +904,7 @@ export class App implements Actions {
       this.focusNext = 'analyze';
       this.history = [];
       this.original = null;
-      this.set({ view: 'start', analysis: null, decisions: null, result: null, selected: null, collapsed: [], renaming: null, busy: null, snack: null, canUndo: false, lastJournal });
+      this.set({ view: 'start', analysis: null, decisions: null, result: null, selected: null, collapsed: [], renaming: null, checked: [], busy: null, snack: null, canUndo: false, lastJournal });
       await this.loadPreview();
     });
   }

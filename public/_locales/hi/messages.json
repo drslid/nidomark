@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "{2} के {1} दूसरे बुकमार्क की तरह"
  },
+ "reasonFolder": {
+  "message": "आपके फ़ोल्डर “{1}” से"
+ },
  "removeBookmark": {
   "message": "हटाएं"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "बुकमार्क वापस लाया गया"
+ },
+ "selectAll": {
+  "message": "सभी चुनें"
+ },
+ "selectedCount": {
+  "message": "चुने गए: {1}"
+ },
+ "selectBookmark": {
+  "message": "“{1}” चुनें"
+ },
+ "clearSelection": {
+  "message": "चुनाव हटाएं"
+ },
+ "movedCount": {
+  "message": "{2} में ले जाए गए: {1}"
+ },
+ "removedCount": {
+  "message": "फिर से नहीं बनाए जाएंगे: {1} (ये बैकअप में रहेंगे)"
  },
  "rowActions": {
   "message": "{1} के लिए कार्रवाइयां"

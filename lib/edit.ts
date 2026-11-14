@@ -6,7 +6,8 @@
 import { REVIEW_KEY } from './categorize';
 import { normalizeUrl } from './duplicates';
 import type { Decisions, FolderParent, NewTree } from './plan';
-import { categoryById, folderRole, groupById, knownSite } from './taxonomy';
+import { categoryById, folderRole, groupById, knownSiteFor } from './taxonomy';
+import { nameKey } from './text';
 import type { Features, NewFolder, Placement, Proposal, ReviewItem, Snapshot, Target } from './types';
 
 export function sameTarget(a: Target | undefined, b: Target | undefined): boolean {
@@ -92,7 +93,7 @@ export function sessionLearned(snapshot: Snapshot, features: Map<string, Feature
     if (!category || !b) continue;
     urls.set(normalizeUrl(b.url) ?? b.url, category);
     const f = features.get(id);
-    if (f?.registrable && !f.privateHost && !knownSite(b.url)?.platform) domains.set(f.registrable, category);
+    if (f?.registrable && !f.privateHost && !knownSiteFor(b.url)?.platform) domains.set(f.registrable, category);
   }
   return { urls, domains };
 }
@@ -149,6 +150,8 @@ export function suggestionTarget(tree: NewTree, category: string, site: string, 
   }
   const group = tree.byKey.get(`g:${c.group}`);
   const name = ctx.localName(c);
+  // A category named like its group ("Travel" among "Travel") lives in the group folder itself.
+  if (group && nameKey(group.name) === nameKey(name)) return existing(group.key);
   const special = c.group === 'adult' || c.group === 'dead';
   // A folder the user deleted with everything above it stays deleted: the suggestion makes a new one, so that what
   // the user moved out of the old one stays where they put it.

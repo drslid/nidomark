@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Seperti {1} bookmark lain dari {2}"
  },
+ "reasonFolder": {
+  "message": "Dari folder Anda “{1}”"
+ },
  "removeBookmark": {
   "message": "Hapus"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Bookmark dipulihkan"
+ },
+ "selectAll": {
+  "message": "Pilih semua"
+ },
+ "selectedCount": {
+  "message": "Dipilih: {1}"
+ },
+ "selectBookmark": {
+  "message": "Pilih “{1}”"
+ },
+ "clearSelection": {
+  "message": "Hapus pilihan"
+ },
+ "movedCount": {
+  "message": "Dipindahkan ke {2}: {1}"
+ },
+ "removedCount": {
+  "message": "Tidak akan dibuat ulang: {1} (tetap ada di cadangan)"
  },
  "rowActions": {
   "message": "Tindakan untuk {1}"

@@ -4,7 +4,7 @@ import { t } from '../i18n';
 import { type Decisions, type Op, buildRebuildPlan, folderTitle } from '../plan';
 import { archiveSources } from '../pipeline';
 import { openNewFolderDialog } from './dialogs';
-import { type Dragged, draggable, dropTarget } from './dnd';
+import { type Dragged, draggable, draggedIds, dropTarget } from './dnd';
 import { favicon, h, icon } from './dom';
 import { bookmarkTitle, nodeTitle, ownEmoji, rootTitle } from './shared';
 import { sheetView } from './sheet';
@@ -67,16 +67,19 @@ function canvasView(s: State, a: Actions, an: Analysis, lay: Layout): HTMLElemen
   const barId = an.snapshot.barId;
   // What a node takes: bookmarks anywhere but in duplicates, folders into folders that are not inside them.
   const accepts = (n: DestNode) => (dr: Dragged): boolean => {
-    if (dr.kind === 'bookmark') return n.kind !== 'dupes' && lay.where.get(dr.id) !== n.key;
+    if (dr.kind !== 'folder') return n.kind !== 'dupes' && draggedIds(dr).some((id) => lay.where.get(id) !== n.key);
     return !!n.folder && !isWithin(lay.tree, n.folder, dr.key) && lay.parent.get(nodeKeyOf(dr.key)) !== n.key;
   };
   const dropOn = (n: DestNode) => (dr: Dragged): void => {
     if (dr.kind === 'folder') {
       if (n.folder) a.moveFolder(dr.key, { key: n.folder });
-    } else if (n.kind === 'removed') a.removeBookmark(dr.id);
-    else if (n.kind === 'bar') a.move(dr.id, { kind: 'bar' });
-    else if (n.kind === 'existing') a.move(dr.id, { kind: 'existing', folderId: n.key.slice(2) });
-    else if (n.folder) a.move(dr.id, { kind: 'new', key: n.folder });
+      return;
+    }
+    const ids = draggedIds(dr);
+    if (n.kind === 'removed') a.removeMany(ids);
+    else if (n.kind === 'bar') a.moveMany(ids, { kind: 'bar' });
+    else if (n.kind === 'existing') a.moveMany(ids, { kind: 'existing', folderId: n.key.slice(2) });
+    else if (n.folder) a.moveMany(ids, { kind: 'new', key: n.folder });
   };
   const hot = (key: string, on: boolean) => document.querySelector(`.wires .wire[data-key="${CSS.escape(key)}"]`)?.classList.toggle('hot', on);
 
@@ -119,12 +122,12 @@ function canvasView(s: State, a: Actions, an: Analysis, lay: Layout): HTMLElemen
   const rootLabel = (rootId: string): HTMLElement => {
     const label = h('div', { class: 'dests-label' }, h('span', null, rootTitle(an, rootId)), h('span', { class: 'drop-hint' }, t('dropAtTop')));
     return dropTarget(label, (dr) => {
-      if (dr.kind === 'bookmark') return lay.where.get(dr.id) !== (rootId === barId ? 'bar' : `e:${rootId}`);
+      if (dr.kind !== 'folder') return draggedIds(dr).some((id) => lay.where.get(id) !== (rootId === barId ? 'bar' : `e:${rootId}`));
       const f = lay.tree.byKey.get(dr.key);
       return !(f && !f.parentKey && f.rootId === rootId);
     }, (dr) => {
       if (dr.kind === 'folder') a.moveFolder(dr.key, { rootId });
-      else a.move(dr.id, rootId === barId ? { kind: 'bar' } : { kind: 'existing', folderId: rootId });
+      else a.moveMany(draggedIds(dr), rootId === barId ? { kind: 'bar' } : { kind: 'existing', folderId: rootId });
     });
   };
   const roots = [an.snapshot.barId, an.snapshot.otherId].filter((x): x is string => !!x);

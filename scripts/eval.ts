@@ -5,7 +5,7 @@ import { EXPECTED_DEST } from '../tests/fixtures/tree';
 import { destinationsOf, run } from '../tests/fixtures/collection';
 
 const args = new Set(process.argv.slice(2));
-const { proposal, snapshot } = run({ pages: args.has('--pages'), history: args.has('--history'), lang: args.has('--en') ? 'en' : 'fr' });
+const { proposal, snapshot } = run({ pages: args.has('--pages'), history: args.has('--history'), lang: args.has('--en') ? 'en' : 'fr', options: process.env.NIDO_OPTS ? JSON.parse(process.env.NIDO_OPTS) : undefined });
 const dest = destinationsOf(proposal, snapshot);
 const reasons = new Map(proposal.placements.map((p) => [p.bookmarkId, `${p.reason.key}${p.reason.subs?.length ? ` (${p.reason.subs.join(', ')})` : ''}`]));
 let ok = 0;

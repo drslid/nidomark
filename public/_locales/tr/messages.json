@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "{2} sitesindeki diğer {1} yer işareti gibi"
  },
+ "reasonFolder": {
+  "message": "“{1}” klasörünüzden"
+ },
  "removeBookmark": {
   "message": "Kaldır"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Yer işareti geri yüklendi"
+ },
+ "selectAll": {
+  "message": "Tümünü seç"
+ },
+ "selectedCount": {
+  "message": "Seçilen: {1}"
+ },
+ "selectBookmark": {
+  "message": "“{1}” öğesini seç"
+ },
+ "clearSelection": {
+  "message": "Seçimi temizle"
+ },
+ "movedCount": {
+  "message": "{2} konumuna taşınan: {1}"
+ },
+ "removedCount": {
+  "message": "Yeniden oluşturulmayacak: {1} (yedekte kalır)"
  },
  "rowActions": {
   "message": "{1} için işlemler"

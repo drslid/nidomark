@@ -678,6 +678,9 @@
  "reasonSameSite": {
   "message": "Like {1} other bookmarks of {2}"
  },
+ "reasonFolder": {
+  "message": "From your folder “{1}”"
+ },
  "removeBookmark": {
   "message": "Remove"
  },
@@ -707,6 +710,24 @@
  },
  "restoredOne": {
   "message": "Bookmark restored"
+ },
+ "selectAll": {
+  "message": "Select all"
+ },
+ "selectedCount": {
+  "message": "Selected: {1}"
+ },
+ "selectBookmark": {
+  "message": "Select “{1}”"
+ },
+ "clearSelection": {
+  "message": "Clear selection"
+ },
+ "movedCount": {
+  "message": "Moved to {2}: {1}"
+ },
+ "removedCount": {
+  "message": "Not recreated: {1} (they stay in the backup)"
  },
  "rowActions": {
   "message": "Actions for {1}"

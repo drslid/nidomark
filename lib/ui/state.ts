@@ -50,6 +50,8 @@ export interface State {
   collapsed: string[];
   /** Bookmark whose name is being edited in the sheet. */
   renaming: string | null;
+  /** Bookmarks checked in the side sheet, to move or remove together. */
+  checked: string[];
   /** A folder being analysed again: its name and the progress. */
   busy: { name: string; phase: AnalysisPhase; done: number; total: number } | null;
   /** What the last edit did, offered for undo. */
@@ -76,6 +78,11 @@ export interface Actions {
   analyze(): void;
   select(key: string | null): void;
   move(id: string, target: Target): void;
+  /** Checks or unchecks a bookmark of the sheet; with `range`, every bookmark from the last one checked. */
+  toggleChecked(id: string, range: boolean): void;
+  setChecked(ids: string[]): void;
+  moveMany(ids: string[], target: Target): void;
+  removeMany(ids: string[]): void;
   toggleTitle(id: string): void;
   toggleIconOnly(id: string): void;
   renameBookmark(id: string, title: string): void;
@@ -83,8 +90,8 @@ export interface Actions {
   removeBookmark(id: string): void;
   restoreBookmarks(ids: string[]): void;
   setNewFolder(key: string, patch: Partial<{ name: string; emoji: string; style: FolderStyle }>): void;
-  /** Creates a folder of the user's own (and files a bookmark in it); returns its folder key. */
-  createFolder(name: string, parent: FolderParent, moveId?: string): string;
+  /** Creates a folder of the user's own (and files bookmarks in it); returns its folder key. */
+  createFolder(name: string, parent: FolderParent, moveIds?: string[]): string;
   moveFolder(key: string, parent: FolderParent): void;
   /** Removes a folder: what it holds goes up to the folder above, or is not recreated either. */
   deleteFolder(key: string, withContent: boolean): void;

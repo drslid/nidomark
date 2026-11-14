@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Giống {1} dấu trang khác của {2}"
  },
+ "reasonFolder": {
+  "message": "Từ thư mục “{1}” của bạn"
+ },
  "removeBookmark": {
   "message": "Loại bỏ"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Đã khôi phục dấu trang"
+ },
+ "selectAll": {
+  "message": "Chọn tất cả"
+ },
+ "selectedCount": {
+  "message": "Đã chọn: {1}"
+ },
+ "selectBookmark": {
+  "message": "Chọn “{1}”"
+ },
+ "clearSelection": {
+  "message": "Bỏ chọn"
+ },
+ "movedCount": {
+  "message": "Đã chuyển tới {2}: {1}"
+ },
+ "removedCount": {
+  "message": "Sẽ không được tạo lại: {1} (vẫn nằm trong bản sao lưu)"
  },
  "rowActions": {
   "message": "Thao tác cho {1}"

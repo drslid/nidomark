@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "{2}-এর অন্য {1}টি বুকমার্কের মতো"
  },
+ "reasonFolder": {
+  "message": "আপনার ফোল্ডার “{1}” থেকে"
+ },
  "removeBookmark": {
   "message": "বাদ দিন"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "বুকমার্ক ফিরিয়ে আনা হয়েছে"
+ },
+ "selectAll": {
+  "message": "সব বেছে নিন"
+ },
+ "selectedCount": {
+  "message": "বেছে নেওয়া হয়েছে: {1}"
+ },
+ "selectBookmark": {
+  "message": "“{1}” বেছে নিন"
+ },
+ "clearSelection": {
+  "message": "বাছাই সরান"
+ },
+ "movedCount": {
+  "message": "{2}-এ সরানো হয়েছে: {1}"
+ },
+ "removedCount": {
+  "message": "আবার তৈরি করা হবে না: {1} (এগুলো ব্যাকআপে থাকবে)"
  },
  "rowActions": {
   "message": "{1}-এর অ্যাকশন"

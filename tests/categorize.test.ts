@@ -94,8 +94,7 @@ describe('the fictitious collection', () => {
       expect(s.length).toBeLessThanOrEqual(3);
       expect(s).not.toContain('adult');
     }
-    expect(proposal.suggestions.u14?.[0]).toBe('dev');
-    expect(proposal.suggestions.u15?.[0]).toBe('dev');
+    expect(proposal.suggestions.u12?.[0]).toBe('security');
     expect(Object.keys(proposal.suggestions).every((id) => proposal.review.some((r) => r.bookmarkId === id))).toBe(true);
   });
 
@@ -196,16 +195,20 @@ describe('rules', () => {
       ['d2', { kind: 'dead', reason: 'network' }],
       ['d3', { kind: 'dead', reason: 'network' }],
       ['d4', { kind: 'dead', reason: 'parked' }],
+      ['d5', { kind: 'dead', reason: 'timeout' }],
     ]);
     const r = where(input([
       { id: 'd1', title: 'Vieil article', url: 'https://blog.example.org/2012/article' },
       { id: 'd2', title: 'NAS', url: 'http://192.168.1.2:5000/' },
       { id: 'd3', title: 'Netflix', url: 'https://www.netflix.com/browse' },
       { id: 'd4', title: 'Mon ancien site', url: 'https://ancien-site.example/' },
+      { id: 'd5', title: 'Groupe des voisins', url: 'https://www.facebook.com/groups/123456' },
     ], { sites }));
     expect([r.dest.d1, r.dest.d4]).toEqual(['Sites inaccessibles', 'Sites inaccessibles']);
     expect(r.dest.d2).toBe('Services maison');
     expect(r.dest.d3).toBe('Streaming');
+    // Any page of a well-known site: a filtering proxy blocks social networks as easily as it times out.
+    expect(r.dest.d5).not.toBe('Sites inaccessibles');
     expect(r.folder('c:dead')?.parentId).toBe('2');
     expect(r.proposal.placements.find((p) => p.bookmarkId === 'd1')?.reason).toEqual({ key: 'deadGone', subs: ['404'] });
   });
@@ -239,12 +242,13 @@ describe('rules', () => {
 
   it('recreates a folder of the user that makes sense, with its subfolders, and names an emoji-only one by its emoji', () => {
     const r = where(input([
-      { id: 'f-lire', title: 'À lire', children: [
-        { id: 'l1', title: 'Un article', url: 'https://www.example.org/article-1' },
-        { id: 'l2', title: 'Un autre', url: 'https://www.example.net/article-2' },
-        { id: 'f-romans', title: 'Romans', children: [
-          { id: 'l3', title: 'Roman A', url: 'https://www.example.com/roman-a' },
-          { id: 'l4', title: 'Roman B', url: 'https://www.example.com/roman-b' },
+      { id: 'f-lea', title: 'Léa', children: [
+        { id: 'c0', title: 'Booking', url: 'https://www.booking.com/' },
+        { id: 'c1', title: 'Airbnb', url: 'https://www.airbnb.fr/' },
+        { id: 'c2', title: 'Hôtel à Paris', url: 'https://www.booking.com/hotel/fr/paris.html' },
+        { id: 'f-hotels', title: 'Hôtels', children: [
+          { id: 'c3', title: 'Appartement A', url: 'https://www.airbnb.fr/rooms/1' },
+          { id: 'c4', title: 'Appartement B', url: 'https://www.airbnb.fr/rooms/2' },
         ] },
       ] },
       { id: 'f-uni', title: '🦄', children: [
@@ -254,11 +258,41 @@ describe('rules', () => {
       ] },
       { id: 'f-seul', title: 'Projet', children: [{ id: 'p1', title: 'Netflix', url: 'https://www.netflix.com/' }] },
     ]));
-    expect([r.dest.l1, r.dest.l3]).toEqual(['Mes dossiers › À lire', 'Mes dossiers › À lire › Romans']);
+    expect([r.dest.c1, r.dest.c3]).toEqual(['Voyages › Léa', 'Voyages › Léa › Hôtels']);
     expect(r.dest.u1).toBe('Loisirs › Musique › 🦄');
     expect(r.folder('k:f-uni')?.emoji).toBe('');
     // A folder of one bookmark is not recreated.
     expect(r.dest.p1).toBe('Loisirs › Streaming');
+  });
+
+  it('empties a reading list and an imported browser root: each bookmark joins its subject', () => {
+    const r = where(input([
+      { id: 'f-lire', title: 'À lire', children: [
+        { id: 'l1', title: 'Spotify', url: 'https://open.spotify.com/' },
+        { id: 'l2', title: 'Deezer', url: 'https://www.deezer.com/' },
+        { id: 'l3', title: 'SoundCloud', url: 'https://soundcloud.com/' },
+      ] },
+      { id: 'f-menu', title: 'Menu des marque-pages', children: [
+        { id: 'm1', title: 'Netflix', url: 'https://www.netflix.com/' },
+        { id: 'm2', title: 'Disney+', url: 'https://www.disneyplus.com/' },
+        { id: 'm3', title: 'Canal+', url: 'https://www.canalplus.com/' },
+      ] },
+    ]));
+    expect(r.dest).toMatchObject({ l1: 'Loisirs › Musique', l3: 'Loisirs › Musique', m1: 'Loisirs › Streaming', m3: 'Loisirs › Streaming' });
+    expect(r.proposal.newFolders.filter((f) => f.key.startsWith('k:'))).toEqual([]);
+  });
+
+  it('files the page of a store, a forum or a video platform by its subject, the platform only when it says none', () => {
+    const zero = () => Float32Array.from([0, 0, 0, 0]);
+    const usageVectors = Object.fromEntries(USAGES.map((u) => [u, zero()])) as Record<Usage, Float32Array>;
+    const items = [
+      { id: 'a1', title: 'Amazon.fr : Moulinex Cookeo + multicuiseur intelligent', url: 'https://www.amazon.fr/Moulinex-Cookeo/dp/B00TEST01' },
+      { id: 'r1', title: 'r/jardinage - Mes tomates ont le mildiou', url: 'https://www.reddit.com/r/jardinage/comments/abc123/tomates/' },
+      { id: 'y1', title: 'Fabriquer une table en chêne massif (DIY) - YouTube', url: 'https://www.youtube.com/watch?v=abcdefghijk' },
+      { id: 'y2', title: 'YouTube', url: 'https://www.youtube.com/watch?v=bcdefghijkl' },
+    ];
+    const { assessments } = categorize(input(items, { vectors: new Map(items.map((x) => [x.id, zero()])), usageVectors }));
+    expect(items.map((x) => assessments.get(x.id)?.category)).toEqual(['cooking', 'diy', 'diy', 'video']);
   });
 
   it('follows the user: a bookmark they filed elsewhere, then its site, but never against adult content', () => {
@@ -301,6 +335,104 @@ describe('rules', () => {
     expect([r.dest.m2, r.dest.m3, r.dest.h1]).toEqual([r.dest.m1, r.dest.m1, r.dest.m1]);
     expect(r.proposal.placements.find((p) => p.bookmarkId === 'm3')?.reason).toEqual({ key: 'reasonSameSite', subs: ['2', 'mamie.example'] });
     expect(r.proposal.review.map((x) => x.bookmarkId)).toEqual(['q1']);
+  });
+
+  it('never nests a folder in one of the same name: a category named like its group fills the group folder', () => {
+    const r = where(input([
+      { id: 't1', title: 'Booking', url: 'https://www.booking.com/' },
+      { id: 't2', title: 'Airbnb', url: 'https://www.airbnb.fr/' },
+      { id: 'm1', title: 'Google Maps', url: 'https://www.google.com/maps' },
+      { id: 'm2', title: 'ViaMichelin', url: 'https://www.viamichelin.fr/' },
+    ]));
+    expect(r.dest).toMatchObject({ t1: 'Voyages', t2: 'Voyages', m1: 'Voyages › Cartes & transports', m2: 'Voyages › Cartes & transports' });
+    expect(r.folder('c:travel')).toBeUndefined();
+    // It stands for the category: what the user files there teaches the next sorts.
+    expect(r.folder('g:travel')?.vocabId).toBe('travel');
+  });
+
+  it('never repeats a platform as a subfolder: its pages are no subject', () => {
+    const r = where(input([
+      ...many('yt', 6, (i) => `https://www.youtube.com/watch?v=video${i}`, 'Vidéo'),
+      ...many('vi', 4, (i) => `https://vimeo.com/${100 + i}`, 'Vidéo'),
+    ]));
+    expect(r.proposal.newFolders.filter((f) => f.key.startsWith('f:'))).toEqual([]);
+  });
+
+  it('makes one subfolder of a word and its plural', () => {
+    const learned = { urls: new Map<string, string>(), domains: new Map(Array.from({ length: 12 }, (_, i) => [`site${i}.example`, 'dev'] as [string, string])) };
+    const titles = ['Plugin Alpha', 'Plugin Beta', 'Plugins Gamma', 'Plugins Delta', 'Note un', 'Note deux', 'Carnet trois', 'Carnet quatre', 'Livre cinq', 'Livre six', 'Page sept', 'Page huit'];
+    const r = where(input(titles.map((title, i) => ({ id: `p${i}`, title, url: `https://site${i}.example/` })), { learned }));
+    const subs = r.proposal.newFolders.filter((f) => f.key.startsWith('f:dev:'));
+    expect(subs.map((f) => f.key)).toEqual(['f:dev:term-plugin']);
+    expect([r.dest.p0, r.dest.p3]).toEqual(['Développement › Plugin', 'Développement › Plugin']);
+  });
+
+  it('never shows two folders of the same name under one parent: they are merged', () => {
+    const r = where(input([
+      { id: 'f-pv', title: 'Primevideo', children: many('k', 3, (i) => `https://www.primevideo.com/detail/8${i}`, 'Série') },
+      ...many('pv', 6, (i) => `https://www.primevideo.com/detail/${i}`, 'Film'),
+      ...many('nf', 5, (i) => `https://www.netflix.com/title/${i}`, 'Film'),
+      { id: 'tw', title: 'Twitch', url: 'https://www.twitch.tv/' },
+    ]));
+    expect(r.proposal.newFolders.filter((f) => f.name === 'Primevideo').map((f) => f.key)).toEqual(['k:f-pv']);
+    expect(new Set([r.dest.k0, r.dest.pv0, r.dest.pv5])).toEqual(new Set(['Streaming › Primevideo']));
+    expect(r.dest.nf0).toBe('Streaming › Netflix');
+  });
+
+  it('never names a category after one site, even when a folder of the user did', () => {
+    const r = where(input([
+      { id: 'f-nf', title: 'Netflix', children: many('n', 2, (i) => `https://www.netflix.com/title/${i}`, 'Série') },
+      { id: 'pv', title: 'Prime Video', url: 'https://www.primevideo.com/' },
+    ]));
+    expect([r.dest.n0, r.dest.pv]).toEqual(['Streaming', 'Streaming']);
+  });
+
+  it('never merges two folders named with different emoji', () => {
+    const r = where(input([
+      { id: 'f-uni', title: '🦄', children: [
+        { id: 'u1', title: 'Spotify', url: 'https://open.spotify.com/' },
+        { id: 'u2', title: 'Deezer', url: 'https://www.deezer.com/' },
+        { id: 'u3', title: 'SoundCloud', url: 'https://soundcloud.com/' },
+      ] },
+      { id: 'f-gui', title: '🎸', children: [
+        { id: 'g1', title: 'Spotify', url: 'https://open.spotify.com/playlist/1' },
+        { id: 'g2', title: 'Deezer', url: 'https://www.deezer.com/album/2' },
+        { id: 'g3', title: 'SoundCloud', url: 'https://soundcloud.com/artist/track' },
+      ] },
+    ]));
+    expect([r.dest.u1, r.dest.g1]).toEqual(['Musique › 🦄', 'Musique › 🎸']);
+  });
+
+  it('lends no subject from the "To check" folder of an earlier sort', () => {
+    const learned = { urls: new Map<string, string>(), domains: new Map(Array.from({ length: 3 }, (_, i) => [`dev${i}.example`, 'dev'] as [string, string])) };
+    const r = where(input([{ id: 'f-rev', title: '❓ À vérifier', children: [
+      ...Array.from({ length: 3 }, (_, i) => ({ id: `d${i}`, title: `Outil ${i}`, url: `https://dev${i}.example/` })),
+      { id: 'x1', title: 'Accueil', url: 'https://www.mairie.example/' },
+    ] }], { learned, known: new Map([['f-rev', { role: 'review' }]]) }));
+    expect(r.dest.x1).toBe('(à vérifier)');
+  });
+
+  it('follows the subject of the folder a bookmark was in, never against clear evidence nor from a folder without one', () => {
+    // A tiny model: the pages lean to videos a little more than to cooking, or say nothing.
+    const vec = (...x: number[]) => Float32Array.from([...x, 0, 0, 0, 0].slice(0, 4));
+    const usageVectors = Object.fromEntries(USAGES.map((u) => [u, vec()])) as Record<Usage, Float32Array>;
+    const vectors = new Map([['c1', vec(0.5, 0.6)], ['c2', vec()], ['c4', vec()], ['c5', vec(0.5, 0.6)]]);
+    const prototypes = new Map([['cooking', vec(1)], ['video', vec(0, 1)]]);
+    const r = where(input([
+      { id: 'f-rec', title: 'Recettes', children: [
+        { id: 'c1', title: 'Pâte feuilletée maison', url: 'https://chef.example/pate' },
+        { id: 'c2', title: 'Accueil', url: 'https://www.inconnu.example/' },
+        { id: 'c3', title: 'Vidéo', url: 'https://fr.pornhub.com/view_video.php?viewkey=3' },
+      ] },
+      { id: 'f-div', title: 'Divers', children: [
+        { id: 'c4', title: 'Accueil', url: 'https://www.autre.example/' },
+        { id: 'c5', title: 'Pâte brisée', url: 'https://chef2.example/pate' },
+      ] },
+    ], { prototypes, vectors, usageVectors }));
+    expect([r.dest.c1, r.dest.c2]).toEqual(['Recettes', 'Recettes']);
+    expect(r.proposal.placements.find((p) => p.bookmarkId === 'c2')?.reason).toEqual({ key: 'reasonFolder', subs: ['Recettes'] });
+    expect(r.dest.c3).toBe('Porn');
+    expect([r.dest.c4, r.dest.c5]).toEqual(['(à vérifier)', '(à vérifier)']);
   });
 
   it('files a partial sort in the folders an earlier sort made, without a second folder of the same kind', () => {

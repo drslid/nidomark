@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "{2} の他のブックマーク {1} 件と同じ"
  },
+ "reasonFolder": {
+  "message": "既存のフォルダ「{1}」から"
+ },
  "removeBookmark": {
   "message": "削除"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "ブックマークを復元しました"
+ },
+ "selectAll": {
+  "message": "すべて選択"
+ },
+ "selectedCount": {
+  "message": "選択中: {1} 件"
+ },
+ "selectBookmark": {
+  "message": "「{1}」を選択"
+ },
+ "clearSelection": {
+  "message": "選択を解除"
+ },
+ "movedCount": {
+  "message": "「{2}」に移動しました: {1} 件"
+ },
+ "removedCount": {
+  "message": "再作成しません: {1} 件（バックアップに残ります）"
  },
  "rowActions": {
   "message": "「{1}」の操作"

@@ -22,7 +22,7 @@ const GENERIC_TITLES = new Set([
   '首页', '主页', '登录', '首頁', '主頁', '登入', '欢迎', '歡迎',
 ].map(titleKey));
 /** Platforms whose domain says nothing about the subject of a page. */
-const MULTI_TOPIC_SITES = new Set(['youtube.com', 'youtu.be', 'medium.com', 'reddit.com', 'github.com', 'wikipedia.org', 'lemonde.fr', 'x.com', 'twitter.com', 'facebook.com', 'instagram.com', 'linkedin.com', 'vimeo.com', 'dailymotion.com', 'substack.com', 'google.com']);
+export const MULTI_TOPIC_SITES = new Set(['youtube.com', 'youtu.be', 'medium.com', 'reddit.com', 'github.com', 'wikipedia.org', 'lemonde.fr', 'x.com', 'twitter.com', 'facebook.com', 'instagram.com', 'linkedin.com', 'vimeo.com', 'dailymotion.com', 'substack.com', 'google.com']);
 
 const LEARN = /tuto|tutoriel|tutorial|guide|getting started|how to|comment |pas a pas|step by step|debuter|beginner|recette|recipe|apprendre|learn|cours|course|\bdocs?\b|documentation|reference|mdn|manuel|manual/;
 const TOOL = /compress|optimi[sz]|convert|test(er)?\b|debug|whiteboard|outil|tool|generat|calculat|calcul|suivre (un|vos)|track|support tables|editor|editeur|playground|translate|tradu/;

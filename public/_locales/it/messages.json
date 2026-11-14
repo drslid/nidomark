@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "Come altri {1} preferiti di {2}"
  },
+ "reasonFolder": {
+  "message": "Veniva dalla tua cartella “{1}”"
+ },
  "removeBookmark": {
   "message": "Rimuovi"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "Preferito ripristinato"
+ },
+ "selectAll": {
+  "message": "Seleziona tutto"
+ },
+ "selectedCount": {
+  "message": "Selezionati: {1}"
+ },
+ "selectBookmark": {
+  "message": "Seleziona “{1}”"
+ },
+ "clearSelection": {
+  "message": "Annulla selezione"
+ },
+ "movedCount": {
+  "message": "Spostati in {2}: {1}"
+ },
+ "removedCount": {
+  "message": "Non verranno ricreati: {1} (restano nel backup)"
  },
  "rowActions": {
   "message": "Azioni per {1}"

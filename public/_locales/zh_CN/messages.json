@@ -677,6 +677,9 @@
  "reasonSameSite": {
   "message": "与 {2} 的其他 {1} 个书签相同"
  },
+ "reasonFolder": {
+  "message": "来自您的文件夹“{1}”"
+ },
  "removeBookmark": {
   "message": "移除"
  },
@@ -706,6 +709,24 @@
  },
  "restoredOne": {
   "message": "已恢复书签"
+ },
+ "selectAll": {
+  "message": "全选"
+ },
+ "selectedCount": {
+  "message": "已选择：{1} 个"
+ },
+ "selectBookmark": {
+  "message": "选择“{1}”"
+ },
+ "clearSelection": {
+  "message": "取消选择"
+ },
+ "movedCount": {
+  "message": "已移至“{2}”：{1} 个"
+ },
+ "removedCount": {
+  "message": "不会重新创建：{1} 个（它们会保留在备份中）"
  },
  "rowActions": {
   "message": "{1} 的操作"
